@@ -1,2 +1,5 @@
-package it.polimi.ingsw.model;public interface Place {
+package it.polimi.ingsw.model;
+
+public interface Place {
+
 }
