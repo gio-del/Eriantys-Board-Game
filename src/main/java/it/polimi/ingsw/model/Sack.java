@@ -1,44 +1,38 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.*;
-import static it.polimi.ingsw.model.pawns.PawnColor.*;
+
+import java.util.Random;
+import java.util.stream.IntStream;
 
 public class Sack {
-    Pawns sackPawns = new Pawns();
-    int numberOfPawns;
+    private final Pawns sackPawns;
 
-    public void fillPreparing() {
-        sackPawns.state.put(GREEN,2);
-        sackPawns.state.put(RED,2);
-        sackPawns.state.put(YELLOW,2);
-        sackPawns.state.put(PINK,2);
-        sackPawns.state.put(BLUE,2);
-        numberOfPawns = 10;
+    public Sack() {
+        this.sackPawns = new Pawns();
     }
 
     public void fillStartGame() {
-        sackPawns.state.put(GREEN,24);
-        sackPawns.state.put(RED,24);
-        sackPawns.state.put(YELLOW,24);
-        sackPawns.state.put(PINK,24);
-        sackPawns.state.put(BLUE,24);
-        numberOfPawns = 120;
+        for(PawnColor pawnColor: PawnColor.values()){
+            sackPawns.addColor(pawnColor,Constants.NumOfStudentsOfEachColor);
+        }
     }
 
-    public PawnColor extract() {
-      numberOfPawns--;               //fix with media-ponderata
-       return GREEN;
+    public PawnColor extract(){
+        Random random = new Random();
+        PawnColor extracted = sackPawns.getByIndex(random.nextInt(sackPawns.totalElements()));
+        sackPawns.removeColor(extracted);
+        return extracted;
     }
 
     public Pawns extractListOfPawns(int size) {
         Pawns extracted = new Pawns();
-        for (int i=0;i < size;i ++) {
-            extracted.state.put(extract(),1);
-        }
+        IntStream.range(0, size).mapToObj(i -> extract()).forEach(extracted::addColor);
         return extracted;
     }
 
-    public int numberOfPawns() {
-        return numberOfPawns;
+    public int getNumberOfPawns() {
+        return sackPawns.totalElements();
     }
 }

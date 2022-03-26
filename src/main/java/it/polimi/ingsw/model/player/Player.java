@@ -1,15 +1,29 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.Place;
-import it.polimi.ingsw.model.School;
 import it.polimi.ingsw.model.pawns.Pawns;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Objects;
 
 import static it.polimi.ingsw.model.player.Assistant.*;
 
 public class Player {
-    private final int playerId;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(playerName, player.playerName) || wizard == player.wizard || color == player.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerName, wizard, color);
+    }
+
     private final String playerName;
     private ArrayList<Assistant> hand = new ArrayList<>();
     private Wizard wizard;
@@ -17,26 +31,18 @@ public class Player {
     private int towerNum;
     private TowerColor color;
     private Assistant lastPlayedAssistant;
-    private School school = new School();
 
-    public Player(int ID,String name,Wizard wizard,TowerColor color) {
-        this.playerId = ID;
+    public Player(String name,Wizard wizard,TowerColor color) {
         this.playerName = name;
         this.wizard = wizard;
         this.color = color;
-        bank = 0;
-        towerNum = 8;  //6 in caso di partita a 3, biosgna gestire sta cosa
+        bank = Constants.InitialCashPerPlayer;
+        towerNum = 8;  //TODO: if is the case of 3 player game this must be 6
+        hand.addAll(Arrays.stream(values()).toList());
+    }
 
-        hand.add(TURTLE);
-        hand.add(ELEPHANT);
-        hand.add(DOG);
-        hand.add(OCTOPUS);
-        hand.add(CROCODILE);
-        hand.add(FOX);
-        hand.add(EAGLE);
-        hand.add(CAT);
-        hand.add(OSTRICH);
-        hand.add(LION);
+    public String getPlayerName() {
+        return playerName;
     }
 
     public Wizard getWizard() {

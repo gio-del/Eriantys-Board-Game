@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.influencecalculator.InfluenceStrategy;
+import it.polimi.ingsw.model.player.TowerColor;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Board {
     private ArrayList<Island> islands;
@@ -15,22 +17,27 @@ public class Board {
     }
 
     public Island moveMotherNature(int steps){
-
+        //TODO
+        return null;
     }
 
     public int numberOfIslands(){
-
+        return islands.size();
     }
 
     public void useIsland(Island island){
-
+        // TODO
     }
 
-    public boolean adjacenciesUpdate(){
-
+    public void adjacenciesUpdate(){
+        List<TowerColor> towerColorList = new ArrayList<>();
+        for(Island island: islands){
+            island.getTower().ifPresent(towerColor -> towerColorList.add(towerColor));
+        }
     }
 
     public boolean resetStratey(){
-
+        // TODO
+        return true;
     }
 }

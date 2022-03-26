@@ -25,11 +25,4 @@ public class CharactersDeck {
         Collections.shuffle(characterCards);
         return characterCards.stream().limit(Constants.NumOfCharacterInUse).collect(Collectors.toList());
     }
-
-    public static void main(String[] args) {
-        CharactersDeck charactersDeck = new CharactersDeck();
-        charactersDeck.init();
-        List<CharacterCard> characterCardList = charactersDeck.extractCharacterInUse();
-        characterCardList.forEach(System.out::println);
-    }
 }

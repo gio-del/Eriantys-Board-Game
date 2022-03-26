@@ -9,10 +9,12 @@ public class ProfessorAssignor {
     private ProfessorStrategy professorStrategy;
 
     public Player colorProfessorCheck(PawnColor pawnColor, ArrayList<Player> players){
-
+        // TODO
+        return null;
     }
 
     public boolean resetStrategy(){
-
+        // TODO
+        return true;
     }
 }

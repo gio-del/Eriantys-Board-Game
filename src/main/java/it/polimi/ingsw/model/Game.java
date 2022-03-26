@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.CharactersDeck;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 
 import java.util.ArrayList;
@@ -10,39 +12,55 @@ import java.util.List;
 
 public class Game {
     private static Game instance;
-    private ArrayList<Player> players;
+    private final ArrayList<Player> players;
     private final Board board;
     private final Sack sack;
     private final List<Cloud> clouds;
     private final CharactersDeck charactersDeck;
     private Player currentPlayer;
     private int generalBank;
-    private List<Character> characterInUse;
+    private List<CharacterCard> characterInUse;
     private final ProfessorAssignor professorAssignor;
 
 
-
     /**
-     * The constuctor
+     * The private constructor
      */
-    public Game() {
+    private Game() {
         this.players = new ArrayList<>();
         this.board = new Board();
         this.sack = new Sack();
         this.clouds = new ArrayList<>();
         this.charactersDeck = new CharactersDeck();
         this.professorAssignor = new ProfessorAssignor();
-
+        characterInUse = new ArrayList<>();
     }
 
     /**
      *
-     * @return singleton
+     * @return instance of Game
      */
-    public static synchronized Game getInstance(){
+    public static Game getInstance(){
         if (instance == null)
             instance = new Game();
         return instance;
+    }
+
+    /**
+     * reset instance of Game
+     */
+    public static void resetInstance(){
+        instance = null;
+    }
+
+
+    /**
+     * initialize game
+     */
+    public void init(){
+        CharactersDeck charactersDeck = new CharactersDeck();
+        charactersDeck.init();
+        characterInUse = charactersDeck.extractCharacterInUse();
     }
 
     /**
@@ -50,7 +68,14 @@ public class Game {
      * @param player new player to add in the game
      * @return True if ok
      */
-    public void addPlayer(Player player){
+    public boolean addPlayer(Player player){
+        if(this.players.contains(player)) {
+            return false;
+        }
+        else{
+            this.players.add(player);
+            return true;
+        }
     }
 
     /**
@@ -58,7 +83,8 @@ public class Game {
      * @return the next player going to play
      */
     public Player nextPlayer(){
-
+        //TODO
+        return null;
     }
 
     /**
@@ -67,7 +93,7 @@ public class Game {
      * @return True if ok
      */
     public boolean removePlayer(Player player){
-
+        return players.remove(player);
     }
 
     /**
@@ -76,35 +102,49 @@ public class Game {
      * @return the player if is found, {@code null} otherwise
      */
     public Player getPlayerByName(String nickname){
-
+        for(Player player: players){
+            if(player.getPlayerName().equals(nickname)){
+                return player;
+            }
+        }
+        return null;
     }
 
-    public int depositInBank(int deposit){
+    public Player getPlayerByTowerColor(TowerColor towerColor){
+        for(Player player: players){
+            if(player.getColor().equals(towerColor)){
+                return player;
+            }
+        }
+        return null;
+    }
 
+    public void depositInBank(int deposit){
+        this.generalBank += deposit;
     }
 
     public boolean resetStrategies(){
-
-    }
-
-    public boolean moveFromEntranceToClass(){
-
+        // TODO
+        return true;
     }
 
     public boolean useCharacter(Character character, String string){
-
+        // TODO
+        return true;
     }
 
     public boolean moveMotherNature(int positions){
-
+        // TODO
+        return true;
     }
 
     public Pawns pickFromCloud(Cloud cloud){
-
+        return cloud.getPawnsAndRemove();
     }
 
     public boolean move(Player player, Place from, Place to, Pawns pawns){
-
+        // TODO
+        return true;
     }
 
     public List<Player> getPlayers() {
@@ -116,7 +156,7 @@ public class Game {
     }
 
     public int getNumPlayer() {
-
+        return players.size();
     }
 
     public Sack getSack() {
@@ -139,7 +179,7 @@ public class Game {
         return generalBank;
     }
 
-    public List<Character> getCharacterInUse() {
+    public List<CharacterCard> getCharacterInUse() {
         return characterInUse;
     }
 

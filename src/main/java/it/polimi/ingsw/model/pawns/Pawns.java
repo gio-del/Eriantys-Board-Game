@@ -1,36 +1,62 @@
 package it.polimi.ingsw.model.pawns;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 
 public class Pawns {
-    public HashMap<PawnColor, Integer> state = new HashMap<>();
+    private final Map<PawnColor, Integer> state;
 
     public Pawns() {
-        state.put(GREEN,0);
-        state.put(RED,0);
-        state.put(YELLOW,0);
-        state.put(PINK,0);
-        state.put(BLUE,0);
+        state = new HashMap<>();
+        for(PawnColor pawnColor: PawnColor.values()){
+            state.put(pawnColor,0);
+        }
     }
 
-    int getFromColor(PawnColor color) {
+    public int getFromColor(PawnColor color) {
         return state.get(color);
     }
 
-    void addColor(PawnColor color) {
-        state.put(color,state.get(color)+1);
+    public void addColor(PawnColor color) {
+        addColor(color,1);
     }
 
-    void removeColor(PawnColor color) {
+    public void addColor(PawnColor color, int numberOfPawn) {
+        state.put(color,state.get(color)+numberOfPawn);
+    }
+
+    public void removeColor(PawnColor color) {
         state.put(color,state.get(color)-1);
     }
 
-    void addPawns(Pawns nuovi) {
-
+    public void addPawns(Pawns pawns) {
+        Arrays.stream(values()).forEach(pawnColor -> state.put(pawnColor, state.get(pawnColor) + pawns.getFromColor(pawnColor)));
     }
 
+    public int totalElements(){
+        return Arrays.stream(values()).mapToInt(state::get).sum();
+    }
+
+    public PawnColor getByIndex(int index) {
+        int currentSum = 1;
+        PawnColor lastElement = null;
+        for (PawnColor pawnColor : state.keySet()){
+            if (index < currentSum + state.get(pawnColor)){
+                return pawnColor;
+            }
+            currentSum+= state.get(pawnColor);
+            lastElement = pawnColor;
+        }
+        return lastElement;
+    }
+
+    @Override
+    public String toString() {
+        return state.toString();
+    }
 }
 
 

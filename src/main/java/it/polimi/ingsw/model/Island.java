@@ -22,7 +22,8 @@ public class Island {
     }
 
     public Optional<TowerColor> conquerIsland(TowerColor towerColor){
-
+        //TODO
+        return null;
     }
 
     public int getDimension() {
