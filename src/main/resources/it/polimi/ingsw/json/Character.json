@@ -2,85 +2,85 @@
   {
     "name": "Monk",
     "cost": 1,
-    "description": "Take a student from the board and place him on an island of your choice. Then, take a student out of the sack and place it on this card",
-    "actionType": "MOVE",
-    "args": 1
+    "description": "Take a student from the card and place him on an island of your choice. Then, take a student out of the sack and place it on this card",
+    "actionType": "MOVE_ACTION",
+    "characterPar": ["4","1"]
   },
   {
     "name": "Farmer",
     "cost": 2,
     "description": "During this turn, you take control of the Professors even if you have the same number of Students in your hall as the player currently controlling them.",
-    "actionType": 1,
-    "args": 1
+    "actionType": "SET_PROF_STRAT_ACTION",
+    "characterPar": ["0"]
   },
   {
     "name": "Herald",
     "cost": 3,
     "description": "Choose an island and calculate the majority as if Mother Nature stopped there",
-    "actionType": 1,
-    "args": 1
+    "actionType": "CALCULATE_INFLUENCE",
+    "characterPar": ["0"]
   },
   {
     "name": "Magic Postman",
     "cost": 1,
     "description": "You can move mother nature up to 2 additional islands than indicated on the played Assistant card",
-    "actionType": 1,
-    "args": 1
+    "actionType": "TODO",
+    "characterPar": ["0"]
   },
   {
     "name": "Grandmother of Herbs",
     "cost": 2,
     "description": "Place a ban tile on an island of your choice. The first time Mother Nature finishes her move there, put the ban tile back on the card without calculating the influence on that island",
-    "actionType": 1,
-    "args": 1
+    "actionType": "TODO",
+    "characterPar": ["4"]
   },
   {
     "name": "Centaur",
     "cost": 3,
     "description": "During this turn, the influence count on an Island does not count the Towers present",
-    "actionType": 1,
-    "args": 1
+    "actionType": "SET_INFLUENCE_STRAT_ACTION",
+    "characterPar": ["0"]
   },
   {
     "name": "Jester",
     "cost": 1,
     "description": "You can take up to 3 students from this card and exchange them with as many Students in your entrance",
-    "actionType": 1,
-    "args": 1
+    "actionType": "SWAP_ACTION",
+    "characterPar": ["6","3"]
   },
   {
     "name": "Knight",
     "cost": 2,
     "description": "During this turn you have 2 additional points during the influence count",
-    "actionType": 1,
-    "args": 1
+    "actionType": "SET_INFLUENCE_STRAT_ACTION",
+    "characterPar": ["0"]
   },
   {
     "name": "Mushroom Seller",
     "cost": 3,
     "description": "Choose a Student color. This turn, that color provides no influence when calculating influence",
-    "actionType": 1,
-    "args": 1
+    "actionType": "SET_INFLUENCE_STRAT_ACTION",
+    "characterPar": ["0"]
   },
   {
     "name": "Minstrel",
     "cost": 1,
     "description": "You can exchange up to 2 Students present in your Hall and in your Entrance",
-    "actionType": 1,
-    "args": 1
+    "actionType": "SWAP_ACTION",
+    "characterPar": ["0","2"]
   },
   {
     "name": "Spoiled Princess",
     "cost": 2,
     "description": "Take a Student from this card and place it in your Hall. Then take a new Student out of the sack and place it on this card.",
-    "actionType": 1,
-    "args": 1
+    "actionType": "MOVE_ACTION",
+    "characterPar": ["4","1"]
   },
   {
     "name": "Thief",
     "cost": 3,
     "description": "Choose a Student color; each player (including you) must return 3 Students of that color present in your Hall to the sack. Whoever has less will put all he has",
-    "actionType": 1,
-    "args": 1
+    "actionType": "THIEF_ACTION",
+    "characterPar": ["0","3"]
   }
 ]
