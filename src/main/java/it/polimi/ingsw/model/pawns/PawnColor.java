@@ -1,4 +1,9 @@
 package it.polimi.ingsw.model.pawns;
 
-public class PawnColor {
+public enum PawnColor {
+    GREEN,
+    RED,
+    YELLOW,
+    PINK,
+    BLUE
 }
