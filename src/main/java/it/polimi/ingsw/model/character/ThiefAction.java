@@ -11,6 +11,7 @@ public class ThiefAction implements Action{
 
     @Override
     public boolean doAction() {
+        //TODO
         return false;
     }
 }

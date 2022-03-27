@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
+import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class Game {
     private static Game instance;
-    private final ArrayList<Player> players;
+    private final List<Player> players;
     private final Board board;
     private final Sack sack;
     private final List<Cloud> clouds;
@@ -22,6 +23,7 @@ public class Game {
     private int generalBank;
     private List<CharacterCard> characterInUse;
     private final ProfessorAssignor professorAssignor;
+    private static final List<Wizard> alreadyChoiceWizard = new ArrayList<>();
 
 
     /**
@@ -34,7 +36,8 @@ public class Game {
         this.clouds = new ArrayList<>();
         this.charactersDeck = new CharactersDeck();
         this.professorAssignor = new ProfessorAssignor();
-        characterInUse = new ArrayList<>();
+        this.characterInUse = new ArrayList<>();
+        alreadyChoiceWizard.clear();
     }
 
     /**
@@ -70,10 +73,11 @@ public class Game {
      * @return True if ok
      */
     public boolean addPlayer(Player player){
-        if(this.players.contains(player)) {
+        if(this.players.contains(player) || alreadyChoiceWizard.contains(player.getWizard())) {
             return false;
         }
         else{
+            alreadyChoiceWizard.add(player.getWizard());
             this.players.add(player);
             return true;
         }

@@ -1,8 +1,8 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.School;
 
@@ -13,7 +13,6 @@ import java.util.Objects;
 import static it.polimi.ingsw.model.player.Assistant.*;
 
 public class Player {
-
     private final String playerName;
     private ArrayList<Assistant> hand = new ArrayList<>();
     private Wizard wizard;
@@ -83,14 +82,16 @@ public class Player {
         return school.getProfessorTable();
     }
 
-    public void move(Place from, Place to, Pawns pawns) {
-        //TODO
-        //for(PawnColor pawnColor: PawnColor.values()) {
-          //  for (int i=0;i<pawns.getFromColor(pawnColor);i++) {
-            //    to.add(pawnColor);
-              //  from.remove(pawnColor);
-            //}
-        //}
+    public boolean moveFromEntranceToHall(PawnColor pawnColor){
+        return school.moveStudentToHall(pawnColor);
+    }
+
+    public boolean moveFromEntranceToIsland(PawnColor pawnColor, Island island){
+        if(school.removeStudentFromEntrance(pawnColor)){
+            // TODO
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -98,7 +99,7 @@ public class Player {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return Objects.equals(playerName, player.playerName) || wizard == player.wizard || color == player.color;
+        return Objects.equals(playerName, player.playerName);
     }
 
     @Override
@@ -106,4 +107,8 @@ public class Player {
         return Objects.hash(playerName, wizard, color);
     }
 
+    @Override
+    public String toString() {
+        return playerName + ", wizard= " + wizard + ", TowerColor= " + color;
+    }
 }

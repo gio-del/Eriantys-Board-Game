@@ -17,6 +17,7 @@ public class GameTest {
         game = Game.getInstance();
 
         game.depositInBank(10);
+
         Player p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
         Player p2 = new Player("Marco", Wizard.WIZ2,TowerColor.GRAY);
 
@@ -51,9 +52,18 @@ public class GameTest {
     }
 
     @Test
-    void addPlayerAlreadyPresent(){
-        Player p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
-        assertFalse(game.addPlayer(p1));
+    void addPlayerWithSameWizardTest() {
+        Player player = new Player("Matteo",Wizard.WIZ1,TowerColor.GRAY);
+        assertFalse(game.addPlayer(player));
+        assertFalse(game.getPlayers().contains(player));
+    }
+
+    @Test
+    void addPlayerAlreadyPresentTest(){
+        Player p = new Player("Matteo",Wizard.WIZ3,TowerColor.WHITE);
+        assertTrue(game.addPlayer(p));
+        assertFalse(game.addPlayer(p));
+        assertTrue(game.getPlayers().contains(p));
     }
 
     @Test

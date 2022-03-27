@@ -21,20 +21,26 @@ public class Pawns {
         return state.get(color);
     }
 
-    public void addColor(PawnColor color) {
+    public boolean addColor(PawnColor color) {
         addColor(color,1);
+        return true;
     }
 
-    public void addColor(PawnColor color, int numberOfPawn) {
+    public boolean addColor(PawnColor color, int numberOfPawn) {
         state.put(color,state.get(color)+numberOfPawn);
+        return true;
     }
 
-    public void removeColor(PawnColor color) {
-        removeColor(color,1);
+    public boolean removeColor(PawnColor color) {
+        return removeColor(color,1);
     }
 
-    public void removeColor(PawnColor color, int numberOfPawn) {
-        state.put(color,state.get(color)-numberOfPawn);
+    public boolean removeColor(PawnColor color, int numberOfPawn) {
+        if(state.get(color) >= numberOfPawn){
+            state.put(color,state.get(color)-numberOfPawn);
+            return true;
+        }
+        return false;
     }
 
     public void addPawns(Pawns pawns) {

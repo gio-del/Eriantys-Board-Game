@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model;
 
-//import it.polimi.ingsw.model.place.School;
 import it.polimi.ingsw.model.player.Player;
-//import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static it.polimi.ingsw.model.player.Assistant.*;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 import static it.polimi.ingsw.model.player.Wizard.*;
@@ -21,7 +19,6 @@ public class PlayerTest {
         player1 = new Player("Mario", WIZ1, BLACK);
         player2 = new Player("Lorenzo",WIZ2, WHITE);
         player3 = new Player("Lorenzo",WIZ2, WHITE);
-        //player1.getEntrance().addColor(GREEN,5);
     }
 
     @Test
@@ -61,8 +58,6 @@ public class PlayerTest {
     @Test
     void equalsTest() {
         boolean equals;
-        equals = player1.equals(player1);
-        assertTrue(equals);
         equals = player2.equals(player1);
         assertFalse(equals);
         equals = player2.equals(player3);
