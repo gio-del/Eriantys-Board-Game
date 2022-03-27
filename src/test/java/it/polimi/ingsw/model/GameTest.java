@@ -7,8 +7,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
     private Game game;
@@ -48,6 +47,12 @@ public class GameTest {
     @Test
     void getPlayerByTowerColor_ifNotPresent() {
         assertNull(game.getPlayerByTowerColor(TowerColor.WHITE));
+    }
+
+    @Test
+    void addPlayerAlreadyPresent(){
+        Player p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
+        assertFalse(game.addPlayer(p1));
     }
 
     @Test
