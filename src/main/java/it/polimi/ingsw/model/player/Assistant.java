@@ -17,4 +17,12 @@ public enum Assistant {
         this.value = value;
         this.movement = movement;
     }
+
+    public int getValue() {
+        return value;
+    }
+
+    public int getMovement() {
+        return movement;
+    }
 }

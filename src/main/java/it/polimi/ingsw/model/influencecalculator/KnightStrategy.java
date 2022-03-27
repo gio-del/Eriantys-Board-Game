@@ -4,7 +4,7 @@ import it.polimi.ingsw.model.player.TowerColor;
 
 public class KnightStrategy extends StandardStrategy {
     @Override
-    public TowerColor claculateInfluence() {
+    public TowerColor calculateInfluence() {
         return null;
     }
 }

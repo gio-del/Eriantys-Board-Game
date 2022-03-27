@@ -4,7 +4,8 @@ import it.polimi.ingsw.model.player.TowerColor;
 
 public class StandardStrategy implements InfluenceStrategy{
     @Override
-    public TowerColor claculateInfluence() {
+    public TowerColor calculateInfluence() {
         return null;
     }
+
 }
