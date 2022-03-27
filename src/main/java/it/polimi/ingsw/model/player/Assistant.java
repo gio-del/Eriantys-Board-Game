@@ -12,9 +12,18 @@ public enum Assistant {
     OSTRICH(9,5),
     LION(10,5);
 
-    public final int value,movement;
+    private final int value,movement;
+
     Assistant(int value,int movement) {
         this.value = value;
         this.movement = movement;
+    }
+
+    public int value() {
+        return value;
+    }
+
+    public int movement() {
+        return movement;
     }
 }
