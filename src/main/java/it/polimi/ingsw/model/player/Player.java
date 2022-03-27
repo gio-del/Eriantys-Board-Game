@@ -56,7 +56,7 @@ public class Player {
     public int playAssistant(Assistant assistant) {
         lastPlayedAssistant = assistant;
         hand.remove(assistant);
-        return lastPlayedAssistant.value();
+        return lastPlayedAssistant.getValue();
     }
 
     public void move(Place from, Place to, Pawns pawns) {

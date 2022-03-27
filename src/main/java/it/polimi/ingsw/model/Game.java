@@ -78,13 +78,23 @@ public class Game {
         }
     }
 
+
     /**
      *
      * @return the next player going to play
      */
     public Player nextPlayer(){
-        //TODO
-        return null;
+
+        int index = players.indexOf(currentPlayer);
+
+        if (index == (players.size() - 1)) {
+            currentPlayer = players.get(0);
+
+        } else {
+            currentPlayer = players.get(index + 1);
+        }
+        return currentPlayer;
+
     }
 
     /**
@@ -110,6 +120,8 @@ public class Game {
         return null;
     }
 
+
+
     public Player getPlayerByTowerColor(TowerColor towerColor){
         for(Player player: players){
             if(player.getColor().equals(towerColor)){
@@ -124,7 +136,7 @@ public class Game {
     }
 
     public boolean resetStrategies(){
-        // TODO
+
         return true;
     }
 
@@ -185,5 +197,9 @@ public class Game {
 
     public ProfessorAssignor getProfessorAssignor() {
         return professorAssignor;
+    }
+
+    public void setCurrentPlayer(Player player){
+        currentPlayer = player;
     }
 }

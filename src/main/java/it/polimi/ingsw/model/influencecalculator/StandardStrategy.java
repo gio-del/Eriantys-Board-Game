@@ -7,4 +7,5 @@ public class StandardStrategy implements InfluenceStrategy{
     public TowerColor calculateInfluence() {
         return null;
     }
+
 }

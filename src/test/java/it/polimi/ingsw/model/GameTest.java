@@ -20,6 +20,7 @@ public class GameTest {
         Player p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
         Player p2 = new Player("Marco", Wizard.WIZ2,TowerColor.GRAY);
 
+
         game.addPlayer(p1);
         game.addPlayer(p2);
     }
@@ -59,4 +60,21 @@ public class GameTest {
     void depositTest() {
         assertEquals(10,game.getGeneralBank());
     }
+
+    @Test
+    void nextPlayerFirst(){
+        game.setCurrentPlayer(game.getPlayers().get(1));
+        assertEquals("Luca", game.nextPlayer().getPlayerName());
+    }
+
+    @Test
+    void nextPlayerLast(){
+        game.setCurrentPlayer(game.getPlayers().get(0));
+        assertEquals("Marco", game.nextPlayer().getPlayerName());
+    }
+
+
+
+
+
 }
