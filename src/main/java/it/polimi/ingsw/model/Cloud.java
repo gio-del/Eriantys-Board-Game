@@ -9,7 +9,12 @@ public class Cloud {
         this.students = new Pawns();
     }
 
-    public Pawns getPawnsAndRemove() {
+
+    public Pawns getStudents(){
+        return students;
+    }
+
+    public Pawns getStudentsAndRemove() {
         Pawns extracted = new Pawns();
         extracted.addPawns(this.students);
         this.students = new Pawns();

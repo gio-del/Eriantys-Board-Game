@@ -11,18 +11,6 @@ import java.util.Objects;
 import static it.polimi.ingsw.model.player.Assistant.*;
 
 public class Player {
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Player player = (Player) o;
-        return Objects.equals(playerName, player.playerName) || wizard == player.wizard || color == player.color;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(playerName, wizard, color);
-    }
 
     private final String playerName;
     private ArrayList<Assistant> hand = new ArrayList<>();
@@ -68,11 +56,24 @@ public class Player {
     public int playAssistant(Assistant assistant) {
         lastPlayedAssistant = assistant;
         hand.remove(assistant);
-        return lastPlayedAssistant.value;
+        return lastPlayedAssistant.value();
     }
 
     public void move(Place from, Place to, Pawns pawns) {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return Objects.equals(playerName, player.playerName) || wizard == player.wizard || color == player.color;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerName, wizard, color);
     }
 
 }

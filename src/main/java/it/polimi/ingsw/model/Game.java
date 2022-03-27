@@ -139,7 +139,7 @@ public class Game {
     }
 
     public Pawns pickFromCloud(Cloud cloud){
-        return cloud.getPawnsAndRemove();
+        return cloud.getStudentsAndRemove();
     }
 
     public boolean move(Player player, Place from, Place to, Pawns pawns){

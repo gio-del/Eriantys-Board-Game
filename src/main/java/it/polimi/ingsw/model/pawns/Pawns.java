@@ -3,6 +3,7 @@ package it.polimi.ingsw.model.pawns;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 
@@ -41,7 +42,7 @@ public class Pawns {
     }
 
     public PawnColor getByIndex(int index) {
-        int currentSum = 1;
+        int currentSum = 0;
         PawnColor lastElement = null;
         for (PawnColor pawnColor : state.keySet()){
             if (index < currentSum + state.get(pawnColor)){
@@ -56,6 +57,19 @@ public class Pawns {
     @Override
     public String toString() {
         return state.toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pawns pawns = (Pawns) o;
+        return Objects.equals(state, pawns.state);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(state);
     }
 }
 

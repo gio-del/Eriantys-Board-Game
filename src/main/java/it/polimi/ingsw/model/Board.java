@@ -36,7 +36,7 @@ public class Board {
         }
     }
 
-    public boolean resetStratey(){
+    public boolean resetStrategy(){
         // TODO
         return true;
     }

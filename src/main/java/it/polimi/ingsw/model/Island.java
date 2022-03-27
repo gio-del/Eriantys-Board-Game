@@ -9,7 +9,7 @@ import java.util.Optional;
 public class Island {
     private int dimension;
     private Pawns students;
-    private Optional<TowerColor> tower;
+    private TowerColor tower;
 
     public Island(){
         this.dimension = 1;
@@ -35,6 +35,6 @@ public class Island {
     }
 
     public Optional<TowerColor> getTower() {
-        return tower;
+        return Optional.ofNullable(tower);
     }
 }

@@ -13,7 +13,7 @@ public class Sack {
         this.sackPawns = new Pawns();
     }
 
-    public void fillStartGame() {
+    public void initialFill() {
         for(PawnColor pawnColor: PawnColor.values()){
             sackPawns.addColor(pawnColor,Constants.NumOfStudentsOfEachColor);
         }
@@ -35,4 +35,10 @@ public class Sack {
     public int getNumberOfPawns() {
         return sackPawns.totalElements();
     }
+
+    @Override
+    public String toString() {
+        return sackPawns.toString();
+    }
 }
+
