@@ -1,8 +1,10 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.model.Place;
+import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.School;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,11 +21,13 @@ public class Player {
     private int towerNum;
     private TowerColor color;
     private Assistant lastPlayedAssistant;
+    private School school;
 
     public Player(String name,Wizard wizard,TowerColor color) {
         this.playerName = name;
         this.wizard = wizard;
         this.color = color;
+        this.school = new School();
         bank = Constants.InitialCashPerPlayer;
         towerNum = 8;  //TODO: if is the case of 3 player game this must be 6
         hand.addAll(Arrays.stream(values()).toList());
@@ -56,11 +60,37 @@ public class Player {
     public int playAssistant(Assistant assistant) {
         lastPlayedAssistant = assistant;
         hand.remove(assistant);
-        return lastPlayedAssistant.getValue();
+        return lastPlayedAssistant.value();
+    }
+
+    public Assistant getLastPlayedAssistant() {
+        return lastPlayedAssistant;
+    }
+
+    public ArrayList<Assistant> getHand() {
+        return hand;
+    }
+
+    public Pawns getEntrance() {
+        return school.getEntrance();
+    }
+
+    public Pawns getHall() {
+        return school.getHall();
+    }
+
+    public Pawns getProfTable() {
+        return school.getProfessorTable();
     }
 
     public void move(Place from, Place to, Pawns pawns) {
-
+        //TODO
+        //for(PawnColor pawnColor: PawnColor.values()) {
+          //  for (int i=0;i<pawns.getFromColor(pawnColor);i++) {
+            //    to.add(pawnColor);
+              //  from.remove(pawnColor);
+            //}
+        //}
     }
 
     @Override

@@ -30,7 +30,11 @@ public class Pawns {
     }
 
     public void removeColor(PawnColor color) {
-        state.put(color,state.get(color)-1);
+        removeColor(color,1);
+    }
+
+    public void removeColor(PawnColor color, int numberOfPawn) {
+        state.put(color,state.get(color)-numberOfPawn);
     }
 
     public void addPawns(Pawns pawns) {

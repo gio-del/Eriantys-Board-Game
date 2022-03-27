@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.character;
 
-import it.polimi.ingsw.model.Place;
+import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.pawns.Pawns;
 
 public class SwapAction implements Action{
