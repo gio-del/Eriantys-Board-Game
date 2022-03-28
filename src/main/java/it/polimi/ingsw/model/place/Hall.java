@@ -12,4 +12,12 @@ public class Hall extends SchoolPlace {
         }
         return false;
     }
+
+    @Override
+    public boolean remove(PawnColor pawnColor) {
+        if (super.getPawns().getFromColor(pawnColor) > 0) {
+            return super.remove(pawnColor);
+        }
+        return false;
+    }
 }

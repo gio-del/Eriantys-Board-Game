@@ -1,24 +1,33 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
+import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static it.polimi.ingsw.model.player.Assistant.*;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 import static it.polimi.ingsw.model.player.Wizard.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PlayerTest {
     private Player player1;
     private Player player2;
     private Player player3;
+    private Pawns pawns;
+    private Island island;
 
     @BeforeEach
     void setUp() {
         player1 = new Player("Mario", WIZ1, BLACK);
         player2 = new Player("Lorenzo",WIZ2, WHITE);
         player3 = new Player("Lorenzo",WIZ2, WHITE);
+        player1.getEntrance().addColor(GREEN,4);
+        player1.getEntrance().addColor(BLUE,1);
+        pawns = new Pawns();
+        pawns.addColor(GREEN,4);
+        pawns.addColor(BLUE,1);
+        island = new Island();
     }
 
     @Test
@@ -62,5 +71,13 @@ public class PlayerTest {
         assertFalse(equals);
         equals = player2.equals(player3);
         assertTrue(equals);
+    }
+
+    @Test
+    void moveToIsland() {
+        assertEquals(pawns,player1.getEntrance());
+        player1.moveFromEntranceToIsland(pawns,island);
+        assertEquals(pawns,island.getStudents());
+        assertEquals(player1.getEntrance().totalElements(),0);
     }
 }

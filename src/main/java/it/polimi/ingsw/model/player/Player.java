@@ -82,13 +82,13 @@ public class Player {
         return school.getProfessorTable();
     }
 
-    public boolean moveFromEntranceToHall(PawnColor pawnColor){
-        return school.moveStudentToHall(pawnColor);
+    public boolean moveFromEntranceToHall(Pawns pawns){
+        return school.moveStudentToHall(pawns);
     }
 
-    public boolean moveFromEntranceToIsland(PawnColor pawnColor, Island island){
-        if(school.removeStudentFromEntrance(pawnColor)){
-            // TODO
+    public boolean moveFromEntranceToIsland(Pawns pawns, Island island){
+        if(school.removeStudentFromEntrance(pawns)){
+            island.addStudent(pawns);
             return true;
         }
         return false;

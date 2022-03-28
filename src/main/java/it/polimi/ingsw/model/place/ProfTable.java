@@ -12,4 +12,12 @@ public class ProfTable extends SchoolPlace {
         }
         return false;
     }
+
+    @Override
+    public boolean remove(PawnColor pawnColor) {
+        if (super.getPawns().getFromColor(pawnColor) == Constants.MaxProfessorPerColor) {
+            return super.remove(pawnColor);
+        }
+        return false;
+    }
 }

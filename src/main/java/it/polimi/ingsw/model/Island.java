@@ -17,8 +17,23 @@ public class Island {
         this.tower = null;
     }
 
-    public void addStudent(PawnColor pawnColor){
+    public boolean addStudent(PawnColor pawnColor) {
+        students.addColor(pawnColor);
+        return true;
+    }
 
+    public boolean addStudent(Pawns pawns) {
+        boolean state = false;
+        int addedElements=0;
+        for(PawnColor pawnColor: PawnColor.values()) {
+            int i=0;
+            while ((i<pawns.getFromColor(pawnColor)) && addStudent(pawnColor)) {
+                i++;
+                addedElements++;
+            }
+        }
+        if (addedElements==pawns.totalElements()) state = true;
+        return state;
     }
 
     public Optional<TowerColor> conquerIsland(TowerColor towerColor){
