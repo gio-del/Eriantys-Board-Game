@@ -7,9 +7,9 @@ import it.polimi.ingsw.model.player.TowerColor;
 import java.util.Optional;
 
 public class Island {
-    private int dimension;
-    private Pawns students;
-    private TowerColor tower;
+    private final int dimension;
+    private final Pawns students;
+    private final TowerColor tower;
 
     public Island(){
         this.dimension = 1;
@@ -18,27 +18,17 @@ public class Island {
     }
 
     public boolean addStudent(PawnColor pawnColor) {
-        students.addColor(pawnColor);
-        return true;
+        return students.addColor(pawnColor);
     }
 
     public boolean addStudent(Pawns pawns) {
-        boolean state = false;
-        int addedElements=0;
-        for(PawnColor pawnColor: PawnColor.values()) {
-            int i=0;
-            while ((i<pawns.getFromColor(pawnColor)) && addStudent(pawnColor)) {
-                i++;
-                addedElements++;
-            }
-        }
-        if (addedElements==pawns.totalElements()) state = true;
-        return state;
+        students.addPawns(pawns);
+        return true;
     }
 
     public Optional<TowerColor> conquerIsland(TowerColor towerColor){
         //TODO
-        return null;
+        return Optional.empty();
     }
 
     public int getDimension() {

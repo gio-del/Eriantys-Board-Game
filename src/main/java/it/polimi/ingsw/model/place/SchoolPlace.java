@@ -1,27 +1,40 @@
 package it.polimi.ingsw.model.place;
 
-import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 
+import java.util.Objects;
+
 public abstract class SchoolPlace implements Place{
-    private Pawns students;
+    private final Pawns schoolPawns;
 
     public SchoolPlace() {
-        this.students = new Pawns();
+        this.schoolPawns = new Pawns();
     }
 
     public Pawns getPawns() {
-        return students;
+        return schoolPawns;
     }
 
     @Override
-    public boolean remove(PawnColor pawnColor) {
-        return students.removeColor(pawnColor);
+    public boolean remove(Pawns pawns) {
+        return schoolPawns.removePawns(pawns);
     }
 
     @Override
-    public boolean add(PawnColor pawnColor) {
-        return students.addColor(pawnColor);
+    public boolean add(Pawns pawns) {
+        return schoolPawns.addPawns(pawns);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SchoolPlace that = (SchoolPlace) o;
+        return Objects.equals(schoolPawns, that.schoolPawns);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(schoolPawns);
+    }
 }

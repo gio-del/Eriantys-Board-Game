@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.school;
 
-import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.School;
@@ -17,7 +16,7 @@ public class SchoolTest {
     private School schoolInitial;
     private Pawns example;
     private Pawns professorExample;
-    private Pawns max;
+    private Pawns maxHall;
     private Pawns overMax;
 
     @BeforeEach
@@ -32,12 +31,12 @@ public class SchoolTest {
         professorExample.addColor(GREEN);
         professorExample.addColor(YELLOW);
         professorExample.addColor(BLUE);
-        max = new Pawns();
-        max.addColor(GREEN,7);
-        max.addColor(RED,7);
-        max.addColor(PINK,7);
-        max.addColor(YELLOW,7);
-        max.addColor(BLUE,7);
+        maxHall = new Pawns();
+        maxHall.addColor(GREEN,7);
+        maxHall.addColor(RED,7);
+        maxHall.addColor(PINK,7);
+        maxHall.addColor(YELLOW,7);
+        maxHall.addColor(BLUE,7);
         overMax = new Pawns();
         overMax.addColor(GREEN,10);
         overMax.addColor(RED,10);
@@ -62,8 +61,8 @@ public class SchoolTest {
 
     @Test
     void addStudentInEntranceTest() {
-        school1.addStudentInEntrance(example);
-        assertEquals(example,school1.getEntrance());
+        assertFalse(school1.addStudentInEntrance(example));
+        assertNotEquals(example,school1.getEntrance());
     }
 
     @Test
@@ -95,8 +94,7 @@ public class SchoolTest {
     void removeStudentFromEntranceTest() {
         Pawns empty = new Pawns();
         assertEquals(empty,school1.getEntrance());
-        school1.addStudentInEntrance(example);
-        assertNotEquals(empty,school1.getEntrance());
+        assertFalse(school1.addStudentInEntrance(example));
         school1.removeStudentFromEntrance(example);
         assertEquals(empty,school1.getEntrance());
     }
@@ -114,24 +112,23 @@ public class SchoolTest {
     @Test
     void moveTest() {
         Pawns empty = new Pawns();
-        school1.addStudentInEntrance(example);
-        assertEquals(example,school1.getEntrance());
+        assertFalse(school1.addStudentInEntrance(example));
+        assertNotEquals(example,school1.getEntrance());
         assertEquals(empty,school1.getHall());
         school1.moveStudentToHall(example);
         assertEquals(empty,school1.getEntrance());
-        assertEquals(example,school1.getHall());
     }
 
     @Test
     void booleanTest() {
         boolean result;
-        result = school1.addStudentInHall(max);
+        result = school1.addStudentInHall(maxHall);
         assertTrue(result);
         result = school1.addStudentInEntrance(overMax);
         assertFalse(result);
         result = school1.removeStudentFromEntrance(overMax);
         assertFalse(result);
-        result = school1.removeStudentFromHall(max);
+        result = school1.removeStudentFromHall(maxHall);
         assertTrue(result);
     }
 }

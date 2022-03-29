@@ -4,9 +4,9 @@ import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 
 public class School {
-    private SchoolPlace entrance;
-    private SchoolPlace hall;
-    private SchoolPlace profTable;
+    private final SchoolPlace entrance;
+    private final SchoolPlace hall;
+    private final SchoolPlace profTable;
 
     public School() {
         this.entrance = new Entrance();
@@ -27,105 +27,64 @@ public class School {
     }
 
     public boolean addProfessor(PawnColor pawnColor) {
-        return profTable.add(pawnColor);
+        return profTable.add(new Pawns(pawnColor));
     }
 
     public boolean removeProfessor(PawnColor pawnColor) {
-        return profTable.remove(pawnColor);
+        return profTable.remove(new Pawns(pawnColor));
     }
 
     public boolean addStudentInHall(PawnColor pawnColor) {
-        return hall.add(pawnColor);
+        Pawns pawns = new Pawns(pawnColor);
+        return hall.add(pawns);
     }
 
     public boolean addStudentInHall(Pawns pawns) {
-        boolean state = false;
-        int addedElements=0;
-        for(PawnColor pawnColor: PawnColor.values()) {
-            int i=0;
-            while ((i<pawns.getFromColor(pawnColor)) && addStudentInHall(pawnColor)) {
-                i++;
-                addedElements++;
-            }
-        }
-        if (addedElements==pawns.totalElements()) state = true;
-        return state;
+        return hall.add(pawns);
     }
 
     public boolean removeStudentFromHall(PawnColor pawnColor) {
-        return hall.remove(pawnColor);
+        // TODO: is this necessary?
+        return hall.remove(new Pawns(pawnColor));
     }
 
     public boolean removeStudentFromHall(Pawns pawns) {
-        boolean state = false;
-        int removedElements=0;
-        for(PawnColor pawnColor: PawnColor.values()) {
-            int i=0;
-            while ((i<pawns.getFromColor(pawnColor)) && removeStudentFromHall(pawnColor)) {
-                i++;
-                removedElements++;
-            }
-        }
-        if (removedElements==pawns.totalElements()) state = true;
-        return state;
+        return hall.remove(pawns);
     }
 
     public boolean moveStudentToHall(PawnColor pawnColor) {
-        if(entrance.remove(pawnColor)) {
-            hall.add(pawnColor);
+        // TODO: is this necessary?
+        Pawns pawns = new Pawns(pawnColor);
+        if(entrance.remove(pawns)) {
+            hall.add(pawns);
             return true;
         }
         return false;
     }
 
     public boolean moveStudentToHall(Pawns pawns) {
-        boolean state = false;
-        int movedElements=0;
-        for(PawnColor pawnColor: PawnColor.values()) {
-            int i=0;
-            while ((i<pawns.getFromColor(pawnColor)) && removeStudentFromEntrance(pawnColor)) {
-                hall.add(pawnColor);
-                i++;
-                movedElements++;
-            }
+        if(entrance.remove(pawns)){
+            hall.add(pawns);
+            return true;
         }
-        if (movedElements==pawns.totalElements()) state = true;
-        return state;
+        return false;
     }
 
     public boolean removeStudentFromEntrance(PawnColor pawnColor) {
-        return entrance.remove(pawnColor);
+        // TODO: is this necessary?
+        return entrance.remove(new Pawns(pawnColor));
     }
 
     public boolean removeStudentFromEntrance(Pawns pawns) {
-        boolean state = false;
-        int removedElements=0;
-        for(PawnColor pawnColor: PawnColor.values()) {
-            int i=0;
-            while ((i<pawns.getFromColor(pawnColor)) && removeStudentFromEntrance(pawnColor)) {
-                i++;
-                removedElements++;
-            }
-        }
-        if (removedElements==pawns.totalElements()) state = true;
-        return state;
+        // TODO: is this necessary?
+        return entrance.remove(pawns);
     }
 
     public boolean addStudentInEntrance(PawnColor pawnColor) {
-        return entrance.add(pawnColor);
+        return entrance.add(new Pawns(pawnColor));
     }
 
     public boolean addStudentInEntrance(Pawns pawns) {
-        boolean state = false;
-        int addedElements=0;
-        for(PawnColor pawnColor: PawnColor.values()) {
-            int i=0;
-            while ((i<pawns.getFromColor(pawnColor)) && addStudentInEntrance(pawnColor)) {
-                i++;
-                addedElements++;
-            }
-        }
-        if (addedElements==pawns.totalElements()) state = true;
-        return state;
+        return entrance.add(pawns);
     }
 }

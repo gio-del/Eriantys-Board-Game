@@ -17,13 +17,17 @@ public class Pawns {
         }
     }
 
+    public Pawns(PawnColor pawnColor) {
+        this();
+        state.put(pawnColor,1);
+    }
+
     public int getFromColor(PawnColor color) {
         return state.get(color);
     }
 
     public boolean addColor(PawnColor color) {
-        addColor(color,1);
-        return true;
+        return addColor(color,1);
     }
 
     public boolean addColor(PawnColor color, int numberOfPawn) {
@@ -43,8 +47,22 @@ public class Pawns {
         return false;
     }
 
-    public void addPawns(Pawns pawns) {
+    public boolean addPawns(Pawns pawns) {
         Arrays.stream(values()).forEach(pawnColor -> state.put(pawnColor, state.get(pawnColor) + pawns.getFromColor(pawnColor)));
+        return true;
+    }
+
+    /**
+     *
+     * @param pawns to be removed from state
+     * @return false if the operation is invalid, true otherwise
+     */
+    public boolean removePawns(Pawns pawns){
+        for(PawnColor pawnColor: PawnColor.values())
+            if (getFromColor(pawnColor) < pawns.getFromColor(pawnColor)) return false;
+        for(PawnColor pawnColor: PawnColor.values())
+            state.put(pawnColor, state.get(pawnColor) - pawns.getFromColor(pawnColor));
+        return true;
     }
 
     public int totalElements(){
