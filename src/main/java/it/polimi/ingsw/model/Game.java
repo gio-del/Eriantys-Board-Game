@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.CharactersDeck;
+import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.player.Player;
@@ -23,6 +24,7 @@ public class Game {
     private final CharactersDeck charactersDeck;
     private Player currentPlayer;
     private int generalBank;
+    private Pawns professors;
     private List<CharacterCard> characterInUse;
     private final ProfessorAssignor professorAssignor;
     private static final List<Wizard> alreadyChoiceWizard = new ArrayList<>();
@@ -39,6 +41,10 @@ public class Game {
         this.charactersDeck = new CharactersDeck();
         this.professorAssignor = new ProfessorAssignor();
         this.characterInUse = new ArrayList<>();
+        this.professors = new Pawns();
+        for(PawnColor pawnColor: PawnColor.values()){
+            professors.addColor(pawnColor);
+        }
         alreadyChoiceWizard.clear();
     }
 
@@ -189,6 +195,10 @@ public class Game {
         return clouds;
     }
 
+    public void removeProfessorGame(PawnColor pawnColor){
+        professors.removeColor(pawnColor);
+    }
+
     public CharactersDeck getCharacterDeck() {
         return charactersDeck;
     }
@@ -207,6 +217,10 @@ public class Game {
 
     public ProfessorAssignor getProfessorAssignor() {
         return professorAssignor;
+    }
+
+    public Pawns getProfessors() {
+        return professors;
     }
 
     public void setCurrentPlayer(Player player){

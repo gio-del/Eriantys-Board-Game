@@ -89,6 +89,14 @@ public class Pawns {
         return lastElement;
     }
 
+    public void fastSetup(int color1, int color2, int color3, int color4, int color5){
+        state.put(PawnColor.GREEN, color1);
+        state.put(PawnColor.RED, color2);
+        state.put(PawnColor.YELLOW, color3);
+        state.put(PawnColor.PINK, color4);
+        state.put(PawnColor.BLUE, color5);
+    }
+
     @Override
     public String toString() {
         return state.toString();
@@ -106,6 +114,7 @@ public class Pawns {
     public int hashCode() {
         return Objects.hash(state);
     }
+
 }
 
 

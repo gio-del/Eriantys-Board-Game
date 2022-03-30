@@ -12,7 +12,7 @@ public class Board {
     private ArrayList<Island> islands;
     private int motherNaturePos;
     private InfluenceStrategy influenceStrategy;
-    private InfluenceStrategy standardStrategy = new StandardStrategy();
+    private final InfluenceStrategy standardStrategy = new StandardStrategy();
 
     public Board(){
         this.islands = new ArrayList<>(Constants.MAX_ISLAND);
