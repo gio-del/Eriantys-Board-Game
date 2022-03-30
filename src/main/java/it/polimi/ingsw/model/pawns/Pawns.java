@@ -26,6 +26,13 @@ public class Pawns {
         return state.get(color);
     }
 
+    public Map<PawnColor, Integer> getMap(Map<PawnColor, Integer> state){
+        return state;
+    }
+
+
+
+
     public boolean addColor(PawnColor color) {
         return addColor(color,1);
     }

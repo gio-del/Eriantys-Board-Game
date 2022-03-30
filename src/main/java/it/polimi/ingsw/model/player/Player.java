@@ -70,6 +70,8 @@ public class Player {
         return hand;
     }
 
+    public School getSchool() { return school; }
+
     public Pawns getEntrance() {
         return school.getEntrance();
     }
@@ -92,6 +94,15 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    public TowerColor addTowerToBoard(){
+        towerNum = towerNum - 1;
+        return color;
+    }
+
+    public void backTowerToPlayer(){
+        towerNum = towerNum + 1;
     }
 
     @Override

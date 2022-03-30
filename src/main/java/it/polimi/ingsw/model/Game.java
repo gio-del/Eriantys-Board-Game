@@ -8,9 +8,11 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
+import javafx.scene.input.TouchEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class Game {
     private static Game instance;
@@ -150,9 +152,12 @@ public class Game {
         return true;
     }
 
-    public boolean moveMotherNature(int positions){
-        // TODO
-        return true;
+    public Boolean moveMotherNature(int positions, Player player){
+        int maxMove = player.getLastPlayedAssistant().movement();
+        if(positions <= maxMove && positions > 0){
+            board.moveMotherNature(positions, players);
+            return true;
+        } else { return false; }
     }
 
     public Pawns pickFromCloud(Cloud cloud){
