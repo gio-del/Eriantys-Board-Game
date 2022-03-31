@@ -27,17 +27,14 @@ public class BoardTest {
     Pawns example1;
     Pawns example2;
     Pawns example3;
-    Island island;
+    //Island island1;
+    //Island island2;
     MushroomSellerStrategy mushroomSellerStrategy;
     CentaurStrategy centaurStrategy;
     KnightStrategy knightStrategy;
 
     @BeforeEach
     void setUp(){
-        initialSack = new Sack();
-        initialSack.initialFill();
-        initialBoard = new Board();
-        initialBoard.initIslands(initialSack);
         game = Game.getInstance();
         player1 = new Player("Mario", WIZ1, BLACK);
         player2 = new Player("Lorenzo",WIZ2, WHITE);
@@ -69,34 +66,23 @@ public class BoardTest {
         player3.getSchool().addStudentInHall(example3);
 
 
-        island = game.getBoard().getIslands().get(4);
         Pawns exampleIsland = new Pawns();
         exampleIsland.addColor(GREEN,0);
         exampleIsland.addColor(BLUE,3);
         exampleIsland.addColor(YELLOW,1);
-        island.addStudent(exampleIsland);
+        game.getBoard().getIslands().get(4).addStudent(exampleIsland);
 
-        island = game.getBoard().getIslands().get(1);
+
         Pawns exampleIsland2 = new Pawns();
         exampleIsland2.addColor(GREEN,1);
         exampleIsland2.addColor(BLUE,3);
         exampleIsland2.addColor(YELLOW,1);
-        island.addStudent(exampleIsland2);
+        game.getBoard().getIslands().get(1).addStudent(exampleIsland2);
     }
 
     @AfterEach
     void tearDown() {
         Game.resetInstance();
-    }
-
-    @Test
-    void setInitialBoardTest() {
-        assertEquals(initialBoard.getMotherNaturePos(),0);
-        assertEquals(initialBoard.getSpecificIsland(6).getStudents().totalElements(),0);
-        assertEquals(initialBoard.getSpecificIsland(0).getStudents().totalElements(),0);
-        for (int i=1;i<MAX_ISLAND;i++) {
-            if (i!=6) assertEquals(initialBoard.getSpecificIsland(i).getStudents().totalElements(),1);
-        }
     }
 
     @Test
@@ -119,24 +105,21 @@ public class BoardTest {
     @Test
     void conquerIslandWithTowerofTheWinner(){
         game.getBoard().setMotherNaturePos(2);
-        Island island = game.getBoard().getIslands().get(4);
-        island.addTower(WHITE);
+        game.getBoard().getIslands().get(4).addTower(WHITE);
         assertEquals(Optional.empty(), game.getBoard().moveMotherNature(2, game.getPlayers()));
     }
 
     @Test
     void conquerIslandWithTowerofTheLoser(){
         game.getBoard().setMotherNaturePos(2);
-        Island island = game.getBoard().getIslands().get(4);
-        island.addTower(BLACK);
+        game.getBoard().getIslands().get(4).addTower(GRAY);
         assertEquals(Optional.of(WHITE), game.getBoard().moveMotherNature(2, game.getPlayers()));
     }
 
     @Test
     void tieOnIslandWithTower(){
         game.getBoard().setMotherNaturePos(3);
-        Island island = game.getBoard().getIslands().get(5);
-        island.addTower(BLACK);
+        game.getBoard().getIslands().get(5).addTower(BLACK);
         assertEquals(Optional.empty(), game.getBoard().moveMotherNature(2, game.getPlayers()));
     }
 
@@ -160,8 +143,8 @@ public class BoardTest {
         mushroomSellerStrategy.setBlockedColor(GREEN);
         game.getBoard().setStrategy(mushroomSellerStrategy);
         game.getBoard().setMotherNaturePos(10);
-        Island island = game.getBoard().getIslands().get(1);
-        island.addTower(BLACK);
+        game.getBoard().getIslands().get(1).addTower(BLACK);
+        game.getBoard().getIslands().get(1).addStudent(BLUE);
         assertEquals(Optional.of(WHITE), game.getBoard().moveMotherNature(3, game.getPlayers()));
     }
 
@@ -170,8 +153,8 @@ public class BoardTest {
         centaurStrategy = new CentaurStrategy();
         game.getBoard().setStrategy(centaurStrategy);
         game.getBoard().setMotherNaturePos(10);
-        Island island = game.getBoard().getIslands().get(1);
-        island.addTower(BLACK);
+        game.getBoard().getIslands().get(1).addTower(BLACK);
+        game.getBoard().getIslands().get(1).addStudent(BLUE);
         assertEquals(Optional.of(WHITE), game.getBoard().moveMotherNature(3, game.getPlayers()));
     }
 
@@ -181,6 +164,21 @@ public class BoardTest {
         game.getBoard().setStrategy(knightStrategy);
         knightStrategy.setTowerplus(BLACK);
         game.getBoard().setMotherNaturePos(10);
+        game.getBoard().getIslands().get(1).addStudent(YELLOW);
         assertEquals(Optional.of(BLACK), game.getBoard().moveMotherNature(3, game.getPlayers()));
+    }
+
+    @Test
+    void setInitialBoardTest() {
+        initialSack = new Sack();
+        initialSack.initialFill();
+        initialBoard = new Board();
+        initialBoard.initIslands(initialSack);
+        assertEquals(initialBoard.getMotherNaturePos(),0);
+        assertEquals(initialBoard.getSpecificIsland(6).getStudents().totalElements(),0);
+        assertEquals(initialBoard.getSpecificIsland(0).getStudents().totalElements(),0);
+        for (int i=1;i<MAX_ISLAND;i++) {
+            if (i!=6) assertEquals(initialBoard.getSpecificIsland(i).getStudents().totalElements(),1);
+        }
     }
 }

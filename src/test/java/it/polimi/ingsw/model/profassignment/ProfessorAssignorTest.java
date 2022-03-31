@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,6 +34,11 @@ public class ProfessorAssignorTest {
         player1.getSchool().getHall().fastSetup(0,0,0,0,0);
         player2.getSchool().getHall().fastSetup(0,0,0,0,0);
         player3.getSchool().getHall().fastSetup(0,0,0,0,0);
+    }
+
+    @AfterEach
+    void tearDown() {
+        Game.resetInstance();
     }
 
     @Test
