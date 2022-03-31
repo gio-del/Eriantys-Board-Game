@@ -14,6 +14,7 @@ import javafx.scene.input.TouchEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import static it.polimi.ingsw.constants.Constants.MaxNumOfCoins;
 
 public class Game {
     private static Game instance;
@@ -37,6 +38,10 @@ public class Game {
         this.players = new ArrayList<>();
         this.board = new Board();
         this.sack = new Sack();
+        sack.initialFill();
+        board.initIslands(sack);
+        sack.fill();
+        this.generalBank = MaxNumOfCoins;
         this.clouds = new ArrayList<>();
         this.charactersDeck = new CharactersDeck();
         this.professorAssignor = new ProfessorAssignor();
@@ -87,6 +92,7 @@ public class Game {
         else{
             alreadyChoiceWizard.add(player.getWizard());
             this.players.add(player);
+            generalBank--;
             return true;
         }
     }
@@ -166,11 +172,31 @@ public class Game {
         } else { return false; }
     }
 
+    public boolean addCoin(Player player, int coins) {
+        if (generalBank >= coins) {
+            int newAmount = player.getPlayerBank() + coins;
+            player.setBank(newAmount);
+            generalBank -= coins;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean removeCoin(Player player, int coins) {
+        int newAmount = player.getPlayerBank() - coins;
+        if (newAmount>0) {
+            player.setBank(newAmount);
+            generalBank += coins;
+            return true;
+        }
+        return false;
+    }
+
     public Pawns pickFromCloud(Cloud cloud){
         return cloud.getStudentsAndRemove();
     }
 
-    public boolean move(Player player, Place from, Place to, Pawns pawns){
+    public boolean move(Player player, Place from, Place to, Pawns pawns) {
         // TODO
         return true;
     }

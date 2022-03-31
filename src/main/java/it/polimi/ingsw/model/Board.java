@@ -23,6 +23,16 @@ public class Board {
 
     }
 
+    public void initIslands(Sack sack) {
+        setMotherNaturePos(0);
+        for(int i = 1; i < Constants.MAX_ISLAND; i++){
+            if (i!=6) {
+                islands.get(i).addStudent(sack.extract());
+            }
+
+        }
+    }
+
     public Optional<TowerColor> moveMotherNature(int steps, List<Player> players){
         int index = motherNaturePos;
         if((index + steps) > islands.size() - 1){
@@ -79,7 +89,7 @@ public class Board {
         return islands;
     }
 
-    public Island getSpecificIsland(int index){
+    public Island getSpecificIsland(int index) {
         return islands.get(index);
     }
 

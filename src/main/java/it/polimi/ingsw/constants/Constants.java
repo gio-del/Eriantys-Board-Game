@@ -5,10 +5,12 @@ public class Constants {
     public static final int MaxNumPlayer = 4;
     public static final int NumOfCharacterInUse = 3;
     public static final int NumOfStudentsOfEachColor = 24;
+    public static final int InitialNumOfStudentsOfEachColor = 2;
     public static final int InitialCashPerPlayer = 1;
     public static final int MaxStudentEntrance = 7;
     public static final int MaxStudentEntranceThreePlayer = 9;
     public static final int MaxStudentHallPerColor = 10;
     public static final int MaxProfessorPerColor = 1;
     public static final int MAX_ISLAND = 12;
+    public static final int MaxNumOfCoins = 20;
 }

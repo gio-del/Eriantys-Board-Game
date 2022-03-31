@@ -15,6 +15,12 @@ public class Sack {
 
     public void initialFill() {
         for(PawnColor pawnColor: PawnColor.values()){
+            sackPawns.addColor(pawnColor,Constants.InitialNumOfStudentsOfEachColor);
+        }
+    }
+
+    public void fill() {
+        for(PawnColor pawnColor: PawnColor.values()){
             sackPawns.addColor(pawnColor,Constants.NumOfStudentsOfEachColor);
         }
     }

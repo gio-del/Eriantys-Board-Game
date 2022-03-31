@@ -18,8 +18,6 @@ public class GameTest {
     void setUp() {
         game = Game.getInstance();
 
-        game.depositInBank(10);
-
         Player p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
         Player p2 = new Player("Marco", Wizard.WIZ2,TowerColor.GRAY);
 
@@ -70,7 +68,7 @@ public class GameTest {
 
     @Test
     void depositTest() {
-        assertEquals(10,game.getGeneralBank());
+        assertEquals(18,game.getGeneralBank());
     }
 
     @Test

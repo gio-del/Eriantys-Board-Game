@@ -28,7 +28,7 @@ public class Player {
         this.color = color;
         this.school = new School();
         bank = Constants.InitialCashPerPlayer;
-        towerNum = 8;  //TODO: if is the case of 3 player game this must be 6
+        towerNum = 8;   //TODO: 3 players has 6 towers, if 4 players only 1 TeamMate have towers -> add TEAM ENUM?
         hand.addAll(Arrays.stream(values()).toList());
     }
 
@@ -85,7 +85,7 @@ public class Player {
     }
 
     public boolean moveFromEntranceToHall(Pawns pawns){
-        return school.moveStudentToHall(pawns);
+        return school.moveStudentToHall(pawns);   //TODO: add coin for 3,6,9 students of each color. hp: exception, move method in game, controller.
     }
 
     public boolean moveFromEntranceToIsland(Pawns pawns, Island island){
@@ -94,6 +94,10 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    public void setBank(int newBank) {
+        bank = newBank;
     }
 
     public TowerColor addTowerToBoard(){

@@ -3,13 +3,13 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.influencecalculator.*;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static it.polimi.ingsw.constants.Constants.MAX_ISLAND;
 import static it.polimi.ingsw.model.player.Wizard.*;
 import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.ArrayList;
 import java.util.Optional;
 
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
@@ -17,6 +17,8 @@ import static it.polimi.ingsw.model.pawns.PawnColor.YELLOW;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 
 public class BoardTest {
+    Board initialBoard;
+    Sack initialSack;
     Player player1;
     Player player2;
     Player player3;
@@ -32,7 +34,10 @@ public class BoardTest {
 
     @BeforeEach
     void setUp(){
-
+        initialSack = new Sack();
+        initialSack.initialFill();
+        initialBoard = new Board();
+        initialBoard.initIslands(initialSack);
         game = Game.getInstance();
         player1 = new Player("Mario", WIZ1, BLACK);
         player2 = new Player("Lorenzo",WIZ2, WHITE);
@@ -77,9 +82,23 @@ public class BoardTest {
         exampleIsland2.addColor(BLUE,3);
         exampleIsland2.addColor(YELLOW,1);
         island.addStudent(exampleIsland2);
-
-
     }
+
+    @AfterEach
+    void tearDown() {
+        Game.resetInstance();
+    }
+
+    @Test
+    void setInitialBoardTest() {
+        assertEquals(initialBoard.getMotherNaturePos(),0);
+        assertEquals(initialBoard.getSpecificIsland(6).getStudents().totalElements(),0);
+        assertEquals(initialBoard.getSpecificIsland(0).getStudents().totalElements(),0);
+        for (int i=1;i<MAX_ISLAND;i++) {
+            if (i!=6) assertEquals(initialBoard.getSpecificIsland(i).getStudents().totalElements(),1);
+        }
+    }
+
     @Test
     void numberOfIslands(){
         assertEquals(12, game.getBoard().getIslands().size());
