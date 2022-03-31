@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
 
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -64,6 +65,10 @@ public class StandardStrategyTest {
 
     }
 
+    @AfterEach
+    void tearDown() {
+        Game.resetInstance();
+    }
 
     @Test
     void calculateScores(){
@@ -72,7 +77,7 @@ public class StandardStrategyTest {
         exampleIsland.addColor(GREEN,1);
         exampleIsland.addColor(BLUE,3);
         exampleIsland.addColor(YELLOW,1);
-        island.addStudent(exampleIsland);
+        island.add(exampleIsland);
         Map<Player, Integer> score = new HashMap<>();
         score.put(player1, 2);
         score.put(player2, 3);

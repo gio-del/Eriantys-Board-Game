@@ -4,13 +4,10 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.player.Player;
 
-import javax.swing.event.SwingPropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProfessorAssignor {
     private ProfessorStrategy professorStrategy;
-    private final ProfessorStrategy standardProfStrategy = new StandardProfStrategy();
 
     public ProfessorAssignor() {
         this.professorStrategy = new StandardProfStrategy();
@@ -21,13 +18,13 @@ public class ProfessorAssignor {
         if(winners.size() == 1) {
             if (Game.getInstance().getProfessors().getFromColor(pawnColor) == 1) {
                 Game.getInstance().removeProfessorGame(pawnColor);
-                winners.get(0).getProfTable().addColor(pawnColor);
+                winners.get(0).getSchool().getProfessorTable().addColor(pawnColor);
                 return winners.get(0);
             } else {
                 for(Player player: players){
-                    if(player.getProfTable().getFromColor(pawnColor) == 1 && !player.equals(winners.get(0))){
+                    if(player.getSchool().getProfessorTable().getFromColor(pawnColor) == 1 && !player.equals(winners.get(0))){
                         player.getSchool().removeProfessor(pawnColor);
-                        winners.get(0).getProfTable().addColor(pawnColor);
+                        winners.get(0).getSchool().getProfessorTable().addColor(pawnColor);
                         return winners.get(0);
                     }
                 }
@@ -37,7 +34,7 @@ public class ProfessorAssignor {
     }
 
     public boolean resetStrategy(){
-        this.professorStrategy = standardProfStrategy;
+        this.professorStrategy = new StandardProfStrategy();
         return true;
     }
 

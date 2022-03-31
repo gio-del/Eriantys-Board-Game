@@ -2,7 +2,6 @@ package it.polimi.ingsw.model.profassignment;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -72,8 +71,7 @@ public class ProfessorAssignorTest {
 
     @Test
     void farmerStrategy(){
-        FarmerProfStrategy farmerProfStrategy = new FarmerProfStrategy();
-        farmerProfStrategy.setPlayertie(player1);
+        FarmerProfStrategy farmerProfStrategy = new FarmerProfStrategy(player1);
         game.getProfessorAssignor().setProfessorStrategy(farmerProfStrategy);
         player1.getSchool().getHall().fastSetup(6,0,0,0,0);
         player2.getSchool().getHall().fastSetup(6,0,0,0,0);

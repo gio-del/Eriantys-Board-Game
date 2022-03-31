@@ -26,6 +26,19 @@ public class School {
         return profTable.getPawns();
     }
 
+    public Place getEntranceAsPlace(){
+        return entrance;
+    }
+
+    public Place getHallAsPlace(){
+        return hall;
+    }
+
+    public Place getProfTableAsPlace(){
+        return profTable;
+    }
+
+
     public boolean addProfessor(PawnColor pawnColor) {
         return profTable.add(new Pawns(pawnColor));
     }

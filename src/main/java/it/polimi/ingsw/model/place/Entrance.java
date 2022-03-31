@@ -6,10 +6,14 @@ import it.polimi.ingsw.model.pawns.Pawns;
 public class Entrance extends SchoolPlace {
     @Override
     public boolean add(Pawns pawns) {
-        if(super.getPawns().totalElements() + pawns.totalElements() > Constants.MaxStudentEntrance){
-            return false;
-        }
-        return super.getPawns().addPawns(pawns);
+        if(canBeMoved(pawns))
+            return super.getPawns().addPawns(pawns);
+        return false;
+    }
+
+    @Override
+    public boolean canBeMoved(Pawns pawns) {
+        return super.getPawns().totalElements() + pawns.totalElements() <= Constants.MaxStudentEntrance;
     }
 }
 

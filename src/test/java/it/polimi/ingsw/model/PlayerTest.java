@@ -25,8 +25,8 @@ public class PlayerTest {
         player1 = new Player("Mario", WIZ1, BLACK);
         player2 = new Player("Lorenzo",WIZ2, WHITE);
         player3 = new Player("Lorenzo",WIZ2, WHITE);
-        player1.getEntrance().addColor(GREEN,4);
-        player1.getEntrance().addColor(BLUE,1);
+        player1.getSchool().getEntrance().addColor(GREEN,4);
+        player1.getSchool().getEntrance().addColor(BLUE,1);
         pawns = new Pawns();
         pawns.addColor(GREEN,4);
         pawns.addColor(BLUE,1);
@@ -69,16 +69,16 @@ public class PlayerTest {
         boolean state;
         state = game.addCoin(player1,4);
         assertTrue(state);
-        assertEquals(player1.getPlayerBank(),5);
-        assertEquals(game.getGeneralBank(),15);
+        assertEquals(5,player1.getPlayerBank());
+        assertEquals(15,game.getGeneralBank());
         state = game.addCoin(player1,16);
         assertFalse(state);
-        assertEquals(player1.getPlayerBank(),5);
-        assertEquals(game.getGeneralBank(),15);
+        assertEquals(5,player1.getPlayerBank());
+        assertEquals(15,game.getGeneralBank());
         state = game.addCoin(player1,15);
         assertTrue(state);
-        assertEquals(player1.getPlayerBank(),20);
-        assertEquals(game.getGeneralBank(),0);
+        assertEquals(20,player1.getPlayerBank());
+        assertEquals(0,game.getGeneralBank());
     }
 
     @Test
@@ -114,9 +114,9 @@ public class PlayerTest {
 
     @Test
     void moveToIsland() {
-        assertEquals(pawns,player1.getEntrance());
+        assertEquals(pawns,player1.getSchool().getEntrance());
         player1.moveFromEntranceToIsland(pawns,island);
         assertEquals(pawns,island.getStudents());
-        assertEquals(player1.getEntrance().totalElements(),0);
+        assertEquals(player1.getSchool().getEntrance().totalElements(),0);
     }
 }

@@ -1,9 +1,12 @@
 package it.polimi.ingsw.model.character;
 
+import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.Place;
+
 import java.util.List;
 import java.util.Objects;
 
-public class CharacterCard {
+public class CharacterCard implements Place {
     private final String name;
     private final int cost;
     private final String description;
@@ -17,6 +20,39 @@ public class CharacterCard {
         this.description = description;
         this.actionType = actionType;
         this.characterPar = characterPar;
+    }
+
+    // TODO: CharacterCard can have Pawns on it so it is a place but not all Cards have Pawns...
+    @Override
+    public boolean remove(Pawns pawns) {
+        return false;
+    }
+
+    @Override
+    public boolean add(Pawns pawns) {
+        return false;
+    }
+
+    @Override
+    public boolean canBeMoved(Pawns pawns) {
+        return false;
+    }
+
+    @Override
+    public boolean canBeRemoved(Pawns pawns) {
+        return false;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public ActionType getActionType() {
+        return actionType;
+    }
+
+    public List<String> getCharacterPar() {
+        return characterPar;
     }
 
     @Override

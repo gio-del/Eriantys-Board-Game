@@ -9,11 +9,9 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
-import javafx.scene.input.TouchEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import static it.polimi.ingsw.constants.Constants.MaxNumOfCoins;
 
 public class Game {
@@ -39,7 +37,6 @@ public class Game {
         this.board = new Board();
         this.sack = new Sack();
         sack.initialFill();
-        board.initIslands(sack);
         sack.fill();
         this.generalBank = MaxNumOfCoins;
         this.clouds = new ArrayList<>();
@@ -51,6 +48,7 @@ public class Game {
             professors.addColor(pawnColor);
         }
         alreadyChoiceWizard.clear();
+        resetStrategies();
     }
 
     /**
@@ -92,7 +90,7 @@ public class Game {
         else{
             alreadyChoiceWizard.add(player.getWizard());
             this.players.add(player);
-            generalBank--;
+            generalBank -= 1;
             return true;
         }
     }
@@ -119,9 +117,10 @@ public class Game {
     /**
      *
      * @param player to be removed
-     * @return True if ok
+     * @return {@code true} if ok
      */
     public boolean removePlayer(Player player){
+        alreadyChoiceWizard.remove(player.getWizard());
         return players.remove(player);
     }
 
@@ -155,7 +154,8 @@ public class Game {
     }
 
     public boolean resetStrategies(){
-
+        board.resetStrategy();
+        professorAssignor.resetStrategy();
         return true;
     }
 
@@ -164,12 +164,15 @@ public class Game {
         return true;
     }
 
-    public Boolean moveMotherNature(int positions, Player player){
+    public boolean moveMotherNature(int positions, Player player){
+        // TODO: implement card to add 2 more possible steps
         int maxMove = player.getLastPlayedAssistant().movement();
+        TowerColor towerColor;
         if(positions <= maxMove && positions > 0){
-            board.moveMotherNature(positions, players);
+            towerColor = board.moveMotherNature(positions, players);
+            getPlayerByTowerColor(towerColor).backTowerToPlayer();
             return true;
-        } else { return false; }
+        } else return false;
     }
 
     public boolean addCoin(Player player, int coins) {
@@ -252,4 +255,5 @@ public class Game {
     public void setCurrentPlayer(Player player){
         currentPlayer = player;
     }
+
 }

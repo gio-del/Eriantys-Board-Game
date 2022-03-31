@@ -23,13 +23,13 @@ public class IslandTest {
 
     @Test
     void addStudentPawns(){
-        island.addStudent(exampleIsland);
+        island.add(exampleIsland);
         assertEquals(exampleIsland, island.getStudents());
     }
 
     @Test
     void addStudentColor(){
-        island.addStudent(GREEN);
+        island.add(GREEN);
         Pawns exampleIsland2 = new Pawns();
         exampleIsland2.addColor(GREEN,1);
         assertEquals(exampleIsland2, island.getStudents());

@@ -12,7 +12,7 @@ public class StandardProfStrategy implements ProfessorStrategy{
     public List<Player> colorProfessorCheck(List<Player> players, PawnColor pawnColor) {
         Map<Player, Integer> scores = new HashMap<>();
         for(Player player: players){
-            int playerStudents = player.getHall().getFromColor(pawnColor);
+            int playerStudents = player.getSchool().getHall().getFromColor(pawnColor);
             scores.put(player, playerStudents);
         }
         int winnervalue = (Collections.max(scores.values()));

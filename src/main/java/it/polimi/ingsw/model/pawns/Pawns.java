@@ -65,10 +65,16 @@ public class Pawns {
      * @return false if the operation is invalid, true otherwise
      */
     public boolean removePawns(Pawns pawns){
+        if(canBeRemoved(pawns)) {
+            Arrays.stream(values()).forEach(pawnColor -> state.put(pawnColor, state.get(pawnColor) - pawns.getFromColor(pawnColor)));
+            return true;
+        }
+        return false;
+    }
+
+    public boolean canBeRemoved(Pawns pawns){
         for(PawnColor pawnColor: PawnColor.values())
-            if (getFromColor(pawnColor) < pawns.getFromColor(pawnColor)) return false;
-        for(PawnColor pawnColor: PawnColor.values())
-            state.put(pawnColor, state.get(pawnColor) - pawns.getFromColor(pawnColor));
+            if(getFromColor(pawnColor) < pawns.getFromColor(pawnColor)) return false;
         return true;
     }
 
@@ -89,12 +95,12 @@ public class Pawns {
         return lastElement;
     }
 
-    public void fastSetup(int color1, int color2, int color3, int color4, int color5){
-        state.put(PawnColor.GREEN, color1);
-        state.put(PawnColor.RED, color2);
-        state.put(PawnColor.YELLOW, color3);
-        state.put(PawnColor.PINK, color4);
-        state.put(PawnColor.BLUE, color5);
+    public void fastSetup(int green, int red, int yellow, int pink, int blue){
+        state.put(PawnColor.GREEN, green);
+        state.put(PawnColor.RED, red);
+        state.put(PawnColor.YELLOW, yellow);
+        state.put(PawnColor.PINK, pink);
+        state.put(PawnColor.BLUE, blue);
     }
 
     @Override

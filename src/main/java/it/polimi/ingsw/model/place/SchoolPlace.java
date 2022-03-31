@@ -26,6 +26,16 @@ public abstract class SchoolPlace implements Place{
     }
 
     @Override
+    public boolean canBeMoved(Pawns pawns) {
+        return true;
+    }
+
+    @Override
+    public boolean canBeRemoved(Pawns pawns) {
+        return schoolPawns.canBeRemoved(pawns);
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
