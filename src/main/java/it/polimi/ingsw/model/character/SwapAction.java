@@ -15,8 +15,12 @@ public class SwapAction implements Action{
     }
 
     @Override
-    public boolean doAction() {
-        // TODO
+    public boolean apply() {
+        if(toBeSwappedFrom.totalElements() == toBeSwappedTo.totalElements())
+            return from.add(toBeSwappedTo) &&
+                    from.remove(toBeSwappedFrom) &&
+                    to.add(toBeSwappedFrom) &&
+                    to.remove(toBeSwappedTo);
         return false;
     }
 }

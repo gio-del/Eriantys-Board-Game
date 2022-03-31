@@ -14,8 +14,10 @@ public class MoveAction implements Action{
     }
 
     @Override
-    public boolean doAction() {
-        // TODO
+    public boolean apply() {
+        if(from.canBeRemoved(pawnsToBeMoved) && to.canBeMoved(pawnsToBeMoved)){
+            return from.remove(pawnsToBeMoved) && to.add(pawnsToBeMoved);
+        }
         return false;
     }
 }
