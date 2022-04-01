@@ -72,7 +72,7 @@ public class BoardTest {
 
     @Test
     void numberOfIslands(){
-        assertEquals(12, game.getBoard().getIslands().size());
+        assertEquals(12, game.getBoard().numberOfIslands());
     }
 
     @Test

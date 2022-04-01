@@ -1,7 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -81,17 +79,6 @@ public class GameTest {
     void nextPlayerLast(){
         game.setCurrentPlayer(game.getPlayers().get(0));
         assertEquals("Marco", game.nextPlayer().getPlayerName());
-    }
-
-    @Test
-    void professorsStart(){
-        Pawns pawns = new Pawns();
-        pawns.addColor(PawnColor.GREEN);
-        pawns.addColor(PawnColor.RED);
-        pawns.addColor(PawnColor.YELLOW);
-        pawns.addColor(PawnColor.PINK);
-        pawns.addColor(PawnColor.BLUE);
-        assertEquals(pawns, game.getProfessors());
     }
 
 }

@@ -17,6 +17,15 @@ public class Pawns {
         }
     }
 
+    public Pawns(int green, int red, int yellow, int pink, int blue){
+        state = new HashMap<>();
+        state.put(PawnColor.GREEN, green);
+        state.put(PawnColor.RED, red);
+        state.put(PawnColor.YELLOW, yellow);
+        state.put(PawnColor.PINK, pink);
+        state.put(PawnColor.BLUE, blue);
+    }
+
     public Pawns(PawnColor pawnColor) {
         this();
         state.put(pawnColor,1);

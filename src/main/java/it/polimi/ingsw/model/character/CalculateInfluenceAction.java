@@ -12,7 +12,7 @@ public class CalculateInfluenceAction implements Action{
     @Override
     public boolean apply() {
         /* TODO: this need a method in Board that let me call the calc of influence on a given Island*/
-        // board.calcInfluence(island); smth like that
+        // board.calcInfluence(island); something like that
         return false;
     }
 }

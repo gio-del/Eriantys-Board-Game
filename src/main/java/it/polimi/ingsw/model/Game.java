@@ -2,7 +2,6 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.CharactersDeck;
-import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.player.Player;
@@ -23,7 +22,6 @@ public class Game {
     private final CharactersDeck charactersDeck;
     private Player currentPlayer;
     private int generalBank;
-    private Pawns professors;
     private List<CharacterCard> characterInUse;
     private final ProfessorAssignor professorAssignor;
     private static final List<Wizard> alreadyChoiceWizard = new ArrayList<>();
@@ -36,17 +34,11 @@ public class Game {
         this.players = new ArrayList<>();
         this.board = new Board();
         this.sack = new Sack();
-        sack.initialFill();
-        sack.fill();
         this.generalBank = MaxNumOfCoins;
         this.clouds = new ArrayList<>();
         this.charactersDeck = new CharactersDeck();
         this.professorAssignor = new ProfessorAssignor();
         this.characterInUse = new ArrayList<>();
-        this.professors = new Pawns();
-        for(PawnColor pawnColor: PawnColor.values()){
-            professors.addColor(pawnColor);
-        }
         alreadyChoiceWizard.clear();
         resetStrategies();
     }
@@ -76,6 +68,8 @@ public class Game {
         CharactersDeck charactersDeck = new CharactersDeck();
         charactersDeck.init();
         characterInUse = charactersDeck.extractCharacterInUse();
+        sack.initialFill();
+        sack.fill();
     }
 
     /**
@@ -111,7 +105,6 @@ public class Game {
             currentPlayer = players.get(index + 1);
         }
         return currentPlayer;
-
     }
 
     /**
@@ -137,8 +130,6 @@ public class Game {
         }
         return null;
     }
-
-
 
     public Player getPlayerByTowerColor(TowerColor towerColor){
         for(Player player: players){
@@ -199,11 +190,6 @@ public class Game {
         return cloud.getStudentsAndRemove();
     }
 
-    public boolean move(Player player, Place from, Place to, Pawns pawns) {
-        // TODO
-        return true;
-    }
-
     public List<Player> getPlayers() {
         return players;
     }
@@ -224,10 +210,6 @@ public class Game {
         return clouds;
     }
 
-    public void removeProfessorGame(PawnColor pawnColor){
-        professors.removeColor(pawnColor);
-    }
-
     public CharactersDeck getCharacterDeck() {
         return charactersDeck;
     }
@@ -246,10 +228,6 @@ public class Game {
 
     public ProfessorAssignor getProfessorAssignor() {
         return professorAssignor;
-    }
-
-    public Pawns getProfessors() {
-        return professors;
     }
 
     public void setCurrentPlayer(Player player){

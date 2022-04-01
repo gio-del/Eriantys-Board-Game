@@ -10,12 +10,7 @@ public class PawnsTest {
 
     @BeforeEach
     void setUp() {
-        pawns = new Pawns();
-        pawns.addColor(PawnColor.BLUE,5);
-        pawns.addColor(PawnColor.YELLOW,6);
-        pawns.addColor(PawnColor.GREEN,3);
-        pawns.addColor(PawnColor.RED,7);
-        pawns.addColor(PawnColor.PINK,2);
+        pawns = new Pawns(3,7,6,2,5);
     }
 
     @Test

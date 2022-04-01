@@ -7,7 +7,7 @@ public class Entrance extends SchoolPlace {
     @Override
     public boolean add(Pawns pawns) {
         if(canBeMoved(pawns))
-            return super.getPawns().addPawns(pawns);
+            return super.add(pawns);
         return false;
     }
 

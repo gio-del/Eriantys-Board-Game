@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.profassignment;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,10 +30,6 @@ public class ProfessorAssignorTest {
         game.addPlayer(player3);
 
 
-
-        player1.getSchool().getHall().fastSetup(0,0,0,0,0);
-        player2.getSchool().getHall().fastSetup(0,0,0,0,0);
-        player3.getSchool().getHall().fastSetup(0,0,0,0,0);
     }
 
     @AfterEach
@@ -82,5 +79,11 @@ public class ProfessorAssignorTest {
     @Test
     void zeroPawns(){
         assertNull(game.getProfessorAssignor().colorProfessorChecker(PawnColor.GREEN, game.getPlayers()));
+    }
+
+    @Test
+    void professorsStart(){
+        Pawns pawns = new Pawns(1,1,1,1,1);
+        assertEquals(pawns,game.getProfessorAssignor().getProfsNotYetAssigned());
     }
 }

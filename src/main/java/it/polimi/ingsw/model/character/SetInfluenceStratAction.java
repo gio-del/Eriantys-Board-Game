@@ -21,7 +21,7 @@ public class SetInfluenceStratAction implements Action{
     public boolean apply() {
         // TODO: maybe influenceChoice is just character name, also remove hardcoded strings literal
         // TODO: where does blockedColor in MushroomSeller come from?
-        switch (influenceChoice){
+        switch (influenceChoice) {
             case "Centaur" -> board.setStrategy(new CentaurStrategy());
             case "Knight" -> board.setStrategy(new KnightStrategy(player.getColor()));
             case "MushroomSeller" -> board.setStrategy(new MushroomSellerStrategy()); // this need blockedColor
@@ -29,6 +29,6 @@ public class SetInfluenceStratAction implements Action{
                 return false;
             }
         }
-        return false;
+        return true;
     }
 }

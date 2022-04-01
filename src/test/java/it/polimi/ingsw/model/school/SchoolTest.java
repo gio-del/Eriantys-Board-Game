@@ -1,11 +1,9 @@
 package it.polimi.ingsw.model.school;
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.School;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 public class SchoolTest {
-    private School school1;
-    private School schoolInitial;
+    private School school;
     private Pawns example;
     private Pawns professorExample;
     private Pawns maxHall;
@@ -23,32 +20,16 @@ public class SchoolTest {
 
     @BeforeEach
     void setUp() {
-        school1 = new School();
-        schoolInitial = new School();
-        example = new Pawns();
-        example.addColor(GREEN,3);
-        example.addColor(BLUE,1);
-        example.addColor(YELLOW,4);
-        professorExample = new Pawns();
-        professorExample.addColor(GREEN);
-        professorExample.addColor(YELLOW);
-        professorExample.addColor(BLUE);
-        maxHall = new Pawns();
-        maxHall.addColor(GREEN,7);
-        maxHall.addColor(RED,7);
-        maxHall.addColor(PINK,7);
-        maxHall.addColor(YELLOW,7);
-        maxHall.addColor(BLUE,7);
-        overMax = new Pawns();
-        overMax.addColor(GREEN,10);
-        overMax.addColor(RED,10);
-        overMax.addColor(PINK,10);
-        overMax.addColor(YELLOW,10);
-        overMax.addColor(BLUE,10);
+        school = new School();
+        example = new Pawns(3,0,4,0,1);
+        professorExample = new Pawns(1,0,1,0,1);
+        maxHall = new Pawns(10,10,10,10,10);
+        overMax = new Pawns(10,10,10,10,11);
     }
 
     @Test
     void initialTest() {
+        School schoolInitial = new School();
         Pawns pawns = new Pawns();
         assertEquals(pawns,schoolInitial.getEntrance());
         assertEquals(pawns,schoolInitial.getHall());
@@ -56,81 +37,104 @@ public class SchoolTest {
     }
 
     @Test
-    void addStudentInHallTest() {
-        school1.addStudentInHall(example);
-        assertEquals(example,school1.getHall());
+    void addStudentInHallIfOKTest() {
+        school.addStudentInHall(example);
+        assertEquals(example, school.getHall());
     }
 
     @Test
-    void addStudentInEntranceTest() {
-        assertFalse(school1.addStudentInEntrance(example));
-        assertNotEquals(example,school1.getEntrance());
+    void addStudentInHallIfKOTest() {
+        assertFalse(school.addStudentInHall(overMax));
+        assertEquals(new Pawns(),school.getHall());
+    }
+
+    @Test
+    void addStudentInEntranceIfOKTest() {
+        example.removeColor(BLUE);
+        assertTrue(school.addStudentInEntrance(example));
+        assertEquals(example, school.getEntrance());
+    }
+
+    @Test
+    void addStudentInEntranceIfKOTest() {
+        assertFalse(school.addStudentInEntrance(example));
+        assertNotEquals(example, school.getEntrance());
     }
 
     @Test
     void addProfessorTest() {
         for(PawnColor pawnColor: PawnColor.values()){
             for(int i=0;i<example.getFromColor(pawnColor);i++) {
-                school1.addProfessor(pawnColor);
+                school.addProfessor(pawnColor);
             }
         }
-        assertNotEquals(example,school1.getProfessorTable());
-        assertEquals(professorExample,school1.getProfessorTable());
+        assertNotEquals(example, school.getProfessorTable());
+        assertEquals(professorExample, school.getProfessorTable());
     }
 
     @Test
     void removeProfessorTest() {
-        school1.addProfessor(GREEN);
-        school1.addProfessor(YELLOW);
-        school1.addProfessor(BLUE);
-        school1.addProfessor(RED);
-        school1.addProfessor(PINK);
-        assertNotEquals(professorExample,school1.getProfessorTable());
-        school1.removeProfessor(PINK);
-        assertNotEquals(professorExample,school1.getProfessorTable());
-        school1.removeProfessor(RED);
-        assertEquals(professorExample,school1.getProfessorTable());
+        school.addProfessor(GREEN);
+        school.addProfessor(YELLOW);
+        school.addProfessor(BLUE);
+        school.addProfessor(RED);
+        school.addProfessor(PINK);
+        assertNotEquals(professorExample, school.getProfessorTable());
+        school.removeProfessor(PINK);
+        assertNotEquals(professorExample, school.getProfessorTable());
+        school.removeProfessor(RED);
+        assertEquals(professorExample, school.getProfessorTable());
     }
 
     @Test
     void removeStudentFromEntranceTest() {
         Pawns empty = new Pawns();
-        assertEquals(empty,school1.getEntrance());
-        assertFalse(school1.addStudentInEntrance(example));
-        school1.removeStudentFromEntrance(example);
-        assertEquals(empty,school1.getEntrance());
+        assertEquals(empty, school.getEntrance());
+        assertFalse(school.addStudentInEntrance(example));
+        school.removeStudentFromEntrance(example);
+        assertEquals(empty, school.getEntrance());
     }
 
     @Test
     void removeStudentFromHallTest() {
         Pawns empty = new Pawns();
-        assertEquals(empty,school1.getHall());
-        school1.addStudentInHall(example);
-        assertNotEquals(empty,school1.getHall());
-        school1.removeStudentFromHall(example);
-        assertEquals(empty,school1.getHall());
+        assertEquals(empty, school.getHall());
+        school.addStudentInHall(example);
+        assertNotEquals(empty, school.getHall());
+        school.removeStudentFromHall(example);
+        assertEquals(empty, school.getHall());
     }
 
     @Test
-    void moveTest() {
-        Pawns empty = new Pawns();
-        assertFalse(school1.addStudentInEntrance(example));
-        assertNotEquals(example,school1.getEntrance());
-        assertEquals(empty,school1.getHall());
-        school1.moveStudentToHall(example);
-        assertEquals(empty,school1.getEntrance());
+    void moveIfOKTest() {
+        Pawns entrancePawns = new Pawns(1,2,1,2,1);
+        school.addStudentInEntrance(entrancePawns);
+        school.addStudentInHall(example);
+        school.moveStudentToHall(new Pawns(GREEN));
+        assertEquals(new Pawns(0,2,1,2,1),school.getEntrance());
+        assertEquals(new Pawns(4,0,4,0,1), school.getHall());
+    }
+
+    @Test
+    void moveIfKOTest() {
+        Pawns entrancePawns = new Pawns(1,2,1,2,1);
+        school.addStudentInEntrance(entrancePawns);
+        school.addStudentInHall(example);
+        school.moveStudentToHall(new Pawns(2,0,0,0,0));
+        assertEquals(new Pawns(1,2,1,2,1),school.getEntrance());
+        assertEquals(example, school.getHall());
     }
 
     @Test
     void booleanTest() {
         boolean result;
-        result = school1.addStudentInHall(maxHall);
+        result = school.addStudentInHall(maxHall);
         assertTrue(result);
-        result = school1.addStudentInEntrance(overMax);
+        result = school.addStudentInEntrance(overMax);
         assertFalse(result);
-        result = school1.removeStudentFromEntrance(overMax);
+        result = school.removeStudentFromEntrance(overMax);
         assertFalse(result);
-        result = school1.removeStudentFromHall(maxHall);
+        result = school.removeStudentFromHall(maxHall);
         assertTrue(result);
     }
 }
