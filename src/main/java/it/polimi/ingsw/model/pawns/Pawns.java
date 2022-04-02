@@ -4,12 +4,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 
+/**
+ * This class represents students (and professors) that are used in this game. Pawns is an HashMap between {@link PawnColor} and the number of students (or professor) in every location.
+ */
 public class Pawns {
     private final Map<PawnColor, Integer> state;
 
+    /**
+     * Constructs a new Pawns and initializes every {@link PawnColor} at {@code 0}.
+     */
     public Pawns() {
         state = new HashMap<>();
         for(PawnColor pawnColor: PawnColor.values()){
@@ -17,6 +22,15 @@ public class Pawns {
         }
     }
 
+    /**
+     * Constructs a new Pawns and initializes every {@link PawnColor} at the number passed as parameter.
+     *
+     * @param green the number of green pawns
+     * @param red the number of red pawns
+     * @param yellow the number of yellow pawns
+     * @param pink the number of pink pawns
+     * @param blue the number of blue pawns
+     */
     public Pawns(int green, int red, int yellow, int pink, int blue){
         state = new HashMap<>();
         state.put(PawnColor.GREEN, green);
@@ -26,35 +40,55 @@ public class Pawns {
         state.put(PawnColor.BLUE, blue);
     }
 
-    public Pawns(PawnColor pawnColor) {
-        this();
-        state.put(pawnColor,1);
-    }
-
+    /**
+     * This method return the number of pawns of the color passed as parameter.
+     *
+     * @param color of pawns looking for.
+     * @return number of pawns.
+     */
     public int getFromColor(PawnColor color) {
         return state.get(color);
     }
 
-    public Map<PawnColor, Integer> getMap(Map<PawnColor, Integer> state){
-        return state;
-    }
-
-
-
-
+    /**
+     * This method add {@code 1} pawn of a {@link PawnColor}.
+     *
+     * @param color to be added.
+     * @return true if the operation work correctly, false otherwise.
+     */
     public boolean addColor(PawnColor color) {
         return addColor(color,1);
     }
 
+    /**
+     * This method add a group of pawns of a {@link PawnColor} to Pawns.
+     *
+     * @param color of the pawns.
+     * @param numberOfPawn number of pawns of color to be added.
+     * @return true if the operation work correctly, false otherwise.
+     */
     public boolean addColor(PawnColor color, int numberOfPawn) {
         state.put(color,state.get(color)+numberOfPawn);
         return true;
     }
 
+    /**
+     * This method remove {@code 1} pawn of a {@link PawnColor}.
+     *
+     * @param color to be removed.
+     * @return true if the operation work correctly, false otherwise.
+     */
     public boolean removeColor(PawnColor color) {
         return removeColor(color,1);
     }
 
+    /**
+     * This method remove a group of pawns of a {@link PawnColor} to Pawns.
+     *
+     * @param color of the pawns.
+     * @param numberOfPawn number of pawns of color to be removed.
+     * @return true if the operation work correctly, false otherwise.
+     */
     public boolean removeColor(PawnColor color, int numberOfPawn) {
         if(state.get(color) >= numberOfPawn){
             state.put(color,state.get(color)-numberOfPawn);
@@ -63,15 +97,22 @@ public class Pawns {
         return false;
     }
 
+    /**
+     * This method add a group of pawns to Pawns.
+     *
+     * @param pawns to be added.
+     * @return true if the operation work correctly, false otherwise.
+     */
     public boolean addPawns(Pawns pawns) {
         Arrays.stream(values()).forEach(pawnColor -> state.put(pawnColor, state.get(pawnColor) + pawns.getFromColor(pawnColor)));
         return true;
     }
 
     /**
+     * This method remove a group of pawns from Pawns if they can be removed.
      *
-     * @param pawns to be removed from state
-     * @return false if the operation is invalid, true otherwise
+     * @param pawns to be removed from state.
+     * @return false if the operation is invalid, true otherwise.
      */
     public boolean removePawns(Pawns pawns){
         if(canBeRemoved(pawns)) {
@@ -81,13 +122,24 @@ public class Pawns {
         return false;
     }
 
+    /**
+     * This method says if a group of pawns can be removed from Pawns.
+     *
+     * @param pawns to check.
+     * @return false if the operation is invalid, true otherwise.
+     */
     public boolean canBeRemoved(Pawns pawns){
         for(PawnColor pawnColor: PawnColor.values())
             if(getFromColor(pawnColor) < pawns.getFromColor(pawnColor)) return false;
         return true;
     }
 
-    public int totalElements(){
+    /**
+     * This method return the number of elements presents in a pawn (no distinction of {@link PawnColor}).
+     *
+     * @return number of total elements.
+     */
+    public int totalElements() {
         return Arrays.stream(values()).mapToInt(state::get).sum();
     }
 
@@ -104,7 +156,16 @@ public class Pawns {
         return lastElement;
     }
 
-    public void fastSetup(int green, int red, int yellow, int pink, int blue){
+    /**
+     * This method is a fast way to reinitialize every {@link PawnColor} at the number passed as parameter.
+     *
+     * @param green the number of green pawns.
+     * @param red the number of red pawns.
+     * @param yellow the number of yellow pawns.
+     * @param pink the number of pink pawns.
+     * @param blue the number of blue pawns.
+     */
+    public void fastSetup(int green, int red, int yellow, int pink, int blue) {
         state.put(PawnColor.GREEN, green);
         state.put(PawnColor.RED, red);
         state.put(PawnColor.YELLOW, yellow);

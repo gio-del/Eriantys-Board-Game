@@ -6,12 +6,14 @@ import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static it.polimi.ingsw.model.player.Assistant.*;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 import static it.polimi.ingsw.model.player.Wizard.*;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * This class tests the {@link Player} methods.
+ */
 public class PlayerTest {
     private Game game;
     private Player player1;
@@ -40,59 +42,45 @@ public class PlayerTest {
         Game.resetInstance();
     }
 
+    /**
+     * This method tests getPlayerName.
+     */
     @Test
     void playerNameTest() {
         assertEquals("Mario",player1.getPlayerName());
         assertEquals("Lorenzo",player2.getPlayerName());
     }
 
+    /**
+     * This method tests getColor.
+     */
     @Test
     void colorTest() {
         assertEquals(BLACK,player1.getColor());
         assertEquals(WHITE,player2.getColor());
     }
 
+    /**
+     * This method tests getWizard.
+     */
     @Test
     void wizardTest() {
         assertEquals(WIZ1,player1.getWizard());
         assertEquals(WIZ2,player2.getWizard());
     }
 
+    /**
+     * This method tests getPlayerBank.
+     */
     @Test
     void initialBankTest() {
         assertEquals(1,player1.getPlayerBank());
         assertEquals(1,player2.getPlayerBank());
     }
 
-    @Test
-    void addCoinTest() {
-        boolean state;
-        state = game.addCoin(player1,4);
-        assertTrue(state);
-        assertEquals(5,player1.getPlayerBank());
-        assertEquals(15,game.getGeneralBank());
-        state = game.addCoin(player1,16);
-        assertFalse(state);
-        assertEquals(5,player1.getPlayerBank());
-        assertEquals(15,game.getGeneralBank());
-        state = game.addCoin(player1,15);
-        assertTrue(state);
-        assertEquals(20,player1.getPlayerBank());
-        assertEquals(0,game.getGeneralBank());
-    }
-
-    @Test
-    void removeCoinTest() {
-        boolean state;
-        state = game.removeCoin(player1,2);
-        assertFalse(state);
-        assertEquals(player1.getPlayerBank(),1);
-        game.addCoin(player1,9);
-        state = game.removeCoin(player1,5);
-        assertTrue(state);
-        assertEquals(game.getGeneralBank(),15);
-    }
-
+    /**
+     * This method tests getHand and playAssistant.
+     */
     @Test
     void playAssistantTest() {
         int valueTest;
@@ -103,6 +91,9 @@ public class PlayerTest {
         assertEquals(initialHandSize,player1.getHand().size()+1);
     }
 
+    /**
+     * This method tests equals.
+     */
     @Test
     void equalsTest() {
         boolean equals;
@@ -112,6 +103,9 @@ public class PlayerTest {
         assertTrue(equals);
     }
 
+    /**
+     * This method tests moveToIsland.
+     */
     @Test
     void moveToIsland() {
         assertEquals(pawns,player1.getSchool().getEntrance());

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -13,14 +12,15 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
     private Game game;
+    private Player p1;
+    private Player p2;
 
     @BeforeEach
     void setUp() {
         game = Game.getInstance();
 
-        Player p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
-        Player p2 = new Player("Marco", Wizard.WIZ2,TowerColor.GRAY);
-
+        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
+        p2 = new Player("Marco", Wizard.WIZ2,TowerColor.GRAY);
 
         game.addPlayer(p1);
         game.addPlayer(p2);
@@ -94,5 +94,38 @@ public class GameTest {
         assertFalse(game.moveMotherNature(2, game.getPlayers().get(0)));
     }
 
+    /**
+     * This method tests addCoin.
+     */
+    @Test
+    void addCoinTest() {
+        boolean state;
+        state = game.addCoin(p1,4);
+        assertTrue(state);
+        assertEquals(5,p1.getPlayerBank());
+        assertEquals(14,game.getGeneralBank());
+        state = game.addCoin(p1,16);
+        assertFalse(state);
+        assertEquals(5,p1.getPlayerBank());
+        assertEquals(14,game.getGeneralBank());
+        state = game.addCoin(p1,14);
+        assertTrue(state);
+        assertEquals(19,p1.getPlayerBank());
+        assertEquals(0,game.getGeneralBank());
+    }
 
+    /**
+     * This method tests removeCoin.
+     */
+    @Test
+    void removeCoinTest() {
+        boolean state;
+        state = game.removeCoin(p1,2);
+        assertFalse(state);
+        assertEquals(p1.getPlayerBank(),1);
+        game.addCoin(p1,9);
+        state = game.removeCoin(p1,5);
+        assertTrue(state);
+        assertEquals(game.getGeneralBank(),14);
+    }
 }

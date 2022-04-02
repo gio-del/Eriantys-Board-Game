@@ -2,9 +2,11 @@ package it.polimi.ingsw.model.pawns;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+/**
+ * This class tests the {@link Pawns} methods.
+ */
 public class PawnsTest {
     Pawns pawns;
 
@@ -13,6 +15,9 @@ public class PawnsTest {
         pawns = new Pawns(3,7,6,2,5);
     }
 
+    /**
+     * This method tests getFromColor.
+     */
     @Test
     void getFromColorTest() {
         assertEquals(5,pawns.getFromColor(PawnColor.BLUE));
@@ -22,17 +27,26 @@ public class PawnsTest {
         assertEquals(2,pawns.getFromColor(PawnColor.PINK));
     }
 
+    /**
+     * This method tests totalElements.
+     */
     @Test
     void totalElementsTest() {
         assertEquals(23,pawns.totalElements());
     }
 
+    /**
+     * This method tests removeColor.
+     */
     @Test
     void removeColorTest() {
         pawns.removeColor(PawnColor.BLUE);
         assertEquals(4,pawns.getFromColor(PawnColor.BLUE));
     }
 
+    /**
+     * This method tests addColor and addPawns.
+     */
     @Test
     void addPawnsTest() {
         Pawns p2 = new Pawns();
