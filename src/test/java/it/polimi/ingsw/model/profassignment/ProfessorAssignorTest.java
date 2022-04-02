@@ -67,6 +67,16 @@ public class ProfessorAssignorTest {
     }
 
     @Test
+    void gainProfessor(){
+        player1.getSchool().getHall().fastSetup(1,0,0,0,0);
+        game.getProfessorAssignor().colorProfessorChecker(PawnColor.GREEN, game.getPlayers());
+        player1.getSchool().getHall().fastSetup(5,0,0,0,0);
+        player2.getSchool().getHall().fastSetup(6,0,0,0,0);
+        player3.getSchool().getHall().fastSetup(7,0,0,0,0);
+        assertEquals(player3, game.getProfessorAssignor().colorProfessorChecker(PawnColor.GREEN, game.getPlayers()));
+    }
+
+    @Test
     void farmerStrategy(){
         FarmerProfStrategy farmerProfStrategy = new FarmerProfStrategy(player1);
         game.getProfessorAssignor().setProfessorStrategy(farmerProfStrategy);

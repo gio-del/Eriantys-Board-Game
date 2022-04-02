@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -80,5 +82,17 @@ public class GameTest {
         game.setCurrentPlayer(game.getPlayers().get(0));
         assertEquals("Marco", game.nextPlayer().getPlayerName());
     }
+
+    /**
+     * Testing
+     */
+    @Test
+    void moveMotherNature(){
+        game.getPlayers().get(0).playAssistant(Assistant.ELEPHANT);
+        assertTrue(game.moveMotherNature(1, game.getPlayers().get(0)));
+        assertFalse(game.moveMotherNature(0, game.getPlayers().get(0)));
+        assertFalse(game.moveMotherNature(2, game.getPlayers().get(0)));
+    }
+
 
 }

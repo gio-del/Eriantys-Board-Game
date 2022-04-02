@@ -8,11 +8,20 @@ import it.polimi.ingsw.model.player.TowerColor;
 
 import java.util.*;
 
-public class Board {
-    private ArrayList<Island> islands;
+/**
+ * This class rappresents the Board with the islands inside
+ * Knows where's MotherNature and has knows the strategies to calculate the influences
+ */
+public class Board{
+    private List<Island> islands;
     private int motherNaturePos;
     private InfluenceStrategy influenceStrategy;
 
+    /**
+     *
+     * Initiate the board with 12 Islands, set Strategy at standard and motherNature
+     * on the first island of the ArrayList
+     */
     public Board(){
         this.islands = new ArrayList<>(Constants.MAX_ISLAND);
         for(int i = 0; i < Constants.MAX_ISLAND; i++){
@@ -23,6 +32,10 @@ public class Board {
 
     }
 
+    /**
+     *
+     * @param sack from which the island will draw the pawns
+     */
     public void initIslands(Sack sack) {
         // TODO: this must be called in constructor or separated?
         for(int i = 1; i < Constants.MAX_ISLAND; i++){
@@ -32,6 +45,37 @@ public class Board {
         }
     }
 
+
+    /**
+     *
+     * Used to calculate if some adjacent islands as the same tower
+     */
+
+    public void adjacenciesUpdate(){
+        for (int i = 0; i < islands.size(); i++) {
+            if (i == islands.size() - 1) {
+                if (islands.get(i).getTower().equals(islands.get(0).getTower()) && islands.get(i).getTower().isPresent()) {
+                    islands.get(0).add(islands.get(i).getStudents());
+                    islands.get(0).upgradeDimension(islands.get(i).getDimension());
+                    islands.remove(i);
+                }
+            } else {
+                if (islands.get(i).getTower().equals(islands.get(i + 1).getTower()) && islands.get(i).getTower().isPresent()) {
+                    islands.get(i).add(islands.get(i + 1).getStudents());
+                    islands.get(i).upgradeDimension(islands.get(i + 1).getDimension());
+                    islands.remove(i + 1);
+                    i = i - 1;
+                }
+            }
+        }
+    }
+
+    /**
+     * Move mother nature, calculate winners, update towers, update adjacies
+     * @param steps to move mothernature
+     * @param players in the game
+     * @return the TowerColor of the winner if present, null otherwise
+     */
     public TowerColor moveMotherNature(int steps, List<Player> players){
         int index = motherNaturePos;
         if((index + steps) > islands.size() - 1){
@@ -42,13 +86,23 @@ public class Board {
         Island island = islands.get(motherNaturePos);
         Map<Player, Integer> scores = influenceStrategy.getScores(island, players);
         List<Player> winners = getWinners(scores);
-        return island.conquerIsland(winners, players);
+        TowerColor winner = island.conquerIsland(winners, players);
+        if(winner != null){
+            adjacenciesUpdate();
+        }
+        return winner;
     }
 
-    private List<Player> getWinners(Map<Player, Integer> score){
-        int winnerValue = (Collections.max(score.values()));
+    /**
+     * private to calculate the winners from the scores
+     * @param scores for each player
+     * @return the player or players with the highest points
+     */
+
+    private List<Player> getWinners(Map<Player, Integer> scores){
+        int winnerValue = (Collections.max(scores.values()));
         List<Player> winners = new ArrayList<>();
-        for (Map.Entry<Player, Integer> entry : score.entrySet())
+        for (Map.Entry<Player, Integer> entry : scores.entrySet())
             if (entry.getValue().equals(winnerValue))
                 winners.add(entry.getKey());
         return winners;
@@ -58,38 +112,50 @@ public class Board {
         return islands.size();
     }
 
-    public void useIsland(Island island){
-        // TODO
-    }
-
-    public void adjacenciesUpdate(){
-        // TODO
-        List<TowerColor> towerColorList = new ArrayList<>();
-        for(Island island: islands){
-            island.getTower().ifPresent(towerColorList::add);
-        }
-    }
-
+    /**
+     * Method used to change the actual strategy
+     * @param influenceStrategy the concrete strategy to be created
+     */
     public void setStrategy(InfluenceStrategy influenceStrategy){
         this.influenceStrategy = influenceStrategy;
     }
 
+    /**
+     * reset the influenceStrategy at Standard
+     */
     public void resetStrategy(){
         this.influenceStrategy = new StandardStrategy();
     }
 
-    public ArrayList<Island> getIslands() {
+    /**
+     * return the strategy to calculate the influences during this turn
+     * @return strategy of the turn
+     */
+    public InfluenceStrategy getInfluenceStrategy() {
+        return influenceStrategy;
+    }
+
+    /**
+     * Return List of islands
+     * @return list of islands
+     */
+    public List<Island> getIslands() {
         return islands;
     }
 
-    public Island getSpecificIsland(int index) {
-        return islands.get(index);
-    }
 
+    /**
+     * set the position of motherNature for the tests
+     * @param motherNaturePos index of the island
+     */
     public void setMotherNaturePos(int motherNaturePos) {
         this.motherNaturePos = motherNaturePos;
     }
 
+    /**
+     *
+     * @return the actual position of MotherNature
+     */
     public int getMotherNaturePos() {
         return motherNaturePos;
     }

@@ -131,6 +131,11 @@ public class Game {
         return null;
     }
 
+    /**
+     * To find the player with a specific towercolor
+     * @param towerColor of the player to be found
+     * @return the player
+     */
     public Player getPlayerByTowerColor(TowerColor towerColor){
         for(Player player: players){
             if(player.getColor().equals(towerColor)){
@@ -140,10 +145,15 @@ public class Game {
         return null;
     }
 
+
     public void depositInBank(int deposit){
         this.generalBank += deposit;
     }
 
+    /**
+     * To reset all the strategies to the standard ones
+     * @return true when done
+     */
     public boolean resetStrategies(){
         board.resetStrategy();
         professorAssignor.resetStrategy();
@@ -155,17 +165,27 @@ public class Game {
         return true;
     }
 
-    public boolean moveMotherNature(int positions, Player player){
+    /**
+     * Check if is possible to move motherNature of specified steps
+     * @param steps that the player wants motherNature to do
+     * @param player going to perform the action
+     * @return true and perform the movement, false if not possible
+     */
+    public boolean moveMotherNature(int steps, Player player){
         // TODO: implement card to add 2 more possible steps
         int maxMove = player.getLastPlayedAssistant().movement();
-        TowerColor towerColor;
-        if(positions <= maxMove && positions > 0){
-            towerColor = board.moveMotherNature(positions, players);
-            getPlayerByTowerColor(towerColor).backTowerToPlayer();
+        if(steps <= maxMove && steps > 0){
+            board.moveMotherNature(steps, players);
             return true;
         } else return false;
     }
 
+    /**
+     * To add a coin to a specific Player
+     * @param player that is receiving the amount
+     * @param coins is the amount
+     * @return true if there is enough coins to be given, false otherwise
+     */
     public boolean addCoin(Player player, int coins) {
         if (generalBank >= coins) {
             int newAmount = player.getPlayerBank() + coins;
@@ -176,6 +196,12 @@ public class Game {
         return false;
     }
 
+    /**
+     * To remove a coin from a specific Player
+     * @param player that spend the amount
+     * @param coins is the amount
+     * @return true if the player ha enough money, false otherwise
+     */
     public boolean removeCoin(Player player, int coins) {
         int newAmount = player.getPlayerBank() - coins;
         if (newAmount>0) {
@@ -186,45 +212,79 @@ public class Game {
         return false;
     }
 
+    /**
+     * To pick pawns from a cloud
+     * @param cloud chosen
+     * @return the pawns of the cloud
+     */
     public Pawns pickFromCloud(Cloud cloud){
         return cloud.getStudentsAndRemove();
     }
 
+    /**
+     *
+     * @return list of players
+     */
     public List<Player> getPlayers() {
         return players;
     }
 
+    /**
+     *
+     * @return the board of the game
+     */
     public Board getBoard() {
         return board;
     }
 
-    public int getNumPlayer() {
-        return players.size();
-    }
-
+    /**
+     *
+     * @return the sack of the game
+     */
     public Sack getSack() {
         return sack;
     }
 
+    /**
+     *
+     * @return the clouds
+     */
     public List<Cloud> getClouds() {
         return clouds;
     }
 
+    /**
+     *
+     * @return the Deck of the characters
+     */
     public CharactersDeck getCharacterDeck() {
         return charactersDeck;
     }
 
+    /**
+     *
+     * @return the current playing character
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     *
+     * @return the amount in the general bank
+     */
     public int getGeneralBank() {
         return generalBank;
     }
 
+    /**
+     *
+     * @return the character available in this game
+     */
     public List<CharacterCard> getCharacterInUse() {
         return characterInUse;
     }
+
 
     public ProfessorAssignor getProfessorAssignor() {
         return professorAssignor;

@@ -151,4 +151,111 @@ public class BoardTest {
         game.getBoard().setMotherNaturePos(10);
         assertEquals(BLACK, game.getBoard().moveMotherNature(3, game.getPlayers()));
     }
+
+    @Test
+    void twoIslandsMergeMiddle(){
+        Board board2 = new Board();
+        board2.getIslands().get(0).addTower(BLACK);
+        board2.getIslands().get(1).addTower(BLACK);
+        board2.getIslands().get(2).addTower(WHITE);
+        for(Island island: board2.getIslands()){
+            System.out.println(board2.getIslands().indexOf(island) + " " + island);
+        }
+        board2.adjacenciesUpdate();
+        for(Island island: board2.getIslands()){
+            System.out.println(board2.getIslands().indexOf(island) + " " + island);
+        }
+        assertEquals(11, board2.getIslands().size());
+    }
+
+    /**
+     * Testing the case of three adjacent islands with the same TowerColor
+     * Case with the Last two and the first of the ArrayList with the same Towercolor
+     */
+    @Test
+    void threeIslandsLastThenFirst(){
+        Board board2 = new Board();
+        board2.getIslands().get(10).addTower(BLACK);
+        board2.getIslands().get(11).addTower(BLACK);
+        board2.getIslands().get(0).addTower(BLACK);
+        for(Island island: board2.getIslands()){
+            System.out.println(board2.getIslands().indexOf(island) + " " + island);
+        }
+        board2.adjacenciesUpdate();
+        assertEquals(10, board2.getIslands().size());
+        for(Island island: board2.getIslands()){
+            System.out.println(board2.getIslands().indexOf(island) + " " + island);
+        }
+    }
+
+    /**
+     * Testing the case of three adjacent islands with the same TowerColor
+     * Case with three Islands adjacent in the middle of the ArrayList
+     */
+    @Test
+    void threeIslandsMiddle(){
+        Board board2 = new Board();
+        board2.getIslands().get(5).addTower(BLACK);
+        board2.getIslands().get(6).addTower(BLACK);
+        board2.getIslands().get(7).addTower(BLACK);
+        for(Island island: board2.getIslands()){
+            System.out.println(board2.getIslands().indexOf(island) + " " + island);
+        }
+        board2.adjacenciesUpdate();
+        assertEquals(10, board2.getIslands().size());
+        for(Island island: board2.getIslands()){
+            System.out.println(board2.getIslands().indexOf(island) + " " + island);
+        }
+    }
+
+    /**
+     * Testing the act by the WHITE of conquering an Island with a BLACK tower on it
+     * Before moving motherNature: island(3): WHITE | island(4): BLACK | island(5): WHITE
+     * After moving motherNature: island(3): WHITE (of dimension of 3)
+     */
+    @Test
+    void conquerIslandAndTriggerAdjancies(){
+        game.getBoard().setMotherNaturePos(2);
+        Island island = game.getBoard().getIslands().get(4);
+        island.addTower(BLACK);
+        game.getBoard().getIslands().get(3).addTower(WHITE);
+        game.getBoard().getIslands().get(5).addTower(WHITE);
+        game.getBoard().moveMotherNature(2, game.getPlayers());
+        assertEquals(10, game.getBoard().getIslands().size());
+    }
+
+    /**
+     * Testing the sum of the Pawns during an adjancesUpdate
+     * 3 adjacent islands with the same tower updating to 1 island with
+     * the sum of all the previous pawns
+     */
+
+    @Test
+    void sumOfPawns(){
+        game.getBoard().setMotherNaturePos(2);
+        Island island = game.getBoard().getIslands().get(4);
+        island.addTower(BLACK);
+
+        Island island3 = game.getBoard().getIslands().get(3);
+        Pawns exampleIsland3 = new Pawns();
+        exampleIsland3.fastSetup(1,3,5,2,3);
+        island3.add(exampleIsland3);
+        island3.addTower(WHITE);
+
+
+        Island island5 = game.getBoard().getIslands().get(5);
+        Pawns exampleIsland5 = new Pawns();
+        exampleIsland5.fastSetup(3,1,4,1,6);
+        island5.add(exampleIsland5);
+        island5.addTower(WHITE);
+        game.getBoard().moveMotherNature(2, game.getPlayers());
+
+        assertEquals(4, game.getBoard().getIslands().get(3).getStudents().getFromColor(GREEN));
+        assertEquals(4, game.getBoard().getIslands().get(3).getStudents().getFromColor(RED));
+        assertEquals(10, game.getBoard().getIslands().get(3).getStudents().getFromColor(YELLOW));
+        assertEquals(3, game.getBoard().getIslands().get(3).getStudents().getFromColor(PINK));
+        assertEquals(12, game.getBoard().getIslands().get(3).getStudents().getFromColor(BLUE));
+    }
+
+
 }
