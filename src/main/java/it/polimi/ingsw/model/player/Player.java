@@ -2,11 +2,12 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.place.School;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import static it.polimi.ingsw.model.player.Assistant.*;
 
@@ -15,7 +16,7 @@ import static it.polimi.ingsw.model.player.Assistant.*;
  */
 public class Player {
     private final String playerName;
-    private ArrayList<Assistant> hand = new ArrayList<>();
+    private final ArrayList<Assistant> hand = new ArrayList<>();
     private final Wizard wizard;
     private int bank;
     private int towerNum;
@@ -32,6 +33,7 @@ public class Player {
         // TODO: move TowerNum to school
         towerNum = 8;   //TODO: 3 players has 6 towers, if 4 players only 1 TeamMate have towers -> add TEAM ENUM?
         hand.addAll(Arrays.stream(values()).toList());
+        HallObserver.addPlayer(this);
     }
 
     /**
@@ -123,7 +125,7 @@ public class Player {
      *
      * @return an ArrayList of player's Assistant cards.
      */
-    public ArrayList<Assistant> getHand() {
+    public List<Assistant> getHand() {
         return hand;
     }
 
@@ -134,7 +136,7 @@ public class Player {
      * @return false if the operation is invalid, true otherwise.
      */
     public boolean moveFromEntranceToHall(Pawns pawns){
-        return school.moveStudentToHall(pawns);   //TODO: add coin for 3,6,9 students of each color. hp: exception, move method in game, controller.
+        return school.moveStudentToHall(pawns);   //TODO: add coin for 3,6,9 students of each color. The HallObserver can handle this stuff
     }
 
     /**

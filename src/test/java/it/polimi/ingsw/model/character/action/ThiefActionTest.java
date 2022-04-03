@@ -17,7 +17,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ThiefActionTest {
-    private Game game;
     private List<Player> players;
     Player p1;
     Player p2;
@@ -28,12 +27,11 @@ public class ThiefActionTest {
         p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
         p2 = new Player("Mario", Wizard.WIZ2, TowerColor.GRAY);
 
-        Pawns pawns1 = new Pawns();
-        pawns1.fastSetup(8,6,5,3,2);
-        p1.getSchool().addStudentInHall(pawns1);
-        Pawns pawns2 = new Pawns();
-        pawns2.fastSetup(1,5,3,6,7);
-        p2.getSchool().addStudentInHall(pawns2);
+        Pawns pawns1 = new Pawns(8,6,5,3,2);
+        p1.getSchool().getHall().addPawns(pawns1);
+
+        Pawns pawns2 = new Pawns(1,5,3,6,7);
+        p2.getSchool().getHall().addPawns(pawns2);
 
         Game.getInstance().addPlayer(p1);
         Game.getInstance().addPlayer(p2);
@@ -49,11 +47,11 @@ public class ThiefActionTest {
     void thiefTest() {
         Action action = new ThiefAction(PawnColor.GREEN,players);
         action.apply();
-        Pawns pawnsExpectedP1 = new Pawns();
-        pawnsExpectedP1.fastSetup(5,6,5,3,2);
+
+        Pawns pawnsExpectedP1 = new Pawns(5,6,5,3,2);
         assertEquals(pawnsExpectedP1,p1.getSchool().getHall());
-        Pawns pawnsExpectedP2 = new Pawns();
-        pawnsExpectedP2.fastSetup(0,5,3,6,7);
+
+        Pawns pawnsExpectedP2 = new Pawns(0,5,3,6,7);
         assertEquals(pawnsExpectedP2,p2.getSchool().getHall());
     }
 }

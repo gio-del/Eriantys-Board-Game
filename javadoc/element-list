@@ -1,0 +1,11 @@
+it.polimi.ingsw.constants
+it.polimi.ingsw.model
+it.polimi.ingsw.model.character
+it.polimi.ingsw.model.character.action
+it.polimi.ingsw.model.influencecalculator
+it.polimi.ingsw.model.pawns
+it.polimi.ingsw.model.place
+it.polimi.ingsw.model.player
+it.polimi.ingsw.model.profassignment
+it.polimi.ingsw.model.school
+it.polimi.ingsw.utils

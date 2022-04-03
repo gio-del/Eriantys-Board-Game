@@ -10,11 +10,13 @@ import java.util.stream.IntStream;
  */
 public class Sack {
     private final Pawns sackPawns;
+    private final Random random;
 
     /**
      * Constructs a new Sack that has a {@link Pawns} of students, every {@link PawnColor} is initialized at {@code 0}.
      */
     public Sack() {
+        random = new Random();
         this.sackPawns = new Pawns();
     }
 
@@ -42,7 +44,6 @@ public class Sack {
      * @return {@code 1} pawn.
      */
     public PawnColor extract(){
-        Random random = new Random();
         PawnColor extracted = sackPawns.getByIndex(random.nextInt(sackPawns.totalElements()));
         sackPawns.removeColor(extracted);
         return extracted;

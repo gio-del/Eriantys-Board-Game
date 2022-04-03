@@ -38,30 +38,25 @@ public class BoardTest {
         game.addPlayer(player2);
         game.addPlayer(player3);
 
-        example1 = new Pawns();
-        example1.fastSetup(3,0,4,0,2);
-        player1.getSchool().addStudentInHall(example1);
+        example1 = new Pawns(3,0,4,0,2);
+        player1.getSchool().getHall().addPawns(example1);
         player1.getSchool().addProfessor(GREEN);
         player1.getSchool().addProfessor(YELLOW);
 
-        example2 = new Pawns();
-        example2.fastSetup(2,0,1,0,4);
-        player2.getSchool().addStudentInHall(example2);
+        example2 = new Pawns(2,0,1,0,4);
+        player2.getSchool().getHall().addPawns(example2);
         player2.getSchool().addProfessor(BLUE);
 
-        example3 = new Pawns();
-        example3.fastSetup(1,0,1,0,1);
-        player3.getSchool().addStudentInHall(example3);
+        example3 = new Pawns(1,0,1,0,1);
+        player3.getSchool().getHall().addPawns(example3);
 
 
         island = game.getBoard().getIslands().get(4);
-        Pawns exampleIsland = new Pawns();
-        exampleIsland.fastSetup(0,0,1,0,3);
+        Pawns exampleIsland = new Pawns(0,0,1,0,3);
         island.add(exampleIsland);
 
         island = game.getBoard().getIslands().get(1);
-        Pawns exampleIsland2 = new Pawns();
-        exampleIsland2.fastSetup(1,0,1,0,3);
+        Pawns exampleIsland2 = new Pawns(1,0,1,0,3);
         island.add(exampleIsland2);
     }
 
@@ -158,19 +153,15 @@ public class BoardTest {
         board2.getIslands().get(0).addTower(BLACK);
         board2.getIslands().get(1).addTower(BLACK);
         board2.getIslands().get(2).addTower(WHITE);
-        for(Island island: board2.getIslands()){
-            System.out.println(board2.getIslands().indexOf(island) + " " + island);
-        }
+
         board2.adjacenciesUpdate();
-        for(Island island: board2.getIslands()){
-            System.out.println(board2.getIslands().indexOf(island) + " " + island);
-        }
+
         assertEquals(11, board2.getIslands().size());
     }
 
     /**
      * Testing the case of three adjacent islands with the same TowerColor
-     * Case with the Last two and the first of the ArrayList with the same Towercolor
+     * Case with the Last two and the first of the ArrayList with the same TowerColor
      */
     @Test
     void threeIslandsLastThenFirst(){
@@ -178,14 +169,10 @@ public class BoardTest {
         board2.getIslands().get(10).addTower(BLACK);
         board2.getIslands().get(11).addTower(BLACK);
         board2.getIslands().get(0).addTower(BLACK);
-        for(Island island: board2.getIslands()){
-            System.out.println(board2.getIslands().indexOf(island) + " " + island);
-        }
+
         board2.adjacenciesUpdate();
         assertEquals(10, board2.getIslands().size());
-        for(Island island: board2.getIslands()){
-            System.out.println(board2.getIslands().indexOf(island) + " " + island);
-        }
+
     }
 
     /**
@@ -198,14 +185,10 @@ public class BoardTest {
         board2.getIslands().get(5).addTower(BLACK);
         board2.getIslands().get(6).addTower(BLACK);
         board2.getIslands().get(7).addTower(BLACK);
-        for(Island island: board2.getIslands()){
-            System.out.println(board2.getIslands().indexOf(island) + " " + island);
-        }
+
         board2.adjacenciesUpdate();
         assertEquals(10, board2.getIslands().size());
-        for(Island island: board2.getIslands()){
-            System.out.println(board2.getIslands().indexOf(island) + " " + island);
-        }
+
     }
 
     /**
@@ -238,14 +221,14 @@ public class BoardTest {
 
         Island island3 = game.getBoard().getIslands().get(3);
         Pawns exampleIsland3 = new Pawns();
-        exampleIsland3.fastSetup(1,3,5,2,3);
+        exampleIsland3.addPawns(new Pawns(1,3,5,2,3));
         island3.add(exampleIsland3);
         island3.addTower(WHITE);
 
 
         Island island5 = game.getBoard().getIslands().get(5);
         Pawns exampleIsland5 = new Pawns();
-        exampleIsland5.fastSetup(3,1,4,1,6);
+        exampleIsland5.addPawns(new Pawns(3,1,4,1,6));
         island5.add(exampleIsland5);
         island5.addTower(WHITE);
         game.getBoard().moveMotherNature(2, game.getPlayers());

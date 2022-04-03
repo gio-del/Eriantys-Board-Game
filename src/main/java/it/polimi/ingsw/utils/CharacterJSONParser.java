@@ -12,6 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CharacterJSONParser {
+
+    private CharacterJSONParser(){}
+
     public static List<CharacterCard> parseCharacters(String filePath) {
         Gson gson = new Gson();
         Type charList = new TypeToken<ArrayList<CharacterCard>>(){}.getType();

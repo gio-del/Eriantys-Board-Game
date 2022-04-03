@@ -15,7 +15,8 @@ public enum Assistant {
     OSTRICH(9,5),
     LION(10,5);
 
-    private final int value,movement;
+    private final int value;
+    private final int movement;
 
     /**
      * Constructs a new Assistant Card.

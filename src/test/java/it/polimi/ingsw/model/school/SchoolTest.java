@@ -2,8 +2,13 @@ package it.polimi.ingsw.model.school;
 
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.place.School;
 
+import it.polimi.ingsw.model.player.Player;
+import it.polimi.ingsw.model.player.TowerColor;
+import it.polimi.ingsw.model.player.Wizard;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -20,13 +25,22 @@ public class SchoolTest {
 
     @BeforeEach
     void setUp() {
-        school = new School();
+        Player player = new Player("Fausto", Wizard.WIZ1, TowerColor.BLACK);
+        school = player.getSchool();
         example = new Pawns(3,0,4,0,1);
         professorExample = new Pawns(1,0,1,0,1);
         maxHall = new Pawns(10,10,10,10,10);
         overMax = new Pawns(10,10,10,10,11);
     }
 
+    @AfterEach
+    void tearDown() {
+        HallObserver.resetInstance();
+    }
+
+    /**
+     * Test that initially a {@link School} is empty
+     */
     @Test
     void initialTest() {
         School schoolInitial = new School();
@@ -36,18 +50,27 @@ public class SchoolTest {
         assertEquals(pawns,schoolInitial.getProfessorTable());
     }
 
+    /**
+     * Test that add student in hall works
+     */
     @Test
     void addStudentInHallIfOKTest() {
         school.addStudentInHall(example);
         assertEquals(example, school.getHall());
     }
 
+    /**
+     * Test that add student in hall fail if the pawn exceed the limit of the Hall
+     */
     @Test
     void addStudentInHallIfKOTest() {
         assertFalse(school.addStudentInHall(overMax));
         assertEquals(new Pawns(),school.getHall());
     }
 
+    /**
+     * Test that add student in entrance works
+     */
     @Test
     void addStudentInEntranceIfOKTest() {
         example.removeColor(BLUE);
@@ -55,12 +78,18 @@ public class SchoolTest {
         assertEquals(example, school.getEntrance());
     }
 
+    /**
+     * Test that add student in Entrance doesn't work if pawn exceed the limit of the entrance
+     */
     @Test
     void addStudentInEntranceIfKOTest() {
         assertFalse(school.addStudentInEntrance(example));
         assertNotEquals(example, school.getEntrance());
     }
 
+    /**
+     * Test that add professor to Prof Table works
+     */
     @Test
     void addProfessorTest() {
         for(PawnColor pawnColor: PawnColor.values()){
@@ -72,6 +101,9 @@ public class SchoolTest {
         assertEquals(professorExample, school.getProfessorTable());
     }
 
+    /**
+     * Test that a professor can be removed correctly
+     */
     @Test
     void removeProfessorTest() {
         school.addProfessor(GREEN);
@@ -86,6 +118,9 @@ public class SchoolTest {
         assertEquals(professorExample, school.getProfessorTable());
     }
 
+    /**
+     * Test that a student can be removed from entrance
+     */
     @Test
     void removeStudentFromEntranceTest() {
         Pawns empty = new Pawns();
@@ -95,31 +130,40 @@ public class SchoolTest {
         assertEquals(empty, school.getEntrance());
     }
 
+    /**
+     * Test that student can be removed from hall correctly
+     */
     @Test
     void removeStudentFromHallTest() {
         Pawns empty = new Pawns();
         assertEquals(empty, school.getHall());
-        school.addStudentInHall(example);
+        school.getHall().addPawns(example);
         assertNotEquals(empty, school.getHall());
         school.removeStudentFromHall(example);
         assertEquals(empty, school.getHall());
     }
 
+    /**
+     * Test that pawn can be moved from entrance to hall
+     */
     @Test
     void moveIfOKTest() {
         Pawns entrancePawns = new Pawns(1,2,1,2,1);
         school.addStudentInEntrance(entrancePawns);
-        school.addStudentInHall(example);
+        school.getHall().addPawns(example);
         school.moveStudentToHall(new Pawns(GREEN));
         assertEquals(new Pawns(0,2,1,2,1),school.getEntrance());
         assertEquals(new Pawns(4,0,4,0,1), school.getHall());
     }
 
+    /**
+     * Test that pawn cannot be moved from entrance to hall if they exceed the limit of hall or entrance
+     */
     @Test
     void moveIfKOTest() {
         Pawns entrancePawns = new Pawns(1,2,1,2,1);
         school.addStudentInEntrance(entrancePawns);
-        school.addStudentInHall(example);
+        school.getHall().addPawns(example);
         school.moveStudentToHall(new Pawns(2,0,0,0,0));
         assertEquals(new Pawns(1,2,1,2,1),school.getEntrance());
         assertEquals(example, school.getHall());
@@ -128,13 +172,14 @@ public class SchoolTest {
     @Test
     void booleanTest() {
         boolean result;
-        result = school.addStudentInHall(maxHall);
+        result = school.getHallAsPlace().canBeMoved(maxHall);
         assertTrue(result);
-        result = school.addStudentInEntrance(overMax);
+        result = school.getEntranceAsPlace().canBeMoved(overMax);
         assertFalse(result);
-        result = school.removeStudentFromEntrance(overMax);
+        result = school.getEntranceAsPlace().canBeRemoved(overMax);
         assertFalse(result);
-        result = school.removeStudentFromHall(maxHall);
+        school.getHall().addPawns(maxHall);
+        result = school.getHallAsPlace().canBeRemoved(maxHall);
         assertTrue(result);
     }
 }

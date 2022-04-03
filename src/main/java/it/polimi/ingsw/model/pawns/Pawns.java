@@ -23,6 +23,15 @@ public class Pawns {
     }
 
     /**
+     * Constructs a new Pawns that contains only the specified color
+     * @param pawnColor color to be added
+     */
+    public Pawns(PawnColor pawnColor) {
+        this();
+        state.put(pawnColor,1);
+    }
+
+    /**
      * Constructs a new Pawns and initializes every {@link PawnColor} at the number passed as parameter.
      *
      * @param green the number of green pawns
@@ -32,7 +41,7 @@ public class Pawns {
      * @param blue the number of blue pawns
      */
     public Pawns(int green, int red, int yellow, int pink, int blue){
-        state = new HashMap<>();
+        this();
         state.put(PawnColor.GREEN, green);
         state.put(PawnColor.RED, red);
         state.put(PawnColor.YELLOW, yellow);
@@ -154,23 +163,6 @@ public class Pawns {
             lastElement = pawnColor;
         }
         return lastElement;
-    }
-
-    /**
-     * This method is a fast way to reinitialize every {@link PawnColor} at the number passed as parameter.
-     *
-     * @param green the number of green pawns.
-     * @param red the number of red pawns.
-     * @param yellow the number of yellow pawns.
-     * @param pink the number of pink pawns.
-     * @param blue the number of blue pawns.
-     */
-    public void fastSetup(int green, int red, int yellow, int pink, int blue) {
-        state.put(PawnColor.GREEN, green);
-        state.put(PawnColor.RED, red);
-        state.put(PawnColor.YELLOW, yellow);
-        state.put(PawnColor.PINK, pink);
-        state.put(PawnColor.BLUE, blue);
     }
 
     @Override

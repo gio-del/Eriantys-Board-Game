@@ -2,10 +2,13 @@ package it.polimi.ingsw.model.place;
 
 import it.polimi.ingsw.model.pawns.Pawns;
 
+/**
+ * Abstract class that represents all {@link School} places
+ */
 public abstract class SchoolPlace implements Place{
     private final Pawns schoolPawns;
 
-    public SchoolPlace() {
+    protected SchoolPlace() {
         this.schoolPawns = new Pawns();
     }
 

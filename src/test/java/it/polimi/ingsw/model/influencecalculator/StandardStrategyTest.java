@@ -43,16 +43,16 @@ public class StandardStrategyTest {
         game.addPlayer(player3);
 
         example1 = new Pawns(3,0,4,0,2);
-        player1.getSchool().addStudentInHall(example1);
+        player1.getSchool().getHall().addPawns(example1);
         player1.getSchool().addProfessor(GREEN);
         player1.getSchool().addProfessor(YELLOW);
 
         example2 = new Pawns(2,0,1,0,4);
-        player2.getSchool().addStudentInHall(example2);
+        player2.getSchool().getHall().addPawns(example2);
         player2.getSchool().addProfessor(BLUE);
 
         example3 = new Pawns(1,0,1,0,1);
-        player3.getSchool().addStudentInHall(example3);
+        player3.getSchool().getHall().addPawns(example3);
 
     }
 

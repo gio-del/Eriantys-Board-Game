@@ -4,6 +4,9 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 
+/**
+ * The Professors Table of the {@link School}
+ */
 public class ProfTable extends SchoolPlace {
     @Override
     public boolean add(Pawns pawns) {

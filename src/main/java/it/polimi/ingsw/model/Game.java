@@ -3,10 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.CharactersDeck;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
-import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +22,8 @@ public class Game {
     private Player currentPlayer;
     private int generalBank;
     private List<CharacterCard> characterInUse;
-    private final ProfessorAssignor professorAssignor;
     private static final List<Wizard> alreadyChoiceWizard = new ArrayList<>();
-
+    private final HallObserver hallObserver;
 
     /**
      * The private constructor
@@ -36,7 +35,7 @@ public class Game {
         this.generalBank = MaxNumOfCoins;
         this.clouds = new ArrayList<>();
         this.charactersDeck = new CharactersDeck();
-        this.professorAssignor = new ProfessorAssignor();
+        this.hallObserver = HallObserver.getInstance();
         this.characterInUse = new ArrayList<>();
         alreadyChoiceWizard.clear();
         resetStrategies();
@@ -64,6 +63,7 @@ public class Game {
      * initialize game
      */
     public void init(){
+        // TODO: handling initialization
         CharactersDeck charactersDeck = new CharactersDeck();
         charactersDeck.init();
         characterInUse = charactersDeck.extractCharacterInUse();
@@ -155,7 +155,7 @@ public class Game {
      */
     public boolean resetStrategies(){
         board.resetStrategy();
-        professorAssignor.resetStrategy();
+        hallObserver.resetStrategy();
         return true;
     }
 
@@ -282,11 +282,6 @@ public class Game {
      */
     public List<CharacterCard> getCharacterInUse() {
         return characterInUse;
-    }
-
-
-    public ProfessorAssignor getProfessorAssignor() {
-        return professorAssignor;
     }
 
     public void setCurrentPlayer(Player player){

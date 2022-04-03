@@ -17,6 +17,6 @@ public class FarmerProfStrategy extends StandardProfStrategy{
         List<Player> winners = super.colorProfessorCheck(players,pawnColor);
         if(winners.contains(playerTie))
             return List.of(playerTie);
-        return null;
+        return Collections.emptyList();
     }
 }
