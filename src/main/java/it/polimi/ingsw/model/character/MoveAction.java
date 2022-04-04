@@ -4,7 +4,8 @@ import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.pawns.Pawns;
 
 public class MoveAction implements Action{
-    private final Place from, to;
+    private final Place from;
+    private final Place to;
     private final Pawns pawnsToBeMoved;
 
     public MoveAction(Place from, Place to, Pawns pawnsToBeMoved) {

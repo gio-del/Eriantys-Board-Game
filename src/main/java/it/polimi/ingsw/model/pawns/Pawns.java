@@ -1,13 +1,11 @@
 package it.polimi.ingsw.model.pawns;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
+
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 
 /**
- * This class represents students (and professors) that are used in this game. Pawns is an HashMap between {@link PawnColor} and the number of students (or professor) in every location.
+ * This class represents students (and professors) that are used in this game. Pawns is a Map between {@link PawnColor} and the number of students (or professor) in every location.
  */
 public class Pawns {
     private final Map<PawnColor, Integer> state;
@@ -16,7 +14,7 @@ public class Pawns {
      * Constructs a new Pawns and initializes every {@link PawnColor} at {@code 0}.
      */
     public Pawns() {
-        state = new HashMap<>();
+        state = new EnumMap<>(PawnColor.class);
         for(PawnColor pawnColor: PawnColor.values()){
             state.put(pawnColor,0);
         }
@@ -155,11 +153,11 @@ public class Pawns {
     public PawnColor getByIndex(int index) {
         int currentSum = 0;
         PawnColor lastElement = null;
-        for (PawnColor pawnColor : state.keySet()){
-            if (index < currentSum + state.get(pawnColor)){
+        for (PawnColor pawnColor : state.keySet()) {
+            if (index < currentSum + state.get(pawnColor)) {
                 return pawnColor;
             }
-            currentSum+= state.get(pawnColor);
+            currentSum += state.get(pawnColor);
             lastElement = pawnColor;
         }
         return lastElement;

@@ -10,15 +10,14 @@ import it.polimi.ingsw.model.player.Wizard;
 
 import java.util.ArrayList;
 import java.util.List;
-import static it.polimi.ingsw.constants.Constants.MaxNumOfCoins;
+import static it.polimi.ingsw.constants.Constants.MAX_NUM_OF_COINS;
 
 public class Game {
-    private static Game instance;
     private final List<Player> players;
     private final Board board;
     private final Sack sack;
     private final List<Cloud> clouds;
-    private final CharactersDeck charactersDeck;
+    private CharactersDeck charactersDeck;
     private Player currentPlayer;
     private int generalBank;
     private List<CharacterCard> characterInUse;
@@ -28,11 +27,11 @@ public class Game {
     /**
      * The private constructor
      */
-    private Game() {
+    public Game() {
         this.players = new ArrayList<>();
         this.board = new Board();
         this.sack = new Sack();
-        this.generalBank = MaxNumOfCoins;
+        this.generalBank = MAX_NUM_OF_COINS;
         this.clouds = new ArrayList<>();
         this.charactersDeck = new CharactersDeck();
         this.hallObserver = HallObserver.getInstance();
@@ -42,29 +41,11 @@ public class Game {
     }
 
     /**
-     *
-     * @return instance of Game
-     */
-    public static Game getInstance(){
-        if (instance == null)
-            instance = new Game();
-        return instance;
-    }
-
-    /**
-     * reset instance of Game
-     */
-    public static void resetInstance(){
-        instance = null;
-    }
-
-
-    /**
      * initialize game
      */
     public void init(){
         // TODO: handling initialization
-        CharactersDeck charactersDeck = new CharactersDeck();
+        charactersDeck = new CharactersDeck();
         charactersDeck.init();
         characterInUse = charactersDeck.extractCharacterInUse();
         sack.initialFill();

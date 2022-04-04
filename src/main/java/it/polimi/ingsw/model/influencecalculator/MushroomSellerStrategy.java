@@ -17,7 +17,7 @@ public class MushroomSellerStrategy extends StandardStrategy{
         Map<Player, Integer> scores = super.getScores(island,players);
         Optional<Player> blockedPlayer = Optional.empty();
         for(Player player: players){
-            if(player.getSchool().getProfessorTable().getFromColor(blockedColor) == Constants.MaxProfessorPerColor)
+            if(player.getSchool().getProfessorTable().getFromColor(blockedColor) == Constants.MAX_PROFESSOR_PER_COLOR)
                 blockedPlayer = Optional.of(player);
         }
         blockedPlayer.ifPresent

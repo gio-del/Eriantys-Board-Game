@@ -9,11 +9,11 @@ import it.polimi.ingsw.model.player.TowerColor;
 import java.util.*;
 
 /**
- * This class rappresents the Board with the islands inside
+ * This class represents the Board with the islands inside
  * Knows where's MotherNature and has knows the strategies to calculate the influences
  */
 public class Board{
-    private List<Island> islands;
+    private final List<Island> islands;
     private int motherNaturePos;
     private InfluenceStrategy influenceStrategy;
 
@@ -71,8 +71,8 @@ public class Board{
     }
 
     /**
-     * Move mother nature, calculate winners, update towers, update adjacies
-     * @param steps to move mothernature
+     * Move mother nature, calculate winners, update towers, update adjacencies
+     * @param steps to move mother nature
      * @param players in the game
      * @return the TowerColor of the winner if present, null otherwise
      */

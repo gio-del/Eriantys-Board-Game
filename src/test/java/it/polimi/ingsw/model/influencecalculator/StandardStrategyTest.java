@@ -1,10 +1,10 @@
 package it.polimi.ingsw.model.influencecalculator;
 
 
-import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 
+import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 
 
@@ -24,23 +24,15 @@ import static it.polimi.ingsw.model.player.Wizard.WIZ2;
 public class StandardStrategyTest {
     Player player1;
     Player player2;
-    Player player3;
-    Game game;
+    List<Player> players;
     Pawns example1;
     Pawns example2;
-    Pawns example3;
 
 
     @BeforeEach
     void setUp(){
-        game = Game.getInstance();
         player1 = new Player("Mario", WIZ1, BLACK);
         player2 = new Player("Lorenzo",WIZ2, WHITE);
-        player3 = new Player("Lorenzo",WIZ2, GRAY);
-
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.addPlayer(player3);
 
         example1 = new Pawns(3,0,4,0,2);
         player1.getSchool().getHall().addPawns(example1);
@@ -51,14 +43,14 @@ public class StandardStrategyTest {
         player2.getSchool().getHall().addPawns(example2);
         player2.getSchool().addProfessor(BLUE);
 
-        example3 = new Pawns(1,0,1,0,1);
-        player3.getSchool().getHall().addPawns(example3);
-
+        players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
     }
 
     @AfterEach
     void tearDown() {
-        Game.resetInstance();
+        HallObserver.resetInstance();
     }
 
     @Test
@@ -69,7 +61,7 @@ public class StandardStrategyTest {
         Map<Player, Integer> score = new HashMap<>();
         score.put(player1, 2);
         score.put(player2, 3);
-        assertEquals(score, new StandardStrategy().getScores(island, game.getPlayers()));
+        assertEquals(score, new StandardStrategy().getScores(island, players));
     }
 
 }

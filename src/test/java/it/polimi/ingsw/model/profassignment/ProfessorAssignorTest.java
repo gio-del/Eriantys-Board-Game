@@ -22,9 +22,9 @@ public class ProfessorAssignorTest {
 
     @BeforeEach
     void setUp(){
+        game = new Game();
         HallObserver.resetInstance();
         professorAssignor = HallObserver.getInstance().getProfessorAssignor();
-        game = Game.getInstance();
         player1 = new Player("Mario", WIZ1, BLACK);
         player2 = new Player("Albert",WIZ2, WHITE);
         player3 = new Player("Giovanni",WIZ3, GRAY);
@@ -37,7 +37,6 @@ public class ProfessorAssignorTest {
 
     @AfterEach
     void tearDown() {
-        Game.resetInstance();
         HallObserver.resetInstance();
     }
 

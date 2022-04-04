@@ -15,7 +15,7 @@ import java.util.List;
 public class HallObserver {
     private static HallObserver instance;
     private static final List<Player> playerList = new ArrayList<>();
-    ProfessorAssignor professorAssignor;
+    final ProfessorAssignor professorAssignor;
 
     private HallObserver() {
         professorAssignor = new ProfessorAssignor();

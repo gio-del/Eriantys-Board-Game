@@ -18,7 +18,7 @@ public class ProfTable extends SchoolPlace {
     @Override
     public boolean canBeMoved(Pawns pawns) {
         for(PawnColor pawnColor: PawnColor.values()){
-            if(super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MaxProfessorPerColor){
+            if(super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MAX_PROFESSOR_PER_COLOR){
                 return false;
             }
         }

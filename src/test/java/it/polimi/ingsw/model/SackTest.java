@@ -27,7 +27,7 @@ public class SackTest {
     @Test
     void extractTest() {
         sack1.extract();
-        assertEquals(Constants.InitialNumOfStudentsOfEachColor*PawnColor.values().length-1,sack1.getNumberOfPawns());
+        assertEquals(Constants.INITIAL_NUM_OF_STUDENTS_OF_EACH_COLOR *PawnColor.values().length-1,sack1.getNumberOfPawns());
     }
 
     /**
@@ -35,7 +35,7 @@ public class SackTest {
      */
     @Test
     void extractAll_checkEmptiness(){
-        for(int i = 0; i<Constants.NumOfStudentsOfEachColor*PawnColor.values().length;i++){
+        for(int i = 0; i<Constants.NUM_OF_STUDENTS_OF_EACH_COLOR *PawnColor.values().length; i++){
             sack2.extract();
         }
         assertEquals(0, sack2.getNumberOfPawns());
@@ -54,7 +54,7 @@ public class SackTest {
      */
     @Test
     void extractListOfPawnsTest_checkEmptiness(){
-        sack2.extractListOfPawns(Constants.NumOfStudentsOfEachColor*PawnColor.values().length);
+        sack2.extractListOfPawns(Constants.NUM_OF_STUDENTS_OF_EACH_COLOR *PawnColor.values().length);
         assertEquals(0,sack2.getNumberOfPawns());
     }
 }

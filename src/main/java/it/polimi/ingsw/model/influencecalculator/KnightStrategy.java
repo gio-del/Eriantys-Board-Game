@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 public class KnightStrategy extends StandardStrategy {
-    TowerColor towerPlus;
+    final TowerColor towerPlus;
 
     public KnightStrategy(TowerColor towerPlus) {
         this.towerPlus = towerPlus;

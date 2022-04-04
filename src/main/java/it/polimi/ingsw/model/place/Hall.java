@@ -9,7 +9,7 @@ import it.polimi.ingsw.model.pawns.Pawns;
  * Hall of the {@link School}
  */
 public class Hall extends SchoolPlace {
-    HallObserver hallObserver;
+    final HallObserver hallObserver;
 
     public Hall() {
         this.hallObserver = HallObserver.getInstance();
@@ -36,7 +36,7 @@ public class Hall extends SchoolPlace {
     @Override
     public boolean canBeMoved(Pawns pawns) {
         for(PawnColor pawnColor: PawnColor.values()){
-            if(super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MaxStudentHallPerColor){
+            if(super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MAX_STUDENT_HALL_PER_COLOR){
                 return false;
             }
         }

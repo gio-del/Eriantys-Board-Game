@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * This class rapresents the single island with pawns on it, the tower if present and the dimension
+ * This class represents the single island with pawns on it, the tower if present and the dimension
  */
 public class Island implements Place {
     private int dimension;
@@ -18,7 +18,7 @@ public class Island implements Place {
     private TowerColor tower;
 
     /**
-     * Contruct the basic island
+     * Construct the basic island
      */
     public Island(){
         this.dimension = 1;
@@ -83,23 +83,21 @@ public class Island implements Place {
      * @return the towerColor added if island is conquered, otherwise null if nothing changes
      */
     public TowerColor conquerIsland(List<Player> winners, List<Player> players){
-        if(winners.size() == 1){
-            if(this.tower == null){
-                this.tower = winners.get(0).addTowerToIsland();
-                return this.tower;
-            } else {
-                if(this.tower != (winners.get(0).getColor())){
-                    for(Player player : players){
-                        if(this.tower == (player.getColor())){
-                            player.backTowerToPlayer();
-                            this.tower = winners.get(0).addTowerToIsland();
-                            return this.tower;
+        if(winners.size() != 1) return null;
+        if(this.tower == null){
+            this.tower = winners.get(0).addTowerToIsland();
+            return this.tower;
+        } else {
+            if(this.tower != (winners.get(0).getColor())){
+                for(Player player : players){
+                    if(this.tower == (player.getColor())){
+                        player.backTowerToPlayer();
+                        this.tower = winners.get(0).addTowerToIsland();
+                        return this.tower;
                         }
                     }
                 }
             }
-        }
-
         return null;
     }
 
@@ -120,7 +118,7 @@ public class Island implements Place {
 
     /**
      *
-     * @return the Towercolor if a tower is present
+     * @return the TowerColor if a tower is present
      */
     public Optional<TowerColor> getTower() {
         return Optional.ofNullable(tower);

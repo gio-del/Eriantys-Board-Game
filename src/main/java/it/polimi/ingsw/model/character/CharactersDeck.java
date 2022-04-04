@@ -17,11 +17,11 @@ public class CharactersDeck {
     }
 
     public void init(){
-            this.characterCards = CharacterJSONParser.parseCharacters(Constants.CharacterJSONPath);
+            this.characterCards = CharacterJSONParser.parseCharacters(Constants.CHARACTER_JSON_PATH);
     }
 
     public List<CharacterCard> extractCharacterInUse(){
         Collections.shuffle(characterCards);
-        return characterCards.stream().limit(Constants.NumOfCharacterInUse).toList();
+        return characterCards.stream().limit(Constants.NUM_OF_CHARACTER_IN_USE).toList();
     }
 }

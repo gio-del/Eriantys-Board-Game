@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.influencecalculator.*;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import org.junit.jupiter.api.AfterEach;
@@ -12,7 +13,6 @@ import static it.polimi.ingsw.model.player.Wizard.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
-import static it.polimi.ingsw.model.pawns.PawnColor.YELLOW;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 
 public class BoardTest {
@@ -30,7 +30,7 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        game = Game.getInstance();
+        game = new Game();
         player1 = new Player("Mario", WIZ1, BLACK);
         player2 = new Player("Lorenzo", WIZ2, WHITE);
         player3 = new Player("Giovanni", WIZ3, GRAY);
@@ -62,7 +62,7 @@ public class BoardTest {
 
     @AfterEach
     void tearDown() {
-        Game.resetInstance();
+        HallObserver.resetInstance();
     }
 
     @Test

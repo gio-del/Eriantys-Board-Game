@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.character;
 
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.utils.CharacterJSONParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,6 +17,6 @@ public class CharactersDeckTest {
 
     @Test
     void extractCharacterInUseTest() {
-        assertEquals(Constants.NumOfCharacterInUse,charactersDeck.extractCharacterInUse().size());
+        assertEquals(Constants.NUM_OF_CHARACTER_IN_USE,charactersDeck.extractCharacterInUse().size());
     }
 }

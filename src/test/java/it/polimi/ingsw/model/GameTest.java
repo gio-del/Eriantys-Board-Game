@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -17,7 +18,7 @@ public class GameTest {
 
     @BeforeEach
     void setUp() {
-        game = Game.getInstance();
+        game = new Game();
 
         p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
         p2 = new Player("Marco", Wizard.WIZ2,TowerColor.GRAY);
@@ -28,7 +29,7 @@ public class GameTest {
 
     @AfterEach
     void tearDown() {
-        Game.resetInstance();
+        HallObserver.resetInstance();
     }
 
     @Test
@@ -49,6 +50,12 @@ public class GameTest {
     @Test
     void getPlayerByTowerColor_ifNotPresent() {
         assertNull(game.getPlayerByTowerColor(TowerColor.WHITE));
+    }
+
+    @Test
+    void removePlayerTest() {
+        game.removePlayer(p2);
+        assertFalse(game.getPlayers().contains(p2));
     }
 
     @Test
@@ -122,10 +129,10 @@ public class GameTest {
         boolean state;
         state = game.removeCoin(p1,2);
         assertFalse(state);
-        assertEquals(p1.getPlayerBank(),1);
+        assertEquals(1, p1.getPlayerBank());
         game.addCoin(p1,9);
         state = game.removeCoin(p1,5);
         assertTrue(state);
-        assertEquals(game.getGeneralBank(),14);
+        assertEquals(14, game.getGeneralBank());
     }
 }

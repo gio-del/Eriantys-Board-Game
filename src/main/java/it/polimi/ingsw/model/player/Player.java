@@ -29,7 +29,7 @@ public class Player {
         this.wizard = wizard;
         this.color = color;
         this.school = new School();
-        bank = Constants.InitialCashPerPlayer;
+        bank = Constants.INITIAL_CASH_PER_PLAYER;
         // TODO: move TowerNum to school
         towerNum = 8;   //TODO: 3 players has 6 towers, if 4 players only 1 TeamMate have towers -> add TEAM ENUM?
         hand.addAll(Arrays.stream(values()).toList());

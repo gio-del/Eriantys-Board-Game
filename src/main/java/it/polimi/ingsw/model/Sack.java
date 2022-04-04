@@ -25,16 +25,16 @@ public class Sack {
      */
     public void initialFill() {
         for(PawnColor pawnColor: PawnColor.values()){
-            sackPawns.addColor(pawnColor,Constants.InitialNumOfStudentsOfEachColor);
+            sackPawns.addColor(pawnColor,Constants.INITIAL_NUM_OF_STUDENTS_OF_EACH_COLOR);
         }
     }
 
     /**
-     * This method fill the Sack with {@code 24} pawns of each {@link PawnColor}. This students will be extracted during the game.
+     * This method fill the Sack with {@code 24} pawns of each {@link PawnColor}. These students will be extracted during the game.
      */
     public void fill() {
         for(PawnColor pawnColor: PawnColor.values()){
-            sackPawns.addColor(pawnColor,Constants.NumOfStudentsOfEachColor);
+            sackPawns.addColor(pawnColor,Constants.NUM_OF_STUDENTS_OF_EACH_COLOR);
         }
     }
 
@@ -62,7 +62,7 @@ public class Sack {
     }
 
     /**
-     * This method says how much pawns are in the Sack.
+     * This method says how many pawns are in the Sack.
      *
      * @return number of pawns in sack.
      */

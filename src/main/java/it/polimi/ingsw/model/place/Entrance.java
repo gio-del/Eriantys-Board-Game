@@ -28,7 +28,7 @@ public class Entrance extends SchoolPlace {
      */
     @Override
     public boolean canBeMoved(Pawns pawns) {
-        return super.getPawns().totalElements() + pawns.totalElements() <= Constants.MaxStudentEntrance;
+        return super.getPawns().totalElements() + pawns.totalElements() <= Constants.MAX_STUDENT_ENTRANCE;
     }
 }
 
