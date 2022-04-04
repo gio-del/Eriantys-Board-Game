@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
@@ -33,6 +35,17 @@ public class GameTest {
     }
 
     @Test
+    void startGameTest() {
+        game.startGame();
+        assertEquals(Constants.NUM_OF_CHARACTER_IN_USE, game.getCharacterInUse().size());
+        assertEquals(Constants.NUM_OF_STUDENTS_OF_EACH_COLOR* PawnColor.values().length,game.getSack().getNumberOfPawns());
+        for(int i=1;i<Constants.MAX_ISLAND;i++){
+            if(i!=6)
+                assertEquals(1,game.getBoard().getIslands().get(i).getStudents().totalElements());
+        }
+    }
+
+    @Test
     void getPlayerByName_ifPresent() {
         assertEquals("Luca",game.getPlayerByName("Luca").getPlayerName());
     }
@@ -54,7 +67,7 @@ public class GameTest {
 
     @Test
     void removePlayerTest() {
-        game.removePlayer(p2);
+        assertTrue(game.removePlayer(p2));
         assertFalse(game.getPlayers().contains(p2));
     }
 

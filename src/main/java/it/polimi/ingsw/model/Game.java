@@ -43,12 +43,13 @@ public class Game {
     /**
      * initialize game
      */
-    public void init(){
+    public void startGame(){
         // TODO: handling initialization
         charactersDeck = new CharactersDeck();
         charactersDeck.init();
         characterInUse = charactersDeck.extractCharacterInUse();
         sack.initialFill();
+        board.initIslands(sack);
         sack.fill();
     }
 
