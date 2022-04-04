@@ -11,9 +11,11 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <sonar.language>java</sonar.language>
         <junit.version>5.8.2</junit.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
+        <sonar.coverage.exclusions>**/constants/**/*</sonar.coverage.exclusions>
     </properties>
 
     <dependencies>
