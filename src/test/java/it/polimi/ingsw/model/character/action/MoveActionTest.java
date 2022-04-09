@@ -16,7 +16,7 @@ public class MoveActionTest {
 
     @BeforeEach
     void setUp() {
-        from = new Entrance();
+        from = new Entrance(7);
         Pawns pawns = new Pawns(1,1,1,1,1);
         from.add(pawns);
         to = new Island();

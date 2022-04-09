@@ -1,0 +1,6 @@
+{
+  "maxEntrance": 7,
+  "studentOnCloud": 3,
+  "numberOfTower": 8,
+  "towerColors": ["BLACK", "WHITE"]
+}

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model.character.action;
 
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.character.Action;
 import it.polimi.ingsw.model.character.ThiefAction;
 import it.polimi.ingsw.model.pawns.PawnColor;
@@ -23,8 +25,9 @@ public class ThiefActionTest {
     Player p2;
     @BeforeEach
     void setUp() {
-        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
-        p2 = new Player("Mario", Wizard.WIZ2, TowerColor.GRAY);
+        GameLimit gameLimit = new GameLimit(false);
+        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK,gameLimit);
+        p2 = new Player("Mario", Wizard.WIZ2, TowerColor.GRAY,gameLimit);
 
         Pawns pawns1 = new Pawns(8,6,5,3,2);
         p1.getSchool().getHall().addPawns(pawns1);

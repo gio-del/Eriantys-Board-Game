@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
+/**
+ * The Centaur Strategy doesn't count tower in the influence calc
+ */
 public class CentaurStrategy extends StandardStrategy{
     @Override
     public Map<Player, Integer> getScores(Island island, List<Player> players){

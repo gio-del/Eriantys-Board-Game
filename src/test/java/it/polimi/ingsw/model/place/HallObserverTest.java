@@ -1,7 +1,7 @@
-package it.polimi.ingsw.model.school;
+package it.polimi.ingsw.model.place;
 
+import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -19,12 +19,13 @@ public class HallObserverTest {
 
     @BeforeEach
     void setUp() {
+        GameLimit gameLimit = new GameLimit(false);
         HallObserver.resetInstance();
         hallObserver = HallObserver.getInstance();
-        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
+        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK,gameLimit);
         p1.getSchool().getEntrance().addPawns(new Pawns(3,0,0,0,0));
 
-        p2 = new Player("Marco", Wizard.WIZ2, TowerColor.WHITE);
+        p2 = new Player("Marco", Wizard.WIZ2, TowerColor.WHITE,gameLimit);
         p2.getSchool().getHall().addPawns(new Pawns(2,0,0,0,0));
         p2.getSchool().getProfessorTable().addColor(GREEN);
         HallObserver.getInstance().getProfessorAssignor().getProfsNotYetAssigned().removeColor(GREEN);

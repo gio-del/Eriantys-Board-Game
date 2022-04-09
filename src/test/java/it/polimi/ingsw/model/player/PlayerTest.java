@@ -1,8 +1,9 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallObserver;
-import it.polimi.ingsw.model.player.Player;
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static it.polimi.ingsw.model.player.Assistant.*;
 import static it.polimi.ingsw.model.player.TowerColor.*;
@@ -24,9 +25,10 @@ public class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        player1 = new Player("Mario", WIZ1, BLACK);
-        player2 = new Player("Lorenzo",WIZ2, WHITE);
-        player3 = new Player("Lorenzo",WIZ2, WHITE);
+        GameLimit gameLimit = new GameLimit(false);
+        player1 = new Player("Mario", WIZ1, BLACK,gameLimit);
+        player2 = new Player("Lorenzo",WIZ2, WHITE,gameLimit);
+        player3 = new Player("Lorenzo",WIZ2, WHITE,gameLimit);
         player1.getSchool().getEntrance().addColor(GREEN,4);
         player1.getSchool().getEntrance().addColor(BLUE,1);
         pawns = new Pawns();

@@ -12,7 +12,6 @@ public class CharacterCard implements Place {
     private final String description;
     private final ActionType actionType;
     private final List<String> characterPar;
-    //private final Action action;
 
     public CharacterCard(String name, int cost, String description, ActionType actionType, List<String> characterPar) {
         this.name = name;

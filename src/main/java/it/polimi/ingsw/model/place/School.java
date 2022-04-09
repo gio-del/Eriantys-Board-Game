@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.place;
 
+import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.player.TowerColor;
 
 /**
  * The School of each {@link it.polimi.ingsw.model.player.Player}
@@ -10,11 +12,15 @@ public class School {
     private final SchoolPlace entrance;
     private final SchoolPlace hall;
     private final SchoolPlace profTable;
+    private int towerNum; //TODO: if 4 players only 1 TeamMate have towers -> add TEAM ENUM?
+    private final TowerColor towerColor;
 
-    public School() {
-        this.entrance = new Entrance();
+    public School(TowerColor towerColor, GameLimit gameLimit) {
+        this.entrance = new Entrance(gameLimit.getMaxEntrance());
         this.hall= new Hall();
         this.profTable = new ProfTable();
+        this.towerColor = towerColor;
+        this.towerNum = gameLimit.getNumberOfTower();
     }
 
     /**
@@ -111,6 +117,36 @@ public class School {
     public boolean removeStudentFromEntrance(Pawns pawns) {
         // TODO: is this necessary?
         return entrance.remove(pawns);
+    }
+
+    /**
+     * @return towerNum present in this {@link School}
+     */
+    public int getTowerNum() {
+        return towerNum;
+    }
+
+    /**
+     * Add a tower
+     */
+    public void addTower(){
+        towerNum += 1;
+    }
+
+    /**
+     * Remove a tower
+     * @return color of the tower
+     */
+    public TowerColor removeTower(){
+        towerNum -= 1;
+        return towerColor;
+    }
+
+    /**
+     * @return towerColor of this {@link School}
+     */
+    public TowerColor getTowerColor() {
+        return towerColor;
     }
 
 }

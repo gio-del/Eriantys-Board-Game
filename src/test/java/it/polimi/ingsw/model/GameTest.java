@@ -20,10 +20,10 @@ public class GameTest {
 
     @BeforeEach
     void setUp() {
-        game = new Game();
-
-        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK);
-        p2 = new Player("Marco", Wizard.WIZ2,TowerColor.GRAY);
+        game = new Game(2);
+        GameLimit gameLimit = game.getGameLimit();
+        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK,gameLimit);
+        p2 = new Player("Marco", Wizard.WIZ2,TowerColor.GRAY,gameLimit);
 
         game.addPlayer(p1);
         game.addPlayer(p2);
@@ -37,8 +37,9 @@ public class GameTest {
     @Test
     void startGameTest() {
         game.startGame();
-        assertEquals(Constants.NUM_OF_CHARACTER_IN_USE, game.getCharacterInUse().size());
-        assertEquals(Constants.NUM_OF_STUDENTS_OF_EACH_COLOR* PawnColor.values().length,game.getSack().getNumberOfPawns());
+        assertEquals(Constants.CHARACTER_IN_USE, game.getCharacterInUse().size());
+        int expected = (Constants.STUDENTS_OF_EACH_COLOR-Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length - game.getNPlayers()*game.getGameLimit().getMaxEntrance();
+        assertEquals(expected,game.getSack().getNumberOfPawns());
         for(int i=1;i<Constants.MAX_ISLAND;i++){
             if(i!=6)
                 assertEquals(1,game.getBoard().getIslands().get(i).getStudents().totalElements());
@@ -73,17 +74,15 @@ public class GameTest {
 
     @Test
     void addPlayerWithSameWizardTest() {
-        Player player = new Player("Matteo",Wizard.WIZ1,TowerColor.GRAY);
+        Player player = new Player("Matteo",Wizard.WIZ1,TowerColor.GRAY,game.getGameLimit());
         assertFalse(game.addPlayer(player));
         assertFalse(game.getPlayers().contains(player));
     }
 
     @Test
-    void addPlayerAlreadyPresentTest(){
-        Player p = new Player("Matteo",Wizard.WIZ3,TowerColor.WHITE);
-        assertTrue(game.addPlayer(p));
+    void addPlayerIfGameIsFull(){
+        Player p = new Player("Matteo",Wizard.WIZ3,TowerColor.BLACK,game.getGameLimit());
         assertFalse(game.addPlayer(p));
-        assertTrue(game.getPlayers().contains(p));
     }
 
     @Test

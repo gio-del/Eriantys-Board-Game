@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  * This class represents the Board with the islands inside
- * Knows where's MotherNature and has knows the strategies to calculate the influences
+ * Knows where's MotherNature and knows the strategies to calculate the influences
  */
 public class Board{
     private final List<Island> islands;

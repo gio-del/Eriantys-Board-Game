@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.profassignment;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
@@ -22,17 +23,16 @@ public class ProfessorAssignorTest {
 
     @BeforeEach
     void setUp(){
-        game = new Game();
+        game = new Game(3);
         HallObserver.resetInstance();
         professorAssignor = HallObserver.getInstance().getProfessorAssignor();
-        player1 = new Player("Mario", WIZ1, BLACK);
-        player2 = new Player("Albert",WIZ2, WHITE);
-        player3 = new Player("Giovanni",WIZ3, GRAY);
+        GameLimit gameLimit = game.getGameLimit();
+        player1 = new Player("Mario", WIZ1, BLACK,gameLimit);
+        player2 = new Player("Albert",WIZ2, WHITE,gameLimit);
+        player3 = new Player("Giovanni",WIZ3, GRAY,gameLimit);
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.addPlayer(player3);
-
-
     }
 
     @AfterEach

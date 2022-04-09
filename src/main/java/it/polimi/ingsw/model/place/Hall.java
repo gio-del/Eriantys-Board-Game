@@ -36,7 +36,7 @@ public class Hall extends SchoolPlace {
     @Override
     public boolean canBeMoved(Pawns pawns) {
         for(PawnColor pawnColor: PawnColor.values()){
-            if(super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MAX_STUDENT_HALL_PER_COLOR){
+            if(super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MAX_HALL_PER_COLOR){
                 return false;
             }
         }

@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * The MushroomSeller Strategy blocks a color during the calc of the influence
+ */
 public class MushroomSellerStrategy extends StandardStrategy{
     PawnColor blockedColor;
 

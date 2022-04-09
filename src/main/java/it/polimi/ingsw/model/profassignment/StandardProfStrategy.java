@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.util.*;
 
+/**
+ * The Standard Professor Assignment strategy
+ */
 public class StandardProfStrategy implements ProfessorStrategy{
     @Override
     public List<Player> colorProfessorCheck(List<Player> players, PawnColor pawnColor) {

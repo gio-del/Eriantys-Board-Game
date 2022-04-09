@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallObserver;
@@ -19,19 +20,14 @@ public class Player {
     private final ArrayList<Assistant> hand = new ArrayList<>();
     private final Wizard wizard;
     private int bank;
-    private int towerNum;
-    private final TowerColor color;
     private Assistant lastPlayedAssistant;
     private final School school;
 
-    public Player(String name,Wizard wizard,TowerColor color) {
+    public Player(String name,Wizard wizard,TowerColor color, GameLimit gameLimit) {
         this.playerName = name;
         this.wizard = wizard;
-        this.color = color;
-        this.school = new School();
+        this.school = new School(color, gameLimit);
         bank = Constants.INITIAL_CASH_PER_PLAYER;
-        // TODO: move TowerNum to school
-        towerNum = 8;   //TODO: 3 players has 6 towers, if 4 players only 1 TeamMate have towers -> add TEAM ENUM?
         hand.addAll(Arrays.stream(values()).toList());
         HallObserver.addPlayer(this);
     }
@@ -60,7 +56,7 @@ public class Player {
      * @return player's color.
      */
     public TowerColor getColor() {
-        return color;
+        return school.getTowerColor();
     }
 
     /**
@@ -69,7 +65,7 @@ public class Player {
      * @return player's tower number.
      */
     public int getTowerNum() {
-        return towerNum;
+        return school.getTowerNum();
     }
 
     /**
@@ -136,7 +132,7 @@ public class Player {
      * @return false if the operation is invalid, true otherwise.
      */
     public boolean moveFromEntranceToHall(Pawns pawns){
-        return school.moveStudentToHall(pawns);   //TODO: add coin for 3,6,9 students of each color. The HallObserver can handle this stuff
+        return school.moveStudentToHall(pawns);
     }
 
     /**
@@ -169,15 +165,14 @@ public class Player {
      * @return color of the Player's towers.
      */
     public TowerColor addTowerToIsland(){
-        towerNum = towerNum - 1;
-        return color;
+        return school.removeTower();
     }
 
     /**
      * This method add {@code 1} tower to player (previously removed from {@link Island}).
      */
     public void backTowerToPlayer(){
-        towerNum = towerNum + 1;
+        school.addTower();
     }
 
     @Override
@@ -190,11 +185,20 @@ public class Player {
 
     @Override
     public int hashCode() {
-        return Objects.hash(playerName, wizard, color);
+        return Objects.hash(playerName);
     }
 
     @Override
     public String toString() {
-        return playerName + ", wizard= " + wizard + ", TowerColor= " + color;
+        return playerName + ", wizard= " + wizard + ", TowerColor= " + getColor();
     }
+
+    /**
+     * This method initialize {@link Player}'s hall with the correct number of pawn.
+     * @param pawns to extract from
+     */
+    public void initialEntranceFill(Pawns pawns) {
+        getSchool().addStudentInEntrance(pawns);
+    }
+
 }

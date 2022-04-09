@@ -1,12 +1,16 @@
 package it.polimi.ingsw.model.place;
 
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.Pawns;
 
 /**
  * Entrance of the {@link School}
  */
 public class Entrance extends SchoolPlace {
+    private final int limit;
+
+    public Entrance(int entranceLimit) {
+        this.limit = entranceLimit;
+    }
 
     /**
      * Add pawns to the current state of entrance
@@ -28,7 +32,7 @@ public class Entrance extends SchoolPlace {
      */
     @Override
     public boolean canBeMoved(Pawns pawns) {
-        return super.getPawns().totalElements() + pawns.totalElements() <= Constants.MAX_STUDENT_ENTRANCE;
+        return super.getPawns().totalElements() + pawns.totalElements() <= limit;
     }
 }
 

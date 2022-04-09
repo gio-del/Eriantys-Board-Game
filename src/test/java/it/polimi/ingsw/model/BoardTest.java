@@ -30,10 +30,11 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        game = new Game();
-        player1 = new Player("Mario", WIZ1, BLACK);
-        player2 = new Player("Lorenzo", WIZ2, WHITE);
-        player3 = new Player("Giovanni", WIZ3, GRAY);
+        game = new Game(3);
+        GameLimit gameLimit = game.getGameLimit();
+        player1 = new Player("Mario", WIZ1, BLACK,gameLimit);
+        player2 = new Player("Lorenzo", WIZ2, WHITE,gameLimit);
+        player3 = new Player("Giovanni", WIZ3, GRAY,gameLimit);
         game.addPlayer(player1);
         game.addPlayer(player2);
         game.addPlayer(player3);
@@ -197,7 +198,7 @@ public class BoardTest {
      * After moving motherNature: island(3): WHITE (of dimension of 3)
      */
     @Test
-    void conquerIslandAndTriggerAdjancies(){
+    void conquerIslandAndTriggerAdjacencies(){
         game.getBoard().setMotherNaturePos(2);
         Island island = game.getBoard().getIslands().get(4);
         island.addTower(BLACK);
@@ -208,7 +209,7 @@ public class BoardTest {
     }
 
     /**
-     * Testing the sum of the Pawns during an adjancesUpdate
+     * Testing the sum of the Pawns during an adjacenciesUpdate
      * 3 adjacent islands with the same tower updating to 1 island with
      * the sum of all the previous pawns
      */

@@ -22,6 +22,6 @@ public class CharactersDeck {
 
     public List<CharacterCard> extractCharacterInUse(){
         Collections.shuffle(characterCards);
-        return characterCards.stream().limit(Constants.NUM_OF_CHARACTER_IN_USE).toList();
+        return characterCards.stream().limit(Constants.CHARACTER_IN_USE).toList();
     }
 }

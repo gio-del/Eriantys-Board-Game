@@ -5,6 +5,10 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.util.*;
 
+/**
+ * The Farmer strategy let the player who used the Farmer {@link it.polimi.ingsw.model.character.CharacterCard}
+ * win even if is involved in a tie
+ */
 public class FarmerProfStrategy extends StandardProfStrategy{
     private final Player playerTie;
 

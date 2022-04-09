@@ -17,40 +17,49 @@ public class Game {
     private final Board board;
     private final Sack sack;
     private final List<Cloud> clouds;
-    private CharactersDeck charactersDeck;
+    private final CharactersDeck charactersDeck;
     private Player currentPlayer;
-    private int generalBank;
-    private List<CharacterCard> characterInUse;
     private static final List<Wizard> alreadyChoiceWizard = new ArrayList<>();
     private final HallObserver hallObserver;
+    private final GameLimit gameLimit;
+    private final int nPlayers;
+
+    // TODO: this is present only if is "expert" game mode
+    private int generalBank;
+    private List<CharacterCard> characterInUse;
 
     /**
-     * The private constructor
+     * The Game is created with the number of players by the controller, the limit of the Game are set
      */
-    public Game() {
+    public Game(int nPlayers) {
         this.players = new ArrayList<>();
+        this.nPlayers = nPlayers;
+        gameLimit = new GameLimit(nPlayers==3);
         this.board = new Board();
         this.sack = new Sack();
         this.generalBank = MAX_NUM_OF_COINS;
         this.clouds = new ArrayList<>();
-        this.charactersDeck = new CharactersDeck();
         this.hallObserver = HallObserver.getInstance();
-        this.characterInUse = new ArrayList<>();
         alreadyChoiceWizard.clear();
-        resetStrategies();
+
+        //TODO: part below is present only if is "expert" game mode
+        this.charactersDeck = new CharactersDeck();
+        this.characterInUse = new ArrayList<>();
     }
 
     /**
-     * initialize game
+     * start game
      */
     public void startGame(){
-        // TODO: handling initialization
-        charactersDeck = new CharactersDeck();
+        //TODO: game cannot start if players aren't full
         charactersDeck.init();
         characterInUse = charactersDeck.extractCharacterInUse();
         sack.initialFill();
         board.initIslands(sack);
         sack.fill();
+        for(Player player: players){
+            player.initialEntranceFill(sack.extractListOfPawns(gameLimit.getMaxEntrance()));
+        }
     }
 
     /**
@@ -59,7 +68,7 @@ public class Game {
      * @return True if ok
      */
     public boolean addPlayer(Player player){
-        if(this.players.contains(player) || alreadyChoiceWizard.contains(player.getWizard())) {
+        if(this.players.contains(player) || alreadyChoiceWizard.contains(player.getWizard()) || this.players.size() >= this.nPlayers) {
             return false;
         }
         else{
@@ -240,6 +249,20 @@ public class Game {
      */
     public CharactersDeck getCharacterDeck() {
         return charactersDeck;
+    }
+
+    /**
+     * @return the {@link GameLimit} of this {@link Game}
+     */
+    public GameLimit getGameLimit() {
+        return gameLimit;
+    }
+
+    /**
+     * @return the number of player that this game is created for
+     */
+    public int getNPlayers() {
+        return nPlayers;
     }
 
     /**

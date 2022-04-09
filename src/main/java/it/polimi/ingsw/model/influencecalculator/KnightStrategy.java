@@ -8,6 +8,9 @@ import it.polimi.ingsw.model.player.TowerColor;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The knight strategy gives two bonus points to the player who played the Knight {@link it.polimi.ingsw.model.character.CharacterCard}
+ */
 public class KnightStrategy extends StandardStrategy {
     final TowerColor towerPlus;
 

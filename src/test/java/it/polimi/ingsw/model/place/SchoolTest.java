@@ -1,9 +1,8 @@
-package it.polimi.ingsw.model.school;
+package it.polimi.ingsw.model.place;
 
+import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.HallObserver;
-import it.polimi.ingsw.model.place.School;
 
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -25,7 +24,7 @@ public class SchoolTest {
 
     @BeforeEach
     void setUp() {
-        Player player = new Player("Fausto", Wizard.WIZ1, TowerColor.BLACK);
+        Player player = new Player("Fausto", Wizard.WIZ1, TowerColor.BLACK,new GameLimit(false));
         school = player.getSchool();
         example = new Pawns(3,0,4,0,1);
         professorExample = new Pawns(1,0,1,0,1);
@@ -43,7 +42,7 @@ public class SchoolTest {
      */
     @Test
     void initialTest() {
-        School schoolInitial = new School();
+        School schoolInitial = new School(TowerColor.BLACK,new GameLimit(false));
         Pawns pawns = new Pawns();
         assertEquals(pawns,schoolInitial.getEntrance());
         assertEquals(pawns,schoolInitial.getHall());

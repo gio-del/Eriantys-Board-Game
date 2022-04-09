@@ -7,7 +7,9 @@ import it.polimi.ingsw.model.player.Player;
 import java.util.*;
 
 
-
+/**
+ * StandardStrategy is the default strategy used in the calc of the influence on a given island
+ */
 public class StandardStrategy implements InfluenceStrategy{
     @Override
     public Map<Player, Integer> getScores(Island island, List<Player> players) {

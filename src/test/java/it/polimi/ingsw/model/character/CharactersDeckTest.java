@@ -17,6 +17,6 @@ public class CharactersDeckTest {
 
     @Test
     void extractCharacterInUseTest() {
-        assertEquals(Constants.NUM_OF_CHARACTER_IN_USE,charactersDeck.extractCharacterInUse().size());
+        assertEquals(Constants.CHARACTER_IN_USE,charactersDeck.extractCharacterInUse().size());
     }
 }

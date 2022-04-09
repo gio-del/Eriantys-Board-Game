@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.influencecalculator;
 
 
+import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 
@@ -21,6 +22,9 @@ import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static it.polimi.ingsw.model.player.Wizard.WIZ1;
 import static it.polimi.ingsw.model.player.Wizard.WIZ2;
 
+/**
+ * This test class is used to test the standard strategy of the influence calc
+ */
 public class StandardStrategyTest {
     Player player1;
     Player player2;
@@ -31,8 +35,9 @@ public class StandardStrategyTest {
 
     @BeforeEach
     void setUp(){
-        player1 = new Player("Mario", WIZ1, BLACK);
-        player2 = new Player("Lorenzo",WIZ2, WHITE);
+        GameLimit gameLimit = new GameLimit(false);
+        player1 = new Player("Mario", WIZ1, BLACK,gameLimit);
+        player2 = new Player("Lorenzo",WIZ2, WHITE,gameLimit);
 
         example1 = new Pawns(3,0,4,0,2);
         player1.getSchool().getHall().addPawns(example1);

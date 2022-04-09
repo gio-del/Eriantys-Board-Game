@@ -13,9 +13,10 @@ import java.util.List;
  * When a Player is created, it initialises its {@link School} and subscribe to the {@link HallObserver}
  */
 public class HallObserver {
+    //TODO: Remove singleton from this, add a mechanism to assign coin to player
     private static HallObserver instance;
     private static final List<Player> playerList = new ArrayList<>();
-    final ProfessorAssignor professorAssignor;
+    private final ProfessorAssignor professorAssignor;
 
     private HallObserver() {
         professorAssignor = new ProfessorAssignor();
