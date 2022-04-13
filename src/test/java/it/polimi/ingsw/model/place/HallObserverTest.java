@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.place;
 
-import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -13,22 +13,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HallObserverTest {
-    Player p1;
-    Player p2;
-    HallObserver hallObserver;
+    private Player p1;
+    private Player p2;
 
     @BeforeEach
     void setUp() {
-        GameLimit gameLimit = new GameLimit(false);
-        HallObserver.resetInstance();
-        hallObserver = HallObserver.getInstance();
-        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK,gameLimit);
+        Game game = new Game(2);
+
+        game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
+        p1 = game.getPlayerByName("Luca");
         p1.getSchool().getEntrance().addPawns(new Pawns(3,0,0,0,0));
 
-        p2 = new Player("Marco", Wizard.WIZ2, TowerColor.WHITE,gameLimit);
+        game.addPlayer("Marco", Wizard.WIZ2, TowerColor.WHITE);
+        p2 = game.getPlayerByName("Marco");
         p2.getSchool().getHall().addPawns(new Pawns(2,0,0,0,0));
         p2.getSchool().getProfessorTable().addColor(GREEN);
-        HallObserver.getInstance().getProfessorAssignor().getProfsNotYetAssigned().removeColor(GREEN);
+
+        game.getProfessorAssignor().getProfsNotYetAssigned().removeColor(GREEN);
     }
 
     /**
@@ -38,16 +39,16 @@ public class HallObserverTest {
      */
     @Test
     void ProfessorAssignmentTriggerTest() {
-        assertTrue(p1.moveFromEntranceToHall(new Pawns(1,0,0,0,0)));
+        assertTrue(p1.moveFromEntranceToHall(new Pawns(GREEN)));
         assertEquals(1,p2.getSchool().getProfessorTable().getFromColor(GREEN));
         assertEquals(0,p1.getSchool().getProfessorTable().getFromColor(GREEN));
 
-        assertTrue(p1.moveFromEntranceToHall(new Pawns(1,0,0,0,0)));
+        assertTrue(p1.moveFromEntranceToHall(new Pawns(GREEN)));
         assertEquals(1,p2.getSchool().getProfessorTable().getFromColor(GREEN));
         assertEquals(0,p1.getSchool().getProfessorTable().getFromColor(GREEN));
 
 
-        assertTrue(p1.moveFromEntranceToHall(new Pawns(1,0,0,0,0)));
+        assertTrue(p1.moveFromEntranceToHall(new Pawns(GREEN)));
         assertEquals(0,p2.getSchool().getProfessorTable().getFromColor(GREEN));
         assertEquals(1,p1.getSchool().getProfessorTable().getFromColor(GREEN));
     }

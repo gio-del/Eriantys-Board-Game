@@ -1,16 +1,13 @@
 package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.character.Action;
 import it.polimi.ingsw.model.character.ThiefAction;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -25,9 +22,12 @@ public class ThiefActionTest {
     Player p2;
     @BeforeEach
     void setUp() {
-        GameLimit gameLimit = new GameLimit(false);
-        p1 = new Player("Luca", Wizard.WIZ1, TowerColor.BLACK,gameLimit);
-        p2 = new Player("Mario", Wizard.WIZ2, TowerColor.GRAY,gameLimit);
+        Game game = new Game(2);
+        game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
+        game.addPlayer("Mario", Wizard.WIZ2, TowerColor.GRAY);
+
+        p1 = game.getPlayerByName("Luca");
+        p2 = game.getPlayerByName("Mario");
 
         Pawns pawns1 = new Pawns(8,6,5,3,2);
         p1.getSchool().getHall().addPawns(pawns1);
@@ -39,11 +39,6 @@ public class ThiefActionTest {
         players.add(p1);
         players.add(p2);
 
-    }
-
-    @AfterEach
-    void tearDown() {
-        HallObserver.resetInstance();
     }
 
     @Test

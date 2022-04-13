@@ -1,14 +1,12 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.HallObserver;
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static it.polimi.ingsw.model.player.Assistant.*;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 import static it.polimi.ingsw.model.player.Wizard.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,27 +17,25 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerTest {
     private Player player1;
     private Player player2;
-    private Player player3;
     private Pawns pawns;
     private Island island;
 
     @BeforeEach
     void setUp() {
-        GameLimit gameLimit = new GameLimit(false);
-        player1 = new Player("Mario", WIZ1, BLACK,gameLimit);
-        player2 = new Player("Lorenzo",WIZ2, WHITE,gameLimit);
-        player3 = new Player("Lorenzo",WIZ2, WHITE,gameLimit);
+        Game game = new Game(2);
+
+        game.addPlayer("Mario", WIZ1, BLACK);
+        player1 = game.getPlayerByName("Mario");
+
+        game.addPlayer("Lorenzo",WIZ2, WHITE);
+        player2 = game.getPlayerByName("Lorenzo");
+
         player1.getSchool().getEntrance().addColor(GREEN,4);
         player1.getSchool().getEntrance().addColor(BLUE,1);
         pawns = new Pawns();
         pawns.addColor(GREEN,4);
         pawns.addColor(BLUE,1);
         island = new Island();
-    }
-
-    @AfterEach
-    void tearDown() {
-        HallObserver.resetInstance();
     }
 
     /**
@@ -70,15 +66,6 @@ public class PlayerTest {
     }
 
     /**
-     * This method tests getPlayerBank.
-     */
-    @Test
-    void initialBankTest() {
-        assertEquals(1,player1.getPlayerBank());
-        assertEquals(1,player2.getPlayerBank());
-    }
-
-    /**
      * This method tests getHand and playAssistant.
      */
     @Test
@@ -96,11 +83,7 @@ public class PlayerTest {
      */
     @Test
     void equalsTest() {
-        boolean equals;
-        equals = player2.equals(player1);
-        assertFalse(equals);
-        equals = player2.equals(player3);
-        assertTrue(equals);
+        assertNotEquals(player2, player1);
     }
 
     /**

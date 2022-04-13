@@ -1,15 +1,11 @@
 package it.polimi.ingsw.model.influencecalculator;
 
-
-import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 
-import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 
-
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,25 +22,24 @@ import static it.polimi.ingsw.model.player.Wizard.WIZ2;
  * This test class is used to test the standard strategy of the influence calc
  */
 public class StandardStrategyTest {
-    Player player1;
-    Player player2;
-    List<Player> players;
-    Pawns example1;
-    Pawns example2;
-
+    private Player player1;
+    private Player player2;
+    private List<Player> players;
 
     @BeforeEach
     void setUp(){
-        GameLimit gameLimit = new GameLimit(false);
-        player1 = new Player("Mario", WIZ1, BLACK,gameLimit);
-        player2 = new Player("Lorenzo",WIZ2, WHITE,gameLimit);
+        Game game = new Game(2);
+        game.addPlayer("Mario", WIZ1, BLACK);
+        game.addPlayer("Lorenzo",WIZ2, WHITE);
+        player1 = game.getPlayerByName("Mario");
+        player2 = game.getPlayerByName("Lorenzo");
 
-        example1 = new Pawns(3,0,4,0,2);
+        Pawns example1 = new Pawns(3, 0, 4, 0, 2);
         player1.getSchool().getHall().addPawns(example1);
         player1.getSchool().addProfessor(GREEN);
         player1.getSchool().addProfessor(YELLOW);
 
-        example2 = new Pawns(2,0,1,0,4);
+        Pawns example2 = new Pawns(2, 0, 1, 0, 4);
         player2.getSchool().getHall().addPawns(example2);
         player2.getSchool().addProfessor(BLUE);
 
@@ -53,11 +48,12 @@ public class StandardStrategyTest {
         players.add(player2);
     }
 
-    @AfterEach
-    void tearDown() {
-        HallObserver.resetInstance();
-    }
-
+    /**
+     * Test that influence scores are calculated correctly (in this case Standard Strategy is used)
+     * On the island there are 1 green, 1 yellow, 3 blue
+     * Player 1 controls Green and Yellow professors so its influence is 2
+     * Player 2 controls Blue professor so its influence is 3
+     */
     @Test
     void calculateScoresTest(){
         Island island = new Island();

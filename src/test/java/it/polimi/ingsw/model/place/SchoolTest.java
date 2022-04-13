@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +23,10 @@ public class SchoolTest {
 
     @BeforeEach
     void setUp() {
-        Player player = new Player("Fausto", Wizard.WIZ1, TowerColor.BLACK,new GameLimit(false));
+        HallObserver hallObserver = new HallObserver();
+        Player player = new Player("Fausto", Wizard.WIZ1, TowerColor.BLACK,new GameLimit(false),hallObserver);
+        hallObserver.addPlayer(player);
+
         school = player.getSchool();
         example = new Pawns(3,0,4,0,1);
         professorExample = new Pawns(1,0,1,0,1);
@@ -32,21 +34,15 @@ public class SchoolTest {
         overMax = new Pawns(10,10,10,10,11);
     }
 
-    @AfterEach
-    void tearDown() {
-        HallObserver.resetInstance();
-    }
-
     /**
      * Test that initially a {@link School} is empty
      */
     @Test
     void initialTest() {
-        School schoolInitial = new School(TowerColor.BLACK,new GameLimit(false));
         Pawns pawns = new Pawns();
-        assertEquals(pawns,schoolInitial.getEntrance());
-        assertEquals(pawns,schoolInitial.getHall());
-        assertEquals(pawns,schoolInitial.getProfessorTable());
+        assertEquals(pawns,school.getEntrance());
+        assertEquals(pawns,school.getHall());
+        assertEquals(pawns,school.getProfessorTable());
     }
 
     /**

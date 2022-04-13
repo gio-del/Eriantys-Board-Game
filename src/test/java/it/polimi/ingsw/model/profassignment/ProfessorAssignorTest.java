@@ -1,11 +1,8 @@
 package it.polimi.ingsw.model.profassignment;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,20 +21,17 @@ public class ProfessorAssignorTest {
     @BeforeEach
     void setUp(){
         game = new Game(3);
-        HallObserver.resetInstance();
-        professorAssignor = HallObserver.getInstance().getProfessorAssignor();
-        GameLimit gameLimit = game.getGameLimit();
-        player1 = new Player("Mario", WIZ1, BLACK,gameLimit);
-        player2 = new Player("Albert",WIZ2, WHITE,gameLimit);
-        player3 = new Player("Giovanni",WIZ3, GRAY,gameLimit);
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.addPlayer(player3);
-    }
+        game.addPlayer("Mario", WIZ1, BLACK);
+        player1 = game.getPlayerByName("Mario");
 
-    @AfterEach
-    void tearDown() {
-        HallObserver.resetInstance();
+        game.addPlayer("Albert",WIZ2, WHITE);
+        player2 = game.getPlayerByName("Albert");
+
+        game.addPlayer("Giovanni",WIZ3, GRAY);
+        player3 = game.getPlayerByName("Giovanni");
+
+        professorAssignor = new ProfessorAssignor();
+
     }
 
     /**

@@ -17,7 +17,7 @@ public class CharacterJSONParserTest {
 
     @BeforeEach
     void setUp() {
-        characterCardList = CharacterJSONParser.parseCharacters(Constants.CHARACTER_JSON_PATH);
+        characterCardList = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
     }
 
     @Test

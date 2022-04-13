@@ -15,9 +15,9 @@ public class School {
     private int towerNum; //TODO: if 4 players only 1 TeamMate have towers -> add TEAM ENUM?
     private final TowerColor towerColor;
 
-    public School(TowerColor towerColor, GameLimit gameLimit) {
+    public School(TowerColor towerColor, GameLimit gameLimit, HallObserver obs) {
         this.entrance = new Entrance(gameLimit.getMaxEntrance());
-        this.hall= new Hall();
+        this.hall= new Hall(obs);
         this.profTable = new ProfTable();
         this.towerColor = towerColor;
         this.towerNum = gameLimit.getNumberOfTower();

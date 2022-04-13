@@ -2,10 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.influencecalculator.*;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -31,13 +29,14 @@ public class BoardTest {
     @BeforeEach
     void setUp() {
         game = new Game(3);
-        GameLimit gameLimit = game.getGameLimit();
-        player1 = new Player("Mario", WIZ1, BLACK,gameLimit);
-        player2 = new Player("Lorenzo", WIZ2, WHITE,gameLimit);
-        player3 = new Player("Giovanni", WIZ3, GRAY,gameLimit);
-        game.addPlayer(player1);
-        game.addPlayer(player2);
-        game.addPlayer(player3);
+
+        game.addPlayer("Mario", WIZ1, BLACK);
+        game.addPlayer("Lorenzo", WIZ2, WHITE);
+        game.addPlayer("Giovanni", WIZ3, GRAY);
+
+        player1 = game.getPlayerByName("Mario");
+        player2 = game.getPlayerByName("Lorenzo");
+        player3 = game.getPlayerByName("Giovanni");
 
         example1 = new Pawns(3,0,4,0,2);
         player1.getSchool().getHall().addPawns(example1);
@@ -61,28 +60,35 @@ public class BoardTest {
         island.add(exampleIsland2);
     }
 
-    @AfterEach
-    void tearDown() {
-        HallObserver.resetInstance();
-    }
-
+    /**
+     * Test that initial number of island is correct
+     */
     @Test
     void numberOfIslands(){
         assertEquals(12, game.getBoard().numberOfIslands());
     }
 
+    /**
+     * Test the correct position of mother nature after the movement
+     */
     @Test
     void checkStepsMotherNature(){
         game.getBoard().setMotherNaturePos(2);
         assertEquals(2, game.getBoard().getMotherNaturePos());
     }
 
+    /**
+     * Test that an island without tower is correctly conquered
+     */
     @Test
     void conquerIslandWithoutTower(){
         game.getBoard().setMotherNaturePos(2);
         assertEquals(TowerColor.WHITE, game.getBoard().moveMotherNature(2, game.getPlayers()));
     }
 
+    /**
+     * Test the case of the greatest influence player on island is the current owner
+     */
     @Test
     void conquerIslandWithTowerOfTheWinner(){
         game.getBoard().setMotherNaturePos(2);
@@ -91,6 +97,9 @@ public class BoardTest {
         assertNull(game.getBoard().moveMotherNature(2, game.getPlayers()));
     }
 
+    /**
+     * Conquer island with a different owner
+     */
     @Test
     void conquerIslandWithTowerOfTheLoser(){
         game.getBoard().setMotherNaturePos(2);
@@ -99,6 +108,9 @@ public class BoardTest {
         assertEquals(WHITE, game.getBoard().moveMotherNature(2, game.getPlayers()));
     }
 
+    /**
+     * Test the case of a tie
+     */
     @Test
     void tieOnIslandWithTower(){
         game.getBoard().setMotherNaturePos(3);
@@ -107,6 +119,9 @@ public class BoardTest {
         assertNull(game.getBoard().moveMotherNature(2, game.getPlayers()));
     }
 
+    /**
+     * Test the movement of mother nature
+     */
     @Test
     void motherNatureMovementInsideSize(){
         game.getBoard().setMotherNaturePos(3);
@@ -114,6 +129,9 @@ public class BoardTest {
         assertEquals(5, game.getBoard().getMotherNaturePos());
     }
 
+    /**
+     * Check the correct clockwise circular movement of mother nature
+     */
     @Test
     void motherNatureMovementLoopArray(){
         game.getBoard().setMotherNaturePos(9);
@@ -121,6 +139,9 @@ public class BoardTest {
         assertEquals(1, game.getBoard().getMotherNaturePos());
     }
 
+    /**
+     * Test MushroomSeller Strategy (a color is not considered during the calc of influence)
+     */
     @Test
     void mushroomSellerStrategy(){
         mushroomSellerStrategy = new MushroomSellerStrategy();
@@ -130,6 +151,9 @@ public class BoardTest {
         assertEquals(WHITE, game.getBoard().moveMotherNature(3, game.getPlayers()));
     }
 
+    /**
+     * Test Centaur Strategy (tower doesn't count)
+     */
     @Test
     void centaurStrategy(){
         centaurStrategy = new CentaurStrategy();
@@ -140,6 +164,9 @@ public class BoardTest {
         assertEquals(WHITE, game.getBoard().moveMotherNature(3, game.getPlayers()));
     }
 
+    /**
+     * Test Knight Strategy (player who used the Knight Character receives 2 bonus point during the calc of influence)
+     */
     @Test
     void KnightStrategy(){
         knightStrategy = new KnightStrategy(BLACK);
@@ -148,6 +175,9 @@ public class BoardTest {
         assertEquals(BLACK, game.getBoard().moveMotherNature(3, game.getPlayers()));
     }
 
+    /**
+     * Test the correct merging of islands
+     */
     @Test
     void twoIslandsMergeMiddle(){
         Board board2 = new Board();

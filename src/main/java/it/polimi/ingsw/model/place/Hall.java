@@ -4,15 +4,14 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 
-
 /**
  * Hall of the {@link School}
  */
 public class Hall extends SchoolPlace {
     final HallObserver hallObserver;
 
-    public Hall() {
-        this.hallObserver = HallObserver.getInstance();
+    public Hall(HallObserver obs) {
+        this.hallObserver = obs;
     }
 
     /**

@@ -34,7 +34,7 @@ public class Island implements Place {
      */
     @Override
     public boolean remove(Pawns pawns) {
-        return false;
+        return canBeRemoved(pawns);
     }
 
     /**

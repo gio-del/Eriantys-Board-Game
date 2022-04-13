@@ -7,9 +7,11 @@ import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
+import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static it.polimi.ingsw.constants.Constants.MAX_NUM_OF_COINS;
 
 public class Game {
@@ -19,7 +21,7 @@ public class Game {
     private final List<Cloud> clouds;
     private final CharactersDeck charactersDeck;
     private Player currentPlayer;
-    private static final List<Wizard> alreadyChoiceWizard = new ArrayList<>();
+    private final List<Wizard> alreadyChoiceWizard;
     private final HallObserver hallObserver;
     private final GameLimit gameLimit;
     private final int nPlayers;
@@ -37,12 +39,12 @@ public class Game {
         gameLimit = new GameLimit(nPlayers==3);
         this.board = new Board();
         this.sack = new Sack();
-        this.generalBank = MAX_NUM_OF_COINS;
         this.clouds = new ArrayList<>();
-        this.hallObserver = HallObserver.getInstance();
-        alreadyChoiceWizard.clear();
+        this.alreadyChoiceWizard = new ArrayList<>();
+        this.hallObserver = new HallObserver();
 
         //TODO: part below is present only if is "expert" game mode
+        this.generalBank = MAX_NUM_OF_COINS;
         this.charactersDeck = new CharactersDeck();
         this.characterInUse = new ArrayList<>();
     }
@@ -64,17 +66,23 @@ public class Game {
 
     /**
      *
-     * @param player new player to add in the game
-     * @return True if ok
+     * @param name name of the player
+     * @param wizard wizard chosen by the player
+     * @param towerColor color chosen by the player
+     * @return true if player was added, otherwise false.
      */
-    public boolean addPlayer(Player player){
-        if(this.players.contains(player) || alreadyChoiceWizard.contains(player.getWizard()) || this.players.size() >= this.nPlayers) {
+    public boolean addPlayer(String name,Wizard wizard, TowerColor towerColor){
+
+        if(players.stream().anyMatch(player -> player.getPlayerName().equals(name)) ||
+                alreadyChoiceWizard.contains(wizard) ||
+                this.players.size() >= this.nPlayers) {
             return false;
         }
         else{
+            Player player = new Player(name,wizard,towerColor,gameLimit,hallObserver);
             alreadyChoiceWizard.add(player.getWizard());
             this.players.add(player);
-            generalBank -= 1;
+            this.hallObserver.addPlayer(player);
             return true;
         }
     }
@@ -137,6 +145,7 @@ public class Game {
 
 
     public void depositInBank(int deposit){
+        // TODO: delegate to a MoneyHandler class which exists only if the game mode is the expert one
         this.generalBank += deposit;
     }
 
@@ -172,34 +181,18 @@ public class Game {
 
     /**
      * To add a coin to a specific Player
-     * @param player that is receiving the amount
-     * @param coins is the amount
-     * @return true if there is enough coins to be given, false otherwise
      */
     public boolean addCoin(Player player, int coins) {
-        if (generalBank >= coins) {
-            int newAmount = player.getPlayerBank() + coins;
-            player.setBank(newAmount);
-            generalBank -= coins;
-            return true;
-        }
-        return false;
+        // TODO: is this necessary?
+        return true;
     }
 
     /**
      * To remove a coin from a specific Player
-     * @param player that spend the amount
-     * @param coins is the amount
-     * @return true if the player ha enough money, false otherwise
      */
     public boolean removeCoin(Player player, int coins) {
-        int newAmount = player.getPlayerBank() - coins;
-        if (newAmount>0) {
-            player.setBank(newAmount);
-            generalBank += coins;
-            return true;
-        }
-        return false;
+        // TODO: is this necessary?
+        return true;
     }
 
     /**
@@ -208,6 +201,9 @@ public class Game {
      * @return the pawns of the cloud
      */
     public Pawns pickFromCloud(Cloud cloud){
+        /*
+        TODO: this must be used by the controller to say that player X choice cloud Y and so this must assign the picked student to the entrance of that student
+         */
         return cloud.getStudentsAndRemove();
     }
 
@@ -282,7 +278,6 @@ public class Game {
     }
 
     /**
-     *
      * @return the character available in this game
      */
     public List<CharacterCard> getCharacterInUse() {
@@ -293,4 +288,7 @@ public class Game {
         currentPlayer = player;
     }
 
+    public ProfessorAssignor getProfessorAssignor(){
+        return hallObserver.getProfessorAssignor();
+    }
 }

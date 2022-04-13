@@ -70,4 +70,11 @@ public class ProfessorAssignor {
     public Pawns getProfsNotYetAssigned() {
         return profsNotYetAssigned;
     }
+
+    /**
+     * @return the current professor assignment strategy
+     */
+    public ProfessorStrategy getProfessorStrategy() {
+        return professorStrategy;
+    }
 }

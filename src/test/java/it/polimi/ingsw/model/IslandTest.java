@@ -21,18 +21,22 @@ public class IslandTest {
         exampleIsland.addColor(YELLOW,1);
     }
 
+    /**
+     * add student pawns in island, it can always be done since island has no limit
+     */
     @Test
     void addStudentPawns(){
         island.add(exampleIsland);
         assertEquals(exampleIsland, island.getStudents());
     }
 
+    /**
+     * test add(Color) method
+     */
     @Test
     void addStudentColor(){
         island.add(GREEN);
-        Pawns exampleIsland2 = new Pawns();
-        exampleIsland2.addColor(GREEN,1);
-        assertEquals(exampleIsland2, island.getStudents());
+        assertEquals(new Pawns(GREEN), island.getStudents());
     }
 
 

@@ -13,33 +13,21 @@ import java.util.List;
  * When a Player is created, it initialises its {@link School} and subscribe to the {@link HallObserver}
  */
 public class HallObserver {
-    //TODO: Remove singleton from this, add a mechanism to assign coin to player
-    private static HallObserver instance;
-    private static final List<Player> playerList = new ArrayList<>();
+    //TODO: add a mechanism to assign coin to player, but only in "expert mode" game
+    private final List<Player> playerList;
     private final ProfessorAssignor professorAssignor;
 
-    private HallObserver() {
-        professorAssignor = new ProfessorAssignor();
-    }
-
-    public static HallObserver getInstance(){
-        if(instance == null){
-            instance = new HallObserver();
-        }
-        return instance;
-    }
-
-    public static void resetInstance(){
-        playerList.clear();
-        instance = null;
+    public HallObserver() {
+        this.playerList = new ArrayList<>();
+        this.professorAssignor = new ProfessorAssignor();
     }
 
     /**
      * Add a {@link Player} to the subscribers list
      * @param player to be added
      */
-    public static void addPlayer(Player player){
-        playerList.add(player);
+    public void addPlayer(Player player){
+        this.playerList.add(player);
     }
 
     /**

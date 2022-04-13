@@ -17,7 +17,7 @@ public class CharactersDeck {
     }
 
     public void init(){
-            this.characterCards = CharacterJSONParser.parseCharacters(Constants.CHARACTER_JSON_PATH);
+            this.characterCards = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
     }
 
     public List<CharacterCard> extractCharacterInUse(){

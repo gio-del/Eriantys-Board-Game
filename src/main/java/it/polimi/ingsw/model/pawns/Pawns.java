@@ -153,8 +153,9 @@ public class Pawns {
     public PawnColor getByIndex(int index) {
         int currentSum = 0;
         PawnColor lastElement = null;
-        for (PawnColor pawnColor : state.keySet()) {
-            if (index < currentSum + state.get(pawnColor)) {
+        for(Map.Entry<PawnColor,Integer> entry: state.entrySet()){
+            PawnColor pawnColor = entry.getKey();
+            if(index < currentSum + state.get(pawnColor)){
                 return pawnColor;
             }
             currentSum += state.get(pawnColor);

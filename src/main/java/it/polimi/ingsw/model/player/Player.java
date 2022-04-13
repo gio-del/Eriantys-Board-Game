@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.player;
 
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
@@ -19,17 +18,14 @@ public class Player {
     private final String playerName;
     private final ArrayList<Assistant> hand = new ArrayList<>();
     private final Wizard wizard;
-    private int bank;
     private Assistant lastPlayedAssistant;
     private final School school;
 
-    public Player(String name,Wizard wizard,TowerColor color, GameLimit gameLimit) {
+    public Player(String name, Wizard wizard, TowerColor towerColor, GameLimit gameLimit, HallObserver hallObserver) {
         this.playerName = name;
         this.wizard = wizard;
-        this.school = new School(color, gameLimit);
-        bank = Constants.INITIAL_CASH_PER_PLAYER;
+        this.school = new School(towerColor, gameLimit,hallObserver);
         hand.addAll(Arrays.stream(values()).toList());
-        HallObserver.addPlayer(this);
     }
 
     /**
@@ -68,14 +64,6 @@ public class Player {
         return school.getTowerNum();
     }
 
-    /**
-     * This method return player's Bank.
-     *
-     * @return player's amount of coins.
-     */
-    public int getPlayerBank() {
-        return bank;
-    }
 
     /**
      * This method return player's {@link School}.
@@ -148,15 +136,6 @@ public class Player {
             return true;
         }
         return false;
-    }
-
-    /**
-     * This method reinitialize player's bank.
-     *
-     * @param newBank new bank value.
-     */
-    public void setBank(int newBank) {
-        this.bank = newBank;
     }
 
     /**
