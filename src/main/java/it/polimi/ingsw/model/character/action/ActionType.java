@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.character;
+package it.polimi.ingsw.model.character.action;
 
 public enum ActionType {
     MOVE_ACTION("MoveAction"),

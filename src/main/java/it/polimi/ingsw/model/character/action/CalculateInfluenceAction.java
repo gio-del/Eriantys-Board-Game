@@ -1,8 +1,8 @@
-package it.polimi.ingsw.model.character;
+package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Island;
 
-public class CalculateInfluenceAction implements Action{
+public class CalculateInfluenceAction implements Action {
     private final Island island;
 
     public CalculateInfluenceAction(Island island) {

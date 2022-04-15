@@ -20,7 +20,7 @@ public class ProfessorAssignorTest {
 
     @BeforeEach
     void setUp(){
-        game = new Game(3);
+        game = new Game(3,false);
         game.addPlayer("Mario", WIZ1, BLACK);
         player1 = game.getPlayerByName("Mario");
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.influencecalculator.StandardStrategy;
 import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -11,6 +12,8 @@ import it.polimi.ingsw.model.profassignment.StandardProfStrategy;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class GameTest {
@@ -18,7 +21,7 @@ public class GameTest {
 
     @BeforeEach
     void setUp() {
-        game = new Game(2);
+        game = new Game(2,true);
 
         game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
         game.addPlayer("Marco", Wizard.WIZ2,TowerColor.GRAY);
@@ -30,7 +33,7 @@ public class GameTest {
      */
     @Test
     void startGameTest() {
-        game.startGame();
+        assertTrue(game.startGame());
         assertEquals(Constants.CHARACTER_IN_USE, game.getCharacterInUse().size());
         int expected = (Constants.STUDENTS_OF_EACH_COLOR-Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length
                 - game.getNPlayers()*game.getGameLimit().getMaxEntrance();
@@ -38,6 +41,10 @@ public class GameTest {
         for(int i=1;i<Constants.MAX_ISLAND;i++){
             if(i!=6)
                 assertEquals(1,game.getBoard().getIslands().get(i).getStudents().totalElements());
+        }
+
+        for(Player player: game.getPlayers()){
+            assertEquals(game.getGameLimit().getNumberOfTower(),player.getTowerNum());
         }
     }
 
@@ -105,6 +112,7 @@ public class GameTest {
     @Test
     void nextPlayerFirst(){
         game.setCurrentPlayer(game.getPlayers().get(1));
+        assertEquals(game.getPlayerByName("Marco"),game.getCurrentPlayer());
         assertEquals("Luca", game.nextPlayer().getPlayerName());
     }
 
@@ -114,6 +122,7 @@ public class GameTest {
     @Test
     void nextPlayerLast(){
         game.setCurrentPlayer(game.getPlayers().get(0));
+        assertEquals(game.getPlayerByName("Luca"),game.getCurrentPlayer());
         assertEquals("Marco", game.nextPlayer().getPlayerName());
     }
 
@@ -126,6 +135,42 @@ public class GameTest {
         assertTrue(game.moveMotherNature(1, game.getPlayers().get(0)));
         assertFalse(game.moveMotherNature(0, game.getPlayers().get(0)));
         assertFalse(game.moveMotherNature(2, game.getPlayers().get(0)));
+    }
+
+    @Test
+    void fillCloudTest() {
+        game.startGame();
+        List<Cloud> cloudList = game.getClouds();
+        for(Cloud cloud: cloudList){
+            assertEquals(new Pawns(),cloud.getStudents());
+        }
+        game.fillClouds();
+        for(Cloud cloud: cloudList){
+            assertNotEquals(new Pawns(),cloud.getStudents());
+            assertEquals(game.getGameLimit().getStudentOnCloud(),cloud.getStudents().totalElements());
+        }
+    }
+
+    @Test
+    void pickFromCloudTest() {
+        Cloud cloud = game.getClouds().get(0);
+        Pawns pawnsOnCloud = cloud.getStudents();
+        Player player = game.getPlayerByName("Luca");
+
+        //CLEAR ENTRANCE
+        for(PawnColor pawnColor: PawnColor.values())
+            player.getSchool().getEntrance().removeColor(pawnColor,7);
+
+        Pawns alreadyInEntrance = new Pawns(3,0,0,0,0);
+        player.getSchool().getEntrance().addPawns(alreadyInEntrance);
+        game.pickFromCloud(player,cloud);
+
+        Pawns EntranceAfterPicking = new Pawns();
+        EntranceAfterPicking.addPawns(alreadyInEntrance);
+        EntranceAfterPicking.addPawns(pawnsOnCloud);
+
+        assertEquals(EntranceAfterPicking,player.getSchool().getEntrance());
+
     }
 
     /**

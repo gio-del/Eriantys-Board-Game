@@ -39,5 +39,8 @@ public class IslandTest {
         assertEquals(new Pawns(GREEN), island.getStudents());
     }
 
-
+    @Test
+    void youCannotRemoveFromIslandTest() {
+        assertFalse(island.remove(new Pawns()) || island.canBeRemoved(new Pawns()));
+    }
 }

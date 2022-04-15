@@ -13,7 +13,6 @@ import java.util.List;
  * When a Player is created, it initialises its {@link School} and subscribe to the {@link HallObserver}
  */
 public class HallObserver {
-    //TODO: add a mechanism to assign coin to player, but only in "expert mode" game
     private final List<Player> playerList;
     private final ProfessorAssignor professorAssignor;
 
@@ -34,8 +33,9 @@ public class HallObserver {
      * This method is called everytime a pawn is added or moved to the {@link Hall}
      * @param pawnColor the pawns on which to check professor assignment
      */
-    public void update(PawnColor pawnColor){
-        professorAssignor.colorProfessorChecker(pawnColor,playerList);
+    public void update(Hall observable,PawnColor pawnColor){
+        if (observable != null)
+            professorAssignor.colorProfessorChecker(pawnColor,playerList);
     }
 
     /**

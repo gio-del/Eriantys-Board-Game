@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.player;
 
+import it.polimi.ingsw.model.Cloud;
 import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
@@ -24,7 +25,7 @@ public class Player {
     public Player(String name, Wizard wizard, TowerColor towerColor, GameLimit gameLimit, HallObserver hallObserver) {
         this.playerName = name;
         this.wizard = wizard;
-        this.school = new School(towerColor, gameLimit,hallObserver);
+        this.school = new School(towerColor, gameLimit, hallObserver);
         hand.addAll(Arrays.stream(values()).toList());
     }
 
@@ -136,6 +137,10 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    public boolean addPawnsFromCloud(Cloud cloud){
+        return school.addStudentInEntrance(cloud.getStudents());
     }
 
     /**

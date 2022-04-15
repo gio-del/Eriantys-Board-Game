@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Island;
-import it.polimi.ingsw.model.character.MoveAction;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Entrance;
 import it.polimi.ingsw.model.place.Place;

@@ -18,7 +18,7 @@ public class HallObserverTest {
 
     @BeforeEach
     void setUp() {
-        Game game = new Game(2);
+        Game game = new Game(2,false);
 
         game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
         p1 = game.getPlayerByName("Luca");

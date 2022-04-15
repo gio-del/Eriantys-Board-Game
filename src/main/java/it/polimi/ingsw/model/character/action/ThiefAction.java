@@ -1,11 +1,11 @@
-package it.polimi.ingsw.model.character;
+package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
 
-public class ThiefAction implements Action{
+public class ThiefAction implements Action {
     private final PawnColor colorToSteal;
     private final List<Player> players;
 

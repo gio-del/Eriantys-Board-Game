@@ -12,7 +12,6 @@ public class CharactersDeckTest {
     @BeforeEach
     void setUp() {
         charactersDeck = new CharactersDeck();
-        charactersDeck.init();
     }
 
     @Test

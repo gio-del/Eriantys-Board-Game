@@ -28,7 +28,7 @@ public class BoardTest {
 
     @BeforeEach
     void setUp() {
-        game = new Game(3);
+        game = new Game(3,false);
 
         game.addPlayer("Mario", WIZ1, BLACK);
         game.addPlayer("Lorenzo", WIZ2, WHITE);

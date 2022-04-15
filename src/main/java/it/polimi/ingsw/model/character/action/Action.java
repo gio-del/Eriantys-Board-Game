@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.character;
+package it.polimi.ingsw.model.character.action;
 
 public interface Action {
     boolean apply();

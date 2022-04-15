@@ -2,7 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.CharactersDeck;
-import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.BankHallObserver;
 import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -12,56 +12,60 @@ import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static it.polimi.ingsw.constants.Constants.MAX_NUM_OF_COINS;
-
+/**
+ * This class represents Eriantys game
+ */
 public class Game {
     private final List<Player> players;
     private final Board board;
     private final Sack sack;
     private final List<Cloud> clouds;
-    private final CharactersDeck charactersDeck;
     private Player currentPlayer;
     private final List<Wizard> alreadyChoiceWizard;
     private final HallObserver hallObserver;
     private final GameLimit gameLimit;
     private final int nPlayers;
-
-    // TODO: this is present only if is "expert" game mode
-    private int generalBank;
+    private final boolean isExpertMode;
     private List<CharacterCard> characterInUse;
 
     /**
      * The Game is created with the number of players by the controller, the limit of the Game are set
+     * @param nPlayers the number of players
+     * @param isExpertMode the game mode
      */
-    public Game(int nPlayers) {
+    public Game(int nPlayers, boolean isExpertMode) {
         this.players = new ArrayList<>();
         this.nPlayers = nPlayers;
         gameLimit = new GameLimit(nPlayers==3);
         this.board = new Board();
         this.sack = new Sack();
         this.clouds = new ArrayList<>();
+        for(int i=0;i<nPlayers;i++){
+            clouds.add(new Cloud());
+        }
         this.alreadyChoiceWizard = new ArrayList<>();
-        this.hallObserver = new HallObserver();
-
-        //TODO: part below is present only if is "expert" game mode
-        this.generalBank = MAX_NUM_OF_COINS;
-        this.charactersDeck = new CharactersDeck();
+        if(isExpertMode)
+            this.hallObserver = new HallObserver();
+        else
+            this.hallObserver = new BankHallObserver();
+        this.isExpertMode = isExpertMode;
         this.characterInUse = new ArrayList<>();
     }
 
     /**
      * start game
+     * @return true if game is started, false otherwise
      */
-    public void startGame(){
-        //TODO: game cannot start if players aren't full
-        charactersDeck.init();
-        characterInUse = charactersDeck.extractCharacterInUse();
+    public boolean startGame() {
+        if (players.size() != nPlayers) return false;
+        if(isExpertMode) characterInUse = new CharactersDeck().extractCharacterInUse();
         sack.initialFill();
         board.initIslands(sack);
         sack.fill();
-        for(Player player: players){
+        for (Player player : players) {
             player.initialEntranceFill(sack.extractListOfPawns(gameLimit.getMaxEntrance()));
         }
+        return true;
     }
 
     /**
@@ -79,6 +83,7 @@ public class Game {
             return false;
         }
         else{
+            // TODO: check Builder pattern for Player class
             Player player = new Player(name,wizard,towerColor,gameLimit,hallObserver);
             alreadyChoiceWizard.add(player.getWizard());
             this.players.add(player);
@@ -143,12 +148,6 @@ public class Game {
         return null;
     }
 
-
-    public void depositInBank(int deposit){
-        // TODO: delegate to a MoneyHandler class which exists only if the game mode is the expert one
-        this.generalBank += deposit;
-    }
-
     /**
      * To reset all the strategies to the standard ones
      * @return true when done
@@ -160,7 +159,7 @@ public class Game {
     }
 
     public boolean useCharacter(Character character, String string){
-        // TODO
+        // TODO: handle character use
         return true;
     }
 
@@ -180,32 +179,25 @@ public class Game {
     }
 
     /**
-     * To add a coin to a specific Player
+     * Pick pawns from the chosen cloud and put it in player's entrance
+     * @param player the player who chose
+     * @param cloud the chosen cloud
+     * @return true if adding to the entrance is ok, otherwise false
      */
-    public boolean addCoin(Player player, int coins) {
-        // TODO: is this necessary?
-        return true;
+    public boolean pickFromCloud(Player player, Cloud cloud){
+        //TODO: check the usage of this method, controller use Player or just the name of the Player?
+        return player.addPawnsFromCloud(cloud);
     }
 
     /**
-     * To remove a coin from a specific Player
+     * Fill the clouds according to the game limit, this is also used at the beginning of each turn
      */
-    public boolean removeCoin(Player player, int coins) {
-        // TODO: is this necessary?
-        return true;
+    public void fillClouds() {
+        for(Cloud cloud: clouds){
+            cloud.fill(sack.extractListOfPawns(gameLimit.getStudentOnCloud()));
+        }
     }
 
-    /**
-     * To pick pawns from a cloud
-     * @param cloud chosen
-     * @return the pawns of the cloud
-     */
-    public Pawns pickFromCloud(Cloud cloud){
-        /*
-        TODO: this must be used by the controller to say that player X choice cloud Y and so this must assign the picked student to the entrance of that student
-         */
-        return cloud.getStudentsAndRemove();
-    }
 
     /**
      *
@@ -240,14 +232,6 @@ public class Game {
     }
 
     /**
-     *
-     * @return the Deck of the characters
-     */
-    public CharactersDeck getCharacterDeck() {
-        return charactersDeck;
-    }
-
-    /**
      * @return the {@link GameLimit} of this {@link Game}
      */
     public GameLimit getGameLimit() {
@@ -270,14 +254,6 @@ public class Game {
     }
 
     /**
-     *
-     * @return the amount in the general bank
-     */
-    public int getGeneralBank() {
-        return generalBank;
-    }
-
-    /**
      * @return the character available in this game
      */
     public List<CharacterCard> getCharacterInUse() {
@@ -290,5 +266,9 @@ public class Game {
 
     public ProfessorAssignor getProfessorAssignor(){
         return hallObserver.getProfessorAssignor();
+    }
+
+    public boolean isExpertMode() {
+        return isExpertMode;
     }
 }

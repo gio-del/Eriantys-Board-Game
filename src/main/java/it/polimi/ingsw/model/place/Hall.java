@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.pawns.Pawns;
  * Hall of the {@link School}
  */
 public class Hall extends SchoolPlace {
-    final HallObserver hallObserver;
+    private final HallObserver hallObserver;
 
     public Hall(HallObserver obs) {
         this.hallObserver = obs;
@@ -25,7 +25,7 @@ public class Hall extends SchoolPlace {
         if(canBeMoved(pawns)) {
             super.add(pawns);
             for(PawnColor pawnColor: PawnColor.values()){
-                if(pawns.getFromColor(pawnColor)>0) hallObserver.update(pawnColor);
+                if(pawns.getFromColor(pawnColor)>0) hallObserver.update(this,pawnColor);
             }
             return true;
         }

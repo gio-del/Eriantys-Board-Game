@@ -1,9 +1,9 @@
-package it.polimi.ingsw.model.character;
+package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.pawns.Pawns;
 
-public class SwapAction implements Action{
+public class SwapAction implements Action {
     private final Place from;
     private final Place to;
     private final Pawns toBeSwappedFrom;

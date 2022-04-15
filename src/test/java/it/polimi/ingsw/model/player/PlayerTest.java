@@ -22,7 +22,7 @@ public class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        Game game = new Game(2);
+        Game game = new Game(2,false);
 
         game.addPlayer("Mario", WIZ1, BLACK);
         player1 = game.getPlayerByName("Mario");
@@ -95,5 +95,26 @@ public class PlayerTest {
         player1.moveFromEntranceToIsland(pawns,island);
         assertEquals(pawns,island.getStudents());
         assertEquals(0, player1.getSchool().getEntrance().totalElements());
+    }
+
+    /**
+     * Test the case of move failed
+     */
+    @Test
+    void moveFromEntranceToIslandFail() {
+        assertFalse(player1.moveFromEntranceToIsland(new Pawns(50,50,50,50,50),new Island()));
+    }
+
+    /**
+     * Test lastPlayedAssistant() method
+     */
+    @Test
+    void lastPlayedAssistantTest() {
+        int i = 0;
+        for(Assistant assistant: Assistant.values()){
+            player1.playAssistant(assistant);
+            if(++i == 9) assertTrue(player1.isLastAssistant());
+            else assertFalse(player1.isLastAssistant());
+        }
     }
 }

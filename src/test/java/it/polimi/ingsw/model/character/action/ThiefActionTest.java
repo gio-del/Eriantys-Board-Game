@@ -1,8 +1,6 @@
 package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.character.Action;
-import it.polimi.ingsw.model.character.ThiefAction;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
@@ -22,7 +20,7 @@ public class ThiefActionTest {
     Player p2;
     @BeforeEach
     void setUp() {
-        Game game = new Game(2);
+        Game game = new Game(2,false);
         game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
         game.addPlayer("Mario", Wizard.WIZ2, TowerColor.GRAY);
 

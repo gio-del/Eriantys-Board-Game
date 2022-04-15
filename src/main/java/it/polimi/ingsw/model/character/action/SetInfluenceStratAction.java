@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model.character;
+package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.influencecalculator.CentaurStrategy;
@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.influencecalculator.KnightStrategy;
 import it.polimi.ingsw.model.influencecalculator.MushroomSellerStrategy;
 import it.polimi.ingsw.model.player.Player;
 
-public class SetInfluenceStratAction implements Action{
+public class SetInfluenceStratAction implements Action {
     private final String influenceChoice;
     private final Board board;
     private final Player player;

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model.character;
 
+import it.polimi.ingsw.model.character.action.ActionType;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Place;
 

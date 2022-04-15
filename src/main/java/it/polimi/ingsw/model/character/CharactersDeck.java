@@ -3,21 +3,16 @@ package it.polimi.ingsw.model.character;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.utils.CharacterJSONParser;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 
 public class CharactersDeck {
 
-    private List<CharacterCard> characterCards;
+    private final List<CharacterCard> characterCards;
 
     public CharactersDeck() {
-        this.characterCards = new ArrayList<>();
-    }
-
-    public void init(){
-            this.characterCards = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
+        this.characterCards = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
     }
 
     public List<CharacterCard> extractCharacterInUse(){
