@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.CharactersDeck;
+import it.polimi.ingsw.model.character.action.ActionType;
 import it.polimi.ingsw.model.place.BankHallObserver;
 import it.polimi.ingsw.model.place.HallObserver;
 import it.polimi.ingsw.model.player.Player;
@@ -23,6 +24,7 @@ public class Game {
     private Player currentPlayer;
     private final List<Wizard> alreadyChoiceWizard;
     private final HallObserver hallObserver;
+    private final Bank bank;
     private final GameLimit gameLimit;
     private final int nPlayers;
     private final boolean isExpertMode;
@@ -43,11 +45,12 @@ public class Game {
         for(int i=0;i<nPlayers;i++){
             clouds.add(new Cloud());
         }
+        this.bank = new Bank();
         this.alreadyChoiceWizard = new ArrayList<>();
         if(isExpertMode)
-            this.hallObserver = new HallObserver();
+            this.hallObserver = new BankHallObserver(bank);
         else
-            this.hallObserver = new BankHallObserver();
+            this.hallObserver = new HallObserver();
         this.isExpertMode = isExpertMode;
         this.characterInUse = new ArrayList<>();
     }
@@ -158,9 +161,12 @@ public class Game {
         return true;
     }
 
-    public boolean useCharacter(Character character, String string){
-        // TODO: handle character use
-        return true;
+    public ActionType useCharacter(Player player, CharacterCard character){
+        // TODO
+        int cost = character.getCost() + (character.hasCoinOn()?1:0);
+        if(bank.pay(player,cost))
+            return character.getActionType();
+        return null;
     }
 
     /**
@@ -170,7 +176,7 @@ public class Game {
      * @return true and perform the movement, false if not possible
      */
     public boolean moveMotherNature(int steps, Player player){
-        // TODO: implement card to add 2 more possible steps
+        // TODO: implement card to add 2 more possible steps, add a Mover class with a strategy etc..
         int maxMove = player.getLastPlayedAssistant().movement();
         if(steps <= maxMove && steps > 0){
             board.moveMotherNature(steps, players);
@@ -185,7 +191,6 @@ public class Game {
      * @return true if adding to the entrance is ok, otherwise false
      */
     public boolean pickFromCloud(Player player, Cloud cloud){
-        //TODO: check the usage of this method, controller use Player or just the name of the Player?
         return player.addPawnsFromCloud(cloud);
     }
 
@@ -246,7 +251,6 @@ public class Game {
     }
 
     /**
-     *
      * @return the current playing character
      */
     public Player getCurrentPlayer() {
@@ -270,5 +274,9 @@ public class Game {
 
     public boolean isExpertMode() {
         return isExpertMode;
+    }
+
+    public Bank getBank() {
+        return bank;
     }
 }

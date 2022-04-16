@@ -18,11 +18,11 @@ public class SwapAction implements Action {
 
     @Override
     public boolean apply() {
-        if(toBeSwappedFrom.totalElements() == toBeSwappedTo.totalElements())
-            return from.add(toBeSwappedTo) &&
-                    from.remove(toBeSwappedFrom) &&
-                    to.add(toBeSwappedFrom) &&
-                    to.remove(toBeSwappedTo);
+        if((toBeSwappedFrom.totalElements() == toBeSwappedTo.totalElements()) && from.canBeRemoved(toBeSwappedFrom) && to.canBeRemoved(toBeSwappedTo))
+            return from.remove(toBeSwappedFrom) &&
+                    from.add(toBeSwappedTo) &&
+                    to.remove(toBeSwappedTo) &&
+                    to.add(toBeSwappedFrom);
         return false;
     }
 }

@@ -47,12 +47,12 @@ public class Board{
 
 
     /**
-     *
      * Used to calculate if some adjacent islands as the same tower
      */
 
     public void adjacenciesUpdate(){
-        for (int i = 0; i < islands.size(); i++) {
+        int i = 0;
+        while(i<islands.size()) {
             if (i == islands.size() - 1) {
                 if (islands.get(i).getTower().equals(islands.get(0).getTower()) && islands.get(i).getTower().isPresent()) {
                     islands.get(0).add(islands.get(i).getStudents());
@@ -64,9 +64,10 @@ public class Board{
                     islands.get(i).add(islands.get(i + 1).getStudents());
                     islands.get(i).upgradeDimension(islands.get(i + 1).getDimension());
                     islands.remove(i + 1);
-                    i = i - 1;
+                    i--;
                 }
             }
+            i++;
         }
     }
 
@@ -83,6 +84,7 @@ public class Board{
         } else{
             motherNaturePos = index + steps;
         }
+        // TODO: extract a method with code below calcInfluence(islands,players) to create CalcInfluenceAction
         Island island = islands.get(motherNaturePos);
         Map<Player, Integer> scores = influenceStrategy.getScores(island, players);
         List<Player> winners = getWinners(scores);

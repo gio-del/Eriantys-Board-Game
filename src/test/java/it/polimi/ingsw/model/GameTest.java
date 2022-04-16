@@ -182,4 +182,9 @@ public class GameTest {
         assertTrue(game.getProfessorAssignor().getProfessorStrategy() instanceof StandardProfStrategy);
         assertTrue(game.getBoard().getInfluenceStrategy() instanceof StandardStrategy);
     }
+
+    @Test
+    void isExpertModeTest() {
+        assertTrue(game.isExpertMode());
+    }
 }

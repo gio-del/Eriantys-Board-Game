@@ -13,6 +13,7 @@ public class CharacterCard implements Place {
     private final String description;
     private final ActionType actionType;
     private final List<String> characterPar;
+    private boolean coinOn;
 
     public CharacterCard(String name, int cost, String description, ActionType actionType, List<String> characterPar) {
         this.name = name;
@@ -20,6 +21,7 @@ public class CharacterCard implements Place {
         this.description = description;
         this.actionType = actionType;
         this.characterPar = characterPar;
+        this.coinOn = false;
     }
 
     // TODO: CharacterCard can have Pawns on it so it is a place but not all Cards have Pawns...
@@ -51,8 +53,16 @@ public class CharacterCard implements Place {
         return actionType;
     }
 
-    public List<String> getCharacterPar() {
-        return characterPar;
+    public int getCost() {
+        return cost;
+    }
+
+    public void setCoinOn() {
+        this.coinOn = true;
+    }
+
+    public boolean hasCoinOn() {
+        return coinOn;
     }
 
     @Override
