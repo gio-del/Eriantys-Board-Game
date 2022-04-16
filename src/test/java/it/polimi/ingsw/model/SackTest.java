@@ -35,7 +35,7 @@ public class SackTest {
      */
     @Test
     void extractAll_checkEmptiness(){
-        for(int i = 0; i<(Constants.STUDENTS_OF_EACH_COLOR -Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length; i++){
+        for(int i = 0; i<(Constants.STUDENTS_OF_EACH_COLOR-Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length; i++){
             sack2.extract();
         }
         assertEquals(0, sack2.getNumberOfPawns());

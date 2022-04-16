@@ -62,4 +62,12 @@ public class PawnsTest {
         assertEquals(8,pawns.getFromColor(PawnColor.RED));
         assertEquals(8,pawns.getFromColor(PawnColor.PINK));
     }
+
+    /**
+     * Check the selection of the last element
+     */
+    @Test
+    void getLastElement() {
+        assertEquals(PawnColor.BLUE,pawns.getByIndex(23));
+    }
 }

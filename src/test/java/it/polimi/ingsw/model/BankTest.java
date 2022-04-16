@@ -34,6 +34,12 @@ public class BankTest {
 
     @Test
     void rewardFail() {
-        assertFalse(bank.reward(p1,20));
+        for(int i=0;i<19;i++){
+            assertTrue(bank.reward(p1));
+        }
+        assertEquals(20,bank.getCashByPlayer(p1));
+        assertEquals(0,bank.getGeneralBank());
+        assertFalse(bank.reward(p1));
+
     }
 }

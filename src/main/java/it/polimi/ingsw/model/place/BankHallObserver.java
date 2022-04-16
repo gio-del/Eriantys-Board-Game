@@ -6,6 +6,10 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.util.*;
 
+/**
+ * This Class is an extension of the {@link HallObserver}. In addition to checking professor color, this check the assignment of the coin
+ * It uses a {@link Bank} to manage coins
+ */
 public class BankHallObserver extends HallObserver{
     private static final List<Integer> rewardPositions = Arrays.asList(3,6,9);
     private final Map<Place,Player> hallMap;
@@ -17,6 +21,10 @@ public class BankHallObserver extends HallObserver{
         hallMap = new HashMap<>();
     }
 
+    /**
+     * Add player a player to the list
+     * @param player to be added
+     */
     @Override
     public void addPlayer(Player player) {
         super.addPlayer(player);
@@ -24,6 +32,10 @@ public class BankHallObserver extends HallObserver{
         bank.initPlayer(player);
     }
 
+    /**
+     * @param observable hall that triggered this method
+     * @param pawnColor the pawns on which to check professor assignment and to check coin assignment
+     */
     @Override
     public void update(Hall observable, PawnColor pawnColor) {
         super.update(observable, pawnColor);
@@ -32,6 +44,10 @@ public class BankHallObserver extends HallObserver{
         }
     }
 
+    /**
+     * Add a coin to a player
+     * @param player to reward
+     */
     private void reward(Player player){
         bank.reward(player);
     }
