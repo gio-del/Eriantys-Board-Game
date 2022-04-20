@@ -72,7 +72,7 @@ public class Board{
     }
 
     /**
-     * Move mother nature, calculate winners, update towers, update adjacencies
+     * Move mother nature, trigger influence calc on island where she stops
      * @param steps to move mother nature
      * @param players in the game
      * @return the TowerColor of the winner if present, null otherwise
@@ -84,8 +84,16 @@ public class Board{
         } else{
             motherNaturePos = index + steps;
         }
-        // TODO: extract a method with code below calcInfluence(islands,players) to create CalcInfluenceAction
-        Island island = islands.get(motherNaturePos);
+        return calculateInfluence(islands.get(motherNaturePos),players);
+    }
+
+    /**
+     * Calculate influence on a given island
+     * @param island on which to calc influence
+     * @param players players in game
+     * @return the TowerColor of the winner if present, null otherwise
+     */
+    public TowerColor calculateInfluence(Island island, List<Player> players){
         Map<Player, Integer> scores = influenceStrategy.getScores(island, players);
         List<Player> winners = getWinners(scores);
         TowerColor winner = island.conquerIsland(winners, players);
