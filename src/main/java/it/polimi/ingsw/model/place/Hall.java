@@ -15,7 +15,8 @@ public class Hall extends SchoolPlace {
     }
 
     /**
-     *
+     * When a {@link Pawns} is added, foreach Pawn in the collection the observer is updated.
+     * The observer manages both coins assignment (if expert mode) and professors assignment
      * @param pawns to add
      * @return {@code true} if {@code pawns} was added correctly, otherwise {@code false}.
      * When a {@link Pawns} is added the {@link HallObserver} is notified
@@ -23,9 +24,12 @@ public class Hall extends SchoolPlace {
     @Override
     public boolean add(Pawns pawns) {
         if(canBeMoved(pawns)) {
-            super.add(pawns);
             for(PawnColor pawnColor: PawnColor.values()){
-                if(pawns.getFromColor(pawnColor)>0) hallObserver.update(this,pawnColor);
+                int numberOfPawn = pawns.getFromColor(pawnColor);
+                for(int i=0;i<numberOfPawn;i++) {
+                    super.add(new Pawns(pawnColor));
+                    hallObserver.update(this, pawnColor);
+                }
             }
             return true;
         }

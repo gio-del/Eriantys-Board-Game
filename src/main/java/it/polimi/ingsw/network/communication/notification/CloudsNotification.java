@@ -1,19 +1,22 @@
 package it.polimi.ingsw.network.communication.notification;
 
-import it.polimi.ingsw.model.Cloud;
+import it.polimi.ingsw.model.ShortCloud;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
  * Notification used to update client about the board
  */
-public class BoardNotification implements Notification {
-    //todo: maybe send ReducedCloud, with only Cloud representation
-    private final List<Cloud> cloudList;
-    private int clientId;
+public class CloudsNotification implements Notification {
+    @Serial
+    private static final long serialVersionUID = 3103412624078345365L;
 
-    public BoardNotification(List<Cloud> cloudList) {
+    private int clientId;
+    private final List<ShortCloud> cloudList;
+
+    public CloudsNotification(List<ShortCloud> cloudList) {
         this.cloudList = cloudList;
     }
 
@@ -22,8 +25,12 @@ public class BoardNotification implements Notification {
         visitor.visit(this);
     }
 
-    public List<Cloud> getCloudList() {
+    public List<ShortCloud> getCloudList() {
         return cloudList;
+    }
+
+    public int getClientId() {
+        return clientId;
     }
 
     public void setClientId(int clientId) {

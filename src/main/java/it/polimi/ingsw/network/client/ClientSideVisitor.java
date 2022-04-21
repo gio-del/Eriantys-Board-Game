@@ -4,6 +4,10 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.view.View;
 
+/**
+ * This class is used by the ClientController to handle a message sent by the server.
+ * It implements visitor patter to dispatch {@link Notification} and perform different action on the view.
+ */
 public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
@@ -17,7 +21,7 @@ public class ClientSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(BoardNotification msg) {
+    public void visit(CloudsNotification msg) {
         //TODO
     }
 

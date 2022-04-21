@@ -5,4 +5,5 @@ package it.polimi.ingsw.network.server;
  */
 public class Server {
     //TODO: this should have a reference to all matches
+    //TODO: there should be a map between nicknames and connection
 }

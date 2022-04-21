@@ -39,7 +39,8 @@ public class Cli /*extends Observable*/implements View {
      */
     public void checkIP(String address){
         String ip;
-        int port, i;
+        int port;
+        int i;
         for(i = 0; i < address.length(); i++){
             if(address.charAt(i) == ' '){
                 break;
@@ -64,9 +65,7 @@ public class Cli /*extends Observable*/implements View {
         } else {
             System.out.println("SERVER NOT FOUND -- Unable to find the server, please retry:");
             setIp();
-            return;
         }
-
     }
 
     /**
@@ -84,7 +83,7 @@ public class Cli /*extends Observable*/implements View {
      */
     public void checkNickName(String nickname){
         if(nickname.length() > 0){
-            //TODO check name unique
+            //TODO check name unique: it must be done by the GameController, not client's business
             client.sendMessage(new LoginNotification(nickname));
             scanListener.setRequest(Request.IGNORE);
         } else {

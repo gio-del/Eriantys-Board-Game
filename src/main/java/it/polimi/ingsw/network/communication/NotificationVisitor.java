@@ -10,7 +10,7 @@ import it.polimi.ingsw.network.communication.notification.*;
 public interface NotificationVisitor {
     void visit(LoginNotification msg);
     void visit(WinNotification msg);
-    void visit(BoardNotification msg);
+    void visit(CloudsNotification msg);
     void visit(MoveStudentNotification msg);
     void visit(MoveMNNotification msg);
     void visit(ChooseCloudNotification msg);

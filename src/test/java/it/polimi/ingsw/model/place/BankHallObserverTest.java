@@ -23,7 +23,7 @@ public class BankHallObserverTest {
         BankHallObserver bankHallObserver = new BankHallObserver(bank);
 
         p1 = new Player("Giovanni", Wizard.WIZ1, TowerColor.BLACK,new GameLimit(false), bankHallObserver);
-        p1.getSchool().getEntrance().addPawns(new Pawns(3,0,0,0,0));
+        p1.getSchool().getEntrance().addPawns(new Pawns(4,0,0,0,0));
 
         p2 = new Player("Lorenzo",Wizard.WIZ2,TowerColor.WHITE,new GameLimit(false), bankHallObserver);
         bankHallObserver.addPlayer(p1);
@@ -50,7 +50,13 @@ public class BankHallObserverTest {
         p1.moveFromEntranceToHall(new Pawns(GREEN));
         assertEquals(2, bank.getCashByPlayer(p1));
         assertEquals(17,bank.getGeneralBank());
+    }
 
-
+    @Test
+    void CheckIfMorePawnsAreMoved(){
+        Pawns pawns = new Pawns(4,0,0,0,0);
+        p1.moveFromEntranceToHall(pawns);
+        assertEquals(2,bank.getCashByPlayer(p1));
+        assertEquals(17,bank.getGeneralBank());
     }
 }

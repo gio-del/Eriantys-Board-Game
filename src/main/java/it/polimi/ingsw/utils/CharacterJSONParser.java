@@ -13,15 +13,19 @@ import java.util.List;
 
 public class CharacterJSONParser {
 
+    /**
+     * @param filePath the filePath to the JSON file containing characters info
+     * @return a list with all the {@link CharacterCard} if it parsed correctly, an empty list otherwise
+     */
     public List<CharacterCard> parseCharacters(String filePath) {
         Gson gson = new Gson();
         Type charList = new TypeToken<ArrayList<CharacterCard>>(){}.getType();
-        List<CharacterCard> characterCardList = new ArrayList<>();
+        List<CharacterCard> characterCardList;
         try {
             BufferedReader buffer = new BufferedReader(new FileReader(filePath));
             characterCardList = gson.fromJson(buffer,charList);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            return List.of();
         }
         return characterCardList;
     }

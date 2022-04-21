@@ -16,7 +16,7 @@
   {
     "name": "Herald",
     "cost": 3,
-    "description": "Choose an island and calculate the majority as if Mother Nature stopped there",
+    "description": "Choose an island and calculate the influence as if Mother Nature stopped there",
     "actionType": "CALCULATE_INFLUENCE",
     "characterPar": ["0"]
   },
@@ -44,7 +44,7 @@
   {
     "name": "Jester",
     "cost": 1,
-    "description": "You can take up to 3 students from this card and exchange them with as many Students in your entrance",
+    "description": "You can take up to 3 students from this card and exchange them with as many students in your entrance",
     "actionType": "SWAP_ACTION",
     "characterPar": ["6","3"]
   },

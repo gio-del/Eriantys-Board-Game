@@ -79,7 +79,6 @@ public class Game {
      * @return true if player was added, otherwise false.
      */
     public boolean addPlayer(String name,Wizard wizard, TowerColor towerColor){
-
         if(players.stream().anyMatch(player -> player.getPlayerName().equals(name)) ||
                 alreadyChoiceWizard.contains(wizard) ||
                 this.players.size() >= this.nPlayers) {
@@ -164,6 +163,7 @@ public class Game {
     public ActionType useCharacter(Player player, CharacterCard character){
         // TODO
         int cost = character.getCost() + (character.hasCoinOn()?1:0);
+        if(!character.hasCoinOn()) character.setCoinOn();
         if(bank.pay(player,cost))
             return character.getActionType();
         return null;

@@ -10,6 +10,7 @@ import java.net.Socket;
 
 /**
  * This class represents a connection between the server and a client.
+ * Server uses this class to communicate with the client. When a {@link Notification} arrives it is passed to server.
  */
 public class Connection implements Runnable {
 
