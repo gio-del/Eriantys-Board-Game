@@ -7,6 +7,7 @@ import java.util.List;
 
 public class ChooseCloudNotification implements Notification {
     private final List<Cloud> availableClouds;
+    private int clientId;
 
     public ChooseCloudNotification(List<Cloud> availableClouds) {
         this.availableClouds = availableClouds;
@@ -19,5 +20,9 @@ public class ChooseCloudNotification implements Notification {
 
     public List<Cloud> getAvailableClouds() {
         return availableClouds;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 }

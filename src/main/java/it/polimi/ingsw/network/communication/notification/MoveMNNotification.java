@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 public class MoveMNNotification implements Notification {
     private final int availableSteps;
+    private int clientId;
 
     public MoveMNNotification(int availableSteps) {
         this.availableSteps = availableSteps;
@@ -16,5 +17,9 @@ public class MoveMNNotification implements Notification {
 
     public int getAvailableSteps() {
         return availableSteps;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 }

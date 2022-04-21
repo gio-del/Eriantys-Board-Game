@@ -11,6 +11,7 @@ import java.util.List;
 public class BoardNotification implements Notification {
     //todo: maybe send ReducedCloud, with only Cloud representation
     private final List<Cloud> cloudList;
+    private int clientId;
 
     public BoardNotification(List<Cloud> cloudList) {
         this.cloudList = cloudList;
@@ -23,5 +24,9 @@ public class BoardNotification implements Notification {
 
     public List<Cloud> getCloudList() {
         return cloudList;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 }

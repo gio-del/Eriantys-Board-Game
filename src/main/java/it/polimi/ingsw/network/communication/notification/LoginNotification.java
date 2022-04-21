@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 public class LoginNotification implements Notification {
     private final String nickname;
+    private int clientId;
 
     public LoginNotification(String nickname) {
         this.nickname = nickname;
@@ -16,5 +17,9 @@ public class LoginNotification implements Notification {
 
     public String getNickname() {
         return nickname;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 }

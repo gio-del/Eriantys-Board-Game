@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 public class MoveStudentNotification implements Notification {
     private final int numberOfMovement;
+    private int clientId;
 
     public MoveStudentNotification(int numberOfMovement) {
         this.numberOfMovement = numberOfMovement;
@@ -16,5 +17,9 @@ public class MoveStudentNotification implements Notification {
 
     public int getNumberOfMovement() {
         return numberOfMovement;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 public class WinNotification implements Notification {
     private final String name;
+    private int clientId;
 
     public WinNotification(String name) {
         this.name = name;
@@ -16,5 +17,9 @@ public class WinNotification implements Notification {
 
     public String getName() {
         return name;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
     }
 }

@@ -2,8 +2,10 @@ package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.*;
+import it.polimi.ingsw.view.View;
 
 public class ClientSideVisitor implements NotificationVisitor {
+
     @Override
     public void visit(LoginNotification msg) {
         //TODO

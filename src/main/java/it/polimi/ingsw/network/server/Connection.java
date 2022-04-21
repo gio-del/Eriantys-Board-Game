@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.Notification;
 
 import java.io.IOException;
@@ -17,6 +18,8 @@ public class Connection implements Runnable {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private boolean running;
+    private NotificationVisitor serverSideVisitor;
+    private int clientId;
 
     public Connection(ServerThread server, Socket client) {
         this.server = server;
@@ -38,7 +41,8 @@ public class Connection implements Runnable {
         try{
             while(!Thread.currentThread().isInterrupted()){
                 Notification notification = (Notification) in.readObject();
-                server.receiveMessage(notification);
+                notification.setClientId(clientId);
+                notification.accept(serverSideVisitor);
             }
         } catch (IOException | ClassNotFoundException e){
             System.out.println("Invalid notification received from client.");
