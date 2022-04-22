@@ -11,9 +11,12 @@ import it.polimi.ingsw.view.View;
 import java.util.List;
 
 /**
- * The command line interface implementation of the game
+ * The command line interface implementation of the game.
+ * This class is observed by the {@link it.polimi.ingsw.controller.ClientController}.
+ * Cli communicates with the controller only with update() and it's a controller's job to communicate
+ * with server via network
  */
-public class Cli /*extends Observable*/implements View {
+public class Cli /*extends Observable*/ implements View {
     private ScanListener scanListener;
     private Client client;
 

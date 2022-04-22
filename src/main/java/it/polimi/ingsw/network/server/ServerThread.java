@@ -33,7 +33,8 @@ public class ServerThread implements Runnable {
         while (!Thread.currentThread().isInterrupted()){
             try {
                 Socket socket = serverSocket.accept();
-                System.out.println("New connection from a client");
+                socket.setSoTimeout(3000);
+
                 Connection connection = new Connection(this,socket);
                 new Thread(connection).start();
 
@@ -44,6 +45,6 @@ public class ServerThread implements Runnable {
     }
 
     public void receiveMessage(Notification msg){
-        // TODO
+        // TODO: send this to Server object
     }
 }

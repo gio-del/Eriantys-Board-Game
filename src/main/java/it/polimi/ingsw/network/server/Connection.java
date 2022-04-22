@@ -19,7 +19,7 @@ public class Connection implements Runnable {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private boolean running;
-    private NotificationVisitor serverSideVisitor;
+    private NotificationVisitor serverSideVisitor; //todo: move this to the server
     private int clientId;
 
     public Connection(ServerThread server, Socket client) {
@@ -38,14 +38,15 @@ public class Connection implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Client connected from" + client.getInetAddress());
+        System.out.println("Client connected from " + client.getInetAddress());
         try{
             while(!Thread.currentThread().isInterrupted()){
                 Notification notification = (Notification) in.readObject();
                 notification.setClientId(clientId);
-                notification.accept(serverSideVisitor);
+                //notification.accept(serverSideVisitor); todo: -> to the server
             }
         } catch (IOException | ClassNotFoundException e){
+            // this means that the client is offline
             System.out.println("Invalid notification received from client.");
         } finally {
             disconnect();
