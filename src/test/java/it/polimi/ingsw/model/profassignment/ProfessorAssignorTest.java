@@ -11,7 +11,7 @@ import static it.polimi.ingsw.model.player.TowerColor.*;
 import static it.polimi.ingsw.model.player.Wizard.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProfessorAssignorTest {
+class ProfessorAssignorTest {
     Game game;
     Player player1;
     Player player2;
@@ -21,13 +21,13 @@ public class ProfessorAssignorTest {
     @BeforeEach
     void setUp(){
         game = new Game(3,false);
-        game.addPlayer("Mario", WIZ1, BLACK);
+        game.addPlayer("Mario", KING, BLACK);
         player1 = game.getPlayerByName("Mario");
 
-        game.addPlayer("Albert",WIZ2, WHITE);
+        game.addPlayer("Albert", SORCERER, WHITE);
         player2 = game.getPlayerByName("Albert");
 
-        game.addPlayer("Giovanni",WIZ3, GRAY);
+        game.addPlayer("Giovanni", WITCH, GRAY);
         player3 = game.getPlayerByName("Giovanni");
 
         professorAssignor = new ProfessorAssignor();

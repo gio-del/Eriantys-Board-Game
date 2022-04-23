@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.influencecalculator;
 
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 

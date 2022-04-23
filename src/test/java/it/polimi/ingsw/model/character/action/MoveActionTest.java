@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.character.action;
 
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Entrance;
 import it.polimi.ingsw.model.place.Place;
@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MoveActionTest {
+class MoveActionTest {
     Place from;
     Place to;
 

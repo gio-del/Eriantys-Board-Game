@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model.character.action;
 
 public enum ActionType {
-    MOVE_ACTION("MoveAction"),
-    SWAP_ACTION("SwapAction"),
-    SET_INFLUENCE_STRAT_ACTION("SetInfluenceAction"),
-    SET_PROF_STRAT_ACTION("SetProfAction"),
-    THIEF_ACTION("ThiefAction"),
+    MOVE("Move"),
+    SWAP("Swap"),
+    SET_INFLUENCE_STRATEGY("SetInfluenceAction"),
+    SET_PROF_STRATEGY("SetProfAction"),
+    THIEF("ThiefAction"),
     CALCULATE_INFLUENCE("CalculateInfluence");
 
     private final String text;

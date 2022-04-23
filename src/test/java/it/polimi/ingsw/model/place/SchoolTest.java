@@ -14,7 +14,7 @@ import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-public class SchoolTest {
+class SchoolTest {
     private School school;
     private Pawns example;
     private Pawns professorExample;
@@ -23,9 +23,9 @@ public class SchoolTest {
 
     @BeforeEach
     void setUp() {
-        HallObserver hallObserver = new HallObserver();
-        Player player = new Player("Fausto", Wizard.WIZ1, TowerColor.BLACK,new GameLimit(false),hallObserver);
-        hallObserver.addPlayer(player);
+        HallManager hallManager = new HallManager();
+        Player player = new Player("Fausto", Wizard.KING, TowerColor.BLACK,new GameLimit(false), hallManager);
+        hallManager.addPlayer(player);
 
         school = player.getSchool();
         example = new Pawns(3,0,4,0,1);

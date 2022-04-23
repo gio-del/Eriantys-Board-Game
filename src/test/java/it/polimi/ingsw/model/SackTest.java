@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * This class tests the {@link Sack} methods.
  */
-public class SackTest {
+class SackTest {
     Sack sack1;
     Sack sack2;
 

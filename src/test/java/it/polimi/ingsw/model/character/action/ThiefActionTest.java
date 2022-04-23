@@ -14,15 +14,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ThiefActionTest {
+class ThiefActionTest {
     private List<Player> players;
     Player p1;
     Player p2;
     @BeforeEach
     void setUp() {
         Game game = new Game(2,false);
-        game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
-        game.addPlayer("Mario", Wizard.WIZ2, TowerColor.GRAY);
+        game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
+        game.addPlayer("Mario", Wizard.SORCERER, TowerColor.GRAY);
 
         p1 = game.getPlayerByName("Luca");
         p2 = game.getPlayerByName("Mario");

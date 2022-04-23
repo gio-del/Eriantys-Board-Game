@@ -1,4 +1,4 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.clouds;
 import it.polimi.ingsw.model.pawns.*;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.place.School;

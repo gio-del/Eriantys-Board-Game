@@ -3,8 +3,10 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.CharactersDeck;
 import it.polimi.ingsw.model.character.action.ActionType;
-import it.polimi.ingsw.model.place.BankHallObserver;
-import it.polimi.ingsw.model.place.HallObserver;
+import it.polimi.ingsw.model.clouds.Cloud;
+import it.polimi.ingsw.model.clouds.CloudManager;
+import it.polimi.ingsw.model.place.BankHallManager;
+import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -16,14 +18,14 @@ import java.util.List;
 /**
  * This class represents Eriantys game
  */
-public class Game {
+public class Game implements IGame {
     private final List<Player> players;
     private final Board board;
     private final Sack sack;
-    private final List<Cloud> clouds;
+    private final CloudManager clouds;
     private Player currentPlayer;
-    private final List<Wizard> alreadyChoiceWizard;
-    private final HallObserver hallObserver;
+    private final List<Wizard> alreadyChoiceWizard; //todo: do similar list for tower color
+    private final HallManager hallManager;
     private final Bank bank;
     private final GameLimit gameLimit;
     private final int nPlayers;
@@ -41,16 +43,10 @@ public class Game {
         gameLimit = new GameLimit(nPlayers==3);
         this.board = new Board();
         this.sack = new Sack();
-        this.clouds = new ArrayList<>();
-        for(int i=0;i<nPlayers;i++){
-            clouds.add(new Cloud());
-        }
+        this.clouds = new CloudManager(nPlayers, gameLimit.getStudentOnCloud());
         this.bank = new Bank();
         this.alreadyChoiceWizard = new ArrayList<>();
-        if(isExpertMode)
-            this.hallObserver = new BankHallObserver(bank);
-        else
-            this.hallObserver = new HallObserver();
+        this.hallManager = (isExpertMode)?new BankHallManager(bank):new HallManager();
         this.isExpertMode = isExpertMode;
         this.characterInUse = new ArrayList<>();
     }
@@ -86,10 +82,10 @@ public class Game {
         }
         else{
             // TODO: check Builder pattern for Player class
-            Player player = new Player(name,wizard,towerColor,gameLimit,hallObserver);
+            Player player = new Player(name,wizard,towerColor,gameLimit, hallManager);
             alreadyChoiceWizard.add(player.getWizard());
             this.players.add(player);
-            this.hallObserver.addPlayer(player);
+            this.hallManager.addPlayer(player);
             return true;
         }
     }
@@ -156,7 +152,7 @@ public class Game {
      */
     public boolean resetStrategies(){
         board.resetStrategy();
-        hallObserver.resetStrategy();
+        hallManager.resetStrategy();
         return true;
     }
 
@@ -190,17 +186,19 @@ public class Game {
      * @param cloud the chosen cloud
      * @return true if adding to the entrance is ok, otherwise false
      */
-    public boolean pickFromCloud(Player player, Cloud cloud){
-        return player.addPawnsFromCloud(cloud);
+    public boolean pickFromCloud(Player player, int cloud){
+        Cloud cloudChosen = clouds.getSpecificCloud(cloud);
+        if(cloudChosen != null){
+            return player.addPawnsFromCloud(cloudChosen);
+        }
+        return false;
     }
 
     /**
      * Fill the clouds according to the game limit, this is also used at the beginning of each turn
      */
     public void fillClouds() {
-        for(Cloud cloud: clouds){
-            cloud.fill(sack.extractListOfPawns(gameLimit.getStudentOnCloud()));
-        }
+        clouds.fillClouds(sack);
     }
 
 
@@ -233,7 +231,7 @@ public class Game {
      * @return the clouds
      */
     public List<Cloud> getClouds() {
-        return clouds;
+        return clouds.getClouds();
     }
 
     /**
@@ -269,7 +267,7 @@ public class Game {
     }
 
     public ProfessorAssignor getProfessorAssignor(){
-        return hallObserver.getProfessorAssignor();
+        return hallManager.getProfessorAssignor();
     }
 
     public boolean isExpertMode() {
@@ -279,4 +277,6 @@ public class Game {
     public Bank getBank() {
         return bank;
     }
+
+
 }

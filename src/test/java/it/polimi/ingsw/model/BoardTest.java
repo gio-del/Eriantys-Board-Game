@@ -2,6 +2,7 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.influencecalculator.*;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 
-public class BoardTest {
+class BoardTest {
     Player player1;
     Player player2;
     Player player3;
@@ -30,9 +31,9 @@ public class BoardTest {
     void setUp() {
         game = new Game(3,false);
 
-        game.addPlayer("Mario", WIZ1, BLACK);
-        game.addPlayer("Lorenzo", WIZ2, WHITE);
-        game.addPlayer("Giovanni", WIZ3, GRAY);
+        game.addPlayer("Mario", KING, BLACK);
+        game.addPlayer("Lorenzo", SORCERER, WHITE);
+        game.addPlayer("Giovanni", WITCH, GRAY);
 
         player1 = game.getPlayerByName("Mario");
         player2 = game.getPlayerByName("Lorenzo");
@@ -185,7 +186,7 @@ public class BoardTest {
         board2.getIslands().get(1).addTower(BLACK);
         board2.getIslands().get(2).addTower(WHITE);
 
-        board2.adjacenciesUpdate();
+        board2.adjacencyUpdate();
 
         assertEquals(11, board2.getIslands().size());
     }
@@ -201,7 +202,7 @@ public class BoardTest {
         board2.getIslands().get(11).addTower(BLACK);
         board2.getIslands().get(0).addTower(BLACK);
 
-        board2.adjacenciesUpdate();
+        board2.adjacencyUpdate();
         assertEquals(10, board2.getIslands().size());
 
     }
@@ -217,7 +218,7 @@ public class BoardTest {
         board2.getIslands().get(6).addTower(BLACK);
         board2.getIslands().get(7).addTower(BLACK);
 
-        board2.adjacenciesUpdate();
+        board2.adjacencyUpdate();
         assertEquals(10, board2.getIslands().size());
 
     }
@@ -239,7 +240,7 @@ public class BoardTest {
     }
 
     /**
-     * Testing the sum of the Pawns during an adjacenciesUpdate
+     * Testing the sum of the Pawns during an adjacencyUpdate
      * 3 adjacent islands with the same tower updating to 1 island with
      * the sum of all the previous pawns
      */

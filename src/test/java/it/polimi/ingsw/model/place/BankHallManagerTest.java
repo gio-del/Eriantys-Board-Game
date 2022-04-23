@@ -13,19 +13,19 @@ import org.junit.jupiter.api.Test;
 import static it.polimi.ingsw.model.pawns.PawnColor.GREEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class BankHallObserverTest {
+class BankHallManagerTest {
     private Player p1;
     private Player p2;
     private Bank bank;
     @BeforeEach
     void setUp() {
         bank = new Bank();
-        BankHallObserver bankHallObserver = new BankHallObserver(bank);
+        BankHallManager bankHallObserver = new BankHallManager(bank);
 
-        p1 = new Player("Giovanni", Wizard.WIZ1, TowerColor.BLACK,new GameLimit(false), bankHallObserver);
+        p1 = new Player("Giovanni", Wizard.KING, TowerColor.BLACK,new GameLimit(false), bankHallObserver);
         p1.getSchool().getEntrance().addPawns(new Pawns(4,0,0,0,0));
 
-        p2 = new Player("Lorenzo",Wizard.WIZ2,TowerColor.WHITE,new GameLimit(false), bankHallObserver);
+        p2 = new Player("Lorenzo",Wizard.SORCERER,TowerColor.WHITE,new GameLimit(false), bankHallObserver);
         bankHallObserver.addPlayer(p1);
         bankHallObserver.addPlayer(p2);
 

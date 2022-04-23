@@ -8,10 +8,10 @@ import it.polimi.ingsw.model.pawns.Pawns;
  * Hall of the {@link School}
  */
 public class Hall extends SchoolPlace {
-    private final HallObserver hallObserver;
+    private final HallManager hallManager;
 
-    public Hall(HallObserver obs) {
-        this.hallObserver = obs;
+    public Hall(HallManager obs) {
+        this.hallManager = obs;
     }
 
     /**
@@ -19,7 +19,7 @@ public class Hall extends SchoolPlace {
      * The observer manages both coins assignment (if expert mode) and professors assignment
      * @param pawns to add
      * @return {@code true} if {@code pawns} was added correctly, otherwise {@code false}.
-     * When a {@link Pawns} is added the {@link HallObserver} is notified
+     * When a {@link Pawns} is added the {@link HallManager} is notified
      */
     @Override
     public boolean add(Pawns pawns) {
@@ -28,7 +28,7 @@ public class Hall extends SchoolPlace {
                 int numberOfPawn = pawns.getFromColor(pawnColor);
                 for(int i=0;i<numberOfPawn;i++) {
                     super.add(new Pawns(pawnColor));
-                    hallObserver.update(this, pawnColor);
+                    hallManager.update(this, pawnColor);
                 }
             }
             return true;

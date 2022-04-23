@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.influencecalculator.InfluenceStrategy;
 import it.polimi.ingsw.model.influencecalculator.StandardStrategy;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 
@@ -37,7 +38,6 @@ public class Board{
      * @param sack from which the island will draw the pawns
      */
     public void initIslands(Sack sack) {
-        // TODO: this must be called in constructor or separated?
         for(int i = 1; i < Constants.MAX_ISLAND; i++){
             if (i!=6) {
                 islands.get(i).add(sack.extract());
@@ -47,10 +47,10 @@ public class Board{
 
 
     /**
-     * Used to calculate if some adjacent islands as the same tower
+     * Used to calculate if some adjacent islands as the same tower.
      */
 
-    public void adjacenciesUpdate(){
+    public void adjacencyUpdate(){
         int i = 0;
         while(i<islands.size()) {
             if (i == islands.size() - 1) {
@@ -98,7 +98,7 @@ public class Board{
         List<Player> winners = getWinners(scores);
         TowerColor winner = island.conquerIsland(winners, players);
         if(winner != null){
-            adjacenciesUpdate();
+            adjacencyUpdate();
         }
         return winner;
     }

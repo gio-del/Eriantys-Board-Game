@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.GameLimit;
-import it.polimi.ingsw.model.place.HallObserver;
+import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class SetProfStratActionTest {
+class SetProfStratActionTest {
     Player player;
     ProfessorAssignor professorAssignor;
     @BeforeEach
     void setUp() {
-        player = new Player("Bob", Wizard.WIZ1, TowerColor.BLACK,new GameLimit(false),new HallObserver());
+        player = new Player("Bob", Wizard.KING, TowerColor.BLACK,new GameLimit(false),new HallManager());
         professorAssignor = new ProfessorAssignor();
     }
 

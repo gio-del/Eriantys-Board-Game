@@ -3,14 +3,14 @@
     "name": "Monk",
     "cost": 1,
     "description": "Take a student from the card and place him on an island of your choice. Then, take a student out of the sack and place it on this card",
-    "actionType": "MOVE_ACTION",
+    "actionType": "MOVE",
     "characterPar": ["4","1"]
   },
   {
     "name": "Farmer",
     "cost": 2,
     "description": "During this turn, you take control of the Professors even if you have the same number of Students in your hall as the player currently controlling them.",
-    "actionType": "SET_PROF_STRAT_ACTION",
+    "actionType": "SET_PROF_STRATEGY",
     "characterPar": ["0"]
   },
   {
@@ -37,50 +37,50 @@
   {
     "name": "Centaur",
     "cost": 3,
-    "description": "During this turn, the influence count on an Island does not count the Towers present",
-    "actionType": "SET_INFLUENCE_STRAT_ACTION",
+    "description": "During this turn, the influence count on islands does not count the Towers present",
+    "actionType": "SET_INFLUENCE_STRATEGY",
     "characterPar": ["0"]
   },
   {
     "name": "Jester",
     "cost": 1,
     "description": "You can take up to 3 students from this card and exchange them with as many students in your entrance",
-    "actionType": "SWAP_ACTION",
+    "actionType": "SWAP",
     "characterPar": ["6","3"]
   },
   {
     "name": "Knight",
     "cost": 2,
     "description": "During this turn you have 2 additional points during the influence count",
-    "actionType": "SET_INFLUENCE_STRAT_ACTION",
+    "actionType": "SET_INFLUENCE_STRATEGY",
     "characterPar": ["0"]
   },
   {
     "name": "Mushroom Seller",
     "cost": 3,
     "description": "Choose a Student color. This turn, that color provides no influence when calculating influence",
-    "actionType": "SET_INFLUENCE_STRAT_ACTION",
+    "actionType": "SET_INFLUENCE_STRATEGY",
     "characterPar": ["0"]
   },
   {
     "name": "Minstrel",
     "cost": 1,
     "description": "You can exchange up to 2 Students present in your Hall and in your Entrance",
-    "actionType": "SWAP_ACTION",
+    "actionType": "SWAP",
     "characterPar": ["0","2"]
   },
   {
     "name": "Spoiled Princess",
     "cost": 2,
     "description": "Take a Student from this card and place it in your Hall. Then take a new Student out of the sack and place it on this card.",
-    "actionType": "MOVE_ACTION",
+    "actionType": "MOVE",
     "characterPar": ["4","1"]
   },
   {
     "name": "Thief",
     "cost": 3,
     "description": "Choose a Student color; each player (including you) must return 3 Students of that color present in your Hall to the sack. Whoever has less will put all he has",
-    "actionType": "THIEF_ACTION",
+    "actionType": "THIEF",
     "characterPar": ["0","3"]
   }
 ]

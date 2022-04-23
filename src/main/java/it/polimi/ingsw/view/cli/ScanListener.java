@@ -1,15 +1,12 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.network.client.ClientSideVisitor;
-
-import java.util.Objects;
 import java.util.Scanner;
 
 public class ScanListener extends Thread {
     private Request request = Request.IGNORE;
     private final Cli cli;
-    private Scanner scanner;
-    public boolean running = true;
+    private final Scanner scanner;
+    private boolean running = true;
 
     public ScanListener(Cli cli){
         this.cli = cli;
@@ -21,10 +18,9 @@ public class ScanListener extends Thread {
         while(running){
             if(scanner.hasNextLine()){
                 switch (request){
-                    case IP:
-                        cli.checkIP(scanner.nextLine());
-                    case NICKNAME:
-                        cli.checkNickName(scanner.nextLine());
+                    case IP -> cli.checkIP(scanner.nextLine());
+                    case NICKNAME -> cli.checkNickName(scanner.nextLine());
+                    default -> {return;}
                 }
             }
         }

@@ -9,14 +9,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is the Observer of the {@link Hall} of each Player.
- * When a Player is created, it initialises its {@link School} and subscribe to the {@link HallObserver}
+ * This is the manager of the {@link Hall} of each Player.
+ * When a Player is created, it initialises its {@link School} and subscribe to the {@link HallManager}
  */
-public class HallObserver {
+public class HallManager {
     private final List<Player> playerList;
     private final ProfessorAssignor professorAssignor;
 
-    public HallObserver() {
+    public HallManager() {
         this.playerList = new ArrayList<>();
         this.professorAssignor = new ProfessorAssignor();
     }

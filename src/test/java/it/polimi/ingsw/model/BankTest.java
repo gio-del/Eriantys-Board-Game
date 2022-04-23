@@ -8,14 +8,14 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BankTest {
+class BankTest {
     private Bank bank;
     private Player p1;
 
     @BeforeEach
     void setUp() {
         Game game = new Game(2,true);
-        game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
+        game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
         p1 = game.getPlayerByName("Luca");
         bank = game.getBank();
     }

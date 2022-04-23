@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 import static it.polimi.ingsw.model.player.Assistant.*;
@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * This class tests the {@link Player} methods.
  */
-public class PlayerTest {
+class PlayerTest {
     private Player player1;
     private Player player2;
     private Pawns pawns;
@@ -24,10 +24,10 @@ public class PlayerTest {
     void setUp() {
         Game game = new Game(2,false);
 
-        game.addPlayer("Mario", WIZ1, BLACK);
+        game.addPlayer("Mario", KING, BLACK);
         player1 = game.getPlayerByName("Mario");
 
-        game.addPlayer("Lorenzo",WIZ2, WHITE);
+        game.addPlayer("Lorenzo", SORCERER, WHITE);
         player2 = game.getPlayerByName("Lorenzo");
 
         player1.getSchool().getEntrance().addColor(GREEN,4);
@@ -61,8 +61,8 @@ public class PlayerTest {
      */
     @Test
     void wizardTest() {
-        assertEquals(WIZ1,player1.getWizard());
-        assertEquals(WIZ2,player2.getWizard());
+        assertEquals(KING,player1.getWizard());
+        assertEquals(SORCERER,player2.getWizard());
     }
 
     /**

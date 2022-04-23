@@ -2,6 +2,8 @@ package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.*;
+import it.polimi.ingsw.model.place.Island;
+
 import java.util.Random;
 import java.util.stream.IntStream;
 

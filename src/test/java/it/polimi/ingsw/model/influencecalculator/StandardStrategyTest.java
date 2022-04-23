@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.influencecalculator;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 
 import it.polimi.ingsw.model.player.Player;
@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.*;
 
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
-import static it.polimi.ingsw.model.player.Wizard.WIZ1;
-import static it.polimi.ingsw.model.player.Wizard.WIZ2;
+import static it.polimi.ingsw.model.player.Wizard.KING;
+import static it.polimi.ingsw.model.player.Wizard.SORCERER;
 
 /**
  * This test class is used to test the standard strategy of the influence calc
  */
-public class StandardStrategyTest {
+class StandardStrategyTest {
     private Player player1;
     private Player player2;
     private List<Player> players;
@@ -29,8 +29,8 @@ public class StandardStrategyTest {
     @BeforeEach
     void setUp(){
         Game game = new Game(2,false);
-        game.addPlayer("Mario", WIZ1, BLACK);
-        game.addPlayer("Lorenzo",WIZ2, WHITE);
+        game.addPlayer("Mario", KING, BLACK);
+        game.addPlayer("Lorenzo", SORCERER, WHITE);
         player1 = game.getPlayerByName("Mario");
         player2 = game.getPlayerByName("Lorenzo");
 

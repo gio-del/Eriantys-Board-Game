@@ -12,7 +12,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CharacterJSONParserTest {
+class CharacterJSONParserTest {
 
     List<CharacterCard> characterCardList;
 
@@ -25,7 +25,7 @@ public class CharacterJSONParserTest {
     void testJSONParser() {
         String[] strings = {"4","1"};
         List<String> characterPar = Arrays.asList(strings);
-        CharacterCard characterCard = new CharacterCard("Monk",1,"Take a student from the card and place him on an island of your choice. Then, take a student out of the sack and place it on this card", ActionType.MOVE_ACTION,characterPar);
+        CharacterCard characterCard = new CharacterCard("Monk",1,"Take a student from the card and place him on an island of your choice. Then, take a student out of the sack and place it on this card", ActionType.MOVE,characterPar);
         assertEquals(characterCard,characterCardList.get(0));
     }
 

@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * This class tests the {@link Pawns} methods.
  */
-public class PawnsTest {
+class PawnsTest {
     Pawns pawns;
 
     @BeforeEach

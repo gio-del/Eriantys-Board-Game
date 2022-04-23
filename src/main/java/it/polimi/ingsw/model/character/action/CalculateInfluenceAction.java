@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;

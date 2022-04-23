@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.Island;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
 
 
-public class IslandTest {
+class IslandTest {
     Island island;
     Pawns exampleIsland;
     @BeforeEach

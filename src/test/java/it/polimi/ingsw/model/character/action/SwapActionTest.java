@@ -11,14 +11,14 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SwapActionTest {
+class SwapActionTest {
     Place from;
     Place to;
 
     @BeforeEach
     void setUp() {
         Game game = new Game(2,true);
-        game.addPlayer("Luigi", Wizard.WIZ1, TowerColor.BLACK);
+        game.addPlayer("Luigi", Wizard.KING, TowerColor.BLACK);
         from = game.getPlayerByName("Luigi").getSchool().getEntranceAsPlace();
         to = game.getPlayerByName("Luigi").getSchool().getHallAsPlace();
 

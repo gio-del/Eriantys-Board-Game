@@ -1,5 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.clouds;
 
+import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.pawns.ShortPawns;
 
 import java.io.Serial;

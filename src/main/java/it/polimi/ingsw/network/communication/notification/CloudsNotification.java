@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.communication.notification;
 
-import it.polimi.ingsw.model.ShortCloud;
+import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;

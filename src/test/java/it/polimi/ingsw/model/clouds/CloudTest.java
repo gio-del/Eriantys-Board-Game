@@ -1,5 +1,6 @@
-package it.polimi.ingsw.model;
+package it.polimi.ingsw.model.clouds;
 
+import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 /**
  * This class tests the {@link Cloud} methods.
  */
-public class CloudTest {
+class CloudTest {
     Cloud cloud;
     Pawns pawns;
 

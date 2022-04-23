@@ -12,7 +12,7 @@ import static it.polimi.ingsw.model.pawns.PawnColor.GREEN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class HallObserverTest {
+class HallManagerTest {
     private Player p1;
     private Player p2;
 
@@ -20,11 +20,11 @@ public class HallObserverTest {
     void setUp() {
         Game game = new Game(2,false);
 
-        game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
+        game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
         p1 = game.getPlayerByName("Luca");
         p1.getSchool().getEntrance().addPawns(new Pawns(3,0,0,0,0));
 
-        game.addPlayer("Marco", Wizard.WIZ2, TowerColor.WHITE);
+        game.addPlayer("Marco", Wizard.SORCERER, TowerColor.WHITE);
         p2 = game.getPlayerByName("Marco");
         p2.getSchool().getHall().addPawns(new Pawns(2,0,0,0,0));
         p2.getSchool().getProfessorTable().addColor(GREEN);

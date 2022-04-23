@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.influencecalculator.StandardStrategy;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
@@ -16,15 +17,15 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class GameTest {
+class GameTest {
     private Game game;
 
     @BeforeEach
     void setUp() {
         game = new Game(2,true);
 
-        game.addPlayer("Luca", Wizard.WIZ1, TowerColor.BLACK);
-        game.addPlayer("Marco", Wizard.WIZ2,TowerColor.GRAY);
+        game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
+        game.addPlayer("Marco", Wizard.SORCERER,TowerColor.GRAY);
 
     }
 
@@ -95,7 +96,7 @@ public class GameTest {
      */
     @Test
     void addPlayerWithSameWizardTest() {
-        assertFalse(game.addPlayer("Matteo",Wizard.WIZ1,TowerColor.GRAY));
+        assertFalse(game.addPlayer("Matteo",Wizard.KING,TowerColor.GRAY));
     }
 
     /**
@@ -103,7 +104,7 @@ public class GameTest {
      */
     @Test
     void addPlayerIfGameIsFull(){
-        assertFalse(game.addPlayer("Matteo",Wizard.WIZ3,TowerColor.BLACK));
+        assertFalse(game.addPlayer("Matteo",Wizard.WITCH,TowerColor.BLACK));
     }
 
     /**
@@ -163,7 +164,7 @@ public class GameTest {
 
         Pawns alreadyInEntrance = new Pawns(3,0,0,0,0);
         player.getSchool().getEntrance().addPawns(alreadyInEntrance);
-        game.pickFromCloud(player,cloud);
+        game.pickFromCloud(player,0);
 
         Pawns EntranceAfterPicking = new Pawns();
         EntranceAfterPicking.addPawns(alreadyInEntrance);

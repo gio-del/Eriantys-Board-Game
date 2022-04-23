@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.influencecalculator;
 
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.model.Island;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.player.Player;
 
