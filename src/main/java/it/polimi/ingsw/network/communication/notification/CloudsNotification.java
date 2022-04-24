@@ -9,11 +9,10 @@ import java.util.List;
 /**
  * Notification used to update client about the board
  */
-public class CloudsNotification implements Notification {
+public class CloudsNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 3103412624078345365L;
 
-    private int clientId;
     private final List<ShortCloud> cloudList;
 
     public CloudsNotification(List<ShortCloud> cloudList) {
@@ -27,13 +26,5 @@ public class CloudsNotification implements Notification {
 
     public List<ShortCloud> getCloudList() {
         return cloudList;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
     }
 }

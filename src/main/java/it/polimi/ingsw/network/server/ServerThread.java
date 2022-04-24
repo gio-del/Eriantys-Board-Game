@@ -11,25 +11,16 @@ import java.net.Socket;
  * {@link Connection}
  */
 public class ServerThread implements Runnable {
-    private final int port;
     private final Server server;
-    private ServerSocket serverSocket;
+    private final ServerSocket serverSocket;
 
-    public ServerThread(int port, Server server) {
-        this.port = port;
+    public ServerThread(ServerSocket serverSocket, Server server) {
+        this.serverSocket = serverSocket;
         this.server = server;
     }
 
     @Override
     public void run() {
-        try {
-            serverSocket = new ServerSocket(port);
-            System.out.println("Server started on port " + port + ".");
-        } catch (IOException e) {
-            System.out.println("Server couldn't start");
-            return;
-        }
-
         while (!Thread.currentThread().isInterrupted()){
             try {
                 Socket socket = serverSocket.accept();
@@ -44,7 +35,11 @@ public class ServerThread implements Runnable {
         }
     }
 
+    public void addClient(String nickname,Connection connection){
+        server.addClient(nickname,connection);
+    }
+
     public void receiveMessage(Notification msg){
-        // TODO: send this to Server object
+        server.receiveMessage(msg);
     }
 }

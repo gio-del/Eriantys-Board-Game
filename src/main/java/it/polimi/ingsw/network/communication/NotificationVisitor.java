@@ -17,5 +17,7 @@ public interface NotificationVisitor {
     void visit(ChooseGameModeNotification msg);
     void visit(SchoolNotification msg);
     void visit(DisconnectionNotification msg);
-    //TODO: add use character notification
+    void visit(ChooseWizAndTowerColorNotification msg);
+    void visit(ChooseAssistantNotification msg);
+    void visit(NicknameErrorNotification msg);
 }

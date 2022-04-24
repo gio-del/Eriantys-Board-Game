@@ -1,34 +1,34 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.clouds.Cloud;
+import it.polimi.ingsw.controller.client.ClientController;
+import it.polimi.ingsw.model.clouds.ShortCloud;
+import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
-import it.polimi.ingsw.network.client.Client;
-import it.polimi.ingsw.network.communication.notification.LoginNotification;
+import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 
 import java.util.List;
 
 /**
  * The command line interface implementation of the game.
- * This class is observed by the {@link it.polimi.ingsw.controller.ClientController}.
+ * This class is observed by the {@link ClientController}.
  * Cli communicates with the controller only with update() and it's a controller's job to communicate
  * with server via network
  */
-public class Cli /*extends Observable*/ implements View {
+public class Cli extends ClientObservable implements View {
     private ScanListener scanListener;
-    private Client client;
 
-    public void initiate(){
+    public void init(){
         printWelcome();
+        askConnectionInfo();
     }
 
-    public void connect() {
+    public void askConnectionInfo() {
         scanListener = new ScanListener(this);
         scanListener.start();
         System.out.println("Welcome, to start or participate in a game, insert Server ip and port (ip port):");
-        client = new Client();
         setIp();
     }
 
@@ -41,7 +41,7 @@ public class Cli /*extends Observable*/ implements View {
      * @param address from the input of the client
      */
     public void checkIP(String address){
-        String ip;
+        String ip; //add regex to check ip
         int port;
         int i;
         for(i = 0; i < address.length(); i++){
@@ -57,16 +57,9 @@ public class Cli /*extends Observable*/ implements View {
         ip = address.substring(0, i);
         try {
             port = Integer.parseInt(address.substring(i + 1));
+            notifyObserver(observer -> observer.updateConnection(ip,port));
         } catch (NumberFormatException e) {
             System.out.println("INPUT NOT VALID -- Unable to find the port, please retry:");
-            setIp();
-            return;
-        }
-
-        if(client.connect(ip, port)){
-            initiate();
-        } else {
-            System.out.println("SERVER NOT FOUND -- Unable to find the server, please retry:");
             setIp();
         }
     }
@@ -86,8 +79,7 @@ public class Cli /*extends Observable*/ implements View {
      */
     public void checkNickName(String nickname){
         if(nickname.length() > 0){
-            //TODO check name unique: it must be done by the GameController, not client's business
-            client.sendMessage(new LoginNotification(nickname));
+            notifyObserver(observer -> observer.updateNickname(nickname));
             scanListener.setRequest(Request.IGNORE);
         } else {
             System.out.println("NAME not valid, please choose another name");
@@ -96,7 +88,7 @@ public class Cli /*extends Observable*/ implements View {
     }
 
     @Override
-    public void chooseAssistant(List<Assistant> playerAssistant) {
+    public void chooseAssistant(List<Assistant> playableAssistant) {
 
     }
 
@@ -106,17 +98,12 @@ public class Cli /*extends Observable*/ implements View {
     }
 
     @Override
-    public void chooseTowerColor(List<TowerColor> colorsAvailable) {
+    public void chooseWizardAndTowerColor(List<Wizard> wizardsAvailable, List<TowerColor> colorsAvailable) {
 
     }
 
     @Override
-    public void chooseWizard(List<Wizard> wizardsAvailable) {
-
-    }
-
-    @Override
-    public void chooseCloud(List<Cloud> clouds) {
+    public void chooseCloud(List<ShortCloud> clouds) {
 
     }
 
@@ -126,7 +113,7 @@ public class Cli /*extends Observable*/ implements View {
     }
 
     @Override
-    public void moveStudent(int numberOfMovement) {
+    public void moveStudent(int numberOfMovement, List<PawnColor> movableColor) {
 
     }
 
@@ -137,7 +124,7 @@ public class Cli /*extends Observable*/ implements View {
 
     @Override
     public void disconnectionHandler(String message) {
-
+        System.out.println(message);
     }
 
     @Override
@@ -163,6 +150,6 @@ public class Cli /*extends Observable*/ implements View {
                                                 |___/    \s
 
                  by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era""");
-        //TODO: askConnectionInfo()
+        System.out.println(Color.RESET);
     }
 }

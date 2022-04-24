@@ -148,7 +148,7 @@
                             <transformers>
                                 <transformer implementation=
                                                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>it.polimi.ingsw.ClientApp</mainClass>
+                                    <mainClass>it.polimi.ingsw.EriantysClient</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
@@ -166,7 +166,7 @@
                             <transformers>
                                 <transformer implementation=
                                                      "org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>it.polimi.ingsw.ServerApp</mainClass>
+                                    <mainClass>it.polimi.ingsw.EriantysServer</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>

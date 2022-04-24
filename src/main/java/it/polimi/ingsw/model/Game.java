@@ -1,5 +1,6 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.CharactersDeck;
 import it.polimi.ingsw.model.character.action.ActionType;
@@ -24,13 +25,14 @@ public class Game implements IGame {
     private final Sack sack;
     private final CloudManager clouds;
     private Player currentPlayer;
-    private final List<Wizard> alreadyChoiceWizard; //todo: do similar list for tower color
     private final HallManager hallManager;
     private final Bank bank;
     private final GameLimit gameLimit;
     private final int nPlayers;
     private final boolean isExpertMode;
     private List<CharacterCard> characterInUse;
+    private final List<Wizard> alreadyChoiceWizard;
+    private final List<TowerColor> alreadyChoiceTowerColor;
 
     /**
      * The Game is created with the number of players by the controller, the limit of the Game are set
@@ -43,9 +45,10 @@ public class Game implements IGame {
         gameLimit = new GameLimit(nPlayers==3);
         this.board = new Board();
         this.sack = new Sack();
+        this.alreadyChoiceWizard = new ArrayList<>();
+        this.alreadyChoiceTowerColor = new ArrayList<>();
         this.clouds = new CloudManager(nPlayers, gameLimit.getStudentOnCloud());
         this.bank = new Bank();
-        this.alreadyChoiceWizard = new ArrayList<>();
         this.hallManager = (isExpertMode)?new BankHallManager(bank):new HallManager();
         this.isExpertMode = isExpertMode;
         this.characterInUse = new ArrayList<>();
@@ -58,6 +61,7 @@ public class Game implements IGame {
     public boolean startGame() {
         if (players.size() != nPlayers) return false;
         if(isExpertMode) characterInUse = new CharactersDeck().extractCharacterInUse();
+        if(characterInUse.size()!= Constants.CHARACTER_IN_USE) return false;
         sack.initialFill();
         board.initIslands(sack);
         sack.fill();
@@ -77,13 +81,14 @@ public class Game implements IGame {
     public boolean addPlayer(String name,Wizard wizard, TowerColor towerColor){
         if(players.stream().anyMatch(player -> player.getPlayerName().equals(name)) ||
                 alreadyChoiceWizard.contains(wizard) ||
+                alreadyChoiceTowerColor.contains(towerColor) || //todo: check this for 4 player matches
                 this.players.size() >= this.nPlayers) {
             return false;
         }
         else{
-            // TODO: check Builder pattern for Player class
             Player player = new Player(name,wizard,towerColor,gameLimit, hallManager);
             alreadyChoiceWizard.add(player.getWizard());
+            alreadyChoiceTowerColor.add(player.getColor());
             this.players.add(player);
             this.hallManager.addPlayer(player);
             return true;
@@ -172,7 +177,7 @@ public class Game implements IGame {
      * @return true and perform the movement, false if not possible
      */
     public boolean moveMotherNature(int steps, Player player){
-        // TODO: implement card to add 2 more possible steps, add a Mover class with a strategy etc..
+        // TODO: implement card to add 2 more possible steps, add a Mover class with a strategy etc.
         int maxMove = player.getLastPlayedAssistant().movement();
         if(steps <= maxMove && steps > 0){
             board.moveMotherNature(steps, players);

@@ -7,12 +7,11 @@ import java.io.Serial;
 /**
  * Notification used to let client choose the number of steps that Mother Nature musts perform
  */
-public class MoveMNNotification implements Notification {
+public class MoveMNNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -1677653222734549005L;
 
     private final int availableSteps;
-    private int clientId;
 
     public MoveMNNotification(int availableSteps) {
         this.availableSteps = availableSteps;
@@ -25,13 +24,5 @@ public class MoveMNNotification implements Notification {
 
     public int getAvailableSteps() {
         return availableSteps;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
     }
 }

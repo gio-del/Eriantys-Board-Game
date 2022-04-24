@@ -6,11 +6,10 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 import java.io.Serial;
 import java.util.List;
 
-public class ChooseCloudNotification implements Notification {
+public class ChooseCloudNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 5288677777694463225L;
 
-    private int clientId;
     private final List<ShortCloud> availableClouds;
 
     public ChooseCloudNotification(List<ShortCloud> availableClouds) {
@@ -24,13 +23,5 @@ public class ChooseCloudNotification implements Notification {
 
     public List<ShortCloud> getAvailableClouds() {
         return availableClouds;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
     }
 }

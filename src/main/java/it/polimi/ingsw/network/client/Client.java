@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.client;
 
-import it.polimi.ingsw.network.communication.NotificationVisitor;
+import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.network.communication.notification.DisconnectionNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.communication.notification.PingNotification;
@@ -12,6 +12,8 @@ import java.net.Socket;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * This class represents the client. The client is observed by the ClientController,
@@ -19,26 +21,28 @@ import java.util.concurrent.TimeUnit;
  * by the client controller to send messages to the server.
  */
 public class Client extends Thread{
-    //TODO: extract interface
     private Socket socket;
-    private NotificationVisitor clientSideUpdate; //todo: move this to the client controller
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private static final Logger logger = Logger.getLogger(Client.class.getSimpleName());
+
+    private final ClientController clientController;
     private boolean running = true;
 
     private final ScheduledExecutorService ping;
 
-    public Client() {
-        clientSideUpdate = new ClientSideVisitor();
+    public Client(ClientController clientController) {
+        this.clientController = clientController;
+        logger.setLevel(Level.SEVERE);
         ping = new ScheduledThreadPoolExecutor(1);
     }
 
-    public boolean connect(String address,int port){
+    public boolean connect(String address, int port){
         try{
             socket = new Socket(address,port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            clientSideUpdate = new ClientSideVisitor();
+            runPing();
             return true;
         } catch(IOException e){
             return false;
@@ -50,11 +54,11 @@ public class Client extends Thread{
         try {
             while(running){
                 Notification msg = (Notification) in.readObject();
-                //msg.accept(clientSideUpdate); todo: to the client controller
+                clientController.receiveMessage(msg);
             }
         } catch (IOException | ClassNotFoundException e){
             Notification msg = new DisconnectionNotification();
-            //msg.accept(clientSideUpdate); todo: to the client controller
+            clientController.receiveMessage(msg);
         }
     }
 
@@ -63,12 +67,13 @@ public class Client extends Thread{
             out.writeObject(msg);
             out.reset();
         } catch (IOException e) {
-            System.out.println("Server not reachable");
+            logger.info("Server not reachable!");
+            //todo: what happens then?
         }
     }
 
     /**
-     * Send a ping notification to the server each second
+     * Send a ping notification to the server each second so that the server knows it's still alive
      */
     public void runPing(){
         ping.scheduleAtFixedRate(() -> sendMessage(new PingNotification()),0,1, TimeUnit.SECONDS);

@@ -4,12 +4,11 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;
 
-public class WinNotification implements Notification {
+public class WinNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 5495073501053260886L;
 
     private final String name;
-    private int clientId;
 
     public WinNotification(String name) {
         this.name = name;
@@ -22,13 +21,5 @@ public class WinNotification implements Notification {
 
     public String getName() {
         return name;
-    }
-
-    public int getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(int clientId) {
-        this.clientId = clientId;
     }
 }

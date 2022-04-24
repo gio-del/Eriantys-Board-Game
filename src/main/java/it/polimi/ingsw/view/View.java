@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.clouds.Cloud;
+import it.polimi.ingsw.model.clouds.ShortCloud;
+import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -23,34 +24,30 @@ public interface View {
     void chooseGameMode();
 
     /**
-     * To choose a wizard from the ones available
+     * To choose a {@link Wizard} and a {@link TowerColor} from the ones available
      */
-    void chooseWizard(List<Wizard> wizardsAvailable);
-
-    /**
-     * To choose a TowerColor from the ones available
-     */
-    void chooseTowerColor(List<TowerColor> colorsAvailable);
+    void chooseWizardAndTowerColor(List<Wizard> wizardsAvailable, List<TowerColor> colorsAvailable);
 
     /**
      * PLANNING PHASE:
      * To choose the assistant to play
      */
-    void chooseAssistant(List<Assistant> playerAssistant);
+    void chooseAssistant(List<Assistant> playableAssistant);
 
     /**
      * ACTION PHASE:
      * Move the students from the cloud to the hall
      * @param clouds available to selected
      */
-    void chooseCloud(List<Cloud> clouds);
+    void chooseCloud(List<ShortCloud> clouds);
 
     /**
      * ACTION PHASE:
      * Move the students from the entrance to the hall
      * @param numberOfMovement refers to the number of movements available in the turn
+     * @param movableColor list of color that can be moved
      */
-    void moveStudent(int numberOfMovement);
+    void moveStudent(int numberOfMovement, List<PawnColor> movableColor);
 
     /**
      * ACTION PHASE:
