@@ -276,6 +276,9 @@ public class Game extends Observable implements IGame {
         return hallManager.getProfessorAssignor();
     }
 
+    /**
+     * @return true if the game is expert mode, false otherwise.
+     */
     public boolean isExpertMode() {
         return isExpertMode;
     }

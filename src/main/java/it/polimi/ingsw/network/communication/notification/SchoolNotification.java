@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;
+import java.util.List;
 
 /**
  * This notification is used by the server to show a school to a client
@@ -12,10 +13,10 @@ public class SchoolNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -1083964897097839635L;
 
-    private final ShortSchool school;
+    private final List<ShortSchool> schoolList;
 
-    public SchoolNotification(ShortSchool school) {
-        this.school = school;
+    public SchoolNotification(List<ShortSchool> schoolList) {
+        this.schoolList = schoolList;
     }
 
     @Override
@@ -23,7 +24,7 @@ public class SchoolNotification extends Notification {
         visitor.visit(this);
     }
 
-    public ShortSchool getSchool() {
-        return school;
+    public List<ShortSchool> getSchool() {
+        return schoolList;
     }
 }
