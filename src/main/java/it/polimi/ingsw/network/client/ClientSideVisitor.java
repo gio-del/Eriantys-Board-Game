@@ -29,7 +29,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(CloudsNotification msg) {
-        //TODO: add a method to view to show clouds
+        view.showClouds(msg.getCloudList());
     }
 
     @Override
@@ -55,7 +55,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(SchoolNotification msg) {
-        //TODO: add a method to view to show school
+        view.showSchools(msg.getSchool());
     }
 
     @Override

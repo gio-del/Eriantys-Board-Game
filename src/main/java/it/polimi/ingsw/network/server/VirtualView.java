@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -40,6 +41,16 @@ public class VirtualView implements View, Observer {
     @Override
     public void chooseAssistant(List<Assistant> playableAssistant) {
         connection.sendMessage(new ChooseAssistantNotification(playableAssistant));
+    }
+
+    @Override
+    public void showSchools(List<ShortSchool> schools) {
+        connection.sendMessage(new SchoolNotification(schools));
+    }
+
+    @Override
+    public void showClouds(List<ShortCloud> clouds) {
+        connection.sendMessage(new CloudsNotification(clouds));
     }
 
     @Override
