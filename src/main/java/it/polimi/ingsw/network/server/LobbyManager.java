@@ -14,6 +14,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 public class LobbyManager {
     private final Queue<String> players;
     private final Map<String,Connection> connectionMap;
+    private final Map<String,View> vvMap;
     private final Server server;
     private boolean ready = false;
     private int nPlayers;
@@ -22,6 +23,7 @@ public class LobbyManager {
     public LobbyManager(Server server) {
         this.server = server;
         this.connectionMap = Collections.synchronizedMap(new HashMap<>());
+        this.vvMap = Collections.synchronizedMap(new HashMap<>());
         this.players = new PriorityBlockingQueue<>();
     }
 
@@ -29,26 +31,46 @@ public class LobbyManager {
         View vv = new VirtualView(connection);
         players.add(nickname);
         connectionMap.put(nickname, connection);
+        vvMap.put(nickname,vv);
         if(!ready && players.size() == 1){
             vv.chooseGameMode();
         }
-        else if(ready && players.size()==nPlayers){
-            GameController controller = new GameController();
-            List<String> names = new ArrayList<>();
-            for(String name: players){
-                names.add(name);
-                controller.addClient(name,connectionMap.get(name));
+        checkReadyToStart();
+    }
+
+    public void checkReadyToStart(){
+            if(ready && players.size()==nPlayers){
+                startMatch();
+                if(!players.isEmpty()){
+                    vvMap.get(players.peek()).chooseGameMode();
+                }
             }
-            controller.startGame(nPlayers,isExpertMode);
-            server.addMatch(names,controller);
-            ready = false;
+    }
+
+    private void startMatch() {
+        GameController controller = new GameController();
+        List<String> names = new ArrayList<>();
+        for(String name: players){
+            names.add(name);
+            controller.addClient(name,connectionMap.get(name));
+            removePlayerFromLobby(name);
         }
+        controller.startGame(nPlayers,isExpertMode);
+        server.addMatch(names,controller);
+        ready = false;
+    }
+
+    public void removePlayerFromLobby(String name){
+        players.remove(name);
+        connectionMap.remove(name);
+        vvMap.remove(name);
     }
 
     public void onUpdateGameMode(ChooseGameModeNotification chooseGameModeMsg) {
         this.isExpertMode = chooseGameModeMsg.isExpertGame();
         this.nPlayers = chooseGameModeMsg.getNPlayers();
         ready = true;
+        checkReadyToStart();
     }
 
     public synchronized void handleDisconnection(String nickname) {
