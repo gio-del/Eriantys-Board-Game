@@ -4,6 +4,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -271,6 +272,16 @@ public class Cli extends ClientObservable implements View {
     @Override
     public void disconnectionHandler(String message) {
         System.out.println(message);
+    }
+
+    @Override
+    public void showSchools(List<ShortSchool> schools) {
+
+    }
+
+    @Override
+    public void showClouds(List<ShortCloud> clouds) {
+        
     }
 
     @Override
