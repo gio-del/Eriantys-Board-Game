@@ -11,12 +11,19 @@ public class ChooseWizAndTowerColorNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 7508488393596408467L;
 
-    private final List<Wizard> availableWizards;
-    private final List<TowerColor> availableColors;
+    private List<Wizard> availableWizards;
+    private List<TowerColor> availableColors;
+    private Wizard wizard;
+    private TowerColor towerColor;
 
     public ChooseWizAndTowerColorNotification(List<Wizard> availableWizards, List<TowerColor> availableColors) {
         this.availableWizards = availableWizards;
         this.availableColors = availableColors;
+    }
+
+    public ChooseWizAndTowerColorNotification(Wizard wizard, TowerColor towerColor) {
+        this.wizard = wizard;
+        this.towerColor = towerColor;
     }
 
     @Override

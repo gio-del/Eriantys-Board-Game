@@ -11,6 +11,7 @@ import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  * The command line interface implementation of the game.
@@ -20,6 +21,14 @@ import java.util.List;
  */
 public class Cli extends ClientObservable implements View {
     private final ScanListener scanListener;
+    private List<Wizard> wizardsAvailable;
+    private List<TowerColor> colorsAvailable;
+    private List<Assistant> playbleAssistant;
+    private List<ShortCloud> availableClouds;
+    private int maxSteps;
+    private int numMovesAvailable;
+    private List<PawnColor> pawnsAvailable;
+    private PawnColor chosenColor;
 
     public Cli() {
         scanListener = new ScanListener(this);
@@ -105,19 +114,19 @@ public class Cli extends ClientObservable implements View {
     public void checkGameMode(String gameMode) {
         int pos = getSpacePos(gameMode);
         if(pos >= gameMode.length()){
-            System.out.println("ERROR - Game mode or number of player are missing!");
+            System.out.println("ERROR - Game mode or number of player are missing!, retry");
             scanListener.setRequest(Request.GAME_MODE);
             return;
         }
         String mode = gameMode.substring(0,pos);
         if(Constants.GAME_MODE_AVAILABLE.stream().noneMatch(s -> s.equalsIgnoreCase(mode))){
-            System.out.println("ERROR - Insert a valid game mode!");
+            System.out.println("ERROR - Insert a valid game mode!, retry");
             scanListener.setRequest(Request.GAME_MODE);
             return;
         }
         int numOfPlayer = Integer.parseInt(gameMode.substring(pos+1));
         if(Constants.NUM_PLAYER_AVAILABLE.stream().noneMatch(i -> i.equals(numOfPlayer))){
-            System.out.println("ERROR - Insert a valid number of player!");
+            System.out.println("ERROR - Insert a valid number of player!, retry");
             scanListener.setRequest(Request.GAME_MODE);
             return;
         }
@@ -125,30 +134,135 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void chooseAssistant(List<Assistant> playableAssistant) {
-
+    public void chooseWizardAndTowerColor(List<Wizard> wizardsAvailable, List<TowerColor> colorsAvailable) {
+        this.wizardsAvailable = wizardsAvailable;
+        this.colorsAvailable = colorsAvailable;
+        System.out.println("Choose an available wizard");
+        wizardsAvailable.forEach(System.out::println);
+        System.out.println("Choose an available TowerColor");
+        colorsAvailable.forEach(System.out::println);
+        scanListener.setRequest(Request.WIZARD_COLOR);
     }
 
-    @Override
-    public void chooseWizardAndTowerColor(List<Wizard> wizardsAvailable, List<TowerColor> colorsAvailable) {
+    public void checkWizardColor(String wizardAndTower) {
+        int pos = getSpacePos(wizardAndTower);
+        if(pos >= wizardAndTower.length()){
+            System.out.println("ERROR - Wizard o TowerColor are missing, retry");
+            scanListener.setRequest(Request.WIZARD_COLOR);
+            return;
+        }
+        String wizard = wizardAndTower.substring(0, pos);
+        Wizard wizardChosen = wizardsAvailable.stream().filter(o -> wizard.equals(o.name())).findFirst().orElse(null);
+        if(wizardChosen == null){
+            System.out.println("ERROR - Wizard not available or incorrect, retry");
+            scanListener.setRequest(Request.WIZARD_COLOR);
+            return;
+        }
+        String color = wizardAndTower.substring(pos + 1);
+        TowerColor towerColor = colorsAvailable.stream().filter(o -> color.equals(o.name())).findFirst().orElse(null);
+        if(towerColor == null){
+            System.out.println("ERROR - Color not available or incorrect, retry");
+            scanListener.setRequest(Request.WIZARD_COLOR);
+            return;
+        }
+        notifyObserver(observer -> observer.updateWizardAndColor(wizardChosen, towerColor));
+    }
 
+
+
+    @Override
+    public void chooseAssistant(List<Assistant> playableAssistant) {
+        this.playbleAssistant = playableAssistant;
+        System.out.println("Choose an assistant from the available: ");
+        playbleAssistant.forEach(o -> System.out.println( "Name " + o.name() + "- Value " + o.value() + " - Movement " + o.movement()));
+        scanListener.setRequest(Request.ASSISTANT);
+    }
+
+    public void checkAssistant(String assistantName){
+        Assistant assistant = playbleAssistant.stream().filter(o -> assistantName.equals(o.name())).findFirst().orElse(null);
+        if(assistant == null){
+            System.out.println("ERROR - Assistant not valid, retry");
+            scanListener.setRequest(Request.ASSISTANT);
+            return;
+        }
+        notifyObserver(observer -> observer.updateAssistant(assistant));
     }
 
     @Override
     public void chooseCloud(List<ShortCloud> clouds) {
+        this.availableClouds = clouds;
+        System.out.println("Select the number of the cloud you want to pick from: ");
+        for(ShortCloud cloud: clouds){
+            System.out.println("Cloud: " + clouds.indexOf(cloud));
+            Stream.of(PawnColor.values()).forEachOrdered(color -> System.out.println(cloud.getStudents().getFromColor(color) + " " + color + " students"));
+        }
+        scanListener.setRequest(Request.CLOUD);
+    }
 
+    public void checkCloud(int cloudNum){
+        if(cloudNum == - 1){
+            System.out.println("ERROR - Cloud not a number, retry");
+            scanListener.setRequest(Request.CLOUD);
+            return;
+        }
+        if(cloudNum >= availableClouds.size()){
+            System.out.println("ERROR - Cloud does not exist, retry");
+            scanListener.setRequest(Request.CLOUD);
+            return;
+        }
+        notifyObserver(observer -> observer.updateCloud(availableClouds.get(cloudNum)));
     }
 
     @Override
     public void moveMNature(int maximumSteps) {
+        this.maxSteps = maximumSteps;
+        System.out.println("Insert how many steps Mother Nature will do (max: " + maximumSteps + ")");
+        scanListener.setRequest(Request.MOTHER);
+    }
 
+    public void checkStepsMN(int steps){
+        if(steps == - 1){
+            System.out.println("ERROR - Steps not a number, retry");
+            scanListener.setRequest(Request.MOTHER);
+            return;
+        }
+        if(steps >= maxSteps){
+            System.out.println("ERROR - Too many steps, retry");
+            scanListener.setRequest(Request.MOTHER);
+            return;
+        }
+        notifyObserver(observer -> observer.updateStepsMN(steps));
     }
 
     @Override
-    public void moveStudent(int numberOfMovement, List<PawnColor> movableColor) {
-
+    public void moveStudent(List<PawnColor> movableColor) {
+        pawnsAvailable = movableColor;
+        System.out.println("What color do you want to move?");
+        scanListener.setRequest(Request.STUDENT);
     }
 
+    public void askColor(String color){
+        chosenColor = pawnsAvailable.stream().filter(o -> color.equals(o.name())).findFirst().orElse(null);
+        if(chosenColor == null){
+            System.out.println("ERROR - color not available, retry");
+            scanListener.setRequest(Request.STUDENT);
+            return;
+        }
+        System.out.println("Do you want to move students from entrance to hall (1) or to island (2)?");
+        scanListener.setRequest(Request.MOVE);
+    }
+
+    public void moveToTarget(int target) {
+        if(target == - 1){
+            System.out.println("ERROR - move not a number, retry");
+            scanListener.setRequest(Request.MOVE);
+            return;
+        } else if(target == 1 || target == 2) {
+            notifyObserver(observer -> observer.updateToTarget(chosenColor, target));
+        }
+        System.out.println("ERROR - move not available, retry");
+        scanListener.setRequest(Request.MOVE);
+    }
     @Override
     public void useCharacter(List<Character> characterNotAlreadyPlayed) {
 
@@ -166,7 +280,12 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void win(String winner, boolean win) {
-
+        if(win){
+            System.out.println("YOU WIN!");
+        } else {
+            System.out.println(winner + "won");
+        }
+        scanListener.stopListening();
     }
 
     public void printWelcome(){
@@ -184,4 +303,8 @@ public class Cli extends ClientObservable implements View {
                  by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era""");
         System.out.println(Color.RESET);
     }
+
+
+
+
 }

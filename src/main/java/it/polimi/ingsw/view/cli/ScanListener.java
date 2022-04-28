@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
+import com.sun.javafx.css.CascadingStyle;
+
 import java.util.Scanner;
 
 public class ScanListener extends Thread {
@@ -30,6 +32,30 @@ public class ScanListener extends Thread {
                         request = Request.IGNORE;
                         cli.checkGameMode(scanner.nextLine());
                     }
+                    case WIZARD_COLOR -> {
+                        request = Request.IGNORE;
+                        cli.checkWizardColor(scanner.nextLine());
+                    }
+                    case ASSISTANT -> {
+                        request = Request.IGNORE;
+                        cli.checkAssistant(scanner.nextLine());
+                    }
+                    case CLOUD -> {
+                        request = Request.IGNORE;
+                        cli.checkCloud(converterToInt(scanner.nextLine()));
+                    }
+                    case MOTHER -> {
+                        request = Request.IGNORE;
+                        cli.checkStepsMN(converterToInt(scanner.nextLine()));
+                    }
+                    case STUDENT -> {
+                        request = Request.IGNORE;
+                        cli.askColor(scanner.nextLine());
+                    }
+                    case MOVE -> {
+                        request = Request.IGNORE;
+                        cli.moveToTarget(converterToInt(scanner.nextLine()));
+                    }
                 }
             }
         }
@@ -52,6 +78,11 @@ public class ScanListener extends Thread {
         } catch (NumberFormatException e) {
             return -1;
         }
+    }
+
+    public void stopListening(){
+        running = false;
+        interrupt();
     }
 
 }

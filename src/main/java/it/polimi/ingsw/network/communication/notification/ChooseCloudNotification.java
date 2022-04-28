@@ -10,7 +10,10 @@ public class ChooseCloudNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 5288677777694463225L;
 
-    private final List<ShortCloud> availableClouds;
+    private List<ShortCloud> availableClouds;
+    private ShortCloud cloud;
+
+    public ChooseCloudNotification(ShortCloud cloud) { this.cloud = cloud; }
 
     public ChooseCloudNotification(List<ShortCloud> availableClouds) {
         this.availableClouds = availableClouds;

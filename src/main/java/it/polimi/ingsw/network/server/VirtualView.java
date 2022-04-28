@@ -48,8 +48,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void moveStudent(int numberOfMovement, List<PawnColor> movableColor) {
-        connection.sendMessage(new MoveStudentNotification(numberOfMovement,movableColor));
+    public void moveStudent(List<PawnColor> movableColor) {
+        connection.sendMessage(new MoveStudentNotification(movableColor));
     }
 
     @Override

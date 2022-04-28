@@ -11,12 +11,17 @@ public class MoveStudentNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -2243164347217805315L;
 
-    private final int numberOfMovement;
-    private final List<PawnColor> movableColor;
+    private List<PawnColor> movableColor;
+    private Target target;
+    private PawnColor color;
 
-    public MoveStudentNotification(int numberOfMovement, List<PawnColor> movableColor) {
-        this.numberOfMovement = numberOfMovement;
+    public MoveStudentNotification(List<PawnColor> movableColor) {
         this.movableColor = movableColor;
+    }
+
+    public MoveStudentNotification(PawnColor color, Target target) {
+        this.color = color;
+        this.target = target;
     }
 
     @Override
@@ -24,9 +29,6 @@ public class MoveStudentNotification extends Notification {
         visitor.visit(this);
     }
 
-    public int getNumberOfMovement() {
-        return numberOfMovement;
-    }
 
     public List<PawnColor> getMovableColor() {
         return movableColor;

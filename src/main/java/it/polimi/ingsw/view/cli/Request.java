@@ -4,8 +4,11 @@ public enum Request {
     IP,
     NICKNAME,
     GAME_MODE,
-    WIZARD,
-    COLOR,
+    WIZARD_COLOR,
+    ASSISTANT,
+    CLOUD,
+    MOTHER,
+    MOVE,
     STUDENT,
     IGNORE
 }

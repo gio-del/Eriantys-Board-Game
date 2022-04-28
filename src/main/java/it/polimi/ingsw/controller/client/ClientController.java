@@ -1,11 +1,14 @@
 package it.polimi.ingsw.controller.client;
 
+import it.polimi.ingsw.model.clouds.ShortCloud;
+import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.TowerColor;
+import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSideVisitor;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
-import it.polimi.ingsw.network.communication.notification.ChooseGameModeNotification;
-import it.polimi.ingsw.network.communication.notification.LoginNotification;
-import it.polimi.ingsw.network.communication.notification.Notification;
+import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.observer.ClientObserver;
 import it.polimi.ingsw.view.View;
 
@@ -65,6 +68,42 @@ public class ClientController implements ClientObserver {
         Notification chooseGameMode = new ChooseGameModeNotification(numOfPlayer,isExpert);
         chooseGameMode.setClientId(nickname);
         client.sendMessage(chooseGameMode);
+    }
+
+    @Override
+    public void updateWizardAndColor(Wizard wizard, TowerColor towerColor) {
+        Notification chooseWizAndTower = new ChooseWizAndTowerColorNotification(wizard, towerColor);
+        client.sendMessage(chooseWizAndTower);
+    }
+
+    @Override
+    public void updateAssistant(Assistant assistant) {
+        Notification chooseAssistantNotification = new ChooseAssistantNotification(assistant);
+        client.sendMessage(chooseAssistantNotification);
+    }
+
+    @Override
+    public void updateCloud(ShortCloud cloud) {
+        Notification chooseCloudNotification = new ChooseCloudNotification(cloud);
+        client.sendMessage(chooseCloudNotification);
+    }
+
+    @Override
+    public void updateStepsMN(int steps) {
+        Notification moveMNNotification = new MoveMNNotification(steps);
+        client.sendMessage(moveMNNotification);
+    }
+
+    @Override
+    public void updateToTarget(PawnColor color, int target) {
+        Notification moveStudentNotification;
+        if(target == 1){
+            moveStudentNotification = new MoveStudentNotification(color, Target.ISLAND);
+        } else {
+            moveStudentNotification = new MoveStudentNotification(color, Target.HALL);
+        }
+
+        client.sendMessage(moveStudentNotification);
     }
 
     public void onDisconnection(){

@@ -10,12 +10,20 @@ public class ChooseAssistantNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -4567987615843138209L;
 
-    private final List<Assistant> playableAssistant;
+    private List<Assistant> playableAssistant;
+    private Assistant chosenAssistant = null;
 
     public ChooseAssistantNotification(List<Assistant> playableAssistant) {
         this.playableAssistant = playableAssistant;
     }
 
+    public ChooseAssistantNotification(Assistant chosenAssistant) {
+        this.chosenAssistant = chosenAssistant;
+    }
+
+    public void chooseAssistant(Assistant assistant){
+        this.chosenAssistant = assistant;
+    }
     @Override
     public void accept(NotificationVisitor visitor) {
         visitor.visit(this);

@@ -44,10 +44,9 @@ public interface View {
     /**
      * ACTION PHASE:
      * Move the students from the entrance to the hall
-     * @param numberOfMovement refers to the number of movements available in the turn
      * @param movableColor list of color that can be moved
      */
-    void moveStudent(int numberOfMovement, List<PawnColor> movableColor);
+    void moveStudent(List<PawnColor> movableColor);
 
     /**
      * ACTION PHASE:

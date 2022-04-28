@@ -35,7 +35,7 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(MoveStudentNotification msg) {
         //TODO: check this
-        view.moveStudent(msg.getNumberOfMovement(),msg.getMovableColor());
+        view.moveStudent(msg.getMovableColor());
     }
 
     @Override
@@ -78,4 +78,5 @@ public class ClientSideVisitor implements NotificationVisitor {
         //TODO: add a method to say that provided nickname was already used
         view.setNickname(); //this will just re-ask name
     }
+
 }
