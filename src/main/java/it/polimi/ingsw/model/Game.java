@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
+import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * This class represents Eriantys game
  */
-public class Game implements IGame {
+public class Game extends Observable implements IGame {
     private final List<Player> players;
     private final Board board;
     private final Sack sack;

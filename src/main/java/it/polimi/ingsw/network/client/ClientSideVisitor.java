@@ -19,62 +19,63 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(LoginNotification msg) {
-
         //TODO
     }
 
     @Override
     public void visit(WinNotification msg) {
-        //TODO
+        view.win(msg.getName(), msg.isWin());
     }
 
     @Override
     public void visit(CloudsNotification msg) {
-        //TODO
+        //TODO: add a method to view to show clouds
     }
 
     @Override
     public void visit(MoveStudentNotification msg) {
-        //TODO
+        //TODO: check this
+        view.moveStudent(msg.getNumberOfMovement(),msg.getMovableColor());
     }
 
     @Override
     public void visit(MoveMNNotification msg) {
-        //TODO
+        view.moveMNature(msg.getAvailableSteps());
     }
 
     @Override
     public void visit(ChooseCloudNotification msg) {
-        //TODO
+        view.chooseCloud(msg.getAvailableClouds());
     }
 
     @Override
     public void visit(ChooseGameModeNotification msg) {
-        //TODO
+        view.chooseGameMode();
     }
 
     @Override
     public void visit(SchoolNotification msg) {
-        //TODO
+        //TODO: add a method to view to show school
     }
 
     @Override
     public void visit(DisconnectionNotification msg) {
-        //TODO
+        view.disconnectionHandler(msg.getNickname());
     }
 
     @Override
     public void visit(ChooseWizAndTowerColorNotification msg) {
-        //TODO
+        view.chooseWizardAndTowerColor(msg.getAvailableWizards(),msg.getAvailableColors());
     }
 
     @Override
     public void visit(ChooseAssistantNotification msg) {
-        //TODO
+        view.chooseAssistant(msg.getPlayableAssistant());
     }
 
     @Override
     public void visit(NicknameErrorNotification msg) {
-        //TODO
+        //TODO: add a method to say that provided nickname was already used
+        view.setNickname(); //this will just re-ask name
     }
 }

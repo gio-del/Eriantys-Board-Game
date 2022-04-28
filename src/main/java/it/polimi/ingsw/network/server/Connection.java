@@ -29,27 +29,27 @@ public class Connection implements Runnable {
             this.out = new ObjectOutputStream(client.getOutputStream());
             this.in = new ObjectInputStream(client.getInputStream());
         } catch (IOException e) {
-            Server.logger.info("Cannot instantiate a connection with client");
+            Server.LOGGER.info("Cannot instantiate a connection with client");
             this.running = false;
         }
     }
 
     @Override
     public void run() {
-        String msg = "Client connected from " + client.getInetAddress();
-        Server.logger.info(msg);
+        Server.LOGGER.info(() -> "Client connected from " + client.getInetAddress());
         try{
             while(!Thread.currentThread().isInterrupted()){
                 Notification notification = (Notification) in.readObject();
                 if(notification instanceof LoginNotification loginNotification){
                     server.addClient(loginNotification.getNickname(),this);
                 }
-                else if(!(notification instanceof PingNotification))
+                else if(!(notification instanceof PingNotification)) {
+                    Server.LOGGER.info(() -> "Message received from: " + notification.getClientID() + ". Type: " + notification.getClass().getName());
                     server.receiveMessage(notification);
+                }
             }
         } catch (IOException | ClassNotFoundException e){
-            // this means that the client is offline
-            Server.logger.info("Client is offline.");
+            Server.LOGGER.info(() -> "Client is offline.");
         } finally {
             disconnect();
         }
@@ -63,7 +63,7 @@ public class Connection implements Runnable {
         try {
             out.writeObject(msg);
         } catch (IOException e) {
-            Server.logger.info("Couldn't send message to a client, closing connection");
+            Server.LOGGER.info(() -> "Couldn't send message to a client, closing connection");
             disconnect();
         }
     }
@@ -75,11 +75,14 @@ public class Connection implements Runnable {
                 try {
                     client.close();
                 } catch (IOException e) {
-                    Server.logger.info("Cannot close connection with client");
+                    Server.LOGGER.info(() -> "Cannot close connection with client");
                 }
             }
         }
-        //TODO: add a call to a method of ServerThread that handle disconnection, e.g. say
-        //todo: to the server that that connection is off, server takes the GameController and end that match
+        server.handleDisconnection(this.client);
+    }
+
+    protected Socket getClient() {
+        return client;
     }
 }

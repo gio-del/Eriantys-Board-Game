@@ -41,7 +41,7 @@ public class Bank {
     public void initPlayer(Player player){
         if(generalBank > 0) {
             generalBank -= 1;
-            cashMap.put(player, 1);
+            cashMap.put(player, Constants.INITIAL_CASH_PER_PLAYER);
         }
     }
 

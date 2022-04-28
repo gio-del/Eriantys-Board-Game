@@ -50,4 +50,8 @@ public class LobbyManager {
         this.nPlayers = chooseGameModeMsg.getNPlayers();
         ready = true;
     }
+
+    public synchronized void handleDisconnection(String nickname) {
+        players.remove(nickname);
+    }
 }

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.client.ClientController;
-import it.polimi.ingsw.network.communication.notification.DisconnectionNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.communication.notification.PingNotification;
 
@@ -42,7 +41,7 @@ public class Client extends Thread{
             socket = new Socket(address,port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            runPing();
+            runPing(); //todo: check this
             return true;
         } catch(IOException e){
             return false;
@@ -57,8 +56,7 @@ public class Client extends Thread{
                 clientController.receiveMessage(msg);
             }
         } catch (IOException | ClassNotFoundException e){
-            Notification msg = new DisconnectionNotification();
-            clientController.receiveMessage(msg);
+            clientController.onDisconnection();
         }
     }
 

@@ -30,7 +30,7 @@ public class ServerThread implements Runnable {
                 new Thread(connection).start();
 
             } catch (IOException e) {
-                System.out.println("Problem during connection with a client");
+                Server.LOGGER.info(() -> "Problem during connection with a client");
             }
         }
     }
@@ -41,5 +41,9 @@ public class ServerThread implements Runnable {
 
     public void receiveMessage(Notification msg){
         server.receiveMessage(msg);
+    }
+
+    public void handleDisconnection(Socket client) {
+        server.handleDisconnection(client);
     }
 }

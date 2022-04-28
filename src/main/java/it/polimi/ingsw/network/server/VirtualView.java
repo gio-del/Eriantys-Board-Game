@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.communication.notification.*;
+import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.View;
 
 import java.util.List;
@@ -14,7 +15,7 @@ import java.util.List;
  * This class represents a fake view that is used to hide to the server the real views.
  * It allows to use MVC pattern "locally"
  */
-public class VirtualView implements View {
+public class VirtualView implements View, Observer {
     private final Connection connection;
 
     public VirtualView(Connection connection) {
@@ -69,11 +70,16 @@ public class VirtualView implements View {
     @Override
     public void disconnectionHandler(String message) {
         //TODO: check this
-        connection.sendMessage(new DisconnectionNotification());
+        connection.sendMessage(new DisconnectionNotification(message));
     }
 
     @Override
     public void win(String winner, boolean win) {
-        connection.sendMessage(new WinNotification(winner));
+        connection.sendMessage(new WinNotification(winner,win));
+    }
+
+    @Override
+    public void update(Notification msg) {
+        connection.sendMessage(msg);
     }
 }

@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
+/**
+ * The view extends this interface.
+ */
 public class ClientObservable {
     private final List<ClientObserver> observers = new ArrayList<>();
 

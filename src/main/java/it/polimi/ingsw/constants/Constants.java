@@ -1,5 +1,7 @@
 package it.polimi.ingsw.constants;
 
+import java.util.List;
+
 /**
  * This class contains constants that are common to all games
  */
@@ -14,7 +16,8 @@ public class Constants {
     public static final String THREE_PLAYER_LIMIT_JSON_PATH = "/json/ThreePlayerLimit.json";
     public static final String TWO_FOUR_PLAYER_LIMIT_JSON_PATH = "/json/TwoFourPlayerLimit.json";
 
-    public static final int MAX_NUM_PLAYER = 4;
+    public static final List<Integer> NUM_PLAYER_AVAILABLE = List.of(2,3,4);
+    public static final List<String> GAME_MODE_AVAILABLE = List.of("Simple","Expert");
     public static final int CHARACTER_IN_USE = 3;
     public static final int STUDENTS_OF_EACH_COLOR = 24;
     public static final int INIT_SACK_STUDENTS_PER_COLOR = 2;

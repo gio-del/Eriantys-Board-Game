@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.client;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSideVisitor;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
+import it.polimi.ingsw.network.communication.notification.ChooseGameModeNotification;
 import it.polimi.ingsw.network.communication.notification.LoginNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.observer.ClientObserver;
@@ -22,7 +23,7 @@ public class ClientController implements ClientObserver {
     private final NotificationVisitor visitor;
     private final View view;
     private final Client client;
-    private String nickname; //this is assigned by a view update when a LoginMessage is sent through network
+    private String nickname;
 
     public ClientController(View view) {
         this.view = view;
@@ -35,13 +36,13 @@ public class ClientController implements ClientObserver {
      * @param msg to be dispatched
      */
     public void receiveMessage(Notification msg) {
-        msg.setClientId(this.nickname);
         msg.accept(visitor);
     }
 
     @Override
     public void updateConnection(String ip, int port) {
         if(client.connect(ip,port)){
+            client.start();
             view.setNickname();
         }
         else{
@@ -53,6 +54,22 @@ public class ClientController implements ClientObserver {
     @Override
     public void updateNickname(String nickname) {
         this.nickname = nickname;
-        client.sendMessage(new LoginNotification(nickname));
+        Notification login = new LoginNotification(nickname);
+        login.setClientId(nickname);
+        client.sendMessage(login);
+    }
+
+    @Override
+    public void updateGameModeNumPlayer(String mode, int numOfPlayer) {
+        boolean isExpert = mode.equalsIgnoreCase("Expert");
+        Notification chooseGameMode = new ChooseGameModeNotification(numOfPlayer,isExpert);
+        chooseGameMode.setClientId(nickname);
+        client.sendMessage(chooseGameMode);
+    }
+
+    public void onDisconnection(){
+        String s = "Connection closed with the server. Exiting...";
+        view.disconnectionHandler(s);
+        exit(0);
     }
 }

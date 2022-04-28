@@ -18,9 +18,18 @@ public class ScanListener extends Thread {
         while(running){
             if(scanner.hasNextLine()){
                 switch (request){
-                    case IP -> cli.checkIP(scanner.nextLine());
-                    case NICKNAME -> cli.checkNickName(scanner.nextLine());
-                    default -> {return;}
+                    case IP -> {
+                        request = Request.IGNORE;
+                        cli.checkIP(scanner.nextLine());
+                    }
+                    case NICKNAME -> {
+                        request = Request.IGNORE;
+                        cli.checkNickName(scanner.nextLine());
+                    }
+                    case GAME_MODE -> {
+                        request = Request.IGNORE;
+                        cli.checkGameMode(scanner.nextLine());
+                    }
                 }
             }
         }

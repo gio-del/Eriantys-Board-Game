@@ -9,9 +9,10 @@ public class WinNotification extends Notification {
     private static final long serialVersionUID = 5495073501053260886L;
 
     private final String name;
-
-    public WinNotification(String name) {
+    private final boolean win;
+    public WinNotification(String name,boolean win) {
         this.name = name;
+        this.win = win;
     }
 
     @Override
@@ -21,5 +22,9 @@ public class WinNotification extends Notification {
 
     public String getName() {
         return name;
+    }
+
+    public boolean isWin() {
+        return win;
     }
 }
