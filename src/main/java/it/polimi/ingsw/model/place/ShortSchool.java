@@ -12,11 +12,13 @@ public class ShortSchool implements Serializable {
     private final ShortPawns entrance;
     private final ShortPawns profTable;
     private final ShortPawns hall;
+    private final int numTower;
 
     public ShortSchool(School school) {
         this.entrance = new ShortPawns(school.getEntrance());
         this.profTable = new ShortPawns(school.getProfessorTable());
         this.hall = new ShortPawns(school.getHall());
+        this.numTower = school.getTowerNum();
     }
 
     public ShortPawns getEntrance() {
@@ -30,4 +32,6 @@ public class ShortSchool implements Serializable {
     public ShortPawns getHall() {
         return hall;
     }
+
+    public int getNumTower() { return numTower; }
 }

@@ -13,10 +13,10 @@ public class SchoolNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -1083964897097839635L;
 
-    private final List<ShortSchool> schoolList;
+    private final ShortSchool yourSchool;
 
-    public SchoolNotification(List<ShortSchool> schoolList) {
-        this.schoolList = schoolList;
+    public SchoolNotification(ShortSchool yourSchool) {
+        this.yourSchool = yourSchool;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class SchoolNotification extends Notification {
         visitor.visit(this);
     }
 
-    public List<ShortSchool> getSchool() {
-        return schoolList;
+    public ShortSchool getSchool() {
+        return yourSchool;
     }
 }

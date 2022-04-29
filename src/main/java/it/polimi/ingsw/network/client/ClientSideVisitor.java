@@ -55,7 +55,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(SchoolNotification msg) {
-        view.showSchools(msg.getSchool());
+        view.showSchool(msg.getSchool());
     }
 
     @Override

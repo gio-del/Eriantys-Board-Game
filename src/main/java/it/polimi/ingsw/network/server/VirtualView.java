@@ -44,8 +44,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void showSchools(List<ShortSchool> schools) {
-        connection.sendMessage(new SchoolNotification(schools));
+    public void showSchool(ShortSchool school) {
+        connection.sendMessage(new SchoolNotification(school));
     }
 
     @Override

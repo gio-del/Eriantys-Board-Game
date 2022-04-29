@@ -4,6 +4,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.pawns.ShortPawns;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -27,7 +28,6 @@ public class Cli extends ClientObservable implements View {
     private List<Assistant> playbleAssistant;
     private List<ShortCloud> availableClouds;
     private int maxSteps;
-    private int numMovesAvailable;
     private List<PawnColor> pawnsAvailable;
     private PawnColor chosenColor;
 
@@ -195,7 +195,7 @@ public class Cli extends ClientObservable implements View {
         System.out.println("Select the number of the cloud you want to pick from: ");
         for(ShortCloud cloud: clouds){
             System.out.println("Cloud: " + clouds.indexOf(cloud));
-            Stream.of(PawnColor.values()).forEachOrdered(color -> System.out.println(cloud.getStudents().getFromColor(color) + " " + color + " students"));
+            Stream.of(PawnColor.values()).forEachOrdered(color -> System.out.println(cloud.getStudents().getFromColor(color) + " " + color.name() + " students"));
         }
         scanListener.setRequest(Request.CLOUD);
     }
@@ -275,13 +275,81 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void showSchools(List<ShortSchool> schools) {
-
+    public void showSchool(ShortSchool schools) {
+        System.out.println("YOUR SCHOOL");
+        System.out.println(schoolHeader());
+        int i;
+        int entrance;
+        int hall;
+        int prof;
+        for(PawnColor pawnColor: PawnColor.values()){
+            StringBuilder totalString = new StringBuilder("");
+            if(pawnColor.name() == "GREEN"){
+                totalString.append(Color.GREEN + pawnColor.name()).append("  | ");
+            } else if(pawnColor.name() == "RED"){
+                totalString.append(Color.RED + pawnColor.name()).append("    | ");
+            } else if(pawnColor.name() == "YELLOW"){
+                totalString.append(Color.YELLOW + pawnColor.name()).append(" | ");
+            } else if(pawnColor.name() == "PINK") {
+                totalString.append(Color.PURPLE + pawnColor.name()).append("   | ");
+            } else if(pawnColor.name() == "BLUE"){
+                totalString.append(Color.BLUE + pawnColor.name()).append("   | ");
+            }
+            entrance = schools.getEntrance().getFromColor(pawnColor);
+            for(i = 0; i < entrance; i ++){
+                totalString.append(fullCircle()).append(" ");
+            }
+            for (i = entrance; i < Constants.MAX_ENTRANCE; i++){
+                totalString.append(emptyCircle()).append(" ");
+            }
+            totalString.append("| ");
+            hall = schools.getHall().getFromColor(pawnColor);
+            for(i = 0; i < Constants.MAX_HALL_PER_COLOR; i++){
+                if(i < hall){
+                    totalString.append(fullCircle()).append(" ");
+                } else {
+                    totalString.append(emptyCircle()).append(" ");
+                }
+            }
+            totalString.append("|  ");
+            prof = schools.getProfTable().getFromColor(pawnColor);
+            if(prof == 1){
+                totalString.append(fullHexagon()).append(" ");
+            } else {
+                totalString.append(emptyHexagon()).append(" ");
+            }
+            System.out.println(totalString);
+        }
+        StringBuilder towerString = new StringBuilder(Color.RESET + "TOWER TO BE PLACED: ");
+        for(i = 0; i < schools.getNumTower(); i++){
+            towerString.append(tower());
+        }
+        System.out.println(towerString);
     }
+
+    private String schoolHeader() { return "COLOR  |     ENTRANCE      |        HALL         | PROF ";}
+
+    private String emptyCircle(){
+        return "◌";
+    }
+
+    private String fullCircle(){
+        return "●";
+    }
+
+    private String emptyHexagon(){
+        return "⬡";
+    }
+
+    private String fullHexagon(){
+        return "⬢";
+    }
+
+    private String tower() { return "◒"; }
 
     @Override
     public void showClouds(List<ShortCloud> clouds) {
-        
+
     }
 
     @Override

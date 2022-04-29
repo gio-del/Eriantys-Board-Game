@@ -40,7 +40,7 @@ public interface View {
      * Show all the schools.
      * @param schools available to selected
      */
-    void showSchools(List<ShortSchool> schools);
+    void showSchool(ShortSchool schools);
 
     /**
      * ACTION PHASE:
