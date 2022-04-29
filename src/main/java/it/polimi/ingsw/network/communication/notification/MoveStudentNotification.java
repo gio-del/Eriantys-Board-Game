@@ -33,4 +33,12 @@ public class MoveStudentNotification extends Notification {
     public List<PawnColor> getMovableColor() {
         return movableColor;
     }
+
+    public Target getTarget() {
+        return target;
+    }
+
+    public PawnColor getColor() {
+        return color;
+    }
 }

@@ -2,7 +2,6 @@ package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
-import it.polimi.ingsw.network.communication.notification.DisconnectionNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.server.Connection;
 import it.polimi.ingsw.network.server.VirtualView;

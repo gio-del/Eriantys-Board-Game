@@ -8,12 +8,8 @@ import java.util.List;
 
 
 public class CharactersDeck {
-
-    private final List<CharacterCard> characterCards;
-
-    public CharactersDeck() {
-        this.characterCards = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
-    }
+// TODO: move this to server "high-level" all character cards are common to all games. If characterCards is empty after parsing, the server cannot start.
+    private static final List<CharacterCard> characterCards = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
 
     public List<CharacterCard> extractCharacterInUse(){
         Collections.shuffle(characterCards);

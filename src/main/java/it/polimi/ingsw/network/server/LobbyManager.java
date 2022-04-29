@@ -39,7 +39,7 @@ public class LobbyManager {
     }
 
     public void checkReadyToStart(){
-            if(ready && players.size()==nPlayers){
+            if(ready && players.size()>=nPlayers){
                 startMatch();
                 if(!players.isEmpty()){
                     vvMap.get(players.peek()).chooseGameMode();
@@ -50,7 +50,8 @@ public class LobbyManager {
     private void startMatch() {
         GameController controller = new GameController();
         List<String> names = new ArrayList<>();
-        for(String name: players){
+        for(int i=0;i<nPlayers;i++){
+            String name = players.peek();
             names.add(name);
             controller.addClient(name,connectionMap.get(name));
             removePlayerFromLobby(name);

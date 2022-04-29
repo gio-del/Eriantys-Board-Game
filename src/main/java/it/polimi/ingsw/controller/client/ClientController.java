@@ -73,24 +73,28 @@ public class ClientController implements ClientObserver {
     @Override
     public void updateWizardAndColor(Wizard wizard, TowerColor towerColor) {
         Notification chooseWizAndTower = new ChooseWizAndTowerColorNotification(wizard, towerColor);
+        chooseWizAndTower.setClientId(nickname);
         client.sendMessage(chooseWizAndTower);
     }
 
     @Override
     public void updateAssistant(Assistant assistant) {
         Notification chooseAssistantNotification = new ChooseAssistantNotification(assistant);
+        chooseAssistantNotification.setClientId(nickname);
         client.sendMessage(chooseAssistantNotification);
     }
 
     @Override
     public void updateCloud(ShortCloud cloud) {
         Notification chooseCloudNotification = new ChooseCloudNotification(cloud);
+        chooseCloudNotification.setClientId(nickname);
         client.sendMessage(chooseCloudNotification);
     }
 
     @Override
     public void updateStepsMN(int steps) {
         Notification moveMNNotification = new MoveMNNotification(steps);
+        moveMNNotification.setClientId(nickname);
         client.sendMessage(moveMNNotification);
     }
 
@@ -102,7 +106,7 @@ public class ClientController implements ClientObserver {
         } else {
             moveStudentNotification = new MoveStudentNotification(color, Target.HALL);
         }
-
+        moveStudentNotification.setClientId(nickname);
         client.sendMessage(moveStudentNotification);
     }
 
