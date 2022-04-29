@@ -11,10 +11,12 @@ import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.view.View;
 
+import static java.lang.System.exit;
+
 public class TestingCli {
     public static void main(String[] args) {
         School school;
-        Pawns example, professorExample;
+        Pawns example;
         View cli = new Cli();
 
 
@@ -31,5 +33,6 @@ public class TestingCli {
         ShortSchool shortSchool = new ShortSchool(school);
 
         cli.showSchool(shortSchool);
+        exit(0);
     }
 }

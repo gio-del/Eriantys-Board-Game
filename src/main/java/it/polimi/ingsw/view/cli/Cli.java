@@ -4,7 +4,6 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.model.pawns.ShortPawns;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -25,7 +24,7 @@ public class Cli extends ClientObservable implements View {
     private final ScanListener scanListener;
     private List<Wizard> wizardsAvailable;
     private List<TowerColor> colorsAvailable;
-    private List<Assistant> playbleAssistant;
+    private List<Assistant> playableAssistant;
     private List<ShortCloud> availableClouds;
     private int maxSteps;
     private List<PawnColor> pawnsAvailable;
@@ -173,14 +172,14 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void chooseAssistant(List<Assistant> playableAssistant) {
-        this.playbleAssistant = playableAssistant;
+        this.playableAssistant = playableAssistant;
         System.out.println("Choose an assistant from the available: ");
-        playbleAssistant.forEach(o -> System.out.println( "Name " + o.name() + "- Value " + o.value() + " - Movement " + o.movement()));
+        this.playableAssistant.forEach(o -> System.out.println( "Name " + o.name() + "- Value " + o.value() + " - Movement " + o.movement()));
         scanListener.setRequest(Request.ASSISTANT);
     }
 
     public void checkAssistant(String assistantName){
-        Assistant assistant = playbleAssistant.stream().filter(o -> assistantName.equals(o.name())).findFirst().orElse(null);
+        Assistant assistant = playableAssistant.stream().filter(o -> assistantName.equals(o.name())).findFirst().orElse(null);
         if(assistant == null){
             System.out.println("ERROR - Assistant not valid, retry");
             scanListener.setRequest(Request.ASSISTANT);
@@ -276,76 +275,46 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void showSchool(ShortSchool schools) {
-        System.out.println("YOUR SCHOOL");
-        System.out.println(schoolHeader());
+        System.out.println("YOUR SCHOOL\n");
+        System.out.println(CLISymbol.SCHOOL_HEADER);
         int i;
         int entrance;
         int hall;
         int prof;
         for(PawnColor pawnColor: PawnColor.values()){
-            StringBuilder totalString = new StringBuilder("");
-            if(pawnColor.name() == "GREEN"){
-                totalString.append(Color.GREEN + pawnColor.name()).append("  | ");
-            } else if(pawnColor.name() == "RED"){
-                totalString.append(Color.RED + pawnColor.name()).append("    | ");
-            } else if(pawnColor.name() == "YELLOW"){
-                totalString.append(Color.YELLOW + pawnColor.name()).append(" | ");
-            } else if(pawnColor.name() == "PINK") {
-                totalString.append(Color.PURPLE + pawnColor.name()).append("   | ");
-            } else if(pawnColor.name() == "BLUE"){
-                totalString.append(Color.BLUE + pawnColor.name()).append("   | ");
-            }
+            StringBuilder totalString = new StringBuilder();
+            totalString.append(CLIColor.valueOf(pawnColor.name()));
             entrance = schools.getEntrance().getFromColor(pawnColor);
             for(i = 0; i < entrance; i ++){
-                totalString.append(fullCircle()).append(" ");
+                totalString.append(CLISymbol.FULL_CIRCLE).append(" ");
             }
             for (i = entrance; i < Constants.MAX_ENTRANCE; i++){
-                totalString.append(emptyCircle()).append(" ");
+                totalString.append(CLISymbol.EMPTY_CIRCLE).append(" ");
             }
             totalString.append("| ");
             hall = schools.getHall().getFromColor(pawnColor);
             for(i = 0; i < Constants.MAX_HALL_PER_COLOR; i++){
                 if(i < hall){
-                    totalString.append(fullCircle()).append(" ");
+                    totalString.append(CLISymbol.FULL_CIRCLE).append(" ");
                 } else {
-                    totalString.append(emptyCircle()).append(" ");
+                    totalString.append(CLISymbol.EMPTY_CIRCLE).append(" ");
                 }
             }
             totalString.append("|  ");
             prof = schools.getProfTable().getFromColor(pawnColor);
             if(prof == 1){
-                totalString.append(fullHexagon()).append(" ");
+                totalString.append(CLISymbol.FULL_PROFESSOR).append(" ");
             } else {
-                totalString.append(emptyHexagon()).append(" ");
+                totalString.append(CLISymbol.EMPTY_PROFESSOR).append(" ");
             }
             System.out.println(totalString);
         }
-        StringBuilder towerString = new StringBuilder(Color.RESET + "TOWER TO BE PLACED: ");
+        StringBuilder towerString = new StringBuilder(CLIColor.RESET + "\nTOWER TO BE PLACED: ");
         for(i = 0; i < schools.getNumTower(); i++){
-            towerString.append(tower());
+            towerString.append(CLISymbol.TOWER).append(" ");
         }
         System.out.println(towerString);
     }
-
-    private String schoolHeader() { return "COLOR  |     ENTRANCE      |        HALL         | PROF ";}
-
-    private String emptyCircle(){
-        return "◌";
-    }
-
-    private String fullCircle(){
-        return "●";
-    }
-
-    private String emptyHexagon(){
-        return "⬡";
-    }
-
-    private String fullHexagon(){
-        return "⬢";
-    }
-
-    private String tower() { return "◒"; }
 
     @Override
     public void showClouds(List<ShortCloud> clouds) {
@@ -368,7 +337,7 @@ public class Cli extends ClientObservable implements View {
     }
 
     public void printWelcome(){
-        System.out.println(Color.GREEN);
+        System.out.println(CLIColor.GREEN);
         System.out.println("""
                   ______      _             _            \s
                  |  ____|    (_)           | |           \s
@@ -380,7 +349,7 @@ public class Cli extends ClientObservable implements View {
                                                 |___/    \s
 
                  by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era""");
-        System.out.println(Color.RESET);
+        System.out.println(CLIColor.RESET);
     }
 
 

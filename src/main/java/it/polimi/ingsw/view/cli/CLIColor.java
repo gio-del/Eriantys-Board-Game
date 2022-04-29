@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view.cli;
 
-public enum Color {
+public enum CLIColor {
     BLACK("\u001B[30m"),
     BLACK_BG("\u001B[40m"),
     RED("\u001B[31m"),
@@ -11,8 +11,8 @@ public enum Color {
     YELLOW_BG("\u001B[43m"),
     BLUE("\u001B[34m"),
     BLUE_BG("\u001B[44m"),
-    PURPLE("\u001B[35m"),
-    PURPLE_BG("\u001B[45m"),
+    PINK("\u001B[35m"),
+    PINK_BG("\u001B[45m"),
     CYAN("\u001B[36m"),
     CYAN_BG("\u001B[46m"),
     WHITE("\u001B[37m"),
@@ -23,7 +23,7 @@ public enum Color {
 
     private final String ansiCode;
 
-    Color(String ansiCode) {
+    CLIColor(String ansiCode) {
         this.ansiCode = ansiCode;
     }
 
