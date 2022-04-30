@@ -93,4 +93,10 @@ public interface View {
      * When win happens
      */
     void win(String winner, boolean win);
+
+    /**
+     * Show a generic message received from server
+     * @param msg to be displayed
+     */
+    void showMessage(String msg);
 }

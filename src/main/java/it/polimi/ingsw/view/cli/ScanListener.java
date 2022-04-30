@@ -54,6 +54,7 @@ public class ScanListener extends Thread {
                         request = Request.IGNORE;
                         cli.moveToTarget(scanner.nextLine());
                     }
+                    case IGNORE -> scanner.nextLine();
                 }
             }
         }
@@ -65,8 +66,8 @@ public class ScanListener extends Thread {
 
     /**
      * Converts the String into a number
-     * @param value
-     * @return
+     * @param value string to convert
+     * @return -1 if conversion failed, otherwise the integer representation of the given string
      */
     public int converterToInt(String value){
         int number;

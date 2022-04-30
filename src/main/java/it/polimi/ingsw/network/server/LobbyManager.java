@@ -2,6 +2,7 @@ package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.server.GameController;
 import it.polimi.ingsw.network.communication.notification.ChooseGameModeNotification;
+import it.polimi.ingsw.network.communication.notification.GenericMessageNotification;
 import it.polimi.ingsw.view.View;
 
 import java.util.*;
@@ -28,23 +29,25 @@ public class LobbyManager {
     }
 
     public synchronized void addClient(String nickname,Connection connection) {
+        broadcast(nickname + " joined the lobby!",nickname);
         View vv = new VirtualView(connection);
         players.add(nickname);
         connectionMap.put(nickname, connection);
         vvMap.put(nickname,vv);
         if(!ready && players.size() == 1){
+            broadcast(nickname + " is choosing game mode and number of player...",nickname);
             vv.chooseGameMode();
         }
         checkReadyToStart();
     }
 
     public void checkReadyToStart(){
-            if(ready && players.size()>=nPlayers){
-                startMatch();
-                if(!players.isEmpty()){
-                    vvMap.get(players.peek()).chooseGameMode();
-                }
+        if(ready && players.size()>=nPlayers){
+            startMatch();
+            if(!players.isEmpty()){
+                vvMap.get(players.peek()).chooseGameMode();
             }
+        }
     }
 
     private void startMatch() {
@@ -74,7 +77,20 @@ public class LobbyManager {
         checkReadyToStart();
     }
 
+    private void broadcast(String message){
+        connectionMap.values().forEach(connection -> connection.sendMessage(new GenericMessageNotification(message)));
+    }
+
+    private void broadcast(String message,String exclusion){
+        connectionMap.keySet().stream()
+                .filter(name -> !name.equals(exclusion))
+                .map(connectionMap::get)
+                .forEach(connection -> connection.sendMessage(new GenericMessageNotification(message)));
+    }
+
     public synchronized void handleDisconnection(String nickname) {
+        connectionMap.remove(nickname);
         players.remove(nickname);
+        broadcast(nickname + " left the lobby.");
     }
 }

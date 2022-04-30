@@ -90,6 +90,12 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
+    public void showMessage(String msg) {
+        Notification message = new GenericMessageNotification(msg);
+        connection.sendMessage(message);
+    }
+
+    @Override
     public void update(Notification msg) {
         connection.sendMessage(msg);
     }

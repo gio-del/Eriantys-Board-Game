@@ -20,4 +20,8 @@ public interface NotificationVisitor {
     void visit(ChooseWizAndTowerColorNotification msg);
     void visit(ChooseAssistantNotification msg);
     void visit(NicknameErrorNotification msg);
+    void visit(EventNotification msg);
+    void visit(GameStartedNotification msg);
+    void visit(GenericMessageNotification msg
+    );
 }

@@ -80,4 +80,19 @@ public class ServerSideVisitor implements NotificationVisitor {
     public void visit(NicknameErrorNotification msg) {
         //do nothing
     }
+
+    @Override
+    public void visit(EventNotification msg) {
+        //do nothing
+    }
+
+    @Override
+    public void visit(GameStartedNotification msg) {
+        //do nothing
+    }
+
+    @Override
+    public void visit(GenericMessageNotification msg) {
+        //do nothing
+    }
 }

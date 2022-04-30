@@ -22,7 +22,6 @@ import static java.lang.System.exit;
  * It uses a {@link NotificationVisitor} to dispatch the notification sent by the Server and to perform action on the view.
  */
 public class ClientController implements ClientObserver {
-    //TODO
     private final NotificationVisitor visitor;
     private final View view;
     private final Client client;

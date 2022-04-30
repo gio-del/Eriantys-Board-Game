@@ -353,6 +353,11 @@ public class Cli extends ClientObservable implements View {
         scanListener.stopListening();
     }
 
+    @Override
+    public void showMessage(String msg) {
+        System.out.println(msg);
+    }
+
     public void printWelcome(){
         System.out.println(CLIColor.GREEN);
         System.out.println("""

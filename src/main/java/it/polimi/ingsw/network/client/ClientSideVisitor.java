@@ -79,4 +79,20 @@ public class ClientSideVisitor implements NotificationVisitor {
         view.setNickname(); //this will just re-ask name
     }
 
+    @Override
+    public void visit(EventNotification msg) {
+        view.showMessage(msg.getMessage());
+    }
+
+    @Override
+    public void visit(GameStartedNotification msg) {
+        // view.updateScreen()
+        view.showMessage(msg.getMessage());
+    }
+
+    @Override
+    public void visit(GenericMessageNotification msg) {
+        view.showMessage(msg.getMessage());
+    }
+
 }

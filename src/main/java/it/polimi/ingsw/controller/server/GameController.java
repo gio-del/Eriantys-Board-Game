@@ -2,8 +2,12 @@ package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
+import it.polimi.ingsw.network.communication.notification.DisconnectionNotification;
+import it.polimi.ingsw.network.communication.notification.EventNotification;
+import it.polimi.ingsw.network.communication.notification.GameStartedNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.server.Connection;
+import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.server.ServerSideVisitor;
 import it.polimi.ingsw.network.server.VirtualView;
 
@@ -36,8 +40,12 @@ public class GameController {
         virtualViewMap.put(nickname,vv);
     }
 
+    /**
+     * This method is used to update model according to view's action (client input)
+     * @param msg the message sent by the client
+     */
     public void handleMessage(Notification msg) {
-        msg.accept(visitor); //this is used to update model according to view's action (user input)
+        msg.accept(visitor);
     }
 
     public void startGame(int nPlayers, boolean isExpertMode) {
@@ -46,6 +54,10 @@ public class GameController {
         this.visitor = new ServerSideVisitor(game);
         for(VirtualView vv: virtualViewMap.values())
             game.addObserver(vv);
+        EventNotification gameStarted = new GameStartedNotification();
+        gameStarted.setMessage("A match is started!");
+        gameStarted.setClientId(Server.NAME);
+        broadcast(gameStarted);
     }
 
     public boolean isStarted() {
@@ -53,9 +65,18 @@ public class GameController {
     }
 
     public void handleDisconnection(String nickname) {
-        //TODO
-        //Notification disconnection = new DisconnectionNotification(nickname);
-        //broadcast all client with this message: create a method to broadcast messages
+        Notification disconnection = new DisconnectionNotification(nickname);
+        broadcast(disconnection,nickname);
+    }
+
+    public void broadcast(Notification msg){
+        connectionMap.values().forEach(connection -> connection.sendMessage(msg));
+    }
+    public void broadcast(Notification msg,String exclusion){
+        connectionMap.keySet().stream()
+                .filter(s -> !s.equals(exclusion))
+                .map(connectionMap::get)
+                .forEach(connection -> connection.sendMessage(msg));
     }
 
 }
