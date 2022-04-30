@@ -15,8 +15,8 @@ public enum CLIColor {
     PINK_BG("\u001B[45m"),
     CYAN("\u001B[36m"),
     CYAN_BG("\u001B[46m"),
-    WHITE("\u001B[37m"),
-    WHITE_BG("\u001B[47m"),
+    GRAY("\u001B[37m"),
+    GRAY_BG("\u001B[47m"),
 
     RESET("\033[0m"),
     CLEAR("\033[H\033[2J");

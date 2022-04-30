@@ -2,8 +2,10 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client.ClientController;
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -291,7 +293,7 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void showSchool(ShortSchool schools) {
+    public void showSchool(ShortSchool school) {
         System.out.println("YOUR SCHOOL\n");
         System.out.println(CLISymbol.SCHOOL_HEADER);
         int i;
@@ -301,7 +303,7 @@ public class Cli extends ClientObservable implements View {
         for(PawnColor pawnColor: PawnColor.values()){
             StringBuilder totalString = new StringBuilder();
             totalString.append(CLIColor.valueOf(pawnColor.name()));
-            entrance = schools.getEntrance().getFromColor(pawnColor);
+            entrance = school.getEntrance().getFromColor(pawnColor);
             for(i = 0; i < entrance; i ++){
                 totalString.append(CLISymbol.FULL_CIRCLE).append(" ");
             }
@@ -309,7 +311,7 @@ public class Cli extends ClientObservable implements View {
                 totalString.append(CLISymbol.EMPTY_CIRCLE).append(" ");
             }
             totalString.append("| ");
-            hall = schools.getHall().getFromColor(pawnColor);
+            hall = school.getHall().getFromColor(pawnColor);
             for(i = 0; i < Constants.MAX_HALL_PER_COLOR; i++){
                 if(i < hall){
                     totalString.append(CLISymbol.FULL_CIRCLE).append(" ");
@@ -318,7 +320,7 @@ public class Cli extends ClientObservable implements View {
                 }
             }
             totalString.append("|  ");
-            prof = schools.getProfTable().getFromColor(pawnColor);
+            prof = school.getProfTable().getFromColor(pawnColor);
             if(prof == 1){
                 totalString.append(CLISymbol.FULL_PROFESSOR).append(" ");
             } else {
@@ -327,10 +329,22 @@ public class Cli extends ClientObservable implements View {
             System.out.println(totalString);
         }
         StringBuilder towerString = new StringBuilder(CLIColor.RESET + "\nTOWER TO BE PLACED: ");
-        for(i = 0; i < schools.getNumTower(); i++){
+        for(i = 0; i < school.getNumTower(); i++){
             towerString.append(CLISymbol.TOWER).append(" ");
         }
         System.out.println(towerString);
+    }
+
+    public void updateScreen(Board board, ShortSchool school){
+        System.out.println("GAME MAP");
+        BoardCli boardCli = new BoardCli(board);
+        boardCli.printBoard();
+        StringBuilder separator = new StringBuilder();
+        for(int i = 0; i < (board.getIslands().size() / 2 + 2) * Constants.ISLAND_WIDTH_1; i++){
+            separator.append("_");
+        }
+        System.out.println(separator);
+        showSchool(school);
     }
 
     @Override
