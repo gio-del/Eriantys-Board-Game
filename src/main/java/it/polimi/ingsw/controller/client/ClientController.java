@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.client.Client;
 import it.polimi.ingsw.network.client.ClientSideVisitor;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
+import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.observer.ClientObserver;
 import it.polimi.ingsw.view.View;
@@ -98,13 +99,8 @@ public class ClientController implements ClientObserver {
     }
 
     @Override
-    public void updateToTarget(PawnColor color, int target) {
-        Notification moveStudentNotification;
-        if(target == 1){
-            moveStudentNotification = new MoveStudentNotification(color, Target.ISLAND);
-        } else {
-            moveStudentNotification = new MoveStudentNotification(color, Target.HALL);
-        }
+    public void updateMoveStudent(PawnColor color, Target target, int island) {
+        Notification moveStudentNotification = new MoveStudentNotification(color,target,island);
         moveStudentNotification.setClientId(nickname);
         client.sendMessage(moveStudentNotification);
     }

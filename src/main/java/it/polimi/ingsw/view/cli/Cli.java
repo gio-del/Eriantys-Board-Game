@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
+import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 
@@ -73,10 +74,10 @@ public class Cli extends ClientObservable implements View {
         }
     }
 
-    private int getSpacePos(String address) {
+    private int getSpacePos(String string) {
         int i;
-        for(i = 0; i < address.length(); i++){
-            if(address.charAt(i) == ' '){
+        for(i = 0; i < string.length(); i++){
+            if(string.charAt(i) == ' '){
                 break;
             }
         }
@@ -152,14 +153,14 @@ public class Cli extends ClientObservable implements View {
             return;
         }
         String wizard = wizardAndTower.substring(0, pos);
-        Wizard wizardChosen = wizardsAvailable.stream().filter(o -> wizard.equals(o.name())).findFirst().orElse(null);
+        Wizard wizardChosen = wizardsAvailable.stream().filter(o -> wizard.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(wizardChosen == null){
             System.out.println("ERROR - Wizard not available or incorrect, retry");
             scanListener.setRequest(Request.WIZARD_COLOR);
             return;
         }
         String color = wizardAndTower.substring(pos + 1);
-        TowerColor towerColor = colorsAvailable.stream().filter(o -> color.equals(o.name())).findFirst().orElse(null);
+        TowerColor towerColor = colorsAvailable.stream().filter(o -> color.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(towerColor == null){
             System.out.println("ERROR - Color not available or incorrect, retry");
             scanListener.setRequest(Request.WIZARD_COLOR);
@@ -179,7 +180,7 @@ public class Cli extends ClientObservable implements View {
     }
 
     public void checkAssistant(String assistantName){
-        Assistant assistant = playableAssistant.stream().filter(o -> assistantName.equals(o.name())).findFirst().orElse(null);
+        Assistant assistant = playableAssistant.stream().filter(o -> assistantName.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(assistant == null){
             System.out.println("ERROR - Assistant not valid, retry");
             scanListener.setRequest(Request.ASSISTANT);
@@ -242,26 +243,42 @@ public class Cli extends ClientObservable implements View {
     }
 
     public void askColor(String color){
-        chosenColor = pawnsAvailable.stream().filter(o -> color.equals(o.name())).findFirst().orElse(null);
+        chosenColor = pawnsAvailable.stream().filter(o -> color.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(chosenColor == null){
             System.out.println("ERROR - color not available, retry");
             scanListener.setRequest(Request.STUDENT);
             return;
         }
-        System.out.println("Do you want to move students from entrance to hall (1) or to island (2)?");
+        System.out.println("Insert destination [1 island_id] for an island and [2] for your hall: ");
         scanListener.setRequest(Request.MOVE);
     }
 
-    public void moveToTarget(int target) {
-        if(target == - 1){
-            System.out.println("ERROR - move not a number, retry");
+    public void moveToTarget(String destination) {
+        int pos = getSpacePos(destination);
+        int target = scanListener.converterToInt(destination.substring(0,pos));
+        if(target == -1){
+            System.out.println("ERROR - not a number inserted, retry");
             scanListener.setRequest(Request.MOVE);
             return;
-        } else if(target == 1 || target == 2) {
-            notifyObserver(observer -> observer.updateToTarget(chosenColor, target));
         }
-        System.out.println("ERROR - move not available, retry");
-        scanListener.setRequest(Request.MOVE);
+        if(pos == destination.length()){
+            System.out.println("ERROR - island_id not inserted, retry");
+            scanListener.setRequest(Request.MOVE);
+        }
+        else {
+            if(target == 1) { //ISLAND CHOICE
+                int island = scanListener.converterToInt(destination.substring(pos + 1));
+                if (island == -1) {
+                    System.out.println("ERROR - island_id not valid, retry");
+                    scanListener.setRequest(Request.MOVE);
+                } else {
+                    notifyObserver(observer -> observer.updateMoveStudent(chosenColor, Target.ISLAND, island));
+                }
+            }
+            else{ //HALL CHOICE
+                notifyObserver(observer -> observer.updateMoveStudent(chosenColor,Target.HALL,0));
+            }
+        }
     }
     @Override
     public void useCharacter(List<Character> characterNotAlreadyPlayed) {

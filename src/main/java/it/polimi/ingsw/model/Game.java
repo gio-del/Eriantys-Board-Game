@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.character.CharactersDeck;
 import it.polimi.ingsw.model.character.action.ActionType;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
+import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.BankHallManager;
 import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.player.Assistant;
@@ -305,6 +307,25 @@ public class Game extends Observable {
 
     public List<Wizard> getAlreadyChoiceWizard() {
         return alreadyChoiceWizard;
+    }
+
+    /**
+     * Move a pawn from the entrance to the hall of the currentPlayer
+     * @param pawnColor to be moved to the hall
+     * @return true if ok, otherwise false
+     */
+    public boolean moveFromEntranceToHall(PawnColor pawnColor){
+        return currentPlayer.moveFromEntranceToHall(pawnColor);
+    }
+
+    /**
+     * Move a pawn from the entrance of the current Player to a chosen island
+     * @param pawnColor to be moved to the island
+     * @param island the chosen island
+     * @return true if ok, otherwise false
+     */
+    public boolean moveFromEntranceToIsland(PawnColor pawnColor, int island){
+        return currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor),board.getIslands().get(island));
     }
 
     public List<TowerColor> getAlreadyChoiceTowerColor() {

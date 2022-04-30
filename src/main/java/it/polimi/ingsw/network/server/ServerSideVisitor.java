@@ -3,6 +3,7 @@ package it.polimi.ingsw.network.server;
 import it.polimi.ingsw.controller.server.GameController;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
+import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.network.communication.notification.*;
 
 /**
@@ -33,8 +34,11 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(MoveStudentNotification msg) {
-        // in msg there is no reference to island to move student to
-        // TODO: WHEN YOU MOVE TO ISLAND YOU MUST SPECIFY THE ID OF THE ISLAND
+        if(msg.getTarget().equals(Target.ISLAND)){
+            game.moveFromEntranceToIsland(msg.getColor(),msg.getIsland());
+        }
+        else
+            game.moveFromEntranceToHall(msg.getColor());
     }
 
     @Override

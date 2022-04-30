@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import com.sun.javafx.css.CascadingStyle;
-
 import java.util.Scanner;
 
 public class ScanListener extends Thread {
@@ -54,7 +52,7 @@ public class ScanListener extends Thread {
                     }
                     case MOVE -> {
                         request = Request.IGNORE;
-                        cli.moveToTarget(converterToInt(scanner.nextLine()));
+                        cli.moveToTarget(scanner.nextLine());
                     }
                 }
             }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallManager;
@@ -122,6 +123,10 @@ public class Player {
      */
     public boolean moveFromEntranceToHall(Pawns pawns){
         return school.moveStudentToHall(pawns);
+    }
+
+    public boolean moveFromEntranceToHall(PawnColor pawnColor){
+        return moveFromEntranceToHall(new Pawns(pawnColor));
     }
 
     /**
