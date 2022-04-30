@@ -11,9 +11,9 @@ public class ChooseCloudNotification extends Notification {
     private static final long serialVersionUID = 5288677777694463225L;
 
     private List<ShortCloud> availableClouds;
-    private ShortCloud cloud;
+    private int chosenCloud;
 
-    public ChooseCloudNotification(ShortCloud cloud) { this.cloud = cloud; }
+    public ChooseCloudNotification(int chosenCloud) { this.chosenCloud = chosenCloud; }
 
     public ChooseCloudNotification(List<ShortCloud> availableClouds) {
         this.availableClouds = availableClouds;
@@ -26,5 +26,9 @@ public class ChooseCloudNotification extends Notification {
 
     public List<ShortCloud> getAvailableClouds() {
         return availableClouds;
+    }
+
+    public int getChosenCloud() {
+        return chosenCloud;
     }
 }

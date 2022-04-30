@@ -11,10 +11,10 @@ public class MoveMNNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -1677653222734549005L;
 
-    private int availableSteps;
+    private final int steps;
 
-    public MoveMNNotification(int availableSteps) {
-        this.availableSteps = availableSteps;
+    public MoveMNNotification(int steps) {
+        this.steps = steps;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class MoveMNNotification extends Notification {
         visitor.visit(this);
     }
 
-    public int getAvailableSteps() {
-        return availableSteps;
+    public int getSteps() {
+        return steps;
     }
 }

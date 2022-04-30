@@ -147,7 +147,7 @@ public class Cli extends ClientObservable implements View {
     public void checkWizardColor(String wizardAndTower) {
         int pos = getSpacePos(wizardAndTower);
         if(pos >= wizardAndTower.length()){
-            System.out.println("ERROR - Wizard o TowerColor are missing, retry");
+            System.out.println("ERROR - Wizard or TowerColor are missing, retry");
             scanListener.setRequest(Request.WIZARD_COLOR);
             return;
         }
@@ -210,7 +210,7 @@ public class Cli extends ClientObservable implements View {
             scanListener.setRequest(Request.CLOUD);
             return;
         }
-        notifyObserver(observer -> observer.updateCloud(availableClouds.get(cloudNum)));
+        notifyObserver(observer -> observer.updateCloud(cloudNum));
     }
 
     @Override

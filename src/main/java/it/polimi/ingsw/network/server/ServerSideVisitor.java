@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.controller.server.GameController;
-import it.polimi.ingsw.model.IGame;
+import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.*;
 
@@ -10,69 +10,70 @@ import it.polimi.ingsw.network.communication.notification.*;
  * It implements visitor pattern to dispatch a {@link Notification} and apply different action to the model
  */
 public class ServerSideVisitor implements NotificationVisitor {
-    private final IGame game;
+    private final Game game;
 
-    public ServerSideVisitor(IGame game) {
+    public ServerSideVisitor(Game game) {
         this.game = game;
     }
 
     @Override
     public void visit(LoginNotification msg) {
-        //TODO
+        //do nothing
     }
 
     @Override
     public void visit(WinNotification msg) {
-        //TODO
+        //do nothing
     }
 
     @Override
     public void visit(CloudsNotification msg) {
-        //TODO
+        //do nothing
     }
 
     @Override
     public void visit(MoveStudentNotification msg) {
-        //TODO
+        // in msg there is no reference to island to move student to
+        // TODO: WHEN YOU MOVE TO ISLAND YOU MUST SPECIFY THE ID OF THE ISLAND
     }
 
     @Override
     public void visit(MoveMNNotification msg) {
-        //TODO
+        game.moveMotherNature(msg.getSteps(),game.getCurrentPlayer());
     }
 
     @Override
     public void visit(ChooseCloudNotification msg) {
-        //TODO
+        game.pickFromCloud(game.getCurrentPlayer(), msg.getChosenCloud());
     }
 
     @Override
     public void visit(ChooseGameModeNotification msg) {
-        //TODO
+        //do nothing
     }
 
     @Override
     public void visit(SchoolNotification msg) {
-        //TODO
+        //do nothing
     }
 
     @Override
     public void visit(DisconnectionNotification msg) {
-        //TODO
+        //do nothing
     }
 
     @Override
     public void visit(ChooseWizAndTowerColorNotification msg) {
-        //TODO
+        game.addPlayer(msg.getClientID(),msg.getWizard(),msg.getTowerColor());
     }
 
     @Override
     public void visit(ChooseAssistantNotification msg) {
-        //TODO
+        game.playAssistant(msg.getChosenAssistant());
     }
 
     @Override
     public void visit(NicknameErrorNotification msg) {
-        //TODO
+        //do nothing
     }
 }

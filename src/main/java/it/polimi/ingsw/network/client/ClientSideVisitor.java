@@ -40,7 +40,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(MoveMNNotification msg) {
-        view.moveMNature(msg.getAvailableSteps());
+        view.moveMNature(msg.getSteps());
     }
 
     @Override

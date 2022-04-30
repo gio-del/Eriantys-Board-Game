@@ -38,4 +38,12 @@ public class ChooseWizAndTowerColorNotification extends Notification {
     public List<TowerColor> getAvailableColors() {
         return availableColors;
     }
+
+    public Wizard getWizard() {
+        return wizard;
+    }
+
+    public TowerColor getTowerColor() {
+        return towerColor;
+    }
 }

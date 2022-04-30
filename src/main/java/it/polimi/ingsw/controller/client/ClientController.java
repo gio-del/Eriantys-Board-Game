@@ -1,6 +1,5 @@
 package it.polimi.ingsw.controller.client;
 
-import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -85,7 +84,7 @@ public class ClientController implements ClientObserver {
     }
 
     @Override
-    public void updateCloud(ShortCloud cloud) {
+    public void updateCloud(int cloud) {
         Notification chooseCloudNotification = new ChooseCloudNotification(cloud);
         chooseCloudNotification.setClientId(nickname);
         client.sendMessage(chooseCloudNotification);

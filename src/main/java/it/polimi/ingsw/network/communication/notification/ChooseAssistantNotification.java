@@ -21,9 +21,6 @@ public class ChooseAssistantNotification extends Notification {
         this.chosenAssistant = chosenAssistant;
     }
 
-    public void chooseAssistant(Assistant assistant){
-        this.chosenAssistant = assistant;
-    }
     @Override
     public void accept(NotificationVisitor visitor) {
         visitor.visit(this);
@@ -31,5 +28,9 @@ public class ChooseAssistantNotification extends Notification {
 
     public List<Assistant> getPlayableAssistant() {
         return playableAssistant;
+    }
+
+    public Assistant getChosenAssistant() {
+        return chosenAssistant;
     }
 }

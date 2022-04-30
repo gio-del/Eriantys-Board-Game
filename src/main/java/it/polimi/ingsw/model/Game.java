@@ -8,6 +8,7 @@ import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.model.place.BankHallManager;
 import it.polimi.ingsw.model.place.HallManager;
+import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -15,12 +16,14 @@ import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents Eriantys game
  */
-public class Game extends Observable implements IGame {
+public class Game extends Observable {
     private final List<Player> players;
     private final Board board;
     private final Sack sack;
@@ -34,6 +37,9 @@ public class Game extends Observable implements IGame {
     private List<CharacterCard> characterInUse;
     private final List<Wizard> alreadyChoiceWizard;
     private final List<TowerColor> alreadyChoiceTowerColor;
+    private final Map<Player,Integer> playerMapAssistantMovement;
+    private final Map<Player,Integer> playerMapAssistantValue;
+
 
     /**
      * The Game is created with the number of players by the controller, the limit of the Game are set
@@ -48,6 +54,8 @@ public class Game extends Observable implements IGame {
         this.sack = new Sack();
         this.alreadyChoiceWizard = new ArrayList<>();
         this.alreadyChoiceTowerColor = new ArrayList<>();
+        playerMapAssistantMovement = new HashMap<>();
+        playerMapAssistantValue = new HashMap<>();
         this.clouds = new CloudManager(nPlayers, gameLimit.getStudentOnCloud());
         this.bank = new Bank();
         this.hallManager = (isExpertMode)?new BankHallManager(bank):new HallManager();
@@ -207,6 +215,14 @@ public class Game extends Observable implements IGame {
         clouds.fillClouds(sack);
     }
 
+    /**
+     * Play assistant for the current player
+     */
+    public void playAssistant(Assistant assistant){
+        currentPlayer.playAssistant(assistant);
+        playerMapAssistantValue.put(currentPlayer,assistant.value());
+        playerMapAssistantMovement.put(currentPlayer,assistant.movement());
+    }
 
     /**
      *
@@ -287,5 +303,19 @@ public class Game extends Observable implements IGame {
         return bank;
     }
 
+    public List<Wizard> getAlreadyChoiceWizard() {
+        return alreadyChoiceWizard;
+    }
 
+    public List<TowerColor> getAlreadyChoiceTowerColor() {
+        return alreadyChoiceTowerColor;
+    }
+
+    public Map<Player, Integer> getPlayerMapAssistantMovement() {
+        return playerMapAssistantMovement;
+    }
+
+    public Map<Player, Integer> getPlayerMapAssistantValue() {
+        return playerMapAssistantValue;
+    }
 }

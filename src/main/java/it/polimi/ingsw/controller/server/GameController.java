@@ -4,6 +4,7 @@ import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.server.Connection;
+import it.polimi.ingsw.network.server.ServerSideVisitor;
 import it.polimi.ingsw.network.server.VirtualView;
 
 import java.util.*;
@@ -15,7 +16,7 @@ import java.util.*;
  */
 public class GameController {
 
-    private final NotificationVisitor visitor;
+    private NotificationVisitor visitor;
     private final Map<String, VirtualView> virtualViewMap;
     private final Map<String, Connection> connectionMap;
     private Game game;
@@ -24,7 +25,6 @@ public class GameController {
     private GameState gameState;
 
     public GameController() {
-        this.visitor = null;
         this.gameState = GameState.LOBBY;
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.connectionMap = Collections.synchronizedMap(new HashMap<>());
@@ -43,6 +43,7 @@ public class GameController {
     public void startGame(int nPlayers, boolean isExpertMode) {
         gameState = GameState.INIT;
         game = new Game(nPlayers, isExpertMode);
+        this.visitor = new ServerSideVisitor(game);
         for(VirtualView vv: virtualViewMap.values())
             game.addObserver(vv);
     }
