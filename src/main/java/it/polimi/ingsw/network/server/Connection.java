@@ -44,7 +44,7 @@ public class Connection implements Runnable {
                     server.addClient(loginNotification.getNickname(),this);
                 }
                 else if(!(notification instanceof PingNotification)) {
-                    Server.LOGGER.info(() -> "Message received from: " + notification.getClientID() + ". Type: " + notification.getClass().getName());
+                    Server.LOGGER.info(() -> "Message received from: " + notification.getSenderID() + ". Type: " + notification.getClass().getName());
                     server.receiveMessage(notification);
                 }
             }

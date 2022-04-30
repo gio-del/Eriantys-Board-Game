@@ -62,13 +62,18 @@ public class ServerSideVisitor implements NotificationVisitor {
     }
 
     @Override
+    public void visit(BoardNotification msg) {
+        //do nothing
+    }
+
+    @Override
     public void visit(DisconnectionNotification msg) {
         //do nothing
     }
 
     @Override
     public void visit(ChooseWizAndTowerColorNotification msg) {
-        game.addPlayer(msg.getClientID(),msg.getWizard(),msg.getTowerColor());
+        game.addPlayer(msg.getSenderID(),msg.getWizard(),msg.getTowerColor());
     }
 
     @Override
@@ -95,4 +100,5 @@ public class ServerSideVisitor implements NotificationVisitor {
     public void visit(GenericMessageNotification msg) {
         //do nothing
     }
+
 }

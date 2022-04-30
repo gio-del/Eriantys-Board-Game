@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.Island;
 
@@ -11,16 +10,10 @@ import java.util.List;
 public class IslandCli {
     private final List<String> lines = new ArrayList<>();
 
-    private boolean motherNature;
 
-
-    public IslandCli(Island island, int number, int MN){
-        if(number == MN){
-            motherNature = true;
-        } else{
-            motherNature = false;
-        }
-        String head = headerBuilder(CLISymbol.REPETITION, number, motherNature);
+    public IslandCli(Island island, int number, int mn){
+        boolean motherNature = number == mn;
+        String head = headerBuilder(number, motherNature);
         lines.add(head);
         String green = stringRow(island.getStudents().getFromColor(PawnColor.GREEN), CLISymbol.GREEN_START, CLISymbol.GREEN_END);
         lines.add(green);
@@ -37,7 +30,7 @@ public class IslandCli {
     }
 
     private String stringRow(int numColor, String start, String end){
-        int i;
+
         StringBuilder string = new StringBuilder();
         if(numColor >= 10){
             string.append(start).append(empties(CLISymbol.REPETITION - 1));
@@ -51,20 +44,20 @@ public class IslandCli {
     }
 
 
-    private String headerBuilder(int rep, int number, boolean motherNature){
+    private String headerBuilder(int number, boolean motherNature){
         StringBuilder string = new StringBuilder();
-        if(motherNature == true){
+        if(motherNature){
             if(number>=10){
-                string.append(CLISymbol.HEAD_START).append(number + " ").append(CLISymbol.HEAD_MN).append(CLISymbol.HEAD_END);
+                string.append(CLISymbol.HEAD_START).append(number).append(" ").append(CLISymbol.HEAD_MN).append(CLISymbol.HEAD_END);
             } else {
-                string.append(CLISymbol.HEAD_START).append(number + "  ").append(CLISymbol.HEAD_MN).append(CLISymbol.HEAD_END);
+                string.append(CLISymbol.HEAD_START).append(number).append("  ").append(CLISymbol.HEAD_MN).append(CLISymbol.HEAD_END);
             }
         } else {
             if(number>=10){
-                string.append(CLISymbol.HEAD_START).append(number + " ").append(CLISymbol.HEAD).append(CLISymbol.HEAD_END);
+                string.append(CLISymbol.HEAD_START).append(number).append(" ").append(CLISymbol.HEAD).append(CLISymbol.HEAD_END);
 
             } else {
-                string.append(CLISymbol.HEAD_START).append(number + "  ").append(CLISymbol.HEAD).append(CLISymbol.HEAD_END);
+                string.append(CLISymbol.HEAD_START).append(number).append("  ").append(CLISymbol.HEAD).append(CLISymbol.HEAD_END);
             }
         }
         return string.toString();
@@ -101,12 +94,12 @@ public class IslandCli {
 
     private String colorTower(Island island){
         StringBuilder string = new StringBuilder();
-        if(island.getTower().get().name() == "WHITE"){
-            string.append("_").append("WHITE(").append(island.getDimension() + ")").append("_");
-        } else if(island.getTower().get().name().equals("BLACK")){
-            string.append("_").append("BLACK(").append(island.getDimension() + ")").append("_");
+        if(island.getTower().isPresent() && island.getTower().get().name().equals("WHITE")){
+            string.append("_").append("WHITE(").append(island.getDimension()).append(")").append("_");
+        } else if(island.getTower().isPresent() && island.getTower().get().name().equals("BLACK")){
+            string.append("_").append("BLACK(").append(island.getDimension()).append(")").append("_");
         } else {
-            string.append("__").append("GRAY(").append(island.getDimension() + ")").append("_");
+            string.append("__").append("GRAY(").append(island.getDimension()).append(")").append("_");
         }
         return string.toString();
     }

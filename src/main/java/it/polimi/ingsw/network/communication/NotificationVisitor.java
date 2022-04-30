@@ -22,6 +22,6 @@ public interface NotificationVisitor {
     void visit(NicknameErrorNotification msg);
     void visit(EventNotification msg);
     void visit(GameStartedNotification msg);
-    void visit(GenericMessageNotification msg
-    );
+    void visit(GenericMessageNotification msg);
+    void visit(BoardNotification msg);
 }

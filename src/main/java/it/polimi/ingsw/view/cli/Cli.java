@@ -5,7 +5,6 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -337,14 +336,21 @@ public class Cli extends ClientObservable implements View {
 
     public void updateScreen(Board board, ShortSchool school){
         System.out.println("GAME MAP");
+        showBoard(board);
+        System.out.println("_".repeat(Math.max(0, (board.getIslands().size() / 2 + 2) * Constants.ISLAND_WIDTH_1)));
+        showSchool(school);
+    }
+
+    @Override
+    public void showBoard(Board board){
         BoardCli boardCli = new BoardCli(board);
         boardCli.printBoard();
-        StringBuilder separator = new StringBuilder();
-        for(int i = 0; i < (board.getIslands().size() / 2 + 2) * Constants.ISLAND_WIDTH_1; i++){
-            separator.append("_");
-        }
-        System.out.println(separator);
-        showSchool(school);
+    }
+
+    @Override
+    public void showOtherSchool(ShortSchool school) {
+        //TODO
+        System.out.println("Implement other school print");
     }
 
     @Override

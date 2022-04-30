@@ -22,7 +22,7 @@ import static java.lang.System.exit;
  * It uses a {@link NotificationVisitor} to dispatch the notification sent by the Server and to perform action on the view.
  */
 public class ClientController implements ClientObserver {
-    private final NotificationVisitor visitor;
+    private final ClientSideVisitor visitor;
     private final View view;
     private final Client client;
     private String nickname;
@@ -58,6 +58,7 @@ public class ClientController implements ClientObserver {
         this.nickname = nickname;
         Notification login = new LoginNotification(nickname);
         login.setClientId(nickname);
+        visitor.setNickname(nickname);
         client.sendMessage(login);
     }
 

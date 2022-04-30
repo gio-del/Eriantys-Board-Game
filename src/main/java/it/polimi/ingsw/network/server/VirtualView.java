@@ -1,5 +1,6 @@
 package it.polimi.ingsw.network.server;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
@@ -45,12 +46,22 @@ public class VirtualView implements View, Observer {
 
     @Override
     public void showSchool(ShortSchool school) {
-        connection.sendMessage(new SchoolNotification(school));
+        //not called by the server
+    }
+
+    @Override
+    public void showBoard(Board board) {
+        //not called by the server
+    }
+
+    @Override
+    public void showOtherSchool(ShortSchool school) {
+        //not called by the server
     }
 
     @Override
     public void showClouds(List<ShortCloud> clouds) {
-        connection.sendMessage(new CloudsNotification(clouds));
+        //not called by the server
     }
 
     @Override

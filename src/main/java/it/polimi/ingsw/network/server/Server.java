@@ -72,7 +72,7 @@ public class Server {
             lobbyManager.onUpdateGameMode(chooseGameModeMsg);
         }
         else
-            matchesMap.get(msg.getClientID()).handleMessage(msg);
+            matchesMap.get(msg.getSenderID()).handleMessage(msg);
     }
 
     public synchronized void handleDisconnection(Socket client) {

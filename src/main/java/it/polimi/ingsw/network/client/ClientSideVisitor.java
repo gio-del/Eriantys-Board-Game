@@ -12,6 +12,7 @@ import it.polimi.ingsw.view.View;
 public class ClientSideVisitor implements NotificationVisitor {
 
     private final View view;
+    private String nickname;
 
     public ClientSideVisitor(View view) {
         this.view = view;
@@ -55,7 +56,15 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(SchoolNotification msg) {
-        view.showSchool(msg.getSchool());
+        if(msg.getOwner().equals(nickname))
+            view.showSchool(msg.getSchool());
+        else
+            view.showOtherSchool(msg.getSchool());
+    }
+
+    @Override
+    public void visit(BoardNotification msg) {
+        view.showBoard(msg.getBoard());
     }
 
     @Override
@@ -95,4 +104,7 @@ public class ClientSideVisitor implements NotificationVisitor {
         view.showMessage(msg.getMessage());
     }
 
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }

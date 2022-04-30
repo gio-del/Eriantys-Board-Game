@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view;
 
+import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
@@ -41,6 +42,10 @@ public interface View {
      * @param schools available to selected
      */
     void showSchool(ShortSchool schools);
+
+    void showBoard(Board board);
+
+    void showOtherSchool(ShortSchool school);
 
     /**
      * ACTION PHASE:

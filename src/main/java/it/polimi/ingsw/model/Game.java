@@ -6,15 +6,20 @@ import it.polimi.ingsw.model.character.CharactersDeck;
 import it.polimi.ingsw.model.character.action.ActionType;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
+import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.BankHallManager;
 import it.polimi.ingsw.model.place.HallManager;
+import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
+import it.polimi.ingsw.network.communication.notification.BoardNotification;
+import it.polimi.ingsw.network.communication.notification.CloudsNotification;
+import it.polimi.ingsw.network.communication.notification.SchoolNotification;
 import it.polimi.ingsw.observer.Observable;
 
 import java.util.ArrayList;
@@ -135,7 +140,6 @@ public class Game extends Observable {
     }
 
     /**
-     *
      * @param nickname look for the nickname in the actual players
      * @return the player if is found, {@code null} otherwise
      */
@@ -166,13 +170,13 @@ public class Game extends Observable {
      * To reset all the strategies to the standard ones
      * @return true when done
      */
-    public boolean resetStrategies(){
+    public boolean resetStrategies() {
         board.resetStrategy();
         hallManager.resetStrategy();
         return true;
     }
 
-    public ActionType useCharacter(Player player, CharacterCard character){
+    public ActionType useCharacter(Player player, CharacterCard character) {
         // TODO
         int cost = character.getCost() + (character.hasCoinOn()?1:0);
         if(!character.hasCoinOn()) character.setCoinOn();
@@ -188,10 +192,11 @@ public class Game extends Observable {
      * @return true and perform the movement, false if not possible
      */
     public boolean moveMotherNature(int steps, Player player){
-        // TODO: implement card to add 2 more possible steps, add a Mover class with a strategy etc.
+        // TODO: implement card to add 2 more possible steps, add a Mover class with a limit standard strategy etc.
         int maxMove = player.getLastPlayedAssistant().movement();
-        if(steps <= maxMove && steps > 0){
+        if(steps <= maxMove && steps > 0) {
             board.moveMotherNature(steps, players);
+            notifyObserver(new BoardNotification(board));
             return true;
         } else return false;
     }
@@ -215,6 +220,8 @@ public class Game extends Observable {
      */
     public void fillClouds() {
         clouds.fillClouds(sack);
+        List<ShortCloud> update = clouds.getClouds().stream().map(ShortCloud::new).toList();
+        notifyObserver(new CloudsNotification(update));
     }
 
     /**
@@ -312,20 +319,21 @@ public class Game extends Observable {
     /**
      * Move a pawn from the entrance to the hall of the currentPlayer
      * @param pawnColor to be moved to the hall
-     * @return true if ok, otherwise false
      */
-    public boolean moveFromEntranceToHall(PawnColor pawnColor){
-        return currentPlayer.moveFromEntranceToHall(pawnColor);
+    public void moveFromEntranceToHall(PawnColor pawnColor) {
+        currentPlayer.moveFromEntranceToHall(pawnColor);
+        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()),currentPlayer.getPlayerName()));
     }
 
     /**
      * Move a pawn from the entrance of the current Player to a chosen island
      * @param pawnColor to be moved to the island
      * @param island the chosen island
-     * @return true if ok, otherwise false
      */
-    public boolean moveFromEntranceToIsland(PawnColor pawnColor, int island){
-        return currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor),board.getIslands().get(island));
+    public void moveFromEntranceToIsland(PawnColor pawnColor, int island) {
+        currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor),board.getIslands().get(island));
+        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()),currentPlayer.getPlayerName()));
+        notifyObserver(new BoardNotification(board));
     }
 
     public List<TowerColor> getAlreadyChoiceTowerColor() {

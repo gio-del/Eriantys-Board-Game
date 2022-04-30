@@ -4,21 +4,21 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.place.Island;
 
-import javax.print.DocFlavor;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardCli {
     private final Board board;
-    private List<IslandCli> islandsCli = new ArrayList<>();
+    private final List<IslandCli> islandsCli;
 
     public BoardCli(Board board){
         this.board = board;
+        this.islandsCli = new ArrayList<>();
     }
 
     public void printBoard(){
-        int i, j, z;
-        int width, high;
+        int i;
+        int j;
         List<StringBuilder> row0 = new ArrayList<>();
         List<StringBuilder> row1 = new ArrayList<>();
         StringBuilder stringMiddle = new StringBuilder();

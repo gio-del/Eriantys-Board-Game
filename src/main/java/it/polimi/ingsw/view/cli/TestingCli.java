@@ -1,22 +1,13 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.GameLimit;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallManager;
-import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.place.School;
 import it.polimi.ingsw.model.place.ShortSchool;
-import it.polimi.ingsw.model.player.Assistant;
-import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
-import it.polimi.ingsw.view.View;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static it.polimi.ingsw.model.player.TowerColor.*;
 import static java.lang.System.exit;
@@ -57,7 +48,6 @@ public class TestingCli {
 
         ShortSchool shortSchool = new ShortSchool(school);
 
-        BoardCli boardCli = new BoardCli(game.getBoard());
         cli.updateScreen(game.getBoard(), shortSchool);
 
         exit(0);
