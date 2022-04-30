@@ -21,11 +21,10 @@ import it.polimi.ingsw.network.communication.notification.BoardNotification;
 import it.polimi.ingsw.network.communication.notification.CloudsNotification;
 import it.polimi.ingsw.network.communication.notification.SchoolNotification;
 import it.polimi.ingsw.observer.Observable;
+import it.polimi.ingsw.utils.Pair;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * This class represents Eriantys game
@@ -44,65 +43,65 @@ public class Game extends Observable {
     private List<CharacterCard> characterInUse;
     private final List<Wizard> alreadyChoiceWizard;
     private final List<TowerColor> alreadyChoiceTowerColor;
-    private final Map<Player,Integer> playerMapAssistantMovement;
-    private final Map<Player,Integer> playerMapAssistantValue;
-
+    private final List<Pair<String,Assistant>> nicknameMapAssistant;
 
     /**
      * The Game is created with the number of players by the controller, the limit of the Game are set
-     * @param nPlayers the number of players
+     *
+     * @param nPlayers     the number of players
      * @param isExpertMode the game mode
      */
     public Game(int nPlayers, boolean isExpertMode) {
         this.players = new ArrayList<>();
         this.nPlayers = nPlayers;
-        gameLimit = new GameLimit(nPlayers==3);
+        gameLimit = new GameLimit(nPlayers == 3);
         this.board = new Board();
         this.sack = new Sack();
         this.alreadyChoiceWizard = new ArrayList<>();
         this.alreadyChoiceTowerColor = new ArrayList<>();
-        playerMapAssistantMovement = new HashMap<>();
-        playerMapAssistantValue = new HashMap<>();
+        nicknameMapAssistant = new ArrayList<>();
         this.clouds = new CloudManager(nPlayers, gameLimit.getStudentOnCloud());
         this.bank = new Bank();
-        this.hallManager = (isExpertMode)?new BankHallManager(bank):new HallManager();
+        this.hallManager = (isExpertMode) ? new BankHallManager(bank) : new HallManager();
         this.isExpertMode = isExpertMode;
         this.characterInUse = new ArrayList<>();
     }
 
     /**
      * start game
+     *
      * @return true if game is started, false otherwise
      */
     public boolean startGame() {
+        //TODO: move CharacterDeck in high level of the server, it is unique and common to all games
         if (players.size() != nPlayers) return false;
-        if(isExpertMode) characterInUse = new CharactersDeck().extractCharacterInUse();
-        if(characterInUse.size()!= Constants.CHARACTER_IN_USE) return false;
+        if (isExpertMode) characterInUse = new CharactersDeck().extractCharacterInUse();
+        if (characterInUse.size() != Constants.CHARACTER_IN_USE) return false;
         sack.initialFill();
         board.initIslands(sack);
         sack.fill();
         for (Player player : players) {
             player.initialEntranceFill(sack.extractListOfPawns(gameLimit.getMaxEntrance()));
+            notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()), player.getPlayerName()));
         }
+        notifyObserver(new BoardNotification(board));
         return true;
     }
 
     /**
-     *
-     * @param name name of the player
-     * @param wizard wizard chosen by the player
+     * @param name       name of the player
+     * @param wizard     wizard chosen by the player
      * @param towerColor color chosen by the player
      * @return true if player was added, otherwise false.
      */
-    public boolean addPlayer(String name,Wizard wizard, TowerColor towerColor){
-        if(players.stream().anyMatch(player -> player.getPlayerName().equals(name)) ||
+    public boolean addPlayer(String name, Wizard wizard, TowerColor towerColor) {
+        if (players.stream().anyMatch(player -> player.getPlayerName().equals(name)) ||
                 alreadyChoiceWizard.contains(wizard) ||
                 alreadyChoiceTowerColor.contains(towerColor) || //todo: check this for 4 player matches
                 this.players.size() >= this.nPlayers) {
             return false;
-        }
-        else{
-            Player player = new Player(name,wizard,towerColor,gameLimit, hallManager);
+        } else {
+            Player player = new Player(name, wizard, towerColor, gameLimit, hallManager);
             alreadyChoiceWizard.add(player.getWizard());
             alreadyChoiceTowerColor.add(player.getColor());
             this.players.add(player);
@@ -113,10 +112,9 @@ public class Game extends Observable {
 
 
     /**
-     *
      * @return the next player going to play
      */
-    public Player nextPlayer(){
+    public Player nextPlayer() {
 
         int index = players.indexOf(currentPlayer);
 
@@ -130,11 +128,10 @@ public class Game extends Observable {
     }
 
     /**
-     *
      * @param player to be removed
      * @return {@code true} if ok
      */
-    public boolean removePlayer(Player player){
+    public boolean removePlayer(Player player) {
         alreadyChoiceWizard.remove(player.getWizard());
         return players.remove(player);
     }
@@ -143,9 +140,9 @@ public class Game extends Observable {
      * @param nickname look for the nickname in the actual players
      * @return the player if is found, {@code null} otherwise
      */
-    public Player getPlayerByName(String nickname){
-        for(Player player: players){
-            if(player.getPlayerName().equals(nickname)){
+    public Player getPlayerByName(String nickname) {
+        for (Player player : players) {
+            if (player.getPlayerName().equals(nickname)) {
                 return player;
             }
         }
@@ -154,12 +151,13 @@ public class Game extends Observable {
 
     /**
      * To find the player with a specific TowerColor
+     *
      * @param towerColor of the player to be found
      * @return the player
      */
-    public Player getPlayerByTowerColor(TowerColor towerColor){
-        for(Player player: players){
-            if(player.getColor().equals(towerColor)){
+    public Player getPlayerByTowerColor(TowerColor towerColor) {
+        for (Player player : players) {
+            if (player.getColor().equals(towerColor)) {
                 return player;
             }
         }
@@ -168,6 +166,7 @@ public class Game extends Observable {
 
     /**
      * To reset all the strategies to the standard ones
+     *
      * @return true when done
      */
     public boolean resetStrategies() {
@@ -178,23 +177,24 @@ public class Game extends Observable {
 
     public ActionType useCharacter(Player player, CharacterCard character) {
         // TODO
-        int cost = character.getCost() + (character.hasCoinOn()?1:0);
-        if(!character.hasCoinOn()) character.setCoinOn();
-        if(bank.pay(player,cost))
+        int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
+        if (!character.hasCoinOn()) character.setCoinOn();
+        if (bank.pay(player, cost))
             return character.getActionType();
         return null;
     }
 
     /**
      * Check if is possible to move motherNature of specified steps
-     * @param steps that the player wants motherNature to do
+     *
+     * @param steps  that the player wants motherNature to do
      * @param player going to perform the action
      * @return true and perform the movement, false if not possible
      */
-    public boolean moveMotherNature(int steps, Player player){
+    public boolean moveMotherNature(int steps, Player player) {
         // TODO: implement card to add 2 more possible steps, add a Mover class with a limit standard strategy etc.
         int maxMove = player.getLastPlayedAssistant().movement();
-        if(steps <= maxMove && steps > 0) {
+        if (steps <= maxMove && steps > 0) {
             board.moveMotherNature(steps, players);
             notifyObserver(new BoardNotification(board));
             return true;
@@ -203,13 +203,14 @@ public class Game extends Observable {
 
     /**
      * Pick pawns from the chosen cloud and put it in player's entrance
+     *
      * @param player the player who chose
-     * @param cloud the chosen cloud
+     * @param cloud  the chosen cloud
      * @return true if adding to the entrance is ok, otherwise false
      */
-    public boolean pickFromCloud(Player player, int cloud){
+    public boolean pickFromCloud(Player player, int cloud) {
         Cloud cloudChosen = clouds.getSpecificCloud(cloud);
-        if(cloudChosen != null){
+        if (cloudChosen != null) {
             return player.addPawnsFromCloud(cloudChosen);
         }
         return false;
@@ -227,14 +228,12 @@ public class Game extends Observable {
     /**
      * Play assistant for the current player
      */
-    public void playAssistant(Assistant assistant){
+    public void playAssistant(Assistant assistant) {
         currentPlayer.playAssistant(assistant);
-        playerMapAssistantValue.put(currentPlayer,assistant.value());
-        playerMapAssistantMovement.put(currentPlayer,assistant.movement());
+        nicknameMapAssistant.add(new Pair<>(currentPlayer.getPlayerName(),assistant));
     }
 
     /**
-     *
      * @return list of players
      */
     public List<Player> getPlayers() {
@@ -242,7 +241,6 @@ public class Game extends Observable {
     }
 
     /**
-     *
      * @return the board of the game
      */
     public Board getBoard() {
@@ -250,7 +248,6 @@ public class Game extends Observable {
     }
 
     /**
-     *
      * @return the sack of the game
      */
     public Sack getSack() {
@@ -258,7 +255,6 @@ public class Game extends Observable {
     }
 
     /**
-     *
      * @return the clouds
      */
     public List<Cloud> getClouds() {
@@ -293,11 +289,11 @@ public class Game extends Observable {
         return characterInUse;
     }
 
-    public void setCurrentPlayer(Player player){
+    public void setCurrentPlayer(Player player) {
         currentPlayer = player;
     }
 
-    public ProfessorAssignor getProfessorAssignor(){
+    public ProfessorAssignor getProfessorAssignor() {
         return hallManager.getProfessorAssignor();
     }
 
@@ -318,21 +314,23 @@ public class Game extends Observable {
 
     /**
      * Move a pawn from the entrance to the hall of the currentPlayer
+     *
      * @param pawnColor to be moved to the hall
      */
     public void moveFromEntranceToHall(PawnColor pawnColor) {
         currentPlayer.moveFromEntranceToHall(pawnColor);
-        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()),currentPlayer.getPlayerName()));
+        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
     }
 
     /**
      * Move a pawn from the entrance of the current Player to a chosen island
+     *
      * @param pawnColor to be moved to the island
-     * @param island the chosen island
+     * @param island    the chosen island
      */
     public void moveFromEntranceToIsland(PawnColor pawnColor, int island) {
-        currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor),board.getIslands().get(island));
-        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()),currentPlayer.getPlayerName()));
+        currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor), board.getIslands().get(island));
+        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
         notifyObserver(new BoardNotification(board));
     }
 
@@ -340,11 +338,7 @@ public class Game extends Observable {
         return alreadyChoiceTowerColor;
     }
 
-    public Map<Player, Integer> getPlayerMapAssistantMovement() {
-        return playerMapAssistantMovement;
-    }
-
-    public Map<Player, Integer> getPlayerMapAssistantValue() {
-        return playerMapAssistantValue;
+    public List<Pair<String, Assistant>> getNicknameMapAssistant() {
+        return nicknameMapAssistant;
     }
 }

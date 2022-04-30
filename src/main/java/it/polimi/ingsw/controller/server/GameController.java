@@ -25,11 +25,11 @@ public class GameController {
     private final Map<String, Connection> connectionMap;
     private Game game;
 
-    private enum GameState{LOBBY,INIT} //todo: state pattern?
+    //todo: state pattern
+    private enum GameState{PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD}
     private GameState gameState;
 
     public GameController() {
-        this.gameState = GameState.LOBBY;
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.connectionMap = Collections.synchronizedMap(new HashMap<>());
     }
@@ -49,7 +49,6 @@ public class GameController {
     }
 
     public void startGame(int nPlayers, boolean isExpertMode) {
-        gameState = GameState.INIT;
         game = new Game(nPlayers, isExpertMode);
         this.visitor = new ServerSideVisitor(game);
         for(VirtualView vv: virtualViewMap.values())
@@ -58,11 +57,10 @@ public class GameController {
         gameStarted.setMessage("A match is started!");
         gameStarted.setClientId(Server.NAME);
         broadcast(gameStarted);
+        game.startGame();
     }
 
-    public boolean isStarted() {
-        return (!gameState.equals(GameState.LOBBY));
-    }
+
 
     public void handleDisconnection(String nickname) {
         Notification disconnection = new DisconnectionNotification(nickname);
