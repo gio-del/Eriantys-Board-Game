@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.character.action;
 
-import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.GameLimit;
+import it.polimi.ingsw.model.Bank;
 import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -17,7 +18,7 @@ class SetProfStratActionTest {
     ProfessorAssignor professorAssignor;
     @BeforeEach
     void setUp() {
-        player = new Player("Bob", Wizard.KING, TowerColor.BLACK,new GameLimit(false),new HallManager());
+        player = new Player("Bob", Wizard.KING, TowerColor.BLACK, GameLimit.getLimit(2),new HallManager(new Bank()));
         professorAssignor = new ProfessorAssignor();
     }
 

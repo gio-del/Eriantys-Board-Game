@@ -29,11 +29,12 @@ class BoardTest {
 
     @BeforeEach
     void setUp() {
-        game = new Game(3,false);
+        game = new Game();
 
         game.addPlayer("Mario", KING, BLACK);
         game.addPlayer("Lorenzo", SORCERER, WHITE);
         game.addPlayer("Giovanni", WITCH, GRAY);
+        game.init();
 
         player1 = game.getPlayerByName("Mario");
         player2 = game.getPlayerByName("Lorenzo");

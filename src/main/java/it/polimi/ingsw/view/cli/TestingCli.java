@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.place.School;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -15,11 +14,10 @@ import static java.lang.System.exit;
 public class TestingCli {
     public static void main(String[] args) {
         Cli cli = new Cli();
-        Game game = new Game(2, false);
+        Game game = new Game();
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
         game.addPlayer("Marco", Wizard.SORCERER,TowerColor.GRAY);
-        HallManager hallManager = new HallManager();
-        hallManager.addPlayer(game.getPlayers().get(0));
+        game.init();
 
         game.getBoard().getIslands().get(0).add(new Pawns(3,5,0,2,0));
         game.getBoard().getIslands().get(1).add(new Pawns(1,0,0,4,3));

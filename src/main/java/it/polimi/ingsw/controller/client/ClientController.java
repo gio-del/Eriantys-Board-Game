@@ -48,7 +48,7 @@ public class ClientController implements ClientObserver {
             view.setNickname();
         }
         else{
-            view.disconnectionHandler("Server not reachable! Exiting...");
+            view.showDisconnection("Server not reachable! Exiting...");
             exit(0);
         }
     }
@@ -107,7 +107,7 @@ public class ClientController implements ClientObserver {
 
     public void onDisconnection(){
         String s = "Connection closed with the server. Exiting...";
-        view.disconnectionHandler(s);
+        view.showDisconnection(s);
         exit(0);
     }
 }

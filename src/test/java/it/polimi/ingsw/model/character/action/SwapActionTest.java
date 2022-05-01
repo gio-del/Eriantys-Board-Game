@@ -17,8 +17,11 @@ class SwapActionTest {
 
     @BeforeEach
     void setUp() {
-        Game game = new Game(2,true);
+        Game game = new Game();
         game.addPlayer("Luigi", Wizard.KING, TowerColor.BLACK);
+        game.addPlayer("Marco", Wizard.FLAME_MAGICIAN, TowerColor.WHITE);
+        game.init();
+
         from = game.getPlayerByName("Luigi").getSchool().getEntranceAsPlace();
         to = game.getPlayerByName("Luigi").getSchool().getHallAsPlace();
 

@@ -25,9 +25,11 @@ class CalculateInfluenceActionTest {
 
     @BeforeEach
     void setUp() {
-        Game game = new Game(2,false);
+        Game game = new Game();
         game.addPlayer("Luca", Wizard.KING, BLACK);
         game.addPlayer("Paolo",Wizard.SORCERER, WHITE);
+        game.init();
+
         board = game.getBoard();
         island = board.getIslands().get(0);
 

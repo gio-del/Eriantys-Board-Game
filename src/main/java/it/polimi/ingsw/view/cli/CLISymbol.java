@@ -1,7 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import java.awt.*;
-
 public enum CLISymbol {
     EMPTY_CIRCLE("_"),
     FULL_CIRCLE("@"),

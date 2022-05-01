@@ -1,8 +1,8 @@
-package it.polimi.ingsw.model.character;
+package it.polimi.ingsw.utility;
 
-import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.character.action.ActionType;
-import it.polimi.ingsw.utils.CharacterJSONParser;
+import it.polimi.ingsw.utility.character.CharacterJSONParser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class CharacterJSONParserTest {
 
     @BeforeEach
     void setUp() {
-        characterCardList = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
+        characterCardList = new CharacterJSONParser().parseCharacters();
     }
 
     @Test

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.model.character.action;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.pawns.Pawns;
 

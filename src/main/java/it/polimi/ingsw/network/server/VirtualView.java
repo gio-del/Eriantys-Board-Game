@@ -90,9 +90,9 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void disconnectionHandler(String message) {
+    public void showDisconnection(String nickname) {
         //TODO: check this
-        connection.sendMessage(new DisconnectionNotification(message));
+        connection.sendMessage(new DisconnectionNotification(nickname));
     }
 
     @Override

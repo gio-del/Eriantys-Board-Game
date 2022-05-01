@@ -11,12 +11,18 @@ import static org.junit.jupiter.api.Assertions.*;
 class BankTest {
     private Bank bank;
     private Player p1;
+    private Player p2;
 
     @BeforeEach
     void setUp() {
-        Game game = new Game(2,true);
+        Game game = new Game();
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
+        game.addPlayer("Marco",Wizard.SORCERER,TowerColor.WHITE);
+        game.init();
+
         p1 = game.getPlayerByName("Luca");
+        p2 = game.getPlayerByName("Marco");
+
         bank = game.getBank();
     }
 
@@ -34,10 +40,11 @@ class BankTest {
 
     @Test
     void rewardFail() {
-        for(int i=0;i<19;i++){
+        for(int i=0;i<18;i++){
             assertTrue(bank.reward(p1));
         }
-        assertEquals(20,bank.getCashByPlayer(p1));
+        assertEquals(19,bank.getCashByPlayer(p1));
+        assertEquals(1,bank.getCashByPlayer(p2));
         assertEquals(0,bank.getGeneralBank());
         assertFalse(bank.reward(p1));
 

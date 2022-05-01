@@ -28,9 +28,11 @@ class StandardStrategyTest {
 
     @BeforeEach
     void setUp(){
-        Game game = new Game(2,false);
+        Game game = new Game();
         game.addPlayer("Mario", KING, BLACK);
         game.addPlayer("Lorenzo", SORCERER, WHITE);
+        game.init();
+
         player1 = game.getPlayerByName("Mario");
         player2 = game.getPlayerByName("Lorenzo");
 

@@ -35,7 +35,7 @@ public class LobbyManager {
         connectionMap.put(nickname, connection);
         vvMap.put(nickname,vv);
         if(!ready && players.size() == 1){
-            broadcast(nickname + " is choosing game mode and number of player...",nickname);
+            //broadcast(nickname + " is choosing game mode and number of player...",nickname);
             vv.chooseGameMode();
         }
         checkReadyToStart();
@@ -59,7 +59,7 @@ public class LobbyManager {
             controller.addClient(name,connectionMap.get(name));
             removePlayerFromLobby(name);
         }
-        controller.startGame(nPlayers,isExpertMode);
+        controller.init(nPlayers,isExpertMode);
         server.addMatch(names,controller);
         ready = false;
     }

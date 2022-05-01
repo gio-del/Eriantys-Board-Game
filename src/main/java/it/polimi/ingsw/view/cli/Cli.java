@@ -287,8 +287,9 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void disconnectionHandler(String message) {
-        System.out.println(message);
+    public void showDisconnection(String nickname) {
+        System.out.println(nickname + " has left the game. GAME ENDED!");
+        System.exit(0);
     }
 
     @Override

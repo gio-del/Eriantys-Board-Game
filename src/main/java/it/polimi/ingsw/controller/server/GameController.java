@@ -24,14 +24,16 @@ public class GameController {
     private final Map<String, VirtualView> virtualViewMap;
     private final Map<String, Connection> connectionMap;
     private Game game;
+    private final TurnManager turnManager;
 
     //todo: state pattern
-    public enum GameState{PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD,WAIT}
+    public enum GameState{INIT,PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD, WAIT}
     private GameState gameState;
 
     public GameController() {
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.connectionMap = Collections.synchronizedMap(new HashMap<>());
+        turnManager = new TurnManager();
     }
 
     public synchronized void addClient(String nickname, Connection connection) {
@@ -49,8 +51,8 @@ public class GameController {
         msg.accept(visitor);
     }
 
-    public void startGame(int nPlayers, boolean isExpertMode) {
-        game = new Game(nPlayers, isExpertMode);
+    public void init(int nPlayers, boolean isExpertMode) {
+        game = new Game();
         this.visitor = new ServerSideVisitor(game,this);
         for(VirtualView vv: virtualViewMap.values())
             game.addObserver(vv);
@@ -58,7 +60,7 @@ public class GameController {
         gameStarted.setMessage("A match is started!");
         gameStarted.setClientId(Server.NAME);
         broadcast(gameStarted);
-        game.startGame();
+        gameState = GameState.INIT;
     }
 
 
@@ -68,7 +70,7 @@ public class GameController {
         broadcast(disconnection,nickname);
     }
 
-    public void broadcast(Notification msg){
+    public void broadcast(Notification msg) {
         connectionMap.values().forEach(connection -> connection.sendMessage(msg));
     }
     public void broadcast(Notification msg,String exclusion){

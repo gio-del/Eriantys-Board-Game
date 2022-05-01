@@ -20,9 +20,11 @@ class ThiefActionTest {
     Player p2;
     @BeforeEach
     void setUp() {
-        Game game = new Game(2,false);
+        Game game = new Game();
+
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
-        game.addPlayer("Mario", Wizard.SORCERER, TowerColor.GRAY);
+        game.addPlayer("Mario", Wizard.SORCERER, TowerColor.WHITE);
+        game.init();
 
         p1 = game.getPlayerByName("Luca");
         p2 = game.getPlayerByName("Mario");

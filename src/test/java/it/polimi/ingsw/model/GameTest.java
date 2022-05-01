@@ -22,11 +22,12 @@ class GameTest {
 
     @BeforeEach
     void setUp() {
-        game = new Game(2,true);
+        game = new Game();
 
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
-        game.addPlayer("Marco", Wizard.SORCERER,TowerColor.GRAY);
+        game.addPlayer("Marco", Wizard.SORCERER,TowerColor.WHITE);
 
+        game.init();
     }
 
     /**
@@ -34,10 +35,10 @@ class GameTest {
      */
     @Test
     void startGameTest() {
-        assertTrue(game.startGame());
+        game.startGame();
         assertEquals(Constants.CHARACTER_IN_USE, game.getCharacterInUse().size());
         int expected = (Constants.STUDENTS_OF_EACH_COLOR-Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length
-                - game.getNPlayers()*game.getGameLimit().getMaxEntrance();
+                - game.getPlayers().size()*game.getGameLimit().getMaxEntrance();
         assertEquals(expected,game.getSack().getNumberOfPawns());
         for(int i=1;i<Constants.MAX_ISLAND;i++){
             if(i!=6)
@@ -78,33 +79,7 @@ class GameTest {
      */
     @Test
     void getPlayerByTowerColor_ifNotPresent() {
-        assertNull(game.getPlayerByTowerColor(TowerColor.WHITE));
-    }
-
-    /**
-     * Test remove player method
-     */
-    @Test
-    void removePlayerTest() {
-        Player player = game.getPlayerByName("Luca");
-        assertTrue(game.removePlayer(player));
-        assertFalse(game.getPlayers().contains(player));
-    }
-
-    /**
-     * Check what happens if a player with same wizard is added.
-     */
-    @Test
-    void addPlayerWithSameWizardTest() {
-        assertFalse(game.addPlayer("Matteo",Wizard.KING,TowerColor.GRAY));
-    }
-
-    /**
-     * Check what happens if the game is full and a player is added
-     */
-    @Test
-    void addPlayerIfGameIsFull(){
-        assertFalse(game.addPlayer("Matteo",Wizard.WITCH,TowerColor.BLACK));
+        assertNull(game.getPlayerByTowerColor(TowerColor.GRAY));
     }
 
     /**
@@ -182,10 +157,5 @@ class GameTest {
         assertTrue(game.resetStrategies());
         assertTrue(game.getProfessorAssignor().getProfessorStrategy() instanceof StandardProfStrategy);
         assertTrue(game.getBoard().getInfluenceStrategy() instanceof StandardStrategy);
-    }
-
-    @Test
-    void isExpertModeTest() {
-        assertTrue(game.isExpertMode());
     }
 }

@@ -90,9 +90,9 @@ public interface View {
 
     /**
      * In case of a disconnection, the players still connected will receive a message
-     * @param message content
+     * @param nickname content
      */
-    void disconnectionHandler(String message);
+    void showDisconnection(String nickname);
 
     /**
      * When win happens

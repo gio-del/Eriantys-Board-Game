@@ -1,27 +1,25 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.constants.Constants;
+import it.polimi.ingsw.GameLimit;
 import it.polimi.ingsw.model.character.CharacterCard;
-import it.polimi.ingsw.model.character.CharactersDeck;
+import it.polimi.ingsw.model.player.*;
+import it.polimi.ingsw.network.communication.notification.GameStartedNotification;
+import it.polimi.ingsw.utility.character.CharactersDeck;
 import it.polimi.ingsw.model.character.action.ActionType;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.BankHallManager;
 import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.place.ShortSchool;
-import it.polimi.ingsw.model.player.Assistant;
-import it.polimi.ingsw.model.player.Player;
-import it.polimi.ingsw.model.player.TowerColor;
-import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 import it.polimi.ingsw.network.communication.notification.BoardNotification;
 import it.polimi.ingsw.network.communication.notification.CloudsNotification;
 import it.polimi.ingsw.network.communication.notification.SchoolNotification;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.utils.Pair;
+import it.polimi.ingsw.utility.gamelimit.GameLimitData;
+import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,82 +29,65 @@ import java.util.List;
  */
 public class Game extends Observable {
     private final List<Player> players;
+    private final List<ShortPlayer> shortPlayers;
     private final Board board;
     private final Sack sack;
-    private final CloudManager clouds;
+    private CloudManager clouds;
     private Player currentPlayer;
     private final HallManager hallManager;
     private final Bank bank;
-    private final GameLimit gameLimit;
-    private final int nPlayers;
-    private final boolean isExpertMode;
-    private List<CharacterCard> characterInUse;
-    private final List<Wizard> alreadyChoiceWizard;
-    private final List<TowerColor> alreadyChoiceTowerColor;
-    private final List<Pair<String,Assistant>> nicknameMapAssistant;
+    private final List<CharacterCard> characterInUse;
+    private final List<Pair<String,Assistant>> playedAssistantMap;
+    private GameLimitData gameLimitData;
 
     /**
-     * The Game is created with the number of players by the controller, the limit of the Game are set
-     *
-     * @param nPlayers     the number of players
-     * @param isExpertMode the game mode
+     * The class that represents Eriantys game
      */
-    public Game(int nPlayers, boolean isExpertMode) {
+    public Game() {
         this.players = new ArrayList<>();
-        this.nPlayers = nPlayers;
-        gameLimit = new GameLimit(nPlayers == 3);
+        this.shortPlayers = new ArrayList<>();
         this.board = new Board();
         this.sack = new Sack();
-        this.alreadyChoiceWizard = new ArrayList<>();
-        this.alreadyChoiceTowerColor = new ArrayList<>();
-        nicknameMapAssistant = new ArrayList<>();
-        this.clouds = new CloudManager(nPlayers, gameLimit.getStudentOnCloud());
+        this.playedAssistantMap = new ArrayList<>();
         this.bank = new Bank();
-        this.hallManager = (isExpertMode) ? new BankHallManager(bank) : new HallManager();
-        this.isExpertMode = isExpertMode;
-        this.characterInUse = new ArrayList<>();
+        this.hallManager = new HallManager(bank);
+        this.characterInUse = CharactersDeck.extractCharacterInUse();
     }
 
     /**
      * start game
-     *
-     * @return true if game is started, false otherwise
      */
-    public boolean startGame() {
-        //TODO: move CharacterDeck in high level of the server, it is unique and common to all games
-        if (players.size() != nPlayers) return false;
-        if (isExpertMode) characterInUse = new CharactersDeck().extractCharacterInUse();
-        if (characterInUse.size() != Constants.CHARACTER_IN_USE) return false;
+    public void init() {
+        gameLimitData = GameLimit.getLimit(shortPlayers.size());
+        for(ShortPlayer shortPlayer: shortPlayers){
+            Player player = new Player(shortPlayer,gameLimitData,hallManager);
+            this.hallManager.addPlayer(player);
+            this.players.add(player);
+        }
+        this.clouds = new CloudManager(players.size(), gameLimitData.getStudentOnCloud());
+        notifyObserver(new GameStartedNotification());
+    }
+
+    public void startGame(){
         sack.initialFill();
         board.initIslands(sack);
         sack.fill();
         for (Player player : players) {
-            player.initialEntranceFill(sack.extractListOfPawns(gameLimit.getMaxEntrance()));
+            player.initialEntranceFill(sack.extractListOfPawns(gameLimitData.getMaxEntrance()));
             notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()), player.getPlayerName()));
         }
         notifyObserver(new BoardNotification(board));
-        return true;
     }
 
     /**
      * @param name       name of the player
      * @param wizard     wizard chosen by the player
      * @param towerColor color chosen by the player
-     * @return true if player was added, otherwise false.
      */
-    public boolean addPlayer(String name, Wizard wizard, TowerColor towerColor) {
-        if (players.stream().anyMatch(player -> player.getPlayerName().equals(name)) ||
-                alreadyChoiceWizard.contains(wizard) ||
-                alreadyChoiceTowerColor.contains(towerColor) || //todo: check this for 4 player matches
-                this.players.size() >= this.nPlayers) {
-            return false;
-        } else {
-            Player player = new Player(name, wizard, towerColor, gameLimit, hallManager);
-            alreadyChoiceWizard.add(player.getWizard());
-            alreadyChoiceTowerColor.add(player.getColor());
-            this.players.add(player);
-            this.hallManager.addPlayer(player);
-            return true;
+    public void addPlayer(String name, Wizard wizard, TowerColor towerColor) {
+        if (players.stream().noneMatch(player -> player.getPlayerName().equals(name))) {
+            ShortPlayer shortPlayer = new ShortPlayer(name, wizard, towerColor);
+            this.shortPlayers.add(shortPlayer);
         }
     }
 
@@ -125,15 +106,6 @@ public class Game extends Observable {
             currentPlayer = players.get(index + 1);
         }
         return currentPlayer;
-    }
-
-    /**
-     * @param player to be removed
-     * @return {@code true} if ok
-     */
-    public boolean removePlayer(Player player) {
-        alreadyChoiceWizard.remove(player.getWizard());
-        return players.remove(player);
     }
 
     /**
@@ -230,7 +202,29 @@ public class Game extends Observable {
      */
     public void playAssistant(Assistant assistant) {
         currentPlayer.playAssistant(assistant);
-        nicknameMapAssistant.add(new Pair<>(currentPlayer.getPlayerName(),assistant));
+        playedAssistantMap.add(new Pair<>(currentPlayer.getPlayerName(),assistant));
+    }
+
+    /**
+     * Move a pawn from the entrance to the hall of the currentPlayer
+     *
+     * @param pawnColor to be moved to the hall
+     */
+    public void moveFromEntranceToHall(PawnColor pawnColor) {
+        currentPlayer.moveFromEntranceToHall(pawnColor);
+        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
+    }
+
+    /**
+     * Move a pawn from the entrance of the current Player to a chosen island
+     *
+     * @param pawnColor to be moved to the island
+     * @param island    the chosen island
+     */
+    public void moveFromEntranceToIsland(PawnColor pawnColor, int island) {
+        currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor), board.getIslands().get(island));
+        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
+        notifyObserver(new BoardNotification(board));
     }
 
     /**
@@ -262,20 +256,6 @@ public class Game extends Observable {
     }
 
     /**
-     * @return the {@link GameLimit} of this {@link Game}
-     */
-    public GameLimit getGameLimit() {
-        return gameLimit;
-    }
-
-    /**
-     * @return the number of player that this game is created for
-     */
-    public int getNPlayers() {
-        return nPlayers;
-    }
-
-    /**
      * @return the current playing character
      */
     public Player getCurrentPlayer() {
@@ -297,48 +277,15 @@ public class Game extends Observable {
         return hallManager.getProfessorAssignor();
     }
 
-    /**
-     * @return true if the game is expert mode, false otherwise.
-     */
-    public boolean isExpertMode() {
-        return isExpertMode;
-    }
-
     public Bank getBank() {
         return bank;
     }
 
-    public List<Wizard> getAlreadyChoiceWizard() {
-        return alreadyChoiceWizard;
+    public List<Pair<String, Assistant>> getPlayedAssistantMap() {
+        return playedAssistantMap;
     }
 
-    /**
-     * Move a pawn from the entrance to the hall of the currentPlayer
-     *
-     * @param pawnColor to be moved to the hall
-     */
-    public void moveFromEntranceToHall(PawnColor pawnColor) {
-        currentPlayer.moveFromEntranceToHall(pawnColor);
-        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
-    }
-
-    /**
-     * Move a pawn from the entrance of the current Player to a chosen island
-     *
-     * @param pawnColor to be moved to the island
-     * @param island    the chosen island
-     */
-    public void moveFromEntranceToIsland(PawnColor pawnColor, int island) {
-        currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor), board.getIslands().get(island));
-        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
-        notifyObserver(new BoardNotification(board));
-    }
-
-    public List<TowerColor> getAlreadyChoiceTowerColor() {
-        return alreadyChoiceTowerColor;
-    }
-
-    public List<Pair<String, Assistant>> getNicknameMapAssistant() {
-        return nicknameMapAssistant;
+    public GameLimitData getGameLimit() {
+        return gameLimitData;
     }
 }

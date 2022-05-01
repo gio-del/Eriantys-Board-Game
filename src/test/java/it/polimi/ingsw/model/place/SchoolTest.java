@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.place;
 
-import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.GameLimit;
+import it.polimi.ingsw.model.Bank;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 
@@ -23,8 +24,8 @@ class SchoolTest {
 
     @BeforeEach
     void setUp() {
-        HallManager hallManager = new HallManager();
-        Player player = new Player("Fausto", Wizard.KING, TowerColor.BLACK,new GameLimit(false), hallManager);
+        HallManager hallManager = new HallManager(new Bank());
+        Player player = new Player("Fausto", Wizard.KING, TowerColor.BLACK, GameLimit.getLimit(2), hallManager);
         hallManager.addPlayer(player);
 
         school = player.getSchool();

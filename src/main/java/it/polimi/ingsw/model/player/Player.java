@@ -1,11 +1,11 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.clouds.Cloud;
-import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.model.place.HallManager;
+import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
-import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.place.School;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,16 +18,21 @@ import static it.polimi.ingsw.model.player.Assistant.*;
  */
 public class Player {
     private final String playerName;
-    private final ArrayList<Assistant> hand = new ArrayList<>();
+    private final ArrayList<Assistant> hand;
     private final Wizard wizard;
     private Assistant lastPlayedAssistant;
     private final School school;
 
-    public Player(String name, Wizard wizard, TowerColor towerColor, GameLimit gameLimit, HallManager hallManager) {
+    public Player(String name, Wizard wizard, TowerColor towerColor, GameLimitData gameLimitData, HallManager hallManager) {
         this.playerName = name;
         this.wizard = wizard;
-        this.school = new School(towerColor, gameLimit, hallManager);
+        this.hand = new ArrayList<>();
+        this.school = new School(towerColor, gameLimitData, hallManager);
         hand.addAll(Arrays.stream(values()).toList());
+    }
+
+    public Player(ShortPlayer shortPlayer, GameLimitData gameLimitData, HallManager hallManager) {
+        this(shortPlayer.playerName(), shortPlayer.wizard(),shortPlayer.color(),gameLimitData,hallManager);
     }
 
     /**

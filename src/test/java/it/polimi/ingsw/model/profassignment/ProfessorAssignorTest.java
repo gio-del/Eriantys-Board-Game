@@ -20,18 +20,17 @@ class ProfessorAssignorTest {
 
     @BeforeEach
     void setUp(){
-        game = new Game(3,false);
+        game = new Game();
         game.addPlayer("Mario", KING, BLACK);
-        player1 = game.getPlayerByName("Mario");
-
         game.addPlayer("Albert", SORCERER, WHITE);
-        player2 = game.getPlayerByName("Albert");
-
         game.addPlayer("Giovanni", WITCH, GRAY);
-        player3 = game.getPlayerByName("Giovanni");
+        game.init();
 
         professorAssignor = new ProfessorAssignor();
 
+        player1 = game.getPlayerByName("Mario");
+        player2 = game.getPlayerByName("Albert");
+        player3 = game.getPlayerByName("Giovanni");
     }
 
     /**
@@ -90,7 +89,7 @@ class ProfessorAssignorTest {
     }
 
     /**
-     * In case of tie, if farmerStrategy is set the player who chose the card to set it win
+     * In case of tie, if farmerStrategy is set the player who chose the card to set it wins
      */
     @Test
     void farmerStrategy(){

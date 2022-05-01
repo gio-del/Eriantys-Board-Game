@@ -22,16 +22,17 @@ class PlayerTest {
 
     @BeforeEach
     void setUp() {
-        Game game = new Game(2,false);
-
+        Game game = new Game();
         game.addPlayer("Mario", KING, BLACK);
-        player1 = game.getPlayerByName("Mario");
-
         game.addPlayer("Lorenzo", SORCERER, WHITE);
-        player2 = game.getPlayerByName("Lorenzo");
+        game.init();
 
+        player1 = game.getPlayerByName("Mario");
         player1.getSchool().getEntrance().addColor(GREEN,4);
         player1.getSchool().getEntrance().addColor(BLUE,1);
+
+        player2 = game.getPlayerByName("Lorenzo");
+
         pawns = new Pawns();
         pawns.addColor(GREEN,4);
         pawns.addColor(BLUE,1);

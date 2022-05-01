@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.place;
 
-import it.polimi.ingsw.model.GameLimit;
+import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -15,12 +15,12 @@ public class School {
     private int towerNum; //TODO: if 4 players only 1 TeamMate have towers -> add TEAM ENUM?
     private final TowerColor towerColor;
 
-    public School(TowerColor towerColor, GameLimit gameLimit, HallManager obs) {
-        this.entrance = new Entrance(gameLimit.getMaxEntrance());
+    public School(TowerColor towerColor, GameLimitData gameLimitData, HallManager obs) {
+        this.entrance = new Entrance(gameLimitData.getMaxEntrance());
         this.hall= new Hall(obs);
         this.profTable = new ProfTable();
         this.towerColor = towerColor;
-        this.towerNum = gameLimit.getNumberOfTower();
+        this.towerNum = gameLimitData.getNumberOfTower();
     }
 
     /**

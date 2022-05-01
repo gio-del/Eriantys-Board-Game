@@ -12,7 +12,7 @@ public class BoardNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 7688541840773202615L;
 
-    private final Board board; //TODO: shortboard??
+    private final Board board; //TODO: shortboard
 
     public BoardNotification(Board board) {
         this.board = board;

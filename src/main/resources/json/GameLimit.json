@@ -1,0 +1,15 @@
+{
+  "2":
+  {
+    "maxEntrance":7,
+    "studentOnCloud":3,
+    "numberOfTower":8,
+    "towerColors":["BLACK","WHITE"]},
+  "3":
+  {
+    "maxEntrance":9,
+    "studentOnCloud":4,
+    "numberOfTower":6,
+    "towerColors":["BLACK","WHITE","GRAY"]
+  }
+}

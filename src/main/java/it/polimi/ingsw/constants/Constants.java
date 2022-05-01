@@ -1,7 +1,5 @@
 package it.polimi.ingsw.constants;
 
-import it.polimi.ingsw.view.cli.CLIColor;
-
 import java.util.List;
 
 /**
@@ -15,9 +13,7 @@ public class Constants {
     private Constants(){}
 
     public static final String CHARACTER_JSON_PATH = "src/main/resources/json/Character.json";
-    public static final String THREE_PLAYER_LIMIT_JSON_PATH = "/json/ThreePlayerLimit.json";
-    public static final String TWO_FOUR_PLAYER_LIMIT_JSON_PATH = "/json/TwoFourPlayerLimit.json";
-
+    public static final String GAME_LIMIT_MAP_PATH = "src/main/resources/json/GameLimit.json";
     public static final List<Integer> NUM_PLAYER_AVAILABLE = List.of(2,3,4);
     public static final List<String> GAME_MODE_AVAILABLE = List.of("Simple","Expert");
     public static final int CHARACTER_IN_USE = 3;
