@@ -1,6 +1,6 @@
 package it.polimi.ingsw.utility;
 
-import it.polimi.ingsw.GameLimit;
+import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 import org.junit.jupiter.api.BeforeEach;

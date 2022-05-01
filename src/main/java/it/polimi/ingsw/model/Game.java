@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.GameLimit;
+import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.network.communication.notification.GameStartedNotification;
@@ -55,7 +55,7 @@ public class Game extends Observable {
     }
 
     /**
-     * start game
+     * Initialize player, game limit, clouds and hall manager.
      */
     public void init() {
         gameLimitData = GameLimit.getLimit(shortPlayers.size());
@@ -68,6 +68,9 @@ public class Game extends Observable {
         notifyObserver(new GameStartedNotification());
     }
 
+    /**
+     * Starts the game filling island and the entrance of each player
+     */
     public void startGame(){
         sack.initialFill();
         board.initIslands(sack);

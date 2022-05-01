@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.place;
 
-import it.polimi.ingsw.GameLimit;
+import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.Bank;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;

@@ -1,4 +1,4 @@
-package it.polimi.ingsw;
+package it.polimi.ingsw.utility.gamelimit;
 
 import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 import it.polimi.ingsw.utility.gamelimit.GameLimitParser;

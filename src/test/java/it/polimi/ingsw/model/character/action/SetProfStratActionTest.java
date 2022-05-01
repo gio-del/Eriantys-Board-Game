@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.character.action;
 
-import it.polimi.ingsw.GameLimit;
+import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.Bank;
 import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.player.Player;
