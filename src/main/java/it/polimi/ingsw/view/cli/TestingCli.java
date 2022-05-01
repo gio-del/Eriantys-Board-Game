@@ -21,24 +21,28 @@ public class TestingCli {
         HallManager hallManager = new HallManager();
         hallManager.addPlayer(game.getPlayers().get(0));
 
-        game.getBoard().getIslands().get(0).add(new Pawns(3,5,3,2,1));
-        game.getBoard().getIslands().get(1).add(new Pawns(1,5,10,4,3));
-        game.getBoard().getIslands().get(2).add(new Pawns(1,2,7,4,3));
-        game.getBoard().getIslands().get(3).add(new Pawns(1,2,7,4,3));
-        game.getBoard().getIslands().get(4).add(new Pawns(1,2,3,4,3));
-        game.getBoard().getIslands().get(5).add(new Pawns(1,2,3,4,3));
-        game.getBoard().getIslands().get(6).add(new Pawns(1,2,3,4,3));
-        game.getBoard().getIslands().get(7).add(new Pawns(1,2,3,4,3));
-        game.getBoard().getIslands().get(8).add(new Pawns(1,2,3,4,3));
-        game.getBoard().getIslands().get(9).add(new Pawns(1,2,3,4,3));
-        game.getBoard().getIslands().get(10).add(new Pawns(1,2,3,4,3));
-        game.getBoard().getIslands().get(11).add(new Pawns(1,2,3,4,3));
+        game.getBoard().getIslands().get(0).add(new Pawns(3,5,0,2,0));
+        game.getBoard().getIslands().get(1).add(new Pawns(1,0,0,4,3));
+        game.getBoard().getIslands().get(2).add(new Pawns(1,2,0,0,0));
+        game.getBoard().getIslands().get(3).add(new Pawns(0,0,1,4,1));
+        game.getBoard().getIslands().get(4).add(new Pawns(0,2,3,4,2));
+        game.getBoard().getIslands().get(5).add(new Pawns(1,0,0,0,3));
+        game.getBoard().getIslands().get(6).add(new Pawns(0,2,3,4,0));
+        game.getBoard().getIslands().get(7).add(new Pawns(1,2,1,0,1));
+        game.getBoard().getIslands().get(8).add(new Pawns(1,0,3,0,0));
+        game.getBoard().getIslands().get(9).add(new Pawns(0,2,0,0,2));
+        game.getBoard().getIslands().get(10).add(new Pawns(0,0,0,0,1));
+        game.getBoard().getIslands().get(11).add(new Pawns(0,0,0,0,0));
 
         game.getBoard().getIslands().get(0).addTower(BLACK);
         game.getBoard().getIslands().get(1).addTower(BLACK);
-        game.getBoard().getIslands().get(3).addTower(GRAY);
+        game.getBoard().getIslands().get(2).addTower(BLACK);
+        game.getBoard().getIslands().get(3).addTower(BLACK);
+        game.getBoard().getIslands().get(4).addTower(BLACK);
+        game.getBoard().getIslands().get(5).addTower(BLACK);
 
         game.getBoard().adjacencyUpdate();
+        game.getBoard().moveMotherNature(6, game.getPlayers());
 
         School school = game.getPlayers().get(0).getSchool();
         Pawns example = new Pawns(3,0,3,0,1);

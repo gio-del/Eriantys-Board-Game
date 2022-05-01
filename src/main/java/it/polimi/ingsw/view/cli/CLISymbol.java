@@ -1,5 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
+import java.awt.*;
+
 public enum CLISymbol {
     EMPTY_CIRCLE("_"),
     FULL_CIRCLE("@"),
@@ -9,7 +11,7 @@ public enum CLISymbol {
     SCHOOL_HEADER("     ENTRANCE     |        HALL         | PROF ");
     public static final String HEAD_START =  " ";
     public static final String HEAD =  "___________";
-    public static final String HEAD_MN = "^____^____^";
+    public static final String HEAD_MN = CLIColor.CYAN + "Å_Å_Å_Å_Å_Å" + CLIColor.RESET;
     public static final String HEAD_END =  "   ";
     public static final String GREEN_START = "   /" + CLIColor.GREEN;
     public static final String RED_START =   "  / " + CLIColor.RED;
