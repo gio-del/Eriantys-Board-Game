@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller;
 import it.polimi.ingsw.controller.server.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ class TurnManagerTest {
         game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
         game.playAssistant(Assistant.TURTLE); //value:1
         turnManager.setActionOrder(game.getNicknameMapAssistant());
-        List<String> order = turnManager.getPlayerOrder();
+        List<String> order = turnManager.getPlayersOrder();
 
         assertEquals("Lorenzo",order.get(0));
         assertEquals("Marco",order.get(1));
@@ -64,7 +65,7 @@ class TurnManagerTest {
         game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
         game.playAssistant(Assistant.TURTLE); //value:1
         turnManager.setActionOrder(game.getNicknameMapAssistant());
-        List<String> order = turnManager.getPlayerOrder();
+        List<String> order = turnManager.getPlayersOrder();
 
         assertEquals("Marco",order.get(0));
         assertEquals("Lorenzo",order.get(1));
@@ -82,10 +83,70 @@ class TurnManagerTest {
         game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
         game.playAssistant(Assistant.OSTRICH); //value:9
         turnManager.setActionOrder(game.getNicknameMapAssistant());
-        List<String> order = turnManager.getPlayerOrder();
+        List<String> order = turnManager.getPlayersOrder();
 
         assertEquals("Marco",order.get(0));
         assertEquals("Luca",order.get(1));
+        assertEquals("Lorenzo",order.get(2));
+    }
+
+    @Test
+    void planningOrderTest_1() {
+        //NOTE: TABLE ORDER IS "LUCA","MARCO","LORENZO"
+        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.playAssistant(Assistant.ELEPHANT); //value:2
+
+        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.playAssistant(Assistant.LION); //value:10
+
+        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.playAssistant(Assistant.TURTLE); //value:1
+        turnManager.setPlanningOrder(game.getNicknameMapAssistant(),game.getPlayers().stream().map(Player::getPlayerName).toList());
+        List<String> order = turnManager.getPlayersOrder();
+
+        assertEquals("Lorenzo",order.get(0));
+        assertEquals("Luca",order.get(1));
+        assertEquals("Marco",order.get(2));
+    }
+
+    /**
+     * Tests the case of two players playing the same Assistant Card: order of playing counts!
+     */
+    @Test
+    void planningOrderTest_2() {
+        //NOTE: TABLE ORDER IS "LUCA","MARCO","LORENZO"
+        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.playAssistant(Assistant.TURTLE); //value:1
+
+        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.playAssistant(Assistant.TURTLE); //value:1
+
+        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.playAssistant(Assistant.LION); //value:10
+        turnManager.setPlanningOrder(game.getNicknameMapAssistant(),game.getPlayers().stream().map(Player::getPlayerName).toList());
+        List<String> order = turnManager.getPlayersOrder();
+
+        assertEquals("Marco",order.get(0));
+        assertEquals("Lorenzo",order.get(1));
+        assertEquals("Luca",order.get(2));
+    }
+
+    @Test
+    void planningOrderTest_3() {
+        //NOTE: TABLE ORDER IS "LUCA","MARCO","LORENZO"
+        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.playAssistant(Assistant.ELEPHANT); //value:2
+
+        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.playAssistant(Assistant.TURTLE); //value:1
+
+        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.playAssistant(Assistant.LION); //value:10
+        turnManager.setPlanningOrder(game.getNicknameMapAssistant(),game.getPlayers().stream().map(Player::getPlayerName).toList());
+        List<String> order = turnManager.getPlayersOrder();
+
+        assertEquals("Luca",order.get(0));
+        assertEquals("Marco",order.get(1));
         assertEquals("Lorenzo",order.get(2));
     }
 }

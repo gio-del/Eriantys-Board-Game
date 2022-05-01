@@ -12,24 +12,16 @@ import it.polimi.ingsw.network.communication.notification.*;
  */
 public class ServerSideVisitor implements NotificationVisitor {
     private final Game game;
+    private final GameController controller;
 
-    public ServerSideVisitor(Game game) {
+    public ServerSideVisitor(Game game, GameController controller) {
         this.game = game;
+        this.controller = controller;
     }
 
     @Override
-    public void visit(LoginNotification msg) {
-        //do nothing
-    }
-
-    @Override
-    public void visit(WinNotification msg) {
-        //do nothing
-    }
-
-    @Override
-    public void visit(CloudsNotification msg) {
-        //do nothing
+    public void visit(ChooseAssistantNotification msg) {
+        game.playAssistant(msg.getChosenAssistant());
     }
 
     @Override
@@ -52,33 +44,8 @@ public class ServerSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(ChooseGameModeNotification msg) {
-        //do nothing
-    }
-
-    @Override
-    public void visit(SchoolNotification msg) {
-        //do nothing
-    }
-
-    @Override
-    public void visit(BoardNotification msg) {
-        //do nothing
-    }
-
-    @Override
-    public void visit(DisconnectionNotification msg) {
-        //do nothing
-    }
-
-    @Override
     public void visit(ChooseWizAndTowerColorNotification msg) {
         game.addPlayer(msg.getSenderID(),msg.getWizard(),msg.getTowerColor());
-    }
-
-    @Override
-    public void visit(ChooseAssistantNotification msg) {
-        game.playAssistant(msg.getChosenAssistant());
     }
 
     @Override
@@ -100,5 +67,38 @@ public class ServerSideVisitor implements NotificationVisitor {
     public void visit(GenericMessageNotification msg) {
         //do nothing
     }
+    @Override
+    public void visit(LoginNotification msg) {
+        //do nothing
+    }
 
+    @Override
+    public void visit(WinNotification msg) {
+        //do nothing
+    }
+
+    @Override
+    public void visit(CloudsNotification msg) {
+        //do nothing
+    }
+
+    @Override
+    public void visit(SchoolNotification msg) {
+        //do nothing
+    }
+
+    @Override
+    public void visit(BoardNotification msg) {
+        //do nothing
+    }
+
+    @Override
+    public void visit(DisconnectionNotification msg) {
+        //do nothing
+    }
+
+    @Override
+    public void visit(ChooseGameModeNotification msg) {
+        //do nothing
+    }
 }

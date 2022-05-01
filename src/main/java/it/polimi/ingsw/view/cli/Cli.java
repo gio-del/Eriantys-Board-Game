@@ -393,8 +393,4 @@ public class Cli extends ClientObservable implements View {
                  by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era""");
         System.out.println(CLIColor.RESET);
     }
-
-
-
-
 }

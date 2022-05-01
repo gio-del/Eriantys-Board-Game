@@ -27,7 +27,6 @@ public enum CLIColor {
         this.ansiCode = ansiCode;
     }
 
-
     @Override
     public String toString() {
         return ansiCode;

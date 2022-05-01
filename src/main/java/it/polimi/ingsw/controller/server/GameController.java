@@ -26,7 +26,7 @@ public class GameController {
     private Game game;
 
     //todo: state pattern
-    private enum GameState{PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD}
+    public enum GameState{PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD,WAIT}
     private GameState gameState;
 
     public GameController() {
@@ -45,12 +45,13 @@ public class GameController {
      * @param msg the message sent by the client
      */
     public void handleMessage(Notification msg) {
+        //TODO: check who sent this message, if it's from the current player stop the timer on the connection.
         msg.accept(visitor);
     }
 
     public void startGame(int nPlayers, boolean isExpertMode) {
         game = new Game(nPlayers, isExpertMode);
-        this.visitor = new ServerSideVisitor(game);
+        this.visitor = new ServerSideVisitor(game,this);
         for(VirtualView vv: virtualViewMap.values())
             game.addObserver(vv);
         EventNotification gameStarted = new GameStartedNotification();
@@ -75,6 +76,10 @@ public class GameController {
                 .filter(s -> !s.equals(exclusion))
                 .map(connectionMap::get)
                 .forEach(connection -> connection.sendMessage(msg));
+    }
+
+    public void setState(GameState state){
+        this.gameState = state;
     }
 
 }
