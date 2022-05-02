@@ -23,7 +23,7 @@ public class Server {
     private final Map<String, GameController> matchesMap;
     public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
     public static final String NAME = "server";
-    private static final Set<String> alreadyChosenNicknames = new HashSet<>();
+    private final Set<String> alreadyChosenNicknames;
     private ServerSocket serverSocket;
     private final LobbyManager lobbyManager;
     private final Map<Socket,String> socketStringMap;
@@ -32,6 +32,7 @@ public class Server {
         lobbyManager = new LobbyManager(this);
         matchesMap = Collections.synchronizedMap(new HashMap<>());
         socketStringMap = Collections.synchronizedMap(new HashMap<>());
+        alreadyChosenNicknames = Collections.synchronizedSet(new HashSet<>());
         try {
             serverSocket = new ServerSocket(port);
             LOGGER.info(() -> "Server started on port " + port + ".");
@@ -77,6 +78,7 @@ public class Server {
 
     public synchronized void handleDisconnection(Socket client) {
         String nickname = socketStringMap.get(client);
+        alreadyChosenNicknames.remove(nickname);
         boolean check = false;
         for(Map.Entry<String,GameController> entry: matchesMap.entrySet()){
             String name = entry.getKey();

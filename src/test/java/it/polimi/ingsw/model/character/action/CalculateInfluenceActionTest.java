@@ -15,8 +15,7 @@ import java.util.List;
 
 import static it.polimi.ingsw.model.player.TowerColor.BLACK;
 import static it.polimi.ingsw.model.player.TowerColor.WHITE;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class CalculateInfluenceActionTest {
     private List<Player> players = new ArrayList<>();
@@ -46,7 +45,7 @@ class CalculateInfluenceActionTest {
     @Test
     void calculateInfluenceTest() {
         assertTrue(new CalculateInfluenceAction(players,board,island).apply());
-        assertTrue(island.getTower().isPresent());
-        assertEquals(BLACK, island.getTower().get());
+        assertNotNull(island.getTower());
+        assertEquals(BLACK, island.getTower());
     }
 }

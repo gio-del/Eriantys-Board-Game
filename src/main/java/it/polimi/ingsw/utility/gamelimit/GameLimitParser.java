@@ -5,8 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.constants.Constants;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.Map;
 
@@ -19,12 +18,8 @@ public class GameLimitParser {
         Gson gson = new Gson();
         Type type = new TypeToken<Map<Integer,GameLimitData>>(){}.getType();
         Map<Integer,GameLimitData> gameLimitDataMap;
-        try {
-            BufferedReader buffer = new BufferedReader(new FileReader(Constants.GAME_LIMIT_MAP_PATH));
-            gameLimitDataMap = gson.fromJson(buffer,type);
-        } catch (FileNotFoundException e) {
-            return Map.of();
-        }
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(Constants.GAME_LIMIT_MAP_PATH)));
+        gameLimitDataMap = gson.fromJson(buffer,type);
         return gameLimitDataMap;
     }
 }

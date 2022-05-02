@@ -182,6 +182,15 @@ public class Pawns {
         return Objects.hash(state);
     }
 
+    public List<PawnColor> toList() {
+        List<PawnColor> result = new ArrayList<>();
+        for(PawnColor pawnColor: PawnColor.values()){
+            for(int i=0;i<state.get(pawnColor);i++){
+                result.add(pawnColor);
+            }
+        }
+        return result;
+    }
 }
 
 

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.server;
 
-import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
@@ -12,6 +12,7 @@ import it.polimi.ingsw.observer.Observer;
 import it.polimi.ingsw.view.View;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents a fake view that is used to hide to the server the real views.
@@ -35,7 +36,7 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void chooseWizardAndTowerColor(List<Wizard> wizardsAvailable, List<TowerColor> colorsAvailable) {
+    public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
         connection.sendMessage(new ChooseWizAndTowerColorNotification(wizardsAvailable,colorsAvailable));
     }
 
@@ -50,7 +51,7 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void showBoard(Board board) {
+    public void showBoard(ShortBoard board) {
         //not called by the server
     }
 
@@ -90,9 +91,9 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void showDisconnection(String nickname) {
+    public void showDisconnection(String message) {
         //TODO: check this
-        connection.sendMessage(new DisconnectionNotification(nickname));
+        connection.sendMessage(new DisconnectionNotification(message));
     }
 
     @Override

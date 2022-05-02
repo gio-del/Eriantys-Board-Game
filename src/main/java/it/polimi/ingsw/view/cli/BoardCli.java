@@ -1,17 +1,17 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.model.Board;
-import it.polimi.ingsw.model.place.Island;
+import it.polimi.ingsw.model.ShortBoard;
+import it.polimi.ingsw.model.place.ShortIsland;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoardCli {
-    private final Board board;
+    private final ShortBoard board;
     private final List<IslandCli> islandsCli;
 
-    public BoardCli(Board board){
+    public BoardCli(ShortBoard board){
         this.board = board;
         this.islandsCli = new ArrayList<>();
     }
@@ -27,7 +27,7 @@ public class BoardCli {
         int numOfIslands;
         numOfIslands = board.getIslands().size();
 
-        for(Island island: board.getIslands()){
+        for(ShortIsland island: board.getIslands()){
             IslandCli islandCli = new IslandCli(island, board.getIslands().indexOf(island), board.getMotherNaturePos());
             islandsCli.add(islandCli);
         }

@@ -5,18 +5,18 @@ import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;
-import java.util.List;
+import java.util.Set;
 
 public class ChooseWizAndTowerColorNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 7508488393596408467L;
 
-    private List<Wizard> availableWizards;
-    private List<TowerColor> availableColors;
+    private Set<Wizard> availableWizards;
+    private Set<TowerColor> availableColors;
     private Wizard wizard;
     private TowerColor towerColor;
 
-    public ChooseWizAndTowerColorNotification(List<Wizard> availableWizards, List<TowerColor> availableColors) {
+    public ChooseWizAndTowerColorNotification(Set<Wizard> availableWizards, Set<TowerColor> availableColors) {
         this.availableWizards = availableWizards;
         this.availableColors = availableColors;
     }
@@ -31,11 +31,11 @@ public class ChooseWizAndTowerColorNotification extends Notification {
         visitor.visit(this);
     }
 
-    public List<Wizard> getAvailableWizards() {
+    public Set<Wizard> getAvailableWizards() {
         return availableWizards;
     }
 
-    public List<TowerColor> getAvailableColors() {
+    public Set<TowerColor> getAvailableColors() {
         return availableColors;
     }
 

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.School;
@@ -50,7 +51,7 @@ public class TestingCli {
 
         ShortSchool shortSchool = new ShortSchool(school);
 
-        cli.updateScreen(game.getBoard(), shortSchool);
+        cli.updateScreen(new ShortBoard(game.getBoard()), shortSchool);
 
         exit(0);
 

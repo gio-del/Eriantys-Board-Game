@@ -1,6 +1,6 @@
 package it.polimi.ingsw.network.communication.notification;
 
-import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;
@@ -12,9 +12,9 @@ public class BoardNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 7688541840773202615L;
 
-    private final Board board; //TODO: shortboard
+    private final ShortBoard board;
 
-    public BoardNotification(Board board) {
+    public BoardNotification(ShortBoard board) {
         this.board = board;
     }
 
@@ -23,7 +23,7 @@ public class BoardNotification extends Notification {
         visitor.visit(this);
     }
 
-    public Board getBoard() {
+    public ShortBoard getBoard() {
         return board;
     }
 }

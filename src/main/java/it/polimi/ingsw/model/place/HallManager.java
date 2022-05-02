@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 import java.util.*;
 
 /**
- * This Class is an extension of the {@link HallManager}. In addition to checking professor color, this check the assignment of the coin to the players.
+ * This Class manages the hall of all players in game. In addition to checking professor color, this checks the assignment of the coin to the players.
  * It uses a {@link Bank} to manage coins
  */
 public class HallManager {

@@ -2,10 +2,7 @@ package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
-import it.polimi.ingsw.network.communication.notification.DisconnectionNotification;
-import it.polimi.ingsw.network.communication.notification.EventNotification;
-import it.polimi.ingsw.network.communication.notification.GameStartedNotification;
-import it.polimi.ingsw.network.communication.notification.Notification;
+import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.network.server.Connection;
 import it.polimi.ingsw.network.server.Server;
 import it.polimi.ingsw.network.server.ServerSideVisitor;
@@ -20,26 +17,29 @@ import java.util.*;
  */
 public class GameController {
 
-    private NotificationVisitor visitor;
+    private final NotificationVisitor visitor;
     private final Map<String, VirtualView> virtualViewMap;
     private final Map<String, Connection> connectionMap;
-    private Game game;
+    private final List<String> names;
+    private final Game game;
     private final TurnManager turnManager;
+    private boolean isExpertMode;
 
     //todo: state pattern
-    public enum GameState{INIT,PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD, WAIT}
-    private GameState gameState;
 
     public GameController() {
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.connectionMap = Collections.synchronizedMap(new HashMap<>());
-        turnManager = new TurnManager();
+        this.names = new ArrayList<>();
+        this.game = new Game();
+        this.turnManager = new TurnManager(game,this);
+        this.visitor = new ServerSideVisitor(game,turnManager);
     }
 
     public synchronized void addClient(String nickname, Connection connection) {
+        names.add(nickname);
         connectionMap.put(nickname, connection);
-        VirtualView vv = new VirtualView(connection);
-        virtualViewMap.put(nickname,vv);
+        virtualViewMap.put(nickname,new VirtualView(connection));
     }
 
     /**
@@ -51,22 +51,26 @@ public class GameController {
         msg.accept(visitor);
     }
 
-    public void init(int nPlayers, boolean isExpertMode) {
-        game = new Game();
-        this.visitor = new ServerSideVisitor(game,this);
-        for(VirtualView vv: virtualViewMap.values())
-            game.addObserver(vv);
+    public void init(boolean isExpertMode) {
+        this.isExpertMode = isExpertMode;
+        virtualViewMap.values().forEach(game::addObserver);
         EventNotification gameStarted = new GameStartedNotification();
-        gameStarted.setMessage("A match is started!");
+        gameStarted.setMessage("A Match is started!");
         gameStarted.setClientId(Server.NAME);
         broadcast(gameStarted);
-        gameState = GameState.INIT;
+        turnManager.setFirstOrder(names);
+        turnManager.onInit();
+    }
+
+    public boolean gameReady(){
+        return game.numOfPlayer() == names.size();
     }
 
 
-
     public void handleDisconnection(String nickname) {
-        Notification disconnection = new DisconnectionNotification(nickname);
+        connectionMap.remove(nickname);
+        virtualViewMap.remove(nickname);
+        Notification disconnection = new DisconnectionNotification(nickname + " has left the match! GAME ENDED.");
         broadcast(disconnection,nickname);
     }
 
@@ -80,8 +84,8 @@ public class GameController {
                 .forEach(connection -> connection.sendMessage(msg));
     }
 
-    public void setState(GameState state){
-        this.gameState = state;
+    public VirtualView getVirtualView(String name){
+        return virtualViewMap.get(name);
     }
 
 }

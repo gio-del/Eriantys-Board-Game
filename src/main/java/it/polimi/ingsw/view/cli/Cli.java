@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client.ClientController;
-import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
@@ -14,6 +14,7 @@ import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -24,8 +25,8 @@ import java.util.stream.Stream;
  */
 public class Cli extends ClientObservable implements View {
     private final ScanListener scanListener;
-    private List<Wizard> wizardsAvailable;
-    private List<TowerColor> colorsAvailable;
+    private Set<Wizard> wizardsAvailable;
+    private Set<TowerColor> colorsAvailable;
     private List<Assistant> playableAssistant;
     private List<ShortCloud> availableClouds;
     private int maxSteps;
@@ -136,7 +137,7 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void chooseWizardAndTowerColor(List<Wizard> wizardsAvailable, List<TowerColor> colorsAvailable) {
+    public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
         this.wizardsAvailable = wizardsAvailable;
         this.colorsAvailable = colorsAvailable;
         System.out.println("Choose an available wizard");
@@ -287,8 +288,8 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void showDisconnection(String nickname) {
-        System.out.println(nickname + " has left the game. GAME ENDED!");
+    public void showDisconnection(String message) {
+        System.out.println(message);
         System.exit(0);
     }
 
@@ -335,7 +336,7 @@ public class Cli extends ClientObservable implements View {
         System.out.println(towerString);
     }
 
-    public void updateScreen(Board board, ShortSchool school){
+    public void updateScreen(ShortBoard board, ShortSchool school){
         System.out.println("GAME MAP");
         showBoard(board);
         System.out.println("_".repeat(Math.max(0, (board.getIslands().size() / 2 + 2) * Constants.ISLAND_WIDTH_1)));
@@ -343,7 +344,7 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void showBoard(Board board){
+    public void showBoard(ShortBoard board){
         BoardCli boardCli = new BoardCli(board);
         boardCli.printBoard();
     }

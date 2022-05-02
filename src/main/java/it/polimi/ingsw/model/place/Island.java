@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * This class represents the single island with pawns on it, the tower if present and the dimension
@@ -23,7 +22,6 @@ public class Island implements Place {
         this.dimension = 1;
         this.students = new Pawns();
         this.tower = null;
-
     }
 
     /**
@@ -119,8 +117,8 @@ public class Island implements Place {
      *
      * @return the TowerColor if a tower is present
      */
-    public Optional<TowerColor> getTower() {
-        return Optional.ofNullable(tower);
+    public TowerColor getTower() {
+        return tower;
     }
 
     /**

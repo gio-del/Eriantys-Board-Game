@@ -72,6 +72,7 @@ public class Game extends Observable {
      * Starts the game filling island and the entrance of each player
      */
     public void startGame(){
+        init();
         sack.initialFill();
         board.initIslands(sack);
         sack.fill();
@@ -79,7 +80,7 @@ public class Game extends Observable {
             player.initialEntranceFill(sack.extractListOfPawns(gameLimitData.getMaxEntrance()));
             notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()), player.getPlayerName()));
         }
-        notifyObserver(new BoardNotification(board));
+        notifyObserver(new BoardNotification(new ShortBoard(board)));
     }
 
     /**
@@ -98,7 +99,7 @@ public class Game extends Observable {
     /**
      * @return the next player going to play
      */
-    public Player nextPlayer() {
+    public String nextPlayer() {
 
         int index = players.indexOf(currentPlayer);
 
@@ -108,7 +109,7 @@ public class Game extends Observable {
         } else {
             currentPlayer = players.get(index + 1);
         }
-        return currentPlayer;
+        return currentPlayer.getPlayerName();
     }
 
     /**
@@ -171,7 +172,7 @@ public class Game extends Observable {
         int maxMove = player.getLastPlayedAssistant().movement();
         if (steps <= maxMove && steps > 0) {
             board.moveMotherNature(steps, players);
-            notifyObserver(new BoardNotification(board));
+            notifyObserver(new BoardNotification(new ShortBoard(board)));
             return true;
         } else return false;
     }
@@ -227,7 +228,11 @@ public class Game extends Observable {
     public void moveFromEntranceToIsland(PawnColor pawnColor, int island) {
         currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor), board.getIslands().get(island));
         notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
-        notifyObserver(new BoardNotification(board));
+        notifyObserver(new BoardNotification(new ShortBoard(board)));
+    }
+
+    public int numOfPlayer() {
+        return shortPlayers.size();
     }
 
     /**

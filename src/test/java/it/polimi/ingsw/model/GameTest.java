@@ -89,7 +89,7 @@ class GameTest {
     void nextPlayerFirst(){
         game.setCurrentPlayer(game.getPlayers().get(1));
         assertEquals(game.getPlayerByName("Marco"),game.getCurrentPlayer());
-        assertEquals("Luca", game.nextPlayer().getPlayerName());
+        assertEquals("Luca", game.nextPlayer());
     }
 
     /**
@@ -99,7 +99,7 @@ class GameTest {
     void nextPlayerLast(){
         game.setCurrentPlayer(game.getPlayers().get(0));
         assertEquals(game.getPlayerByName("Luca"),game.getCurrentPlayer());
-        assertEquals("Marco", game.nextPlayer().getPlayerName());
+        assertEquals("Marco", game.nextPlayer());
     }
 
     /**

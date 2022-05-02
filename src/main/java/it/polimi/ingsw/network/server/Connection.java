@@ -63,7 +63,7 @@ public class Connection implements Runnable {
         try {
             out.writeObject(msg);
         } catch (IOException e) {
-            Server.LOGGER.info(() -> "Couldn't send message to a client, closing connection");
+            Server.LOGGER.info(() -> "Couldn't send message to a client, closing connection.");
             disconnect();
         }
     }

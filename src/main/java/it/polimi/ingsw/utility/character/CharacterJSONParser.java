@@ -6,8 +6,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.character.CharacterCard;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +20,8 @@ public class CharacterJSONParser {
         Gson gson = new Gson();
         Type charList = new TypeToken<ArrayList<CharacterCard>>(){}.getType();
         List<CharacterCard> characterCardList;
-        try {
-            BufferedReader buffer = new BufferedReader(new FileReader(Constants.CHARACTER_JSON_PATH));
-            characterCardList = gson.fromJson(buffer,charList);
-        } catch (FileNotFoundException e) {
-            return List.of();
-        }
+        BufferedReader buffer = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(Constants.CHARACTER_JSON_PATH)));
+        characterCardList = gson.fromJson(buffer,charList);
         return characterCardList;
     }
 }

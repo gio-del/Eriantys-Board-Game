@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller;
 
+import it.polimi.ingsw.controller.server.GameController;
 import it.polimi.ingsw.controller.server.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Assistant;
@@ -19,7 +20,7 @@ class TurnManagerTest {
 
     @BeforeEach
     void setUp() {
-        turnManager = new TurnManager();
+        turnManager = new TurnManager(game,new GameController());
 
         game = new Game();
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
@@ -147,5 +148,12 @@ class TurnManagerTest {
         assertEquals("Luca",order.get(0));
         assertEquals("Marco",order.get(1));
         assertEquals("Lorenzo",order.get(2));
+    }
+
+    @Test
+    void firstOrderTest() {
+        turnManager.setFirstOrder(game.getPlayers().stream().map(Player::getPlayerName).toList());
+        List<String> players = turnManager.getPlayersOrder();
+        assertEquals(3,players.size());
     }
 }

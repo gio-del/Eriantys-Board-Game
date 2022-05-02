@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.model.place.Island;
+import it.polimi.ingsw.model.place.ShortIsland;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +10,7 @@ import java.util.List;
 public class IslandCli {
     private final List<String> lines = new ArrayList<>();
 
-
-    public IslandCli(Island island, int number, int mn){
+    public IslandCli(ShortIsland island, int number, int mn){
         boolean motherNature = number == mn;
         lines.add(headerBuilder(number, motherNature));
         lines.add(stringRow(island.getStudents().getFromColor(PawnColor.GREEN), CLISymbol.GREEN_START, CLISymbol.GREEN_END));
@@ -60,9 +59,9 @@ public class IslandCli {
         return string.toString();
     }
 
-    private String bottomBuilder(Island island){
+    private String bottomBuilder(ShortIsland island){
         StringBuilder bottom = new StringBuilder();
-        if(island.getTower().isPresent()){
+        if(island.getTower() != null){
             String color = colorTower(island);
             bottom.append(CLISymbol.BOTTOM_START).append(color).append(CLISymbol.BOTTOM_END);
         } else {
@@ -81,11 +80,11 @@ public class IslandCli {
     }
 
 
-    private String colorTower(Island island){
+    private String colorTower(ShortIsland island){
         StringBuilder string = new StringBuilder();
-        if(island.getTower().isPresent() && island.getTower().get().name().equals("WHITE")){
+        if(island.getTower()!=null && island.getTower().name().equals("WHITE")){
             string.append("_#").append("WHITE(").append(island.getDimension()).append(")");
-        } else if(island.getTower().isPresent() && island.getTower().get().name().equals("BLACK")){
+        } else if(island.getTower()!=null && island.getTower().name().equals("BLACK")){
             string.append("_#").append("BLACK(").append(island.getDimension()).append(")");
         } else {
             string.append("_#").append("GRAY(").append(island.getDimension()).append(")").append("_");

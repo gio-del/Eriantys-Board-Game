@@ -21,7 +21,7 @@ public class StandardStrategy implements InfluenceStrategy{
                     value = value + island.getStudents().getFromColor(pawnColor);
                 }
             }
-            if(island.getTower().isPresent() && island.getTower().equals(Optional.of(player.getColor()))) {
+            if(island.getTower()!=null && island.getTower().equals(player.getColor())) {
                 value = value + island.getDimension();
             }
             scores.put(player, value);

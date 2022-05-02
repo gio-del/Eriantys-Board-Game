@@ -30,7 +30,6 @@ public class Board{
         }
         this.influenceStrategy = new StandardStrategy();
         this.motherNaturePos = 0;
-
     }
 
     /**
@@ -54,13 +53,13 @@ public class Board{
         int i = 0;
         while(i<islands.size()) {
             if (i == islands.size() - 1) {
-                if (islands.get(i).getTower().equals(islands.get(0).getTower()) && islands.get(i).getTower().isPresent()) {
+                if (islands.get(i).getTower()!=null && islands.get(i).getTower().equals(islands.get(0).getTower())) {
                     islands.get(0).add(islands.get(i).getStudents());
                     islands.get(0).upgradeDimension(islands.get(i).getDimension());
                     islands.remove(i);
                 }
             } else {
-                if (islands.get(i).getTower().equals(islands.get(i + 1).getTower()) && islands.get(i).getTower().isPresent()) {
+                if (islands.get(i).getTower()!=null && islands.get(i).getTower().equals(islands.get(i + 1).getTower())) {
                     islands.get(i).add(islands.get(i + 1).getStudents());
                     islands.get(i).upgradeDimension(islands.get(i + 1).getDimension());
                     islands.remove(i + 1);

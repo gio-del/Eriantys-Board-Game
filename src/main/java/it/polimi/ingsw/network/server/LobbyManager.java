@@ -20,6 +20,7 @@ public class LobbyManager {
     private boolean ready = false;
     private int nPlayers;
     private boolean isExpertMode;
+    private String firstInLine;
 
     public LobbyManager(Server server) {
         this.server = server;
@@ -35,7 +36,7 @@ public class LobbyManager {
         connectionMap.put(nickname, connection);
         vvMap.put(nickname,vv);
         if(!ready && players.size() == 1){
-            //broadcast(nickname + " is choosing game mode and number of player...",nickname);
+            firstInLine = nickname;
             vv.chooseGameMode();
         }
         checkReadyToStart();
@@ -59,7 +60,7 @@ public class LobbyManager {
             controller.addClient(name,connectionMap.get(name));
             removePlayerFromLobby(name);
         }
-        controller.init(nPlayers,isExpertMode);
+        controller.init(isExpertMode);
         server.addMatch(names,controller);
         ready = false;
     }
@@ -91,6 +92,9 @@ public class LobbyManager {
     public synchronized void handleDisconnection(String nickname) {
         connectionMap.remove(nickname);
         players.remove(nickname);
+        if(firstInLine.equals(nickname) && !players.isEmpty()){
+            vvMap.get(players.peek()).chooseGameMode();
+        }
         broadcast(nickname + " left the lobby.");
     }
 }

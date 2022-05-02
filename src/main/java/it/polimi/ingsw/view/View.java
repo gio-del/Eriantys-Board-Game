@@ -1,6 +1,6 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.Board;
+import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * View common interface, this can be implemented by various user interfaces (in our case GUI or CLI).
@@ -28,7 +29,7 @@ public interface View {
     /**
      * To choose a {@link Wizard} and a {@link TowerColor} from the ones available
      */
-    void chooseWizardAndTowerColor(List<Wizard> wizardsAvailable, List<TowerColor> colorsAvailable);
+    void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable);
 
     /**
      * PLANNING PHASE:
@@ -43,7 +44,7 @@ public interface View {
      */
     void showSchool(ShortSchool schools);
 
-    void showBoard(Board board);
+    void showBoard(ShortBoard board);
 
     void showOtherSchool(ShortSchool school);
 
@@ -90,9 +91,9 @@ public interface View {
 
     /**
      * In case of a disconnection, the players still connected will receive a message
-     * @param nickname content
+     * @param message content
      */
-    void showDisconnection(String nickname);
+    void showDisconnection(String message);
 
     /**
      * When win happens
