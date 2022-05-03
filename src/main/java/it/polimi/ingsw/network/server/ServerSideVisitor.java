@@ -20,9 +20,21 @@ public class ServerSideVisitor implements NotificationVisitor {
         this.turn = turn;
     }
 
+
+    @Override
+    public void visit(ChooseWizAndTowerColorNotification msg) {
+        if(turn.getRequestName().equals(msg.getSenderID())) {
+            game.addPlayer(msg.getSenderID(),msg.getWizard(),msg.getTowerColor());
+            turn.onChosenWizAndColor(msg.getWizard(),msg.getTowerColor());
+        }
+    }
+
     @Override
     public void visit(ChooseAssistantNotification msg) {
-        game.playAssistant(msg.getChosenAssistant());
+        if(turn.getRequestName().equals(msg.getSenderID())) {
+            game.playAssistant(msg.getChosenAssistant());
+            turn.onChosenAssistant();
+        }
     }
 
     @Override
@@ -38,19 +50,17 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(MoveMNNotification msg) {
-        game.moveMotherNature(msg.getSteps(),game.getCurrentPlayer());
+        if(turn.getRequestName().equals(msg.getSenderID())) {
+            game.moveMotherNature(msg.getSteps(), game.getCurrentPlayer());
+            turn.onMoveMN();
+        }
     }
 
     @Override
     public void visit(ChooseCloudNotification msg) {
-        game.pickFromCloud(game.getCurrentPlayer(), msg.getChosenCloud());
-    }
-
-    @Override
-    public void visit(ChooseWizAndTowerColorNotification msg) {
         if(turn.getRequestName().equals(msg.getSenderID())) {
-            game.addPlayer(msg.getSenderID(),msg.getWizard(),msg.getTowerColor());
-            turn.onChooseWizAndColor(msg.getWizard(),msg.getTowerColor());
+            game.pickFromCloud(msg.getChosenCloud());
+            turn.onChosenCloud();
         }
     }
 

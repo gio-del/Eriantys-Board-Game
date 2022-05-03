@@ -35,13 +35,13 @@ class TurnManagerTest {
      */
     @Test
     void actionOrderTest_1() {
-        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.setCurrentPlayer("Marco");
         game.playAssistant(Assistant.ELEPHANT); //value:2
 
-        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.setCurrentPlayer("Luca");
         game.playAssistant(Assistant.LION); //value:10
 
-        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.TURTLE); //value:1
         turnManager.setActionOrder(game.getPlayedAssistantMap());
         List<String> order = turnManager.getPlayersOrder();
@@ -56,13 +56,13 @@ class TurnManagerTest {
      */
     @Test
     void actionOrderTest_2() {
-        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.setCurrentPlayer("Marco");
         game.playAssistant(Assistant.TURTLE); //value:1
 
-        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.setCurrentPlayer("Luca");
         game.playAssistant(Assistant.LION); //value:10
 
-        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.TURTLE); //value:1
         turnManager.setActionOrder(game.getPlayedAssistantMap());
         List<String> order = turnManager.getPlayersOrder();
@@ -74,13 +74,13 @@ class TurnManagerTest {
 
     @Test
     void actionOrderTest_3() {
-        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.setCurrentPlayer("Marco");
         game.playAssistant(Assistant.DOG); //value:3
 
-        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.setCurrentPlayer("Luca");
         game.playAssistant(Assistant.CROCODILE); //value:5
 
-        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.OSTRICH); //value:9
         turnManager.setActionOrder(game.getPlayedAssistantMap());
         List<String> order = turnManager.getPlayersOrder();
@@ -93,13 +93,13 @@ class TurnManagerTest {
     @Test
     void planningOrderTest_1() {
         //NOTE: TABLE ORDER IS "LUCA","MARCO","LORENZO"
-        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.setCurrentPlayer("Marco");
         game.playAssistant(Assistant.ELEPHANT); //value:2
 
-        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.setCurrentPlayer("Luca");
         game.playAssistant(Assistant.LION); //value:10
 
-        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.TURTLE); //value:1
         turnManager.setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
         List<String> order = turnManager.getPlayersOrder();
@@ -115,13 +115,13 @@ class TurnManagerTest {
     @Test
     void planningOrderTest_2() {
         //NOTE: TABLE ORDER IS "LUCA","MARCO","LORENZO"
-        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.setCurrentPlayer("Marco");
         game.playAssistant(Assistant.TURTLE); //value:1
 
-        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.setCurrentPlayer("Luca");
         game.playAssistant(Assistant.TURTLE); //value:1
 
-        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.LION); //value:10
         turnManager.setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
         List<String> order = turnManager.getPlayersOrder();
@@ -134,13 +134,13 @@ class TurnManagerTest {
     @Test
     void planningOrderTest_3() {
         //NOTE: TABLE ORDER IS "LUCA","MARCO","LORENZO"
-        game.setCurrentPlayer(game.getPlayerByName("Marco"));
+        game.setCurrentPlayer("Marco");
         game.playAssistant(Assistant.ELEPHANT); //value:2
 
-        game.setCurrentPlayer(game.getPlayerByName("Luca"));
+        game.setCurrentPlayer("Luca");
         game.playAssistant(Assistant.TURTLE); //value:1
 
-        game.setCurrentPlayer(game.getPlayerByName("Lorenzo"));
+        game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.LION); //value:10
         turnManager.setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
         List<String> order = turnManager.getPlayersOrder();

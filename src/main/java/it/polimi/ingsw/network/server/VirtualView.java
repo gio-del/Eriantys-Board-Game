@@ -41,7 +41,7 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void chooseAssistant(List<Assistant> playableAssistant) {
+    public void chooseAssistant(Set<Assistant> playableAssistant) {
         connection.sendMessage(new ChooseAssistantNotification(playableAssistant));
     }
 

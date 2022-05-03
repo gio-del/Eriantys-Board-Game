@@ -4,16 +4,16 @@ import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;
-import java.util.List;
+import java.util.Set;
 
 public class ChooseAssistantNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -4567987615843138209L;
 
-    private List<Assistant> playableAssistant;
+    private Set<Assistant> playableAssistant;
     private Assistant chosenAssistant = null;
 
-    public ChooseAssistantNotification(List<Assistant> playableAssistant) {
+    public ChooseAssistantNotification(Set<Assistant> playableAssistant) {
         this.playableAssistant = playableAssistant;
     }
 
@@ -26,7 +26,7 @@ public class ChooseAssistantNotification extends Notification {
         visitor.visit(this);
     }
 
-    public List<Assistant> getPlayableAssistant() {
+    public Set<Assistant> getPlayableAssistant() {
         return playableAssistant;
     }
 

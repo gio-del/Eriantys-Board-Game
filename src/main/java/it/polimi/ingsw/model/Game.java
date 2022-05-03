@@ -23,6 +23,7 @@ import it.polimi.ingsw.utility.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents Eriantys game
@@ -168,6 +169,7 @@ public class Game extends Observable {
      * @return true and perform the movement, false if not possible
      */
     public boolean moveMotherNature(int steps, Player player) {
+        // TODO: remove player and substitute with current player.
         // TODO: implement card to add 2 more possible steps, add a Mover class with a limit standard strategy etc.
         int maxMove = player.getLastPlayedAssistant().movement();
         if (steps <= maxMove && steps > 0) {
@@ -178,16 +180,16 @@ public class Game extends Observable {
     }
 
     /**
-     * Pick pawns from the chosen cloud and put it in player's entrance
-     *
-     * @param player the player who chose
+     * Pick pawns from the chosen cloud and put it in current player's entrance
      * @param cloud  the chosen cloud
      * @return true if adding to the entrance is ok, otherwise false
      */
-    public boolean pickFromCloud(Player player, int cloud) {
+    public boolean pickFromCloud(int cloud) {
         Cloud cloudChosen = clouds.getSpecificCloud(cloud);
         if (cloudChosen != null) {
-            return player.addPawnsFromCloud(cloudChosen);
+            boolean check = currentPlayer.addPawnsFromCloud(cloudChosen);
+            notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()),currentPlayer.getPlayerName()));
+            return check;
         }
         return false;
     }
@@ -235,6 +237,32 @@ public class Game extends Observable {
         return shortPlayers.size();
     }
 
+    public Set<Assistant> getPlayableAssistant() {
+        //TODO: if playableAssistant.size() == 0 return currentPlayer.getHand()
+        Set<Assistant> assistants = currentPlayer.getHand();
+        List<Assistant> playedAssistant = playedAssistantMap.stream().map(Pair::second).toList();
+        playedAssistant.forEach(assistants::remove);
+        return assistants;
+    }
+
+    public Assistant getPlayedAssistantByName(String requestName) {
+        for(Pair<String,Assistant> assistantMap: playedAssistantMap){
+            if(assistantMap.first().equals(requestName)){
+                return assistantMap.second();
+            }
+        }
+        return null;
+    }
+
+    public int getMotherNatureSteps(String requestName) {
+        //TODO: implement limitation of mother nature steps with default strategy and character
+        return getPlayedAssistantByName(requestName).movement();
+    }
+
+    public void resetTurn(){
+        playedAssistantMap.clear();
+    }
+
     /**
      * @return list of players
      */
@@ -277,8 +305,8 @@ public class Game extends Observable {
         return characterInUse;
     }
 
-    public void setCurrentPlayer(Player player) {
-        currentPlayer = player;
+    public void setCurrentPlayer(String player) {
+        currentPlayer = getPlayerByName(player);
     }
 
     public ProfessorAssignor getProfessorAssignor() {
@@ -296,4 +324,5 @@ public class Game extends Observable {
     public GameLimitData getGameLimit() {
         return gameLimitData;
     }
+
 }

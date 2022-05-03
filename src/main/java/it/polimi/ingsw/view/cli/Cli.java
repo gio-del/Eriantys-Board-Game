@@ -27,7 +27,7 @@ public class Cli extends ClientObservable implements View {
     private final ScanListener scanListener;
     private Set<Wizard> wizardsAvailable;
     private Set<TowerColor> colorsAvailable;
-    private List<Assistant> playableAssistant;
+    private Set<Assistant> playableAssistant;
     private List<ShortCloud> availableClouds;
     private int maxSteps;
     private List<PawnColor> pawnsAvailable;
@@ -174,7 +174,7 @@ public class Cli extends ClientObservable implements View {
 
 
     @Override
-    public void chooseAssistant(List<Assistant> playableAssistant) {
+    public void chooseAssistant(Set<Assistant> playableAssistant) {
         this.playableAssistant = playableAssistant;
         System.out.println("Choose an assistant from the available: ");
         this.playableAssistant.forEach(o -> System.out.println( "Name " + o.name() + "- Value " + o.value() + " - Movement " + o.movement()));
@@ -229,7 +229,7 @@ public class Cli extends ClientObservable implements View {
             scanListener.setRequest(Request.MOTHER);
             return;
         }
-        if(steps >= maxSteps){
+        if(steps > maxSteps){
             System.out.println("ERROR - Too many steps, retry");
             scanListener.setRequest(Request.MOTHER);
             return;
@@ -244,7 +244,7 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.STUDENT);
     }
 
-    public void askColor(String color){
+    public void askColor(String color) {
         chosenColor = pawnsAvailable.stream().filter(o -> color.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(chosenColor == null){
             System.out.println("ERROR - color not available, retry");
@@ -261,24 +261,28 @@ public class Cli extends ClientObservable implements View {
         if(target == -1){
             System.out.println("ERROR - not a number inserted, retry");
             scanListener.setRequest(Request.MOVE);
-            return;
-        }
-        if(pos == destination.length()){
-            System.out.println("ERROR - island_id not inserted, retry");
-            scanListener.setRequest(Request.MOVE);
         }
         else {
             if(target == 1) { //ISLAND CHOICE
+                if(pos == destination.length()) {
+                    System.out.println("ERROR - island_id not inserted, retry.");
+                    scanListener.setRequest(Request.MOVE);
+                    return;
+                }
                 int island = scanListener.converterToInt(destination.substring(pos + 1));
                 if (island == -1) {
-                    System.out.println("ERROR - island_id not valid, retry");
+                    System.out.println("ERROR - island_id not valid, retry.");
                     scanListener.setRequest(Request.MOVE);
                 } else {
                     notifyObserver(observer -> observer.updateMoveStudent(chosenColor, Target.ISLAND, island));
                 }
             }
-            else{ //HALL CHOICE
+            else if(target == 2){ //HALL CHOICE
                 notifyObserver(observer -> observer.updateMoveStudent(chosenColor,Target.HALL,0));
+            }
+            else{
+                System.out.println("ERROR - target inserted is not valid, retry.");
+                scanListener.setRequest(Request.MOVE);
             }
         }
     }

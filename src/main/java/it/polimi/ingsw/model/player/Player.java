@@ -7,10 +7,9 @@ import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.School;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+
+import java.util.*;
+
 import static it.polimi.ingsw.model.player.Assistant.*;
 
 /**
@@ -18,7 +17,7 @@ import static it.polimi.ingsw.model.player.Assistant.*;
  */
 public class Player {
     private final String playerName;
-    private final ArrayList<Assistant> hand;
+    private final Set<Assistant> hand;
     private final Wizard wizard;
     private Assistant lastPlayedAssistant;
     private final School school;
@@ -26,7 +25,7 @@ public class Player {
     public Player(String name, Wizard wizard, TowerColor towerColor, GameLimitData gameLimitData, HallManager hallManager) {
         this.playerName = name;
         this.wizard = wizard;
-        this.hand = new ArrayList<>();
+        this.hand = EnumSet.allOf(Assistant.class);
         this.school = new School(towerColor, gameLimitData, hallManager);
         hand.addAll(Arrays.stream(values()).toList());
     }
@@ -116,7 +115,7 @@ public class Player {
      *
      * @return an ArrayList of player's Assistant cards.
      */
-    public List<Assistant> getHand() {
+    public Set<Assistant> getHand() {
         return hand;
     }
 
@@ -150,7 +149,7 @@ public class Player {
     }
 
     public boolean addPawnsFromCloud(Cloud cloud){
-        return school.addStudentInEntrance(cloud.getStudents());
+        return school.addStudentInEntrance(cloud.getStudentsAndRemove());
     }
 
     /**

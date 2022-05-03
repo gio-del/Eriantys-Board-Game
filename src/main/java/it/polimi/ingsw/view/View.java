@@ -35,7 +35,7 @@ public interface View {
      * PLANNING PHASE:
      * To choose the assistant to play
      */
-    void chooseAssistant(List<Assistant> playableAssistant);
+    void chooseAssistant(Set<Assistant> playableAssistant);
 
     /**
      * ACTION PHASE:

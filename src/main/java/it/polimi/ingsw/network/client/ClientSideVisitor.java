@@ -35,7 +35,6 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(MoveStudentNotification msg) {
-        //TODO: check this
         view.moveStudent(msg.getMovableColor());
     }
 

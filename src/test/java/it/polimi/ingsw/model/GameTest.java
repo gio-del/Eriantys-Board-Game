@@ -87,7 +87,7 @@ class GameTest {
      */
     @Test
     void nextPlayerFirst(){
-        game.setCurrentPlayer(game.getPlayers().get(1));
+        game.setCurrentPlayer("Marco");
         assertEquals(game.getPlayerByName("Marco"),game.getCurrentPlayer());
         assertEquals("Luca", game.nextPlayer());
     }
@@ -97,7 +97,7 @@ class GameTest {
      */
     @Test
     void nextPlayerLast(){
-        game.setCurrentPlayer(game.getPlayers().get(0));
+        game.setCurrentPlayer("Luca");
         assertEquals(game.getPlayerByName("Luca"),game.getCurrentPlayer());
         assertEquals("Marco", game.nextPlayer());
     }
@@ -139,7 +139,8 @@ class GameTest {
 
         Pawns alreadyInEntrance = new Pawns(3,0,0,0,0);
         player.getSchool().getEntrance().addPawns(alreadyInEntrance);
-        game.pickFromCloud(player,0);
+        game.setCurrentPlayer(player.getPlayerName());
+        game.pickFromCloud(0);
 
         Pawns EntranceAfterPicking = new Pawns();
         EntranceAfterPicking.addPawns(alreadyInEntrance);
@@ -147,6 +148,18 @@ class GameTest {
 
         assertEquals(EntranceAfterPicking,player.getSchool().getEntrance());
 
+    }
+
+    @Test
+    void getPlayableAssistantTest() {
+        game.resetTurn();
+        game.setCurrentPlayer("Marco");
+        game.playAssistant(Assistant.EAGLE);
+        assertFalse(game.getPlayableAssistant().contains(Assistant.EAGLE));
+        for(Assistant assistant: Assistant.values()){
+            if(!assistant.equals(Assistant.EAGLE))
+                assertTrue(game.getPlayableAssistant().contains(assistant));
+        }
     }
 
     /**

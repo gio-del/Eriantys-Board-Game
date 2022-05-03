@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -14,11 +15,12 @@ public class TurnManager {
     private final Game game;
     private final GameController controller;
     private int request = 0;
+    private int studentsMoved = 1;
     private String requestName;
     private final Set<TowerColor> availableTowerColor;
     private final Set<Wizard> availableWizard;
 
-    public enum GameState{INIT,PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD, WAIT}
+    public enum GameState{PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD}
     private GameState gameState;
     public TurnManager(Game game, GameController controller) {
         this.availableWizard = EnumSet.allOf(Wizard.class);
@@ -46,9 +48,9 @@ public class TurnManager {
      */
     public void setPlanningOrder(List<Pair<String,Assistant>> nicknameMapAssistant, List<String> players) {
         String minValuePlayer = nicknameMapAssistant.stream().min(Comparator.comparingInt(o -> o.second().value())).map(Pair::first).orElse("");
-            List<String> order = pickListFromFirst(minValuePlayer,players);
-            playersOrder.clear();
-            playersOrder.addAll(order);
+        List<String> order = pickListFromFirst(minValuePlayer,players);
+        playersOrder.clear();
+        playersOrder.addAll(order);
         }
 
     private List<String> pickListFromFirst(String first, List<String> players) {
@@ -71,25 +73,51 @@ public class TurnManager {
         return order;
     }
 
-    public void setFirstOrder(List<String> players){
+    public void setFirstOrder(List<String> players) {
         List<String> clone = new ArrayList<>(players);
         Collections.shuffle(clone);
         playersOrder.clear();
-        playersOrder.addAll(pickListFromFirst(clone.get(0),players));
+        playersOrder.addAll(pickListFromFirst(clone.get(0),clone));
     }
 
-    public List<String> getPlayersOrder() {
-        return playersOrder;
+    private void turn() {
+        switch (gameState) {
+            case PLANNING_ADD_TO_CLOUD -> {
+                game.fillClouds();
+                game.resetTurn();
+                gameState = GameState.PLANNING_ASSISTANT;
+                turn();
+            }
+            case PLANNING_ASSISTANT -> {
+                requestName = playersOrder.get(request);
+                game.setCurrentPlayer(requestName);
+                controller.getVirtualView(requestName).chooseAssistant(game.getPlayableAssistant());
+            }
+            case ACTION_MOVE -> {
+                requestName = playersOrder.get(request);
+                game.setCurrentPlayer(requestName);
+                controller.getVirtualView(requestName).moveStudent(game.getPlayerByName(requestName).getSchool().getEntrance().toList());
+            }
+            case ACTION_MN -> {
+                requestName = playersOrder.get(request);
+                game.setCurrentPlayer(requestName);
+                controller.getVirtualView(requestName).moveMNature(game.getMotherNatureSteps(requestName));
+            }
+            case ACTION_CHOOSE_CLOUD -> {
+                requestName = playersOrder.get(request);
+                game.setCurrentPlayer(requestName);
+                controller.getVirtualView(requestName).chooseCloud(game.getClouds().stream().filter(cloud -> !cloud.isEmpty()).map(ShortCloud::new).toList());
+            }
+        }
     }
 
     public void onInit() {
-        gameState = GameState.INIT;
         availableTowerColor.addAll(GameLimit.getLimit(playersOrder.size()).getTowerColors());
         requestName = playersOrder.get(request);
         controller.getVirtualView(requestName).chooseWizardAndTowerColor(availableWizard,availableTowerColor);
     }
 
-    public void onChooseWizAndColor(Wizard wizard, TowerColor towerColor) {
+    public void onChosenWizAndColor(Wizard wizard, TowerColor towerColor) {
         if(!controller.gameReady()) {
             availableWizard.remove(wizard);
             availableTowerColor.remove(towerColor);
@@ -100,37 +128,57 @@ public class TurnManager {
         else {
             game.startGame();
             gameState = GameState.PLANNING_ADD_TO_CLOUD;
+            request = 0;
             turn();
         }
     }
 
-    private void turn(){
-        switch (gameState){
-            case PLANNING_ADD_TO_CLOUD -> {
-                game.fillClouds();
-                gameState = GameState.PLANNING_ASSISTANT;
-            }
-            case PLANNING_ASSISTANT -> {
-                request = 0;
-                requestName = playersOrder.get(request);
-            }
-            case ACTION_MOVE -> {
-                request = 0;
-                requestName = playersOrder.get(request);
-                controller.getVirtualView(requestName).moveStudent(game.getPlayerByName(requestName).getSchool().getEntrance().toList());
-            }
-            case ACTION_MN -> {
-                request = 0;
-                requestName = playersOrder.get(request);
-            }
+    public void onChosenAssistant() {
+        if(request == playersOrder.size()-1) {
+            gameState = GameState.ACTION_MOVE;
+            setActionOrder(game.getPlayedAssistantMap());
+            request = 0;
+            turn();
+        } else {
+            request++;
+            turn();
         }
     }
 
     public void onMoveStudent() {
+        if(studentsMoved == game.getGameLimit().getStudentOnCloud()) {
+            studentsMoved = 1;
+            gameState = GameState.ACTION_MN;
+            turn();
+        } else {
+            studentsMoved++;
+            turn();
+        }
+    }
 
+    public void onMoveMN() {
+        gameState = GameState.ACTION_CHOOSE_CLOUD;
+        turn();
+    }
+
+    public void onChosenCloud() {
+        if(request == playersOrder.size()-1){
+			request = 0;
+            gameState = GameState.PLANNING_ADD_TO_CLOUD;
+            turn();
+        } else {
+            gameState = GameState.ACTION_MOVE;
+            request++;
+            turn();
+        }
     }
 
     public String getRequestName(){
         return requestName;
     }
+
+    public List<String> getPlayersOrder() {
+        return playersOrder;
+    }
+
 }

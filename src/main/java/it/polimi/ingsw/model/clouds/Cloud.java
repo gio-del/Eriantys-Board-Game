@@ -37,6 +37,10 @@ public class Cloud {
         return extracted;
     }
 
+    public boolean isEmpty(){
+        return students.totalElements()==0;
+    }
+
     /**
      * This method fill the cloud with a {@link Pawns} of students.
      *
