@@ -14,10 +14,10 @@ Prof. Alessandro Margara
 |:------------------|:-----:|
 | Basic rules       |  🟡   |
 | Complete rules    |  🟡   |
-| Socket            |  🔴   |
+| Socket            |  🟡   |
 | GUI               |  🔴   |
-| CLI               |  🔴   |
-| Multiple games    |  🔴   |
+| CLI               |  🟡   |
+| Multiple games    |  🟡   |
 | Persistence       |  🔴   |
 | All characters    |  🔴   |
 | 4 players support |  🔴   |
