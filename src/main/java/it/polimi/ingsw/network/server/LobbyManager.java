@@ -14,7 +14,7 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class LobbyManager {
     private final Queue<String> players;
-    private final Map<String,Connection> connectionMap;
+    private final Map<String, SocketConnection> connectionMap;
     private final Map<String,View> vvMap;
     private final Server server;
     private boolean ready = false;
@@ -29,11 +29,11 @@ public class LobbyManager {
         this.players = new PriorityBlockingQueue<>();
     }
 
-    public synchronized void addClient(String nickname,Connection connection) {
+    public synchronized void addClient(String nickname, SocketConnection socketConnection) {
         broadcast(nickname + " joined the lobby!",nickname);
-        View vv = new VirtualView(connection);
+        View vv = new VirtualView(socketConnection);
         players.add(nickname);
-        connectionMap.put(nickname, connection);
+        connectionMap.put(nickname, socketConnection);
         vvMap.put(nickname,vv);
         if(!ready && players.size() == 1){
             firstInLine = nickname;

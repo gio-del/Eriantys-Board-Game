@@ -8,7 +8,7 @@ import java.net.Socket;
 
 /**
  * This class handle all new clients' connection, foreach clients instantiate a
- * {@link Connection}
+ * {@link SocketConnection}
  */
 public class ServerThread implements Runnable {
     private final Server server;
@@ -26,8 +26,8 @@ public class ServerThread implements Runnable {
                 Socket socket = serverSocket.accept();
                 socket.setSoTimeout(3000);
 
-                Connection connection = new Connection(this,socket);
-                new Thread(connection).start();
+                SocketConnection socketConnection = new SocketConnection(this,socket);
+                new Thread(socketConnection).start();
 
             } catch (IOException e) {
                 Server.LOGGER.info(() -> "Problem during connection with a client");
@@ -35,8 +35,8 @@ public class ServerThread implements Runnable {
         }
     }
 
-    public void addClient(String nickname,Connection connection){
-        server.addClient(nickname,connection);
+    public void addClient(String nickname, SocketConnection socketConnection){
+        server.addClient(nickname, socketConnection);
     }
 
     public void receiveMessage(Notification msg){

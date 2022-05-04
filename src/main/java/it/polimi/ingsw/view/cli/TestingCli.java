@@ -33,15 +33,17 @@ public class TestingCli {
         game.getBoard().getIslands().get(10).add(new Pawns(0,0,0,0,1));
         game.getBoard().getIslands().get(11).add(new Pawns(0,0,0,0,0));
 
-        game.getBoard().getIslands().get(0).addTower(BLACK);
-        game.getBoard().getIslands().get(1).addTower(BLACK);
-        game.getBoard().getIslands().get(2).addTower(BLACK);
-        game.getBoard().getIslands().get(3).addTower(BLACK);
-        game.getBoard().getIslands().get(4).addTower(BLACK);
-        game.getBoard().getIslands().get(5).addTower(BLACK);
+        game.getBoard().setMotherNaturePos(11);
 
-        game.getBoard().adjacencyUpdate();
-        game.getBoard().moveMotherNature(6, game.getPlayers());
+        game.getBoard().getIslands().get(0).addTower(BLACK);
+        game.getBoard().getIslands().get(11).addTower(BLACK);
+//        game.getBoard().getIslands().get(2).addTower(BLACK);
+//        game.getBoard().getIslands().get(3).addTower(BLACK);
+//        game.getBoard().getIslands().get(4).addTower(BLACK);
+//        game.getBoard().getIslands().get(5).addTower(BLACK);
+
+          game.getBoard().adjacencyUpdate();
+        //game.getBoard().moveMotherNature(1, game.getPlayers());
 
         School school = game.getPlayers().get(0).getSchool();
         Pawns example = new Pawns(3,0,3,0,1);

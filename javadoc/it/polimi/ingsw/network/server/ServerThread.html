@@ -83,7 +83,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="modifiers">public class </span><span class="element-name type-name-label">ServerThread</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a></span></div>
-<div class="block">This class handle all new clients' connection, foreach clients instantiate a
+<div class="block">This class handle all new clients' socketConnection, foreach clients instantiate a
  <a href="Connection.html" title="class in it.polimi.ingsw.network.server"><code>Connection</code></a></div>
 </section>
 <section class="summary">
@@ -115,7 +115,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#addClient(java.lang.String,it.polimi.ingsw.network.server.Connection)" class="member-name-link">addClient</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nickname,
- <a href="Connection.html" title="class in it.polimi.ingsw.network.server">Connection</a>&nbsp;connection)</code></div>
+ <a href="Connection.html" title="class in it.polimi.ingsw.network.server">Connection</a>&nbsp;socketConnection)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#handleDisconnection(java.net.Socket)" class="member-name-link">handleDisconnection</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/net/Socket.html" title="class or interface in java.net" class="external-link">Socket</a>&nbsp;client)</code></div>
@@ -172,7 +172,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base
 <section class="detail" id="addClient(java.lang.String,it.polimi.ingsw.network.server.Connection)">
 <h3>addClient</h3>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">addClient</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nickname,
- <a href="Connection.html" title="class in it.polimi.ingsw.network.server">Connection</a>&nbsp;connection)</span></div>
+ <a href="Connection.html" title="class in it.polimi.ingsw.network.server">Connection</a>&nbsp;socketConnection)</span></div>
 </section>
 </li>
 <li>

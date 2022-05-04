@@ -56,12 +56,14 @@ public class Board{
                 if (islands.get(i).getTower()!=null && islands.get(i).getTower().equals(islands.get(0).getTower())) {
                     islands.get(0).add(islands.get(i).getStudents());
                     islands.get(0).upgradeDimension(islands.get(i).getDimension());
+                    if(motherNaturePos == islands.size() - 1) motherNaturePos = 0;
                     islands.remove(i);
                 }
             } else {
                 if (islands.get(i).getTower()!=null && islands.get(i).getTower().equals(islands.get(i + 1).getTower())) {
                     islands.get(i).add(islands.get(i + 1).getStudents());
                     islands.get(i).upgradeDimension(islands.get(i + 1).getDimension());
+                    if(motherNaturePos == i+1) motherNaturePos = i;
                     islands.remove(i + 1);
                     i--;
                 }

@@ -23,12 +23,6 @@ public class CloudManager {
         return null;
     }
 
-    public Pawns getFromCloud(int cloud){
-        Cloud cloudChosen = getSpecificCloud(cloud);
-        if(cloudChosen != null) return cloudChosen.getStudents();
-        return null;
-    }
-
     public Cloud getSpecificCloud(int cloud){
         if(cloud>=clouds.size()) return null;
         return clouds.get(cloud);

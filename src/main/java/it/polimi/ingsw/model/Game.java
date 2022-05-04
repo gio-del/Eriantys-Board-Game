@@ -21,9 +21,7 @@ import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 import it.polimi.ingsw.utility.Pair;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class represents Eriantys game
@@ -90,7 +88,7 @@ public class Game extends Observable {
      * @param towerColor color chosen by the player
      */
     public void addPlayer(String name, Wizard wizard, TowerColor towerColor) {
-        if (players.stream().noneMatch(player -> player.getPlayerName().equals(name))) {
+        if (shortPlayers.stream().noneMatch(shortPlayer -> shortPlayer.playerName().equals(name))) {
             ShortPlayer shortPlayer = new ShortPlayer(name, wizard, towerColor);
             this.shortPlayers.add(shortPlayer);
         }
@@ -155,9 +153,10 @@ public class Game extends Observable {
     public ActionType useCharacter(Player player, CharacterCard character) {
         // TODO
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
-        if (!character.hasCoinOn()) character.setCoinOn();
-        if (bank.pay(player, cost))
+        if (bank.pay(player, cost)) {
+            if (!character.hasCoinOn()) character.setCoinOn();
             return character.getActionType();
+        }
         return null;
     }
 
@@ -218,7 +217,9 @@ public class Game extends Observable {
      */
     public void moveFromEntranceToHall(PawnColor pawnColor) {
         currentPlayer.moveFromEntranceToHall(pawnColor);
-        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
+        for(Player player: players){
+            notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()),player.getPlayerName()));
+        }
     }
 
     /**
@@ -239,7 +240,7 @@ public class Game extends Observable {
 
     public Set<Assistant> getPlayableAssistant() {
         //TODO: if playableAssistant.size() == 0 return currentPlayer.getHand()
-        Set<Assistant> assistants = currentPlayer.getHand();
+        Set<Assistant> assistants = new HashSet<>(currentPlayer.getHand());
         List<Assistant> playedAssistant = playedAssistantMap.stream().map(Pair::second).toList();
         playedAssistant.forEach(assistants::remove);
         return assistants;
@@ -261,6 +262,7 @@ public class Game extends Observable {
 
     public void resetTurn(){
         playedAssistantMap.clear();
+        resetStrategies();
     }
 
     /**

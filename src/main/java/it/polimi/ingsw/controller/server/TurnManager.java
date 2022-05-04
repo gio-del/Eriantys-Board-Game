@@ -3,6 +3,7 @@ package it.polimi.ingsw.controller.server;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.utility.Pair;
@@ -80,6 +81,7 @@ public class TurnManager {
         playersOrder.addAll(pickListFromFirst(clone.get(0),clone));
     }
 
+    //todo: state pattern
     private void turn() {
         switch (gameState) {
             case PLANNING_ADD_TO_CLOUD -> {
@@ -106,7 +108,7 @@ public class TurnManager {
             case ACTION_CHOOSE_CLOUD -> {
                 requestName = playersOrder.get(request);
                 game.setCurrentPlayer(requestName);
-                controller.getVirtualView(requestName).chooseCloud(game.getClouds().stream().filter(cloud -> !cloud.isEmpty()).map(ShortCloud::new).toList());
+                controller.getVirtualView(requestName).chooseCloud(game.getClouds().stream().map(ShortCloud::new).toList());
             }
         }
     }
@@ -162,9 +164,10 @@ public class TurnManager {
     }
 
     public void onChosenCloud() {
-        if(request == playersOrder.size()-1){
+        if(request == playersOrder.size()-1) {
 			request = 0;
             gameState = GameState.PLANNING_ADD_TO_CLOUD;
+            setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
             turn();
         } else {
             gameState = GameState.ACTION_MOVE;
@@ -180,5 +183,4 @@ public class TurnManager {
     public List<String> getPlayersOrder() {
         return playersOrder;
     }
-
 }

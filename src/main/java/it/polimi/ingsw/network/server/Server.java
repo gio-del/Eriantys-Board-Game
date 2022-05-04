@@ -48,19 +48,19 @@ public class Server {
 
     /**
      * When a client join it is added to the {@link LobbyManager}
-     * @param connection to be added
+     * @param socketConnection to be added
      */
-    public synchronized void addClient(String nickname,Connection connection) {
+    public synchronized void addClient(String nickname, SocketConnection socketConnection) {
         if(alreadyChosenNicknames.contains(nickname)){
             Notification msg = new NicknameErrorNotification();
             msg.setClientId(Server.NAME);
-            connection.sendMessage(msg);
+            socketConnection.sendMessage(msg);
             return;
         }
         LOGGER.info(() -> nickname + " joined the lobby");
         alreadyChosenNicknames.add(nickname);
-        socketStringMap.put(connection.getClient(),nickname);
-        lobbyManager.addClient(nickname, connection);
+        socketStringMap.put(socketConnection.getClient(),nickname);
+        lobbyManager.addClient(nickname, socketConnection);
     }
 
     public synchronized void addMatch(List<String> names,GameController controller){

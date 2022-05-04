@@ -1,4 +1,4 @@
-package it.polimi.ingsw.controller;
+package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.controller.server.GameController;
 import it.polimi.ingsw.controller.server.TurnManager;

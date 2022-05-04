@@ -3,10 +3,7 @@ package it.polimi.ingsw.controller.server;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.*;
-import it.polimi.ingsw.network.server.Connection;
-import it.polimi.ingsw.network.server.Server;
-import it.polimi.ingsw.network.server.ServerSideVisitor;
-import it.polimi.ingsw.network.server.VirtualView;
+import it.polimi.ingsw.network.server.*;
 
 import java.util.*;
 
@@ -25,8 +22,6 @@ public class GameController {
     private final TurnManager turnManager;
     private boolean isExpertMode;
 
-    //todo: state pattern
-
     public GameController() {
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.connectionMap = Collections.synchronizedMap(new HashMap<>());
@@ -36,10 +31,10 @@ public class GameController {
         this.visitor = new ServerSideVisitor(game,turnManager);
     }
 
-    public synchronized void addClient(String nickname, Connection connection) {
+    public synchronized void addClient(String nickname, Connection socketConnection) {
         names.add(nickname);
-        connectionMap.put(nickname, connection);
-        virtualViewMap.put(nickname,new VirtualView(connection));
+        connectionMap.put(nickname, socketConnection);
+        virtualViewMap.put(nickname,new VirtualView(socketConnection));
     }
 
     /**
@@ -77,15 +72,24 @@ public class GameController {
     public void broadcast(Notification msg) {
         connectionMap.values().forEach(connection -> connection.sendMessage(msg));
     }
+
     public void broadcast(Notification msg,String exclusion){
-        connectionMap.keySet().stream()
-                .filter(s -> !s.equals(exclusion))
-                .map(connectionMap::get)
-                .forEach(connection -> connection.sendMessage(msg));
+        connectionMap.keySet().stream().filter(s -> !s.equals(exclusion)).map(connectionMap::get).forEach(connection -> connection.sendMessage(msg));
     }
 
     public VirtualView getVirtualView(String name){
         return virtualViewMap.get(name);
     }
 
+    protected NotificationVisitor getVisitor() {
+        return visitor;
+    }
+
+    protected TurnManager getTurnManager() {
+        return turnManager;
+    }
+
+    protected Game getGame() {
+        return game;
+    }
 }
