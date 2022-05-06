@@ -6,6 +6,7 @@ import it.polimi.ingsw.model.influencecalculator.StandardStrategy;
 import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
+import it.polimi.ingsw.observer.WinObservable;
 
 import java.util.*;
 
@@ -13,7 +14,7 @@ import java.util.*;
  * This class represents the Board with the islands inside
  * Knows where's MotherNature and knows the strategies to calculate the influences
  */
-public class Board{
+public class Board extends WinObservable {
     private final List<Island> islands;
     private int motherNaturePos;
     private InfluenceStrategy influenceStrategy;
@@ -49,7 +50,7 @@ public class Board{
      * Used to calculate if some adjacent islands as the same tower.
      */
 
-    public void adjacencyUpdate(){
+    public void adjacencyUpdate() {
         int i = 0;
         while(i<islands.size()) {
             if (i == islands.size() - 1) {
@@ -70,6 +71,7 @@ public class Board{
             }
             i++;
         }
+        notifyObserver(obs -> obs.updateBoardUsage(islands.size()));
     }
 
     /**
@@ -100,6 +102,7 @@ public class Board{
         TowerColor winner = island.conquerIsland(winners, players);
         if(winner != null){
             adjacencyUpdate();
+            notifyObserver(obs -> obs.updateTowerPlaced(winner));
         }
         return winner;
     }

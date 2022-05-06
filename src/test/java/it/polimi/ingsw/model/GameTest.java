@@ -163,6 +163,22 @@ class GameTest {
     }
 
     /**
+     * Tests the rare case when a player has only played assistant in his hand, in this case it's ok to play them.
+     */
+    @Test
+    void getPlayableAssistantTest_1() {
+        game.resetTurn();
+        for(Assistant assistant: Assistant.values()) {
+            if(!assistant.equals(Assistant.TURTLE))
+                game.getPlayerByName("Marco").playAssistant(assistant);
+        } //now Marco has only turtle in his hand
+        game.setCurrentPlayer("Luca");
+        game.playAssistant(Assistant.TURTLE); //Luca plays turtle, the only card that Marco has.
+        game.setCurrentPlayer("Marco");
+        assertTrue(game.getPlayableAssistant().contains(Assistant.TURTLE)); //playable-by-Marco assistants must contain Turtle
+    }
+
+    /**
      * Test the reset strategy method
      */
     @Test

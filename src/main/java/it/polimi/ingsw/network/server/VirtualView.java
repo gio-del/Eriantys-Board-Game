@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.server;
 
 import it.polimi.ingsw.model.ShortBoard;
+import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
@@ -105,6 +106,11 @@ public class VirtualView implements View, Observer {
     public void showMessage(String msg) {
         Notification message = new GenericMessageNotification(msg);
         connection.sendMessage(message);
+    }
+
+    @Override
+    public void injectResource(ShortModel resource) {
+        //do nothing
     }
 
     @Override

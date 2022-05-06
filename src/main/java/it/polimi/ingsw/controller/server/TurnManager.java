@@ -18,6 +18,7 @@ public class TurnManager {
     private int request = 0;
     private int studentsMoved = 1;
     private String requestName;
+    private boolean isLastTurn = false;
     private final Set<TowerColor> availableTowerColor;
     private final Set<Wizard> availableWizard;
 
@@ -129,6 +130,7 @@ public class TurnManager {
         }
         else {
             game.startGame();
+            controller.startMatch();
             gameState = GameState.PLANNING_ADD_TO_CLOUD;
             request = 0;
             turn();
@@ -136,6 +138,8 @@ public class TurnManager {
     }
 
     public void onChosenAssistant() {
+        if(game.getPlayerByName(requestName).getHand().isEmpty())
+            isLastTurn = true;
         if(request == playersOrder.size()-1) {
             gameState = GameState.ACTION_MOVE;
             setActionOrder(game.getPlayedAssistantMap());
@@ -164,11 +168,13 @@ public class TurnManager {
     }
 
     public void onChosenCloud() {
-        if(request == playersOrder.size()-1) {
+        if(request == playersOrder.size()-1 && !isLastTurn) {
 			request = 0;
             gameState = GameState.PLANNING_ADD_TO_CLOUD;
             setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
             turn();
+        } else if (request == playersOrder.size()-1 && isLastTurn) {
+            controller.getWinHandler().handleWin();
         } else {
             gameState = GameState.ACTION_MOVE;
             request++;
@@ -176,11 +182,19 @@ public class TurnManager {
         }
     }
 
-    public String getRequestName(){
+    public String getRequestName() {
         return requestName;
     }
 
     public List<String> getPlayersOrder() {
         return playersOrder;
+    }
+
+    public void setLastTurn(boolean lastTurn) {
+        isLastTurn = lastTurn;
+    }
+
+    public boolean isLastTurn() {
+        return isLastTurn;
     }
 }

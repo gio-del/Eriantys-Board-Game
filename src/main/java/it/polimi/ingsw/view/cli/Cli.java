@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.model.ShortBoard;
+import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
@@ -13,6 +14,7 @@ import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -25,20 +27,16 @@ import java.util.stream.Stream;
  */
 public class Cli extends ClientObservable implements View {
     private final ScanListener scanListener;
-    private Set<Wizard> wizardsAvailable;
-    private Set<TowerColor> colorsAvailable;
-    private Set<Assistant> playableAssistant;
-    private List<ShortCloud> availableClouds;
     private int maxSteps;
-    private List<PawnColor> pawnsAvailable;
     private PawnColor chosenColor;
+    private ShortModel resource;
 
     public Cli() {
         scanListener = new ScanListener(this);
         scanListener.start();
     }
 
-    public void init(){
+    public void init() {
         printWelcome();
         askConnectionInfo();
     }
@@ -138,8 +136,8 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
-        this.wizardsAvailable = wizardsAvailable;
-        this.colorsAvailable = colorsAvailable;
+        resource.setWizardsAvailable(wizardsAvailable);
+        resource.setColorsAvailable(colorsAvailable);
         System.out.println("Choose an available wizard");
         wizardsAvailable.forEach(System.out::println);
         System.out.println("Choose an available TowerColor");
@@ -155,14 +153,14 @@ public class Cli extends ClientObservable implements View {
             return;
         }
         String wizard = wizardAndTower.substring(0, pos);
-        Wizard wizardChosen = wizardsAvailable.stream().filter(o -> wizard.equalsIgnoreCase(o.name())).findFirst().orElse(null);
+        Wizard wizardChosen = resource.getWizardsAvailable().stream().filter(o -> wizard.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(wizardChosen == null){
             System.out.println("ERROR - Wizard not available or incorrect, retry");
             scanListener.setRequest(Request.WIZARD_COLOR);
             return;
         }
         String color = wizardAndTower.substring(pos + 1);
-        TowerColor towerColor = colorsAvailable.stream().filter(o -> color.equalsIgnoreCase(o.name())).findFirst().orElse(null);
+        TowerColor towerColor = resource.getColorsAvailable().stream().filter(o -> color.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(towerColor == null){
             System.out.println("ERROR - Color not available or incorrect, retry");
             scanListener.setRequest(Request.WIZARD_COLOR);
@@ -175,14 +173,14 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
-        this.playableAssistant = playableAssistant;
+        resource.setPlayableAssistant(playableAssistant);
         System.out.println("Choose an assistant from the available: ");
-        this.playableAssistant.forEach(o -> System.out.println( "Name " + o.name() + "- Value " + o.value() + " - Movement " + o.movement()));
+        resource.getPlayableAssistant().forEach(o -> System.out.println( "Name " + o.name() + "- Value " + o.value() + " - Movement " + o.movement()));
         scanListener.setRequest(Request.ASSISTANT);
     }
 
-    public void checkAssistant(String assistantName){
-        Assistant assistant = playableAssistant.stream().filter(o -> assistantName.equalsIgnoreCase(o.name())).findFirst().orElse(null);
+    public void checkAssistant(String assistantName) {
+        Assistant assistant = resource.getPlayableAssistant().stream().filter(o -> assistantName.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(assistant == null){
             System.out.println("ERROR - Assistant not valid, retry");
             scanListener.setRequest(Request.ASSISTANT);
@@ -193,7 +191,7 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void chooseCloud(List<ShortCloud> clouds) {
-        this.availableClouds = clouds;
+        resource.updateCloud(clouds);
         System.out.println("Select the number of the cloud you want to pick from: ");
         for(ShortCloud cloud: clouds){
             System.out.println("Cloud: " + clouds.indexOf(cloud));
@@ -202,13 +200,13 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.CLOUD);
     }
 
-    public void checkCloud(int cloudNum){
+    public void checkCloud(int cloudNum) {
         if(cloudNum == - 1){
             System.out.println("ERROR - Cloud not a number, retry");
             scanListener.setRequest(Request.CLOUD);
             return;
         }
-        if(cloudNum >= availableClouds.size()){
+        if(cloudNum >= resource.getClouds().size()){
             System.out.println("ERROR - Cloud does not exist, retry");
             scanListener.setRequest(Request.CLOUD);
             return;
@@ -223,7 +221,7 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.MOTHER);
     }
 
-    public void checkStepsMN(int steps){
+    public void checkStepsMN(int steps) {
         if(steps == - 1){
             System.out.println("ERROR - Steps not a number, retry");
             scanListener.setRequest(Request.MOTHER);
@@ -239,13 +237,13 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void moveStudent(List<PawnColor> movableColor) {
-        pawnsAvailable = movableColor;
+        resource.setPawnsAvailable(movableColor);
         System.out.println("What color do you want to move?");
         scanListener.setRequest(Request.STUDENT);
     }
 
     public void askColor(String color) {
-        chosenColor = pawnsAvailable.stream().filter(o -> color.equalsIgnoreCase(o.name())).findFirst().orElse(null);
+        chosenColor = resource.getPawnsAvailable().stream().filter(o -> color.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if(chosenColor == null){
             System.out.println("ERROR - color not available, retry");
             scanListener.setRequest(Request.STUDENT);
@@ -277,10 +275,10 @@ public class Cli extends ClientObservable implements View {
                     notifyObserver(observer -> observer.updateMoveStudent(chosenColor, Target.ISLAND, island));
                 }
             }
-            else if(target == 2){ //HALL CHOICE
+            else if(target == 2) { //HALL CHOICE
                 notifyObserver(observer -> observer.updateMoveStudent(chosenColor,Target.HALL,0));
             }
-            else{
+            else {
                 System.out.println("ERROR - target inserted is not valid, retry.");
                 scanListener.setRequest(Request.MOVE);
             }
@@ -299,7 +297,7 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void showSchool(ShortSchool school) {
-        System.out.println("YOUR SCHOOL\n");
+        System.out.println("*insert name here* SCHOOL\n");
         System.out.println(CLISymbol.SCHOOL_HEADER);
         int i;
         int entrance;
@@ -366,22 +364,47 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void updateScreen() {
+        clearScreen();
+        if(resource.getBoard() != null){
+            showBoard(resource.getBoard());
+        }
+        resource.getSchoolMap().forEach((key, value) -> showSchool(value));
+        showClouds(resource.getClouds());
+    }
 
+    private void clearScreen() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else
+                Runtime.getRuntime().exec("clear");
+        } catch (IOException | InterruptedException ignore){
+            Thread.currentThread().interrupt();
+        }
+        System.out.println(CLIColor.CLEAR);
+        System.out.flush();
     }
 
     @Override
     public void win(String winner, boolean win) {
         if(win){
-            System.out.println("YOU WIN!");
+            System.out.println(CLIColor.GREEN + "YOU WON!");
         } else {
-            System.out.println(winner + "won");
+            System.out.println(CLIColor.RED + "YOU LOST! " + winner + " won");
         }
+        System.out.println(CLIColor.RESET);
         scanListener.stopListening();
+        System.exit(0);
     }
 
     @Override
     public void showMessage(String msg) {
         System.out.println(msg);
+    }
+
+    @Override
+    public void injectResource(ShortModel resource) {
+        this.resource = resource;
     }
 
     public void printWelcome(){

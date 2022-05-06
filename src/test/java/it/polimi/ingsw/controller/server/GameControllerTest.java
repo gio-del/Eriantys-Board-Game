@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Assistant;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.network.server.Connection;
+import it.polimi.ingsw.view.cli.BoardCli;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +20,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class GameControllerTest {
+class GameControllerTest {
     private GameController controller;
     private TurnManager turnManager;
     private Game game;
@@ -97,10 +99,14 @@ public class GameControllerTest {
         msg.setClientId(playing);
         msg.accept(visitor);
 
+        int old = game.getBoard().getMotherNaturePos();
+        int steps = 1;
         //first player has to move MN
-        msg = new MoveMNNotification(1); //one step is always ok :)
+        msg = new MoveMNNotification(steps); //one step is always ok :)
         msg.setClientId(playing);
         msg.accept(visitor);
+
+        assertEquals(old+1,game.getBoard().getMotherNaturePos());
 
         //first player has to choose a cloud
         msg = new ChooseCloudNotification(1); //choose the cloud with cloudID = 1
@@ -121,10 +127,17 @@ public class GameControllerTest {
         msg.setClientId(playing);
         msg.accept(visitor);
 
+        old = game.getBoard().getMotherNaturePos();
         //second player has to move MN
-        msg = new MoveMNNotification(1); //one step is always ok :)
+        msg = new MoveMNNotification(steps); //one step is always ok :)
         msg.setClientId(playing);
         msg.accept(visitor);
+
+        if(game.getBoard().getIslands().get(1).getDimension() == 2) {
+            assertEquals(old,game.getBoard().getMotherNaturePos());
+        }
+        else
+            assertEquals(old+1,game.getBoard().getMotherNaturePos());
 
         //second player has to choose a cloud
         msg = new ChooseCloudNotification(0); //choose the cloud with cloudID = 1
@@ -132,13 +145,12 @@ public class GameControllerTest {
         msg.accept(visitor);
     }
 
-
     /**
      * This private method is used to deal with randomness of the school.
      * @param name the name of the school's owner.
      * @return pawnColor of the first non-zero student in entrance.
      */
-    private PawnColor findFirstNotZeroStudentInEntrance(String name){
+    private PawnColor findFirstNotZeroStudentInEntrance(String name) {
         Pawns entrance = game.getPlayerByName(name).getSchool().getEntrance();
         for(PawnColor pawnColor: PawnColor.values()){
             if(entrance.getFromColor(pawnColor) > 0) return pawnColor;

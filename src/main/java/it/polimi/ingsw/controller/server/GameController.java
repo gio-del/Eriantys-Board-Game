@@ -13,7 +13,6 @@ import java.util.*;
  * turn logic (and the state) of the game, it sends messages to the client.
  */
 public class GameController {
-
     private final NotificationVisitor visitor;
     private final Map<String, VirtualView> virtualViewMap;
     private final Map<String, Connection> connectionMap;
@@ -21,6 +20,7 @@ public class GameController {
     private final Game game;
     private final TurnManager turnManager;
     private boolean isExpertMode;
+    private final WinHandler winHandler;
 
     public GameController() {
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
@@ -29,6 +29,7 @@ public class GameController {
         this.game = new Game();
         this.turnManager = new TurnManager(game,this);
         this.visitor = new ServerSideVisitor(game,turnManager);
+        this.winHandler = new WinHandler(this,game);
     }
 
     public synchronized void addClient(String nickname, Connection socketConnection) {
@@ -49,31 +50,44 @@ public class GameController {
     public void init(boolean isExpertMode) {
         this.isExpertMode = isExpertMode;
         virtualViewMap.values().forEach(game::addObserver);
-        EventNotification gameStarted = new GameStartedNotification();
-        gameStarted.setMessage("A Match is started!");
-        gameStarted.setClientId(Server.NAME);
-        broadcast(gameStarted);
+        broadcast(new GameStartedNotification());
         turnManager.setFirstOrder(names);
         turnManager.onInit();
     }
 
-    public boolean gameReady(){
+    public boolean gameReady() {
         return game.numOfPlayer() == names.size();
     }
 
 
+    public void handleWin(String name) {
+        //TODO: check this: thread concurrency with disconnections.
+        notifyWinner(name);
+        connectionMap.clear();
+        virtualViewMap.clear();
+    }
+
+    private void notifyWinner(String winner){
+        virtualViewMap.get(winner).win(winner,true);
+        for(String name: names){
+            virtualViewMap.get(name).win(winner,false);
+        }
+    }
+
     public void handleDisconnection(String nickname) {
         connectionMap.remove(nickname);
         virtualViewMap.remove(nickname);
+        //todo check this
         Notification disconnection = new DisconnectionNotification(nickname + " has left the match! GAME ENDED.");
         broadcast(disconnection,nickname);
     }
 
     public void broadcast(Notification msg) {
+        msg.setClientId(Server.NAME);
         connectionMap.values().forEach(connection -> connection.sendMessage(msg));
     }
 
-    public void broadcast(Notification msg,String exclusion){
+    public void broadcast(Notification msg,String exclusion) {
         connectionMap.keySet().stream().filter(s -> !s.equals(exclusion)).map(connectionMap::get).forEach(connection -> connection.sendMessage(msg));
     }
 
@@ -91,5 +105,18 @@ public class GameController {
 
     protected Game getGame() {
         return game;
+    }
+
+    protected WinHandler getWinHandler() {
+        return winHandler;
+    }
+
+    protected List<String> getNames() {
+        return names;
+    }
+
+    public void startMatch() {
+        game.getBoard().addObserver(winHandler);
+        game.getSack().addObserver(winHandler);
     }
 }

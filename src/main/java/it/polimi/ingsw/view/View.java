@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view;
 
 import it.polimi.ingsw.model.ShortBoard;
+import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
@@ -105,4 +106,6 @@ public interface View {
      * @param msg to be displayed
      */
     void showMessage(String msg);
+
+    void injectResource(ShortModel resource);
 }

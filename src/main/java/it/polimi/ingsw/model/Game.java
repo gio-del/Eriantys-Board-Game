@@ -3,7 +3,6 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.player.*;
-import it.polimi.ingsw.network.communication.notification.GameStartedNotification;
 import it.polimi.ingsw.utility.character.CharactersDeck;
 import it.polimi.ingsw.model.character.action.ActionType;
 import it.polimi.ingsw.model.clouds.Cloud;
@@ -64,13 +63,12 @@ public class Game extends Observable {
             this.players.add(player);
         }
         this.clouds = new CloudManager(players.size(), gameLimitData.getStudentOnCloud());
-        notifyObserver(new GameStartedNotification());
     }
 
     /**
      * Starts the game filling island and the entrance of each player
      */
-    public void startGame(){
+    public void startGame() {
         init();
         sack.initialFill();
         board.initIslands(sack);
@@ -239,10 +237,12 @@ public class Game extends Observable {
     }
 
     public Set<Assistant> getPlayableAssistant() {
-        //TODO: if playableAssistant.size() == 0 return currentPlayer.getHand()
-        Set<Assistant> assistants = new HashSet<>(currentPlayer.getHand());
+        Set<Assistant> assistants = EnumSet.allOf(Assistant.class);
+        for(Assistant assistant: Assistant.values())
+            if (!currentPlayer.getHand().contains(assistant)) assistants.remove(assistant);
         List<Assistant> playedAssistant = playedAssistantMap.stream().map(Pair::second).toList();
         playedAssistant.forEach(assistants::remove);
+        if(assistants.isEmpty()) return currentPlayer.getHand(); //a player has only played assistant, in this case it's ok to play them
         return assistants;
     }
 

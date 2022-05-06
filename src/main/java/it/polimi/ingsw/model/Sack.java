@@ -3,6 +3,7 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.*;
 import it.polimi.ingsw.model.place.Island;
+import it.polimi.ingsw.observer.WinObservable;
 
 import java.util.Random;
 import java.util.stream.IntStream;
@@ -10,7 +11,7 @@ import java.util.stream.IntStream;
 /**
  * This class represents the Sack from where {@link Pawns} are extracted casually.
  */
-public class Sack {
+public class Sack extends WinObservable {
     private final Pawns sackPawns;
     private final Random random;
 
@@ -46,9 +47,10 @@ public class Sack {
      *
      * @return {@code 1} pawn.
      */
-    public PawnColor extract(){
+    public PawnColor extract() {
         PawnColor extracted = sackPawns.getByIndex(random.nextInt(sackPawns.totalElements()));
         sackPawns.removeColor(extracted);
+        notifyObserver(obs -> obs.updateSackUsage(sackPawns.totalElements()));
         return extracted;
     }
 

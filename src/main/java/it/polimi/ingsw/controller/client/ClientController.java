@@ -1,5 +1,6 @@
 package it.polimi.ingsw.controller.client;
 
+import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -24,13 +25,17 @@ import static java.lang.System.exit;
 public class ClientController implements ClientObserver {
     private final ClientSideVisitor visitor;
     private final View view;
+    private final ShortModel shortModel;
     private final Client client;
     private String nickname;
 
     public ClientController(View view) {
         this.view = view;
-        this.client = new Client(this);
-        visitor = new ClientSideVisitor(view);
+        client = new Client(this);
+        shortModel = new ShortModel();
+        visitor = new ClientSideVisitor(view,shortModel);
+        view.injectResource(shortModel);
+
     }
 
     /**
@@ -105,7 +110,7 @@ public class ClientController implements ClientObserver {
         client.sendMessage(moveStudentNotification);
     }
 
-    public void onDisconnection(){
+    public void onDisconnection() {
         String s = "Connection closed with the server. Exiting...";
         view.showDisconnection(s);
         exit(0);

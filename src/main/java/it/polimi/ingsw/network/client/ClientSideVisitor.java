@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.client.ClientController;
+import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.view.View;
@@ -10,11 +11,12 @@ import it.polimi.ingsw.view.View;
  * It implements visitor patter to dispatch {@link Notification} and perform different action on the view.
  */
 public class ClientSideVisitor implements NotificationVisitor {
-
+    private final ShortModel shortModel;
     private final View view;
     private String nickname;
 
-    public ClientSideVisitor(View view) {
+    public ClientSideVisitor(View view, ShortModel shortModel) {
+        this.shortModel = shortModel;
         this.view = view;
     }
 
@@ -30,7 +32,8 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(CloudsNotification msg) {
-        view.showClouds(msg.getCloudList());
+        shortModel.updateCloud(msg.getCloudList());
+        view.updateScreen();
     }
 
     @Override
@@ -55,15 +58,14 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(SchoolNotification msg) {
-        if(msg.getOwner().equals(nickname))
-            view.showSchool(msg.getSchool());
-        else
-            view.showOtherSchool(msg.getSchool());
+        shortModel.updateSchool(msg.getSchool(), msg.getOwner());
+        view.updateScreen();
     }
 
     @Override
     public void visit(BoardNotification msg) {
-        view.showBoard(msg.getBoard());
+        shortModel.updateBoard(msg.getBoard());
+        view.updateScreen();
     }
 
     @Override
