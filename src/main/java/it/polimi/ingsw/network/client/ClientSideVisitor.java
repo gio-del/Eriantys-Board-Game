@@ -48,6 +48,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(ChooseCloudNotification msg) {
+        shortModel.updateCloud(msg.getAvailableClouds());
         view.chooseCloud(msg.getAvailableClouds());
     }
 

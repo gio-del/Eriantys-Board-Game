@@ -1,10 +1,8 @@
 package it.polimi.ingsw.view;
 
-import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
@@ -37,17 +35,6 @@ public interface View {
      * To choose the assistant to play
      */
     void chooseAssistant(Set<Assistant> playableAssistant);
-
-
-    void showBoard(ShortBoard board);
-
-
-    /**
-     * ACTION PHASE:
-     * Show all the clouds.
-     * @param clouds available to selected
-     */
-    void showClouds(List<ShortCloud> clouds);
 
     /**
      * ACTION PHASE:

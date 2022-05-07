@@ -16,7 +16,6 @@ import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * The command line interface implementation of the game.
@@ -191,12 +190,7 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void chooseCloud(List<ShortCloud> clouds) {
-        resource.updateCloud(clouds);
         System.out.println("Select the number of the cloud you want to pick from: ");
-        //for(ShortCloud cloud: clouds){
-          //  System.out.println("Cloud: " + clouds.indexOf(cloud));
-            //Stream.of(PawnColor.values()).forEachOrdered(color -> System.out.println(cloud.getStudents().getFromColor(color) + " " + color.name() + " students"));
-        //}
         scanListener.setRequest(Request.CLOUD);
     }
 
@@ -295,13 +289,11 @@ public class Cli extends ClientObservable implements View {
         System.exit(0);
     }
 
-    @Override
-    public void showBoard(ShortBoard board){
+    private void showBoard(ShortBoard board){
         BoardCli boardCli = new BoardCli(board);
         boardCli.printBoard();
     }
 
-    @Override
     public void showClouds(List<ShortCloud> clouds) {
         List<StringBuilder> lines = new ArrayList<>();
         List<CloudCli> cloudsCli = new ArrayList<>();
@@ -311,8 +303,8 @@ public class Cli extends ClientObservable implements View {
         }
         for(int i = 0; i < Constants.ISLAND_HIGH; i++){
             StringBuilder stringBuilder = new StringBuilder();
-            for(int j = 0; j < cloudsCli.size(); j++){
-                stringBuilder.append(cloudsCli.get(j).getLines().get(i)).append("   ");
+            for (CloudCli cloudCli : cloudsCli) {
+                stringBuilder.append(cloudCli.getLines().get(i)).append("   ");
             }
             lines.add(stringBuilder);
         }
