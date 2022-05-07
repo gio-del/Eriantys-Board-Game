@@ -6,10 +6,16 @@ public enum CLISymbol {
     EMPTY_PROFESSOR("."),
     FULL_PROFESSOR("+"),
     TOWER("#"),
-    SCHOOL_HEADER("     ENTRANCE     |        HALL         | PROF ");
+    GREEN("GREEN  |"),
+    RED("RED    |"),
+    YELLOW("YELLOW |"),
+    PINK("PINK   |"),
+    BLUE("BLUE   |");
+    public static final String SCHOOL_HEADER = "     ENTRANCE     |        HALL         | PROF";
+    public static final String SHORT_HEADER = "ENTRY | HALL  | PROF";
     public static final String HEAD_START =  " ";
     public static final String HEAD =  "___________";
-    public static final String HEAD_MN = CLIColor.CYAN + "Å_Å_Å_Å_Å_Å" + CLIColor.RESET;
+    public static final String HEAD_MN = CLIColor.GREEN + "Å_Å_Å_Å_Å_Å" + CLIColor.RESET;
     public static final String HEAD_END =  "   ";
     public static final String GREEN_START = "   /" + CLIColor.GREEN;
     public static final String RED_START =   "  / " + CLIColor.RED;

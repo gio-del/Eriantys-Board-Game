@@ -47,7 +47,7 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void showSchool(ShortSchool school) {
+    public void showSchool(String name, ShortSchool school, String nickname) {
         //not called by the server
     }
 
@@ -56,10 +56,6 @@ public class VirtualView implements View, Observer {
         //not called by the server
     }
 
-    @Override
-    public void showOtherSchool(ShortSchool school) {
-        //not called by the server
-    }
 
     @Override
     public void showClouds(List<ShortCloud> clouds) {
@@ -87,7 +83,7 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void updateScreen() {
+    public void updateScreen(String nickname) {
         //TODO
     }
 

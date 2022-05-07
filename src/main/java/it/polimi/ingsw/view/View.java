@@ -43,11 +43,10 @@ public interface View {
      * Show all the schools.
      * @param schools available to selected
      */
-    void showSchool(ShortSchool schools);
+    void showSchool(String name, ShortSchool schools, String nickname);
 
     void showBoard(ShortBoard board);
 
-    void showOtherSchool(ShortSchool school);
 
     /**
      * ACTION PHASE:
@@ -88,7 +87,7 @@ public interface View {
     /**
      * update of the view
      */
-    void updateScreen();
+    void updateScreen(String nickname);
 
     /**
      * In case of a disconnection, the players still connected will receive a message

@@ -33,7 +33,7 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(CloudsNotification msg) {
         shortModel.updateCloud(msg.getCloudList());
-        view.updateScreen();
+        view.updateScreen(nickname);
     }
 
     @Override
@@ -59,13 +59,13 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(SchoolNotification msg) {
         shortModel.updateSchool(msg.getSchool(), msg.getOwner());
-        view.updateScreen();
+        view.updateScreen(nickname);
     }
 
     @Override
     public void visit(BoardNotification msg) {
         shortModel.updateBoard(msg.getBoard());
-        view.updateScreen();
+        view.updateScreen(nickname);
     }
 
     @Override

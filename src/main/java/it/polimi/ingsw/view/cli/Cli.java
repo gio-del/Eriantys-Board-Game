@@ -15,7 +15,9 @@ import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -30,6 +32,7 @@ public class Cli extends ClientObservable implements View {
     private int maxSteps;
     private PawnColor chosenColor;
     private ShortModel resource;
+
 
     public Cli() {
         scanListener = new ScanListener(this);
@@ -296,8 +299,12 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void showSchool(ShortSchool school) {
-        System.out.println("*insert name here* SCHOOL\n");
+    public void showSchool(String name, ShortSchool school, String owner) {
+        if(name.equals(owner)){
+            System.out.println("MY SCHOOL\n");
+        } else {
+            System.out.println(name + " SCHOOL\n");
+        }
         System.out.println(CLISymbol.SCHOOL_HEADER);
         int i;
         int entrance;
@@ -342,7 +349,7 @@ public class Cli extends ClientObservable implements View {
         System.out.println("GAME MAP");
         showBoard(board);
         System.out.println("_".repeat(Math.max(0, (board.getIslands().size() / 2 + 2) * Constants.ISLAND_WIDTH_1)));
-        showSchool(school);
+        //showSchool(school);
     }
 
     @Override
@@ -351,11 +358,7 @@ public class Cli extends ClientObservable implements View {
         boardCli.printBoard();
     }
 
-    @Override
-    public void showOtherSchool(ShortSchool school) {
-        //TODO
-        System.out.println("Implement other school print");
-    }
+
 
     @Override
     public void showClouds(List<ShortCloud> clouds) {
@@ -363,12 +366,26 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void updateScreen() {
+    public void updateScreen(String owner) {
+        Map<String, ShortSchool> otherSchools = new HashMap<>();
+        Map<String, ShortSchool> ownerSchool = new HashMap<>();
         clearScreen();
+        for (Map.Entry<String, ShortSchool> entry : resource.getSchoolMap().entrySet()) {
+            if(entry.getKey().equals(owner)){
+                ownerSchool.put(entry.getKey(), entry.getValue());
+            } else {
+                otherSchools.put(entry.getKey(), entry.getValue());
+            }
+        }
+        if(!ownerSchool.isEmpty()){
+            SchoolsCli schoolsCli = new SchoolsCli(otherSchools, ownerSchool);
+            schoolsCli.printSchools();
+            System.out.println("");
+        }
         if(resource.getBoard() != null){
             showBoard(resource.getBoard());
+            System.out.println("");
         }
-        resource.getSchoolMap().forEach((key, value) -> showSchool(value));
         showClouds(resource.getClouds());
     }
 
