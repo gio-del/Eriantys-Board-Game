@@ -2,12 +2,17 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.ShortBoard;
+import it.polimi.ingsw.model.clouds.Cloud;
+import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.School;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static it.polimi.ingsw.model.player.TowerColor.*;
 import static java.lang.System.exit;
@@ -53,7 +58,22 @@ public class TestingCli {
 
         ShortSchool shortSchool = new ShortSchool(school);
 
-        cli.updateScreen(new ShortBoard(game.getBoard()), shortSchool);
+        List<ShortCloud> clouds = new ArrayList<>();
+        Cloud cloud0 = new Cloud();
+        Cloud cloud1 = new Cloud();
+        Cloud cloud2 = new Cloud();
+
+        cloud0.fill(example);
+        cloud1.fill(example);
+        cloud2.fill(example);
+        ShortCloud shortCloud0 = new ShortCloud(cloud0);
+        ShortCloud shortCloud1 = new ShortCloud(cloud1);
+        ShortCloud shortCloud2 = new ShortCloud(cloud2);
+        clouds.add(shortCloud0);
+        clouds.add(shortCloud1);
+        clouds.add(shortCloud2);
+        cli.showClouds(clouds);
+
 
         exit(0);
 

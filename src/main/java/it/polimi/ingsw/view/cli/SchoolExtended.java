@@ -75,8 +75,4 @@ public class SchoolExtended {
     public List<String> getLines() {
         return lines;
     }
-
-    public void printSchool(){
-        lines.forEach(System.out::println);
-    }
 }

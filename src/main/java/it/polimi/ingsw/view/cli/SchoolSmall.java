@@ -70,8 +70,5 @@ public class SchoolSmall {
         return lines;
     }
 
-    public void printSchool(){
-        lines.forEach(System.out::println);
-    }
 }
 

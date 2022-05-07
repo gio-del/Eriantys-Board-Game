@@ -38,12 +38,6 @@ public interface View {
      */
     void chooseAssistant(Set<Assistant> playableAssistant);
 
-    /**
-     * ACTION PHASE:
-     * Show all the schools.
-     * @param schools available to selected
-     */
-    void showSchool(String name, ShortSchool schools, String nickname);
 
     void showBoard(ShortBoard board);
 

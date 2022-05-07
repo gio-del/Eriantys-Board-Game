@@ -15,10 +15,7 @@ import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -178,7 +175,7 @@ public class Cli extends ClientObservable implements View {
     public void chooseAssistant(Set<Assistant> playableAssistant) {
         resource.setPlayableAssistant(playableAssistant);
         System.out.println("Choose an assistant from the available: ");
-        resource.getPlayableAssistant().forEach(o -> System.out.println( "Name " + o.name() + "- Value " + o.value() + " - Movement " + o.movement()));
+        resource.getPlayableAssistant().forEach(o -> System.out.println( o.name().toUpperCase() + ": Value (" + o.value() + ") - Movement (" + o.movement()  + ")"));
         scanListener.setRequest(Request.ASSISTANT);
     }
 
@@ -196,10 +193,10 @@ public class Cli extends ClientObservable implements View {
     public void chooseCloud(List<ShortCloud> clouds) {
         resource.updateCloud(clouds);
         System.out.println("Select the number of the cloud you want to pick from: ");
-        for(ShortCloud cloud: clouds){
-            System.out.println("Cloud: " + clouds.indexOf(cloud));
-            Stream.of(PawnColor.values()).forEachOrdered(color -> System.out.println(cloud.getStudents().getFromColor(color) + " " + color.name() + " students"));
-        }
+        //for(ShortCloud cloud: clouds){
+          //  System.out.println("Cloud: " + clouds.indexOf(cloud));
+            //Stream.of(PawnColor.values()).forEachOrdered(color -> System.out.println(cloud.getStudents().getFromColor(color) + " " + color.name() + " students"));
+        //}
         scanListener.setRequest(Request.CLOUD);
     }
 
@@ -299,70 +296,28 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void showSchool(String name, ShortSchool school, String owner) {
-        if(name.equals(owner)){
-            System.out.println("MY SCHOOL\n");
-        } else {
-            System.out.println(name + " SCHOOL\n");
-        }
-        System.out.println(CLISymbol.SCHOOL_HEADER);
-        int i;
-        int entrance;
-        int hall;
-        int prof;
-        for(PawnColor pawnColor: PawnColor.values()){
-            StringBuilder totalString = new StringBuilder();
-            totalString.append(CLIColor.valueOf(pawnColor.name()));
-            entrance = school.getEntrance().getFromColor(pawnColor);
-            for(i = 0; i < entrance; i ++){
-                totalString.append(CLISymbol.FULL_CIRCLE).append(" ");
-            }
-            for (i = entrance; i < Constants.MAX_ENTRANCE; i++){
-                totalString.append(CLISymbol.EMPTY_CIRCLE).append(" ");
-            }
-            totalString.append("| ");
-            hall = school.getHall().getFromColor(pawnColor);
-            for(i = 0; i < Constants.MAX_HALL_PER_COLOR; i++){
-                if(i < hall){
-                    totalString.append(CLISymbol.FULL_CIRCLE).append(" ");
-                } else {
-                    totalString.append(CLISymbol.EMPTY_CIRCLE).append(" ");
-                }
-            }
-            totalString.append("|  ");
-            prof = school.getProfTable().getFromColor(pawnColor);
-            if(prof == 1){
-                totalString.append(CLISymbol.FULL_PROFESSOR).append(" ");
-            } else {
-                totalString.append(CLISymbol.EMPTY_PROFESSOR).append(" ");
-            }
-            System.out.println(totalString);
-        }
-        StringBuilder towerString = new StringBuilder(CLIColor.RESET + "\nTOWER TO BE PLACED: ");
-        for(i = 0; i < school.getNumTower(); i++){
-            towerString.append(CLISymbol.TOWER).append(" ");
-        }
-        System.out.println(towerString);
-    }
-
-    public void updateScreen(ShortBoard board, ShortSchool school){
-        System.out.println("GAME MAP");
-        showBoard(board);
-        System.out.println("_".repeat(Math.max(0, (board.getIslands().size() / 2 + 2) * Constants.ISLAND_WIDTH_1)));
-        //showSchool(school);
-    }
-
-    @Override
     public void showBoard(ShortBoard board){
         BoardCli boardCli = new BoardCli(board);
         boardCli.printBoard();
     }
 
-
-
     @Override
     public void showClouds(List<ShortCloud> clouds) {
-
+        List<StringBuilder> lines = new ArrayList<>();
+        List<CloudCli> cloudsCli = new ArrayList<>();
+        for(ShortCloud shortCloud : clouds){
+            CloudCli cloudCli = new CloudCli(shortCloud, clouds.indexOf(shortCloud));
+            cloudsCli.add(cloudCli);
+        }
+        for(int i = 0; i < Constants.ISLAND_HIGH; i++){
+            StringBuilder stringBuilder = new StringBuilder();
+            for(int j = 0; j < cloudsCli.size(); j++){
+                stringBuilder.append(cloudsCli.get(j).getLines().get(i)).append("   ");
+            }
+            lines.add(stringBuilder);
+        }
+        System.out.println("CLOUDS:");
+        lines.forEach(System.out::println);
     }
 
     @Override
@@ -380,13 +335,17 @@ public class Cli extends ClientObservable implements View {
         if(!ownerSchool.isEmpty()){
             SchoolsCli schoolsCli = new SchoolsCli(otherSchools, ownerSchool);
             schoolsCli.printSchools();
-            System.out.println("");
+            System.out.println(" ");
         }
         if(resource.getBoard() != null){
+            System.out.println("BOARD:");
             showBoard(resource.getBoard());
-            System.out.println("");
+            System.out.println(" ");
         }
-        showClouds(resource.getClouds());
+        if(resource.getClouds() != null){
+            showClouds(resource.getClouds());
+        }
+
     }
 
     private void clearScreen() {
