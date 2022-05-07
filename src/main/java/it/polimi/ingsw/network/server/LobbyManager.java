@@ -35,15 +35,15 @@ public class LobbyManager {
         players.add(nickname);
         connectionMap.put(nickname, socketConnection);
         vvMap.put(nickname,vv);
-        if(!ready && players.size() == 1){
+        if(!ready && players.size() == 1) {
             firstInLine = nickname;
             vv.chooseGameMode();
         }
         checkReadyToStart();
     }
 
-    public void checkReadyToStart(){
-        if(ready && players.size()>=nPlayers){
+    public void checkReadyToStart() {
+        if(ready && players.size()>=nPlayers) {
             startMatch();
             if(!players.isEmpty()){
                 vvMap.get(players.peek()).chooseGameMode();
@@ -51,21 +51,7 @@ public class LobbyManager {
         }
     }
 
-    private void startMatch() {
-        GameController controller = new GameController();
-        List<String> names = new ArrayList<>();
-        for(int i=0;i<nPlayers;i++){
-            String name = players.peek();
-            names.add(name);
-            controller.addClient(name,connectionMap.get(name));
-            removePlayerFromLobby(name);
-        }
-        controller.init(isExpertMode);
-        server.addMatch(names,controller);
-        ready = false;
-    }
-
-    public void removePlayerFromLobby(String name){
+    public void removePlayerFromLobby(String name) {
         players.remove(name);
         connectionMap.remove(name);
         vvMap.remove(name);
@@ -78,23 +64,37 @@ public class LobbyManager {
         checkReadyToStart();
     }
 
-    private void broadcast(String message){
+    public synchronized void handleDisconnection(String nickname) {
+        connectionMap.remove(nickname);
+        players.remove(nickname);
+        if(firstInLine.equals(nickname) && !players.isEmpty()) {
+            vvMap.get(players.peek()).chooseGameMode();
+        }
+        broadcast(nickname + " left the lobby.");
+    }
+
+    private void startMatch() {
+        GameController controller = new GameController();
+        List<String> names = new ArrayList<>();
+        for(int i=0;i<nPlayers;i++) {
+            String name = players.peek();
+            names.add(name);
+            controller.addClient(name,connectionMap.get(name));
+            removePlayerFromLobby(name);
+        }
+        controller.init(isExpertMode);
+        server.addMatch(names,controller);
+        ready = false;
+    }
+
+    private void broadcast(String message) {
         connectionMap.values().forEach(connection -> connection.sendMessage(new GenericMessageNotification(message)));
     }
 
-    private void broadcast(String message,String exclusion){
+    private void broadcast(String message,String exclusion) {
         connectionMap.keySet().stream()
                 .filter(name -> !name.equals(exclusion))
                 .map(connectionMap::get)
                 .forEach(connection -> connection.sendMessage(new GenericMessageNotification(message)));
-    }
-
-    public synchronized void handleDisconnection(String nickname) {
-        connectionMap.remove(nickname);
-        players.remove(nickname);
-        if(firstInLine.equals(nickname) && !players.isEmpty()){
-            vvMap.get(players.peek()).chooseGameMode();
-        }
-        broadcast(nickname + " left the lobby.");
     }
 }

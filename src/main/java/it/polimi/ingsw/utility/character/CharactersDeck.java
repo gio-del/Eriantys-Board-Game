@@ -17,7 +17,7 @@ public class CharactersDeck {
         return characterCards.stream().limit(Constants.CHARACTER_IN_USE).toList();
     }
 
-    public static boolean ok(){
-        return !characterCards.equals(List.of());
+    public static void start() {
+       //do nothing, if is not ok the parser will raise an exception and the server will stop
     }
 }
