@@ -6,7 +6,7 @@ import it.polimi.ingsw.model.player.Player;
 import java.util.List;
 
 public class ThiefAction implements Action {
-    private final PawnColor colorToSteal;
+    private final PawnColor colorToSteal; //TODO: add number of color to steal there
     private final List<Player> players;
 
     public ThiefAction(PawnColor colorToSteal, List<Player> players) {

@@ -38,17 +38,20 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(MoveStudentNotification msg) {
+        view.updateScreen(nickname);
         view.moveStudent(msg.getMovableColor());
     }
 
     @Override
     public void visit(MoveMNNotification msg) {
+        view.updateScreen(nickname);
         view.moveMNature(msg.getSteps());
     }
 
     @Override
     public void visit(ChooseCloudNotification msg) {
         shortModel.updateCloud(msg.getAvailableClouds());
+        view.updateScreen(nickname);
         view.chooseCloud(msg.getAvailableClouds());
     }
 
@@ -71,6 +74,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(DisconnectionNotification msg) {
+        view.updateScreen(nickname);
         view.showDisconnection(msg.getNickname());
     }
 
@@ -81,12 +85,13 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(ChooseAssistantNotification msg) {
+        view.updateScreen(nickname);
         view.chooseAssistant(msg.getPlayableAssistant());
     }
 
     @Override
     public void visit(NicknameErrorNotification msg) {
-        //TODO: add a method to say that provided nickname was already used
+        view.showMessage("Nickname already used!");
         view.setNickname(); //this will just re-ask name
     }
 
@@ -97,7 +102,6 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(GameStartedNotification msg) {
-        // view.updateScreen()
         view.showMessage(msg.getMessage());
     }
 

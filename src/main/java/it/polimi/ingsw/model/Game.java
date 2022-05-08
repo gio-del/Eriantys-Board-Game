@@ -4,7 +4,6 @@ import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.utility.character.CharactersDeck;
-import it.polimi.ingsw.model.character.action.ActionType;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.model.clouds.ShortCloud;
@@ -148,14 +147,12 @@ public class Game extends Observable {
         return true;
     }
 
-    public ActionType useCharacter(Player player, CharacterCard character) {
+    public void useCharacter(Player player, CharacterCard character) {
         // TODO
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
         if (bank.pay(player, cost)) {
-            if (!character.hasCoinOn()) character.setCoinOn();
-            return character.getActionType();
+            if (!character.hasCoinOn()) character.setCoinOn(true);
         }
-        return null;
     }
 
     /**
@@ -186,6 +183,7 @@ public class Game extends Observable {
         if (cloudChosen != null) {
             boolean check = currentPlayer.addPawnsFromCloud(cloudChosen);
             notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()),currentPlayer.getPlayerName()));
+            notifyObserver(new CloudsNotification(clouds.getClouds().stream().map(ShortCloud::new).toList()));
             return check;
         }
         return false;
