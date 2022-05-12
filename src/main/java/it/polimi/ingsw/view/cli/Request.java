@@ -10,5 +10,5 @@ public enum Request {
     MOTHER,
     MOVE,
     STUDENT,
-    IGNORE
+    COLOR_ACTION, ISLAND_ACTION, IGNORE
 }

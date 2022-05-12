@@ -13,7 +13,11 @@ import java.util.Optional;
  * The MushroomSeller Strategy blocks a color during the calc of the influence
  */
 public class MushroomSellerStrategy extends StandardStrategy{
-    PawnColor blockedColor;
+    private final PawnColor blockedColor;
+
+    public MushroomSellerStrategy(PawnColor blockedColor) {
+        this.blockedColor = blockedColor;
+    }
 
     @Override
     public Map<Player, Integer> getScores(Island island, List<Player> players){
@@ -28,9 +32,5 @@ public class MushroomSellerStrategy extends StandardStrategy{
                         scores.put(player,
                                 scores.get(player) - island.getStudents().getFromColor(blockedColor)));
         return scores;
-    }
-
-    public void setBlockedColor(PawnColor blockedColor) {
-        this.blockedColor = blockedColor;
     }
 }

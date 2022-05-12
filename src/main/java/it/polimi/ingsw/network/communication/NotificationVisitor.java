@@ -24,4 +24,8 @@ public interface NotificationVisitor {
     void visit(GameStartedNotification msg);
     void visit(GenericMessageNotification msg);
     void visit(BoardNotification msg);
+    void visit(CharacterNotification msg);
+    void visit(ColorNotification msg);
+    void visit(IslandNotification msg);
+    void visit(ModelUpdateNotification msg);
 }

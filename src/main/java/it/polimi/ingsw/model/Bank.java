@@ -65,12 +65,21 @@ public class Bank {
      * @param coin number of coins to take
      * @return true if player can pay that amount of coins (and pays it), otherwise false
      */
-    public boolean pay(Player player, int coin){
-        if(cashMap.get(player) >= coin){
+    public boolean pay(Player player, int coin) {
+        if(canPay(player,coin)) {
             cashMap.put(player,cashMap.get(player) - coin);
             generalBank += coin;
             return true;
         }
         return false;
+    }
+
+    /**
+     * @param player paying
+     * @param coin number of coins to take
+     * @return true if player can pay that amount of coins, otherwise false
+     */
+    public boolean canPay(Player player, int coin) {
+        return cashMap.get(player) >= coin;
     }
 }

@@ -58,12 +58,9 @@ public interface View {
      */
     void moveMNature(int maximumSteps);
 
-    /**
-     * ACTION PHASE:
-     * Use a character if the characters are enabled
-     * @param characterNotAlreadyPlayed can be played
-     */
-    void useCharacter(List<Character> characterNotAlreadyPlayed);
+    void askColor();
+
+    void askIsland();
 
     /**
      * update of the view

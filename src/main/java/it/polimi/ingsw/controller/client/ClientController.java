@@ -52,7 +52,7 @@ public class ClientController implements ClientObserver {
             client.start();
             view.setNickname();
         }
-        else{
+        else {
             view.showDisconnection("Server not reachable! Exiting...");
             exit(0);
         }
@@ -108,6 +108,34 @@ public class ClientController implements ClientObserver {
         Notification moveStudentNotification = new MoveStudentNotification(color,target,island);
         moveStudentNotification.setClientId(nickname);
         client.sendMessage(moveStudentNotification);
+    }
+
+    @Override
+    public void updateUseCharacter(int id) {
+        //todo: manda l'id così com'è poi sarà il server a validare e al massimo a richiedermi la cosa di prima
+        if(id>=0 && id<shortModel.getCharacters().size()) {
+            Notification useCharacterNotification = new CharacterNotification(shortModel.getCharacters().get(id));
+            useCharacterNotification.setClientId(nickname);
+            client.sendMessage(useCharacterNotification);
+        }
+        else {
+            //re-ask last action
+        }
+
+    }
+
+    @Override
+    public void updateColorAction(PawnColor chosen) {
+        Notification colorNotification = new ColorNotification(chosen);
+        colorNotification.setClientId(nickname);
+        client.sendMessage(colorNotification);
+    }
+
+    @Override
+    public void updateIslandAction(int island) {
+        Notification islandNotification = new IslandNotification(island);
+        islandNotification.setClientId(nickname);
+        client.sendMessage(islandNotification);
     }
 
     public void onDisconnection() {

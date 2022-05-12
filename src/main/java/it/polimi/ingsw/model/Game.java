@@ -1,5 +1,7 @@
 package it.polimi.ingsw.model;
 
+import it.polimi.ingsw.model.character.ShortCharacter;
+import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.player.*;
@@ -12,9 +14,6 @@ import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
-import it.polimi.ingsw.network.communication.notification.BoardNotification;
-import it.polimi.ingsw.network.communication.notification.CloudsNotification;
-import it.polimi.ingsw.network.communication.notification.SchoolNotification;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 import it.polimi.ingsw.utility.Pair;
@@ -56,7 +55,7 @@ public class Game extends Observable {
      */
     public void init() {
         gameLimitData = GameLimit.getLimit(shortPlayers.size());
-        for(ShortPlayer shortPlayer: shortPlayers){
+        for(ShortPlayer shortPlayer: shortPlayers) {
             Player player = new Player(shortPlayer,gameLimitData,hallManager);
             this.hallManager.addPlayer(player);
             this.players.add(player);
@@ -67,7 +66,7 @@ public class Game extends Observable {
     /**
      * Starts the game filling island and the entrance of each player
      */
-    public void startGame() {
+    public void startGame(boolean isExpertMode) {
         init();
         sack.initialFill();
         board.initIslands(sack);
@@ -75,6 +74,10 @@ public class Game extends Observable {
         for (Player player : players) {
             player.initialEntranceFill(sack.extractListOfPawns(gameLimitData.getMaxEntrance()));
             notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()), player.getPlayerName()));
+        }
+        if(isExpertMode) {
+            characterInUse.forEach(character -> character.fill(sack));
+            notifyObserver(new CharacterNotification(characterInUse.stream().map(ShortCharacter::new).toList()));
         }
         notifyObserver(new BoardNotification(new ShortBoard(board)));
     }
@@ -147,12 +150,18 @@ public class Game extends Observable {
         return true;
     }
 
-    public void useCharacter(Player player, CharacterCard character) {
-        // TODO
+    public void useCharacter(CharacterCard character) {
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
-        if (bank.pay(player, cost)) {
-            if (!character.hasCoinOn()) character.setCoinOn(true);
-        }
+        bank.pay(currentPlayer,cost);
+        if(!character.hasCoinOn()) character.setCoinOn(true);
+        //character.refill()
+        notifyObserver(new ModelUpdateNotification(new ShortModel(this)));
+
+    }
+
+    public boolean canUseCharacter(CharacterCard character) {
+        int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
+        return bank.canPay(currentPlayer, cost);
     }
 
     /**
@@ -213,7 +222,7 @@ public class Game extends Observable {
      */
     public void moveFromEntranceToHall(PawnColor pawnColor) {
         currentPlayer.moveFromEntranceToHall(pawnColor);
-        for(Player player: players){
+        for(Player player: players){ //todo: send one notification only with all the schools!!
             notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()),player.getPlayerName()));
         }
     }
@@ -227,7 +236,7 @@ public class Game extends Observable {
     public void moveFromEntranceToIsland(PawnColor pawnColor, int island) {
         currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor), board.getIslands().get(island));
         notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
-        notifyObserver(new BoardNotification(new ShortBoard(board)));
+        notifyObserver(new BoardNotification(new ShortBoard(board))); //todo: send one notification only
     }
 
     public int numOfPlayer() {
@@ -258,7 +267,7 @@ public class Game extends Observable {
         return getPlayedAssistantByName(requestName).movement();
     }
 
-    public void resetTurn(){
+    public void resetTurn() {
         playedAssistantMap.clear();
         resetStrategies();
     }
@@ -324,5 +333,4 @@ public class Game extends Observable {
     public GameLimitData getGameLimit() {
         return gameLimitData;
     }
-
 }

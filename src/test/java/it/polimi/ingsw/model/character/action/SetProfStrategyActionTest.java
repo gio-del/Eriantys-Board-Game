@@ -10,10 +10,10 @@ import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 
-class SetProfStratActionTest {
+class SetProfStrategyActionTest {
     Player player;
     ProfessorAssignor professorAssignor;
     @BeforeEach
@@ -24,9 +24,17 @@ class SetProfStratActionTest {
 
     @Test
     void settingFarmerStrategyTest() {
-        Action setProfStratAction = new SetProfStratAction("Farmer",professorAssignor,player);
+        Action setProfStrategyAction = new SetProfStrategyAction("Farmer",professorAssignor,player);
         assertEquals("StandardProfStrategy",professorAssignor.getProfessorStrategy().getClass().getSimpleName());
-        setProfStratAction.apply();
+        assertTrue(setProfStrategyAction.apply());
         assertEquals("FarmerProfStrategy",professorAssignor.getProfessorStrategy().getClass().getSimpleName());
+    }
+
+    @Test
+    void settingNotExistingStrategyTest() {
+        Action setProfStrategyAction = new SetProfStrategyAction("null",professorAssignor,player);
+        assertEquals("StandardProfStrategy",professorAssignor.getProfessorStrategy().getClass().getSimpleName());
+        assertFalse(setProfStrategyAction.apply());
+        assertEquals("StandardProfStrategy",professorAssignor.getProfessorStrategy().getClass().getSimpleName());
     }
 }

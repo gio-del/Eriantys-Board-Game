@@ -18,5 +18,7 @@ public interface ClientObserver {
     void updateCloud(int cloud);
     void updateStepsMN(int steps);
     void updateMoveStudent(PawnColor color, Target target, int island);
-    //todo: add other update
+    void updateUseCharacter(int id);
+    void updateColorAction(PawnColor chosen);
+    void updateIslandAction(int island);
 }

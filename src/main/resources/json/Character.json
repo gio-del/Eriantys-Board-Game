@@ -2,13 +2,12 @@
   {
     "name": "Monk",
     "cost": 1,
-    "description": "Take a student from the card and place him on an island of your choice. Then, take a student out of the sack and place it on this card",
-    "type": "studentsOn",
+    "description": "Take a student from the card and place him on an island of your choice",
+    "requires": ["color","island"],
     "action": {
       "actionType":"MOVE",
       "from": "SELF",
-      "to": "ISLAND",
-      "numOfMove": 1
+      "to": "ISLAND"
     },
     "numberOfStudentsOn": 4
   },
@@ -16,7 +15,7 @@
     "name": "Farmer",
     "cost": 2,
     "description": "During this turn, you take control of the Professors even if you have the same number of Students in your hall as the player currently controlling them.",
-    "type": "standard",
+    "requires" :[""],
     "action": {
       "actionType":"SET_PROF_STRATEGY"
     }
@@ -25,7 +24,7 @@
     "name": "Herald",
     "cost": 3,
     "description": "Choose an island and calculate the influence as if Mother Nature stopped there",
-    "type": "standard",
+    "requires": ["island"],
     "action": {
       "actionType": "CALCULATE_INFLUENCE"
     }
@@ -33,23 +32,21 @@
   {
     "name": "Centaur",
     "cost": 3,
-    "description": "During this turn, the influence count on islands does not count the Towers present",
-    "type": "standard",
+    "description": "During this turn the towers do not count in the influence calculation",
+    "requires": [""],
     "action": {
-      "actionType": "SET_INFLUENCE_STRATEGY",
-      "colorRequired": false
+      "actionType": "SET_INFLUENCE_STRATEGY"
     }
   },
   {
     "name": "Jester",
     "cost": 1,
     "description": "You can take up to 3 students from this card and exchange them with as many students in your entrance",
-    "type": "studentsOn",
+    "requires": ["swap","3"],
     "action": {
       "actionType": "SWAP",
       "from": "SELF",
-      "to": "ENTRANCE",
-      "numbOfMaxSwap": 3
+      "to": "ENTRANCE"
     },
     "numberOfStudentsOn": 6
   },
@@ -57,44 +54,40 @@
     "name": "Knight",
     "cost": 2,
     "description": "During this turn you have 2 additional points during the influence count",
-    "type": "standard",
+    "requires": [""],
     "action": {
-      "actionType": "SET_INFLUENCE_STRATEGY",
-      "colorRequired": false
+      "actionType": "SET_INFLUENCE_STRATEGY"
     }
   },
   {
     "name": "Mushroom Seller",
     "cost": 3,
     "description": "Choose a Student color. This turn, that color provides no influence when calculating influence",
-    "type": "standard",
+    "requires": ["color"],
     "action": {
-      "actionType": "SET_INFLUENCE_STRATEGY",
-      "colorRequired": true
+      "actionType": "SET_INFLUENCE_STRATEGY"
     }
   },
   {
     "name": "Minstrel",
     "cost": 1,
     "description": "You can exchange up to 2 Students present in your Hall and in your Entrance",
-    "type": "standard",
+    "requires": ["swap",2],
     "action": {
       "actionType": "SWAP",
       "from": "HALL",
-      "to": "ENTRANCE",
-      "numbOfMaxSwap": 2
+      "to": "ENTRANCE"
     }
   },
   {
     "name": "Spoiled Princess",
     "cost": 2,
     "description": "Take a Student from this card and place it in your Hall. Then take a new Student out of the sack and place it on this card.",
-    "type": "studentsOn",
+    "requires": ["color"],
     "action": {
       "actionType": "MOVE",
       "from": "SELF",
-      "to": "HALL",
-      "numOfMove": 1
+      "to": "HALL"
     },
     "numberOfStudentsOn": 4
   },
@@ -102,7 +95,7 @@
     "name": "Thief",
     "cost": 3,
     "description": "Choose a Student color; each player (including you) must return 3 Students of that color present in your Hall to the sack. Whoever has less will put all he has",
-    "type": "studentsOn",
+    "requires": ["color"],
     "action": {
       "actionType": "THIEF",
       "removedStudents": "3"

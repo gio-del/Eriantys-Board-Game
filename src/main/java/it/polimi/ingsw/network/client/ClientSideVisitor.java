@@ -21,8 +21,9 @@ public class ClientSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(LoginNotification msg) {
-        //TODO
+    public void visit(ModelUpdateNotification msg) {
+        shortModel.update(msg.getModel());
+        view.updateScreen(nickname);
     }
 
     @Override
@@ -32,7 +33,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(CloudsNotification msg) {
-        shortModel.updateCloud(msg.getCloudList());
+        shortModel.updateClouds(msg.getCloudList());
         view.updateScreen(nickname);
     }
 
@@ -50,7 +51,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(ChooseCloudNotification msg) {
-        shortModel.updateCloud(msg.getAvailableClouds());
+        shortModel.updateClouds(msg.getAvailableClouds());
         view.updateScreen(nickname);
         view.chooseCloud(msg.getAvailableClouds());
     }
@@ -74,7 +75,6 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(DisconnectionNotification msg) {
-        view.updateScreen(nickname);
         view.showDisconnection(msg.getNickname());
     }
 
@@ -96,6 +96,22 @@ public class ClientSideVisitor implements NotificationVisitor {
     }
 
     @Override
+    public void visit(CharacterNotification msg) {
+        shortModel.updateCharacters(msg.getCharacterInUse());
+        view.updateScreen(nickname);
+    }
+
+    @Override
+    public void visit(ColorNotification msg) {
+        view.askColor();
+    }
+
+    @Override
+    public void visit(IslandNotification msg) {
+        view.askIsland();
+    }
+
+    @Override
     public void visit(EventNotification msg) {
         view.showMessage(msg.getMessage());
     }
@@ -108,6 +124,11 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(GenericMessageNotification msg) {
         view.showMessage(msg.getMessage());
+    }
+
+    @Override
+    public void visit(LoginNotification msg) {
+        //do nothing
     }
 
     public void setNickname(String nickname) {

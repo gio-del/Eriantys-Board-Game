@@ -35,7 +35,7 @@ class GameTest {
      */
     @Test
     void startGameTest() {
-        game.startGame();
+        game.startGame(false);
         assertEquals(Constants.CHARACTER_IN_USE, game.getCharacterInUse().size());
         int expected = (Constants.STUDENTS_OF_EACH_COLOR-Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length
                 - game.getPlayers().size()*game.getGameLimit().getMaxEntrance();
@@ -115,7 +115,7 @@ class GameTest {
 
     @Test
     void fillCloudTest() {
-        game.startGame();
+        game.startGame(false);
         List<Cloud> cloudList = game.getClouds();
         for(Cloud cloud: cloudList){
             assertEquals(new Pawns(),cloud.getStudents());

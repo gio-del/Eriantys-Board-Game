@@ -33,7 +33,7 @@ public class WinHandler implements WinObserver {
 
     @Override
     public void updateTowerPlaced(TowerColor winner) {
-        if(model.getPlayerByTowerColor(winner).getTowerNum() == 0)
+        if(model.getPlayerByTowerColor(winner).getTowerNum() <= 0)
             handleWin();
     }
 

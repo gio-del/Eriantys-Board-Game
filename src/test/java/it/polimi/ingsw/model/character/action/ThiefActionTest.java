@@ -43,7 +43,7 @@ class ThiefActionTest {
 
     @Test
     void thiefTest() {
-        Action action = new ThiefAction(PawnColor.GREEN,players);
+        Action action = new ThiefAction(PawnColor.GREEN,players,3);
         action.apply();
 
         Pawns pawnsExpectedP1 = new Pawns(5,6,5,3,2);

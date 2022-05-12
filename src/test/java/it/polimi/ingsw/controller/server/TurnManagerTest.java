@@ -1,7 +1,5 @@
 package it.polimi.ingsw.controller.server;
 
-import it.polimi.ingsw.controller.server.GameController;
-import it.polimi.ingsw.controller.server.TurnManager;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;

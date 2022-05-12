@@ -1,25 +1,64 @@
 package it.polimi.ingsw.model.character;
 
 import com.fasterxml.jackson.annotation.*;
+import it.polimi.ingsw.model.Sack;
 import it.polimi.ingsw.model.character.actiondata.ActionData;
+import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.Island;
+import it.polimi.ingsw.model.place.Place;
 
-@JsonTypeInfo(
-        use = JsonTypeInfo.Id.NAME,
-        property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = StudentsOnCharacter.class, name = "studentsOn"),
-        @JsonSubTypes.Type(value = CharacterCard.class, name = "standard"),
-        @JsonSubTypes.Type(value = BanCharacter.class, name = "banCard")
-})
-@JsonTypeName("standard")
-@JsonRootName(value = "CharacterCard")
-public class CharacterCard {
-    protected String name;
-    protected int cost;
-    protected String description;
-    protected ActionData action;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class CharacterCard implements Place {
+    private String name;
+    private int cost;
+    private String description;
+    private ActionData action;
+    private List<String> requires;
     @JsonIgnore
-    protected boolean coinOn = false;
+    private boolean coinOn = false;
+    @JsonIgnore
+    private final Map<Island,Integer> islandMapBan = new HashMap<>();
+    private int numberOfBanTiles;
+    private int numberOfStudentsOn;
+    @JsonIgnore
+    private final Pawns students = new Pawns();
+    @JsonIgnore
+    private PawnColor chosenColor;
+    private Island chosenIsland;
+    private List<PawnColor> chosenSwap = new ArrayList<>();
+
+    @Override
+    public boolean remove(Pawns pawns) {
+        if(canBeRemoved(pawns)){
+            students.removePawns(pawns);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean add(Pawns pawns) {
+        if(canBeMoved(pawns)){
+            students.addPawns(pawns);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean canBeMoved(Pawns pawns) {
+        return numberOfStudentsOn>0 && pawns.totalElements()+students.totalElements() <= numberOfStudentsOn;
+    }
+
+    @Override
+    public boolean canBeRemoved(Pawns pawns) {
+        return numberOfStudentsOn>0 && students.canBeRemoved(pawns);
+    }
 
     public String getName() {
         return name;
@@ -41,7 +80,61 @@ public class CharacterCard {
         this.coinOn = coinOn;
     }
 
-    public String getAction(){
-        return action.getClass().getName();
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public ActionData getAction(){
+        return action;
+    }
+
+    public PawnColor getChosenColor() {
+        return chosenColor;
+    }
+
+    public Island getChosenIsland() {
+        return chosenIsland;
+    }
+
+    public List<PawnColor> getChosenSwap() {
+        return chosenSwap;
+    }
+
+    public void setChosenColor(PawnColor chosenColor) {
+        this.chosenColor = chosenColor;
+    }
+
+    public void setChosenIsland(Island chosenIsland) {
+        this.chosenIsland = chosenIsland;
+    }
+
+    public void setChosenSwap(List<PawnColor> chosenSwap) {
+        this.chosenSwap = chosenSwap;
+    }
+
+    public int getNumberOfStudentsOn() {
+        return numberOfStudentsOn;
+    }
+
+    public Pawns getStudents() {
+        return students;
+    }
+
+    public Map<Island, Integer> getIslandMapBan() {
+        return islandMapBan;
+    }
+
+    public int getNumberOfBanTiles() {
+        return numberOfBanTiles;
+    }
+
+    public List<String> getRequires() {
+        return requires;
+    }
+
+    public void fill(Sack sack) {
+        for(int i=0;i<numberOfStudentsOn;i++) {
+            students.addColor(sack.extract());
+        }
     }
 }

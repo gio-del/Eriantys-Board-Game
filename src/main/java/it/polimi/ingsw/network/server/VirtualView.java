@@ -60,8 +60,13 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void useCharacter(List<Character> characterNotAlreadyPlayed) {
-        //TODO
+    public void askColor() {
+        connection.sendMessage(new ColorNotification());
+    }
+
+    @Override
+    public void askIsland() {
+        connection.sendMessage(new IslandNotification());
     }
 
     @Override

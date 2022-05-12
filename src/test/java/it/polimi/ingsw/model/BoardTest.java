@@ -146,8 +146,7 @@ class BoardTest {
      */
     @Test
     void mushroomSellerStrategy(){
-        mushroomSellerStrategy = new MushroomSellerStrategy();
-        mushroomSellerStrategy.setBlockedColor(GREEN);
+        mushroomSellerStrategy = new MushroomSellerStrategy(GREEN);
         game.getBoard().setStrategy(mushroomSellerStrategy);
         game.getBoard().setMotherNaturePos(10);
         assertEquals(WHITE, game.getBoard().moveMotherNature(3, game.getPlayers()));

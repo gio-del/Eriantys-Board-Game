@@ -1,7 +1,12 @@
 package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.character.ActionVisitor;
+import it.polimi.ingsw.model.character.CharacterCard;
+import it.polimi.ingsw.model.character.ShortCharacter;
 import it.polimi.ingsw.model.clouds.ShortCloud;
+import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -17,13 +22,15 @@ public class TurnManager {
     private final GameController controller;
     private int request = 0;
     private int studentsMoved = 1;
+    private int characterRequest = 0;
     private String requestName;
     private boolean isLastTurn = false;
     private final Set<TowerColor> availableTowerColor;
     private final Set<Wizard> availableWizard;
-
-    public enum GameState{PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD}
+    public enum GameState{PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD,USE_CHARACTER}
     private GameState gameState;
+    private GameState callbackState;
+    private CharacterCard chosenCard;
     public TurnManager(Game game, GameController controller) {
         this.availableWizard = EnumSet.allOf(Wizard.class);
         this.availableTowerColor = new HashSet<>();
@@ -111,6 +118,12 @@ public class TurnManager {
                 game.setCurrentPlayer(requestName);
                 controller.getVirtualView(requestName).chooseCloud(game.getClouds().stream().map(ShortCloud::new).toList());
             }
+            case USE_CHARACTER -> {
+                if(characterRequest < chosenCard.getRequires().size())
+                    askRequirements(chosenCard.getRequires().get(characterRequest));
+                else
+                    chosenCard.getAction().accept(new ActionVisitor(this, game, chosenCard));
+            }
         }
     }
 
@@ -129,7 +142,7 @@ public class TurnManager {
             controller.getVirtualView(requestName).chooseWizardAndTowerColor(availableWizard, availableTowerColor);
         }
         else {
-            game.startGame();
+            game.startGame(controller.isExpertMode());
             controller.startMatch();
             gameState = GameState.PLANNING_ADD_TO_CLOUD;
             request = 0;
@@ -180,6 +193,56 @@ public class TurnManager {
             request++;
             turn();
         }
+    }
+
+    public void onChosenCharacter(ShortCharacter character) {
+        //todo: add control on name of the user of this character, it must be the only character played by him/her
+        callbackState = gameState;
+        gameState = GameState.USE_CHARACTER;
+        CharacterCard characterCard = game.getCharacterInUse().stream().filter(c -> c.getName().equals(character.getName())).findFirst().orElse(null);
+        if(characterCard!=null && game.canUseCharacter(characterCard)) {
+            this.chosenCard = characterCard;
+            turn();
+        } else {
+            onActionFailed();
+        }
+    }
+
+    private void askRequirements(String requirement) {
+        switch (requirement) {
+            case "color" -> controller.getVirtualView(requestName).askColor();
+            case "island" -> controller.getVirtualView(requestName).askIsland();
+            case "swap" -> {
+                //TODO
+                // chosenCard.getRequires().get(1); number of swap
+            }
+            default -> chosenCard.getAction().accept(new ActionVisitor(this, game, chosenCard));
+        }
+    }
+
+    public void onChooseIsland(Island island) {
+        chosenCard.setChosenIsland(island);
+        characterRequest++;
+        turn();
+    }
+
+    public void onChosenColor(PawnColor chosen) {
+        chosenCard.setChosenColor(chosen);
+        characterRequest++;
+        turn();
+    }
+
+    public void onActionCompleted() {
+        characterRequest = 0;
+        game.useCharacter(chosenCard);
+        gameState = callbackState;
+        turn();
+    }
+
+    public void onActionFailed() {
+        controller.getVirtualView(requestName).showMessage("Not enough money to play this character or incorrect input has been provided.");
+        gameState = callbackState;
+        turn();
     }
 
     public String getRequestName() {

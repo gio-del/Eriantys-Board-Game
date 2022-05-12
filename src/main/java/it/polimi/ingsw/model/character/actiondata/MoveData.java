@@ -7,7 +7,6 @@ import it.polimi.ingsw.model.character.ActionVisitor;
 public class MoveData implements ActionData {
     private PlaceData from;
     private PlaceData to;
-    private int numOfMove;
 
     @Override
     public void accept(ActionVisitor visitor) {
@@ -22,7 +21,11 @@ public class MoveData implements ActionData {
         return to;
     }
 
-    public int getNumOfMove() {
-        return numOfMove;
+    public void setFrom(PlaceData from) {
+        this.from = from;
+    }
+
+    public void setTo(PlaceData to) {
+        this.to = to;
     }
 }

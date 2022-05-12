@@ -24,7 +24,7 @@ public class CharacterJSONParser {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Constants.CHARACTER_JSON_PATH))));
             return Arrays.stream(mapper.readValue(buffer, CharacterCard[].class)).toList();
         } catch (NullPointerException | IOException e) {
-            System.out.println(e.getMessage());
+            Server.LOGGER.severe(e.getMessage());
             Server.LOGGER.severe(() -> "Server couldn't start. Failed to read character json file.");
             System.exit(1);
         }

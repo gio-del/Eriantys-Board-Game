@@ -65,6 +65,32 @@ public class ServerSideVisitor implements NotificationVisitor {
     }
 
     @Override
+    public void visit(CharacterNotification msg) {
+        if(turn.getRequestName().equals(msg.getSenderID())) {
+            turn.onChosenCharacter(msg.getCharacter());
+        }
+    }
+
+    @Override
+    public void visit(IslandNotification msg) {
+        if(turn.getRequestName().equals(msg.getSenderID())) {
+            int boardSize = game.getBoard().getIslands().size();
+            if(msg.getIsland()>=0  && msg.getIsland() < boardSize) {
+                turn.onChooseIsland(game.getBoard().getIslands().get(msg.getIsland()));
+            }
+            else turn.onActionFailed();
+
+        }
+    }
+
+    @Override
+    public void visit(ColorNotification msg) {
+        if(turn.getRequestName().equals(msg.getSenderID())) {
+            turn.onChosenColor(msg.getChosen());
+        }
+    }
+
+    @Override
     public void visit(NicknameErrorNotification msg) {
         //do nothing
     }
@@ -115,6 +141,11 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(ChooseGameModeNotification msg) {
+        //do nothing
+    }
+
+    @Override
+    public void visit(ModelUpdateNotification msg) {
         //do nothing
     }
 }

@@ -43,7 +43,6 @@ public class GameController {
      * @param msg the message sent by the client
      */
     public void handleMessage(Notification msg) {
-        //TODO: check who sent this message, if it's from the current player stop the timer on the connection.
         msg.accept(visitor);
     }
 
@@ -61,7 +60,6 @@ public class GameController {
 
 
     public void handleWin(String name) {
-        //TODO: check this: thread concurrency with disconnections.
         notifyWinner(name);
         connectionMap.clear();
         virtualViewMap.clear();
@@ -111,8 +109,8 @@ public class GameController {
         return winHandler;
     }
 
-    protected List<String> getNames() {
-        return names;
+    public boolean isExpertMode() {
+        return isExpertMode;
     }
 
     public void startMatch() {

@@ -8,59 +8,85 @@ public class ScanListener extends Thread {
     private final Scanner scanner;
     private boolean running = true;
 
-    public ScanListener(Cli cli){
+    public ScanListener(Cli cli) {
         this.cli = cli;
         scanner = new Scanner(System.in);
     }
 
     @Override
-    public void run(){
-        while(running){
-            if(scanner.hasNextLine()){
-                switch (request){
+    public void run() {
+        while(running) {
+            if(scanner.hasNextLine()) {
+                String input = scanner.nextLine();
+                switch (request) {
                     case IP -> {
                         request = Request.IGNORE;
-                        cli.checkIP(scanner.nextLine());
+                        cli.checkIP(input);
                     }
                     case NICKNAME -> {
                         request = Request.IGNORE;
-                        cli.checkNickName(scanner.nextLine());
+                        cli.checkNickName(input);
                     }
                     case GAME_MODE -> {
                         request = Request.IGNORE;
-                        cli.checkGameMode(scanner.nextLine());
+                        cli.checkGameMode(input);
                     }
                     case WIZARD_COLOR -> {
                         request = Request.IGNORE;
-                        cli.checkWizardColor(scanner.nextLine());
+                        cli.checkWizardColor(input);
                     }
                     case ASSISTANT -> {
                         request = Request.IGNORE;
-                        cli.checkAssistant(scanner.nextLine());
+                        cli.checkAssistant(input);
                     }
                     case CLOUD -> {
                         request = Request.IGNORE;
-                        cli.checkCloud(converterToInt(scanner.nextLine()));
+                        int charID = filter(input);
+                        if(charID!=-1) {
+                            cli.useCharacter(charID);
+                            break;
+                        }
+                        cli.checkCloud(converterToInt(input));
                     }
                     case MOTHER -> {
                         request = Request.IGNORE;
-                        cli.checkStepsMN(converterToInt(scanner.nextLine()));
+                        int charID = filter(input);
+                        if(charID!=-1) {
+                            cli.useCharacter(charID);
+                            break;
+                        }
+                        cli.checkStepsMN(converterToInt(input));
                     }
                     case STUDENT -> {
                         request = Request.IGNORE;
-                        cli.askColor(scanner.nextLine());
+                        int charID = filter(input);
+                        if(charID!=-1) {
+                            cli.useCharacter(charID);
+                            break;
+                        }
+                        cli.checkColor(input);
                     }
                     case MOVE -> {
                         request = Request.IGNORE;
-                        cli.moveToTarget(scanner.nextLine());
+                        cli.moveToTarget(input);
                     }
-                    case IGNORE -> scanner.nextLine();
+                    case COLOR_ACTION -> {
+                        request = Request.IGNORE;
+                        cli.checkColorAction(input);
+                    }
+                    case ISLAND_ACTION -> {
+                        request = Request.IGNORE;
+                        cli.checkIslandAction(converterToInt(input));
+                    }
+                    case IGNORE -> {
+                        //do nothing
+                    }
                 }
             }
         }
     }
 
-    public void setRequest(Request request){
+    public void setRequest(Request request) {
         this.request = request;
     }
 
@@ -69,7 +95,7 @@ public class ScanListener extends Thread {
      * @param value string to convert
      * @return -1 if conversion failed, otherwise the integer representation of the given string
      */
-    public int converterToInt(String value){
+    public int converterToInt(String value) {
         int number;
         try {
             number = Integer.parseInt(value);
@@ -79,7 +105,20 @@ public class ScanListener extends Thread {
         }
     }
 
-    public void stopListening(){
+    private int filter(String input) {
+        int pos = cli.getSpacePos(input);
+        String cmd = input.substring(0,pos);
+        if(cmd.equals("use")) {
+            int id = converterToInt(input.substring(pos+1));
+            if(id==-1) {
+                System.out.println("Character id not valid! Insert a valid id, or do the previous task");
+            }
+            return id;
+        }
+        return -1;
+    }
+
+    public void stopListening() {
         running = false;
         interrupt();
     }
