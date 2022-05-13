@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="400.0" fitWidth="600.0">
          <image>
-            <Image url="@../../../../../../Desktop/photo1652355715.jpeg" />
+            <Image url="@../images/Eriantys.png" />
          </image>
       </ImageView>
       <HBox fx:id="myBox" alignment="CENTER" layoutX="205.0" layoutY="188.0" />
