@@ -78,6 +78,14 @@ public class ScanListener extends Thread {
                         request = Request.IGNORE;
                         cli.checkIslandAction(converterToInt(input));
                     }
+                    case COLOR_SWAP -> {
+                        request = Request.IGNORE;
+                        cli.checkSwapAction(input);
+                    }
+                    case CONTINUE_SWAPPING -> {
+                        request = Request.IGNORE;
+                        cli.checkContinueSwapping(input);
+                    }
                     case IGNORE -> {
                         //do nothing
                     }

@@ -22,7 +22,7 @@ public class SwapAction implements Action {
         int i = 0;
         Pawns toBeRemovedFrom = new Pawns();
         Pawns toBeRemovedTo = new Pawns();
-        if (swapList.size() % 2 != 0) return false;
+        if (swapList.size() % 2 != 0) return false; //todo: add control on number of swaps!
         while (i < swapList.size()) {
             toBeRemovedFrom.addColor(swapList.get(i));
             toBeRemovedTo.addColor(swapList.get(i + 1));

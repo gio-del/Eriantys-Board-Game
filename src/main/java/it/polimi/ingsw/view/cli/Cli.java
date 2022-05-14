@@ -27,9 +27,11 @@ import java.util.*;
  */
 public class Cli extends ClientObservable implements View {
     private final ScanListener scanListener;
+    private final List<PawnColor> swapColor = new ArrayList<>();
     private int maxSteps;
     private PawnColor chosenColor;
     private ShortModel resource;
+
 
     public Cli() {
         scanListener = new ScanListener(this);
@@ -304,13 +306,13 @@ public class Cli extends ClientObservable implements View {
     }
 
     public void checkColorAction(String color) {
-        PawnColor chosen = Arrays.stream(PawnColor.values()).filter(pawnColor -> pawnColor.name().equalsIgnoreCase(color)).findFirst().orElse(null);
-        if (chosen == null) {
+        try {
+            PawnColor chosen = PawnColor.valueOf(color.toUpperCase());
+            notifyObserver(observer -> observer.updateColorAction(chosen));
+        } catch (IllegalArgumentException e) {
             System.out.println("Not a color, retry.");
             scanListener.setRequest(Request.COLOR_ACTION);
-            return;
         }
-        notifyObserver(observer -> observer.updateColorAction(chosen));
     }
 
     @Override
@@ -330,7 +332,41 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void askSwapList(int swap) {
-        //TODO
+        System.out.println("Insert a pair of color to swap! You have " + swap + " swap. Syntax [FROM TO]");
+        scanListener.setRequest(Request.COLOR_SWAP);
+    }
+
+    public void checkSwapAction(String input) {
+        int pos = getSpacePos(input);
+        if (pos == input.length()) {
+            System.out.println("Input not correct. Syntax [FROM TO]");
+            scanListener.setRequest(Request.COLOR_SWAP);
+        } else {
+            try {
+                PawnColor from = PawnColor.valueOf(input.substring(0, pos).toUpperCase());
+                PawnColor to = PawnColor.valueOf(input.substring(pos + 1).toUpperCase());
+                swapColor.add(from);
+                swapColor.add(to);
+                System.out.println("Do you want to continue swapping pawns? [y/n]");
+                scanListener.setRequest(Request.CONTINUE_SWAPPING);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Input not correct. Syntax [FROM TO]");
+                scanListener.setRequest(Request.COLOR_SWAP);
+            }
+
+        }
+    }
+
+    public void checkContinueSwapping(String input) {
+        if (input.equals("yes") || input.equals("y")) {
+            System.out.println("Insert a pair of color to swap!");
+            scanListener.setRequest(Request.COLOR_SWAP);
+        } else if (input.equals("no") || input.equals("n")) {
+            notifyObserver(observer -> observer.updateSwapAction(swapColor));
+        } else {
+            System.out.println("Not correct answer, retry.");
+            scanListener.setRequest(Request.CONTINUE_SWAPPING);
+        }
     }
 
     @Override

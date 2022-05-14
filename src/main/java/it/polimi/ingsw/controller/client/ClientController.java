@@ -10,8 +10,11 @@ import it.polimi.ingsw.network.client.ClientSideVisitor;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.network.communication.notification.*;
+import it.polimi.ingsw.network.server.SwapNotification;
 import it.polimi.ingsw.observer.ClientObserver;
 import it.polimi.ingsw.view.View;
+
+import java.util.List;
 
 import static java.lang.System.exit;
 
@@ -138,6 +141,13 @@ public class ClientController implements ClientObserver {
         Notification islandNotification = new IslandNotification(island);
         islandNotification.setClientId(nickname);
         client.sendMessage(islandNotification);
+    }
+
+    @Override
+    public void updateSwapAction(List<PawnColor> swapColor) {
+        Notification swapNotification = new SwapNotification(swapColor);
+        swapNotification.setClientId(nickname);
+        client.sendMessage(swapNotification);
     }
 
     public void onDisconnection() {

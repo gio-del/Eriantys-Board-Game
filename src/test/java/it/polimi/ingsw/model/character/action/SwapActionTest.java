@@ -42,7 +42,7 @@ class SwapActionTest {
      * Test the successful swap
      */
     @Test
-    void swapActionIfOk() {
+    void swapActionIfOk_1() {
         List<PawnColor> swapList = List.of(PawnColor.RED,PawnColor.BLUE,PawnColor.GREEN,PawnColor.YELLOW);
         //EXPECTED AFTER SWAP
         // FROM: 0 0 2 1 2
@@ -50,6 +50,20 @@ class SwapActionTest {
         assertTrue(new SwapAction(from,to,swapList).apply());
         assertEquals(new Pawns(0,0,2,1,2),fromEntrance);
         assertEquals(new Pawns(3,3,1,2,1),toHall);
+    }
+
+    /**
+     * Test the successful swap
+     */
+    @Test
+    void swapActionIfOk_2() {
+        List<PawnColor> swapList = List.of(PawnColor.RED,PawnColor.BLUE);
+        //EXPECTED AFTER SWAP
+        // FROM: 1 0 1 1 2
+        // TO: 2 3 2 2 1
+        assertTrue(new SwapAction(from,to,swapList).apply());
+        assertEquals(new Pawns(1,0,1,1,2),fromEntrance);
+        assertEquals(new Pawns(2,3,2,2,1),toHall);
     }
 
     /**

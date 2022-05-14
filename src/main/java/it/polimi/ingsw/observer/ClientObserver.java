@@ -6,6 +6,8 @@ import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.communication.Target;
 
+import java.util.List;
+
 /**
  * The client observer implements this interface.
  */
@@ -31,4 +33,6 @@ public interface ClientObserver {
     void updateColorAction(PawnColor chosen);
 
     void updateIslandAction(int island);
+
+    void updateSwapAction(List<PawnColor> swapColor);
 }
