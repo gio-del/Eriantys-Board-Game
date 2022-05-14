@@ -17,15 +17,16 @@ public class GameLimitParser {
     /**
      * @return a list with the {@link GameLimitData} if it parsed correctly, an empty map otherwise
      */
-    public Map<Integer,GameLimitData> parseLimit(){
+    public Map<Integer, GameLimitData> parseLimit() {
         Gson gson = new Gson();
-        Type type = new TypeToken<Map<Integer,GameLimitData>>(){}.getType();
-        Map<Integer,GameLimitData> gameLimitDataMap;
+        Type type = new TypeToken<Map<Integer, GameLimitData>>() {
+        }.getType();
+        Map<Integer, GameLimitData> gameLimitDataMap;
         try {
             BufferedReader buffer = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Constants.GAME_LIMIT_MAP_PATH))));
             gameLimitDataMap = gson.fromJson(buffer, type);
             return gameLimitDataMap;
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             Server.LOGGER.severe(() -> "Server couldn't start. Failed to read GameLimit json file.");
             System.exit(1);
         }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.character.action;
 
-import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.Place;
 
 public class MoveAction implements Action {
     private final Place from;
@@ -16,7 +16,7 @@ public class MoveAction implements Action {
 
     @Override
     public boolean apply() {
-        if(from.canBeRemoved(pawnsToBeMoved) && to.canBeMoved(pawnsToBeMoved)) {
+        if (from.canBeRemoved(pawnsToBeMoved) && to.canBeMoved(pawnsToBeMoved)) {
             return from.remove(pawnsToBeMoved) && to.add(pawnsToBeMoved);
         }
         return false;

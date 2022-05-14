@@ -3,9 +3,9 @@ package it.polimi.ingsw.view.cli;
 import java.util.Scanner;
 
 public class ScanListener extends Thread {
-    private Request request = Request.IGNORE;
     private final Cli cli;
     private final Scanner scanner;
+    private Request request = Request.IGNORE;
     private boolean running = true;
 
     public ScanListener(Cli cli) {
@@ -15,8 +15,8 @@ public class ScanListener extends Thread {
 
     @Override
     public void run() {
-        while(running) {
-            if(scanner.hasNextLine()) {
+        while (running) {
+            if (scanner.hasNextLine()) {
                 String input = scanner.nextLine();
                 switch (request) {
                     case IP -> {
@@ -42,7 +42,7 @@ public class ScanListener extends Thread {
                     case CLOUD -> {
                         request = Request.IGNORE;
                         int charID = filter(input);
-                        if(charID!=-1) {
+                        if (charID != -1) {
                             cli.useCharacter(charID);
                             break;
                         }
@@ -51,7 +51,7 @@ public class ScanListener extends Thread {
                     case MOTHER -> {
                         request = Request.IGNORE;
                         int charID = filter(input);
-                        if(charID!=-1) {
+                        if (charID != -1) {
                             cli.useCharacter(charID);
                             break;
                         }
@@ -60,7 +60,7 @@ public class ScanListener extends Thread {
                     case STUDENT -> {
                         request = Request.IGNORE;
                         int charID = filter(input);
-                        if(charID!=-1) {
+                        if (charID != -1) {
                             cli.useCharacter(charID);
                             break;
                         }
@@ -92,6 +92,7 @@ public class ScanListener extends Thread {
 
     /**
      * Converts the String into a number
+     *
      * @param value string to convert
      * @return -1 if conversion failed, otherwise the integer representation of the given string
      */
@@ -107,14 +108,14 @@ public class ScanListener extends Thread {
 
     private int filter(String input) {
         int pos = cli.getSpacePos(input);
-        if(pos == input.length()) {
+        if (pos == input.length()) {
             System.out.println("Character use not valid. The correct syntax is [use #id]. Please, insert a valid character or do the previous task");
             return -1;
         }
-        String cmd = input.substring(0,pos);
-        if(cmd.equals("use")) {
-            int id = converterToInt(input.substring(pos+1));
-            if(id==-1) {
+        String cmd = input.substring(0, pos);
+        if (cmd.equals("use")) {
+            int id = converterToInt(input.substring(pos + 1));
+            if (id == -1) {
                 System.out.println("Character id not valid! Insert a valid id, or do the previous task");
             }
             return id;

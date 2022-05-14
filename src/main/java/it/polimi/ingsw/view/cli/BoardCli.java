@@ -11,12 +11,12 @@ public class BoardCli {
     private final ShortBoard board;
     private final List<IslandCli> islandsCli;
 
-    public BoardCli(ShortBoard board){
+    public BoardCli(ShortBoard board) {
         this.board = board;
         this.islandsCli = new ArrayList<>();
     }
 
-    public void printBoard(){
+    public void printBoard() {
         int i;
         int j;
         List<StringBuilder> row0 = new ArrayList<>();
@@ -27,17 +27,17 @@ public class BoardCli {
         int numOfIslands;
         numOfIslands = board.getIslands().size();
 
-        for(ShortIsland island: board.getIslands()){
+        for (ShortIsland island : board.getIslands()) {
             IslandCli islandCli = new IslandCli(island, board.getIslands().indexOf(island), board.getMotherNaturePos());
             islandsCli.add(islandCli);
         }
 
-        if(numOfIslands % 2 == 0){
+        if (numOfIslands % 2 == 0) {
             islandsFirstRow = numOfIslands / 2;
-            for(j = 0; j < Constants.ISLAND_HIGH; j++){
+            for (j = 0; j < Constants.ISLAND_HIGH; j++) {
                 StringBuilder stringBuilder0 = new StringBuilder();
                 StringBuilder stringBuilder1 = new StringBuilder();
-                for(i = 0; i < islandsFirstRow; i++){
+                for (i = 0; i < islandsFirstRow; i++) {
                     stringBuilder0.append(islandsCli.get(i).getLines().get(j)).append("    ");
                     stringBuilder1.append(islandsCli.get(numOfIslands - 1 - i).getLines().get(j)).append("    ");
                 }
@@ -46,16 +46,16 @@ public class BoardCli {
             }
         } else {
             islandsFirstRow = numOfIslands / 2 + 1;
-            for(j = 0; j < Constants.ISLAND_HIGH; j++){
+            for (j = 0; j < Constants.ISLAND_HIGH; j++) {
                 StringBuilder stringBuilder0 = new StringBuilder();
-                for(i = 0; i < islandsFirstRow; i++){
+                for (i = 0; i < islandsFirstRow; i++) {
                     stringBuilder0.append(islandsCli.get(i).getLines().get(j)).append("    ");
                 }
                 row0.add(stringBuilder0);
             }
-            for(j = 0; j < Constants.ISLAND_HIGH; j++){
+            for (j = 0; j < Constants.ISLAND_HIGH; j++) {
                 StringBuilder stringBuilder1 = new StringBuilder(empties(Constants.ISLAND_WIDTH_1 / 2));
-                for(i = numOfIslands - 1; i > islandsFirstRow - 1; i--){
+                for (i = numOfIslands - 1; i > islandsFirstRow - 1; i--) {
                     stringBuilder1.append(islandsCli.get(i).getLines().get(j)).append("    ");
                 }
                 row1.add(stringBuilder1);
@@ -69,19 +69,19 @@ public class BoardCli {
     }
 
 
-    private String underScores(int rep){
+    private String underScores(int rep) {
         int i;
         StringBuilder string = new StringBuilder();
-        for (i = 0; i < rep; i++){
+        for (i = 0; i < rep; i++) {
             string.append("_");
         }
         return string.toString();
     }
 
-    private String empties(int rep){
+    private String empties(int rep) {
         int i;
         StringBuilder string = new StringBuilder();
-        for (i = 0; i < rep; i++){
+        for (i = 0; i < rep; i++) {
             string.append(" ");
         }
         return string.toString();

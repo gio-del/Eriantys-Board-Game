@@ -19,16 +19,16 @@ import static java.lang.System.exit;
  * This class represents the server.
  */
 public class Server {
+    public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
+    public static final String NAME = "server";
     /**
      * A relation to know which game a player is part of
      */
     private final Map<String, GameController> matchesMap;
-    public static final Logger LOGGER = Logger.getLogger(Server.class.getName());
-    public static final String NAME = "server";
     private final Set<String> alreadyChosenNicknames;
-    private ServerSocket serverSocket;
     private final LobbyManager lobbyManager;
-    private final Map<Socket,String> socketStringMap;
+    private final Map<Socket, String> socketStringMap;
+    private ServerSocket serverSocket;
 
     public Server(int port) {
         lobbyManager = new LobbyManager(this);
@@ -46,15 +46,16 @@ public class Server {
 
     public void start() {
         checkStart();
-        new Thread(new ServerThread(serverSocket,this)).start();
+        new Thread(new ServerThread(serverSocket, this)).start();
     }
 
     /**
      * When a client join it is added to the {@link LobbyManager}
+     *
      * @param socketConnection to be added
      */
     public synchronized void addClient(String nickname, SocketConnection socketConnection) {
-        if(alreadyChosenNicknames.contains(nickname)) {
+        if (alreadyChosenNicknames.contains(nickname)) {
             Notification msg = new NicknameErrorNotification();
             msg.setClientId(Server.NAME);
             socketConnection.sendMessage(msg);
@@ -62,37 +63,36 @@ public class Server {
         }
         LOGGER.info(() -> nickname + " joined the lobby");
         alreadyChosenNicknames.add(nickname);
-        socketStringMap.put(socketConnection.getClient(),nickname);
+        socketStringMap.put(socketConnection.getClient(), nickname);
         lobbyManager.addClient(nickname, socketConnection);
     }
 
-    public synchronized void addMatch(List<String> names,GameController controller) {
+    public synchronized void addMatch(List<String> names, GameController controller) {
         LOGGER.info(() -> "A match is started.");
-        names.forEach(name -> matchesMap.put(name,controller));
+        names.forEach(name -> matchesMap.put(name, controller));
     }
 
     public void receiveMessage(Notification msg) {
-        if(msg instanceof ChooseGameModeNotification chooseGameModeMsg) {
+        if (msg instanceof ChooseGameModeNotification chooseGameModeMsg) {
             lobbyManager.onUpdateGameMode(chooseGameModeMsg);
-        }
-        else
+        } else
             matchesMap.get(msg.getSenderID()).handleMessage(msg);
     }
 
     public synchronized void handleDisconnection(Socket client) {
         String nickname = socketStringMap.get(client);
-        if(nickname==null) return; //if the client hasn't chosen nickname he is nor in the lobby nor in a match.
+        if (nickname == null) return; //if the client hasn't chosen nickname he is nor in the lobby nor in a match.
         alreadyChosenNicknames.remove(nickname);
         socketStringMap.remove(client);
         boolean check = false;
-        for(Map.Entry<String,GameController> entry: matchesMap.entrySet()) {
+        for (Map.Entry<String, GameController> entry : matchesMap.entrySet()) {
             String name = entry.getKey();
-            if(name.equals(nickname)) {
+            if (name.equals(nickname)) {
                 check = true; //the client is in a game
                 matchesMap.get(name).handleDisconnection(nickname);
             }
         }
-        if(!check) //the client is in the lobby
+        if (!check) //the client is in the lobby
             lobbyManager.handleDisconnection(nickname);
     }
 

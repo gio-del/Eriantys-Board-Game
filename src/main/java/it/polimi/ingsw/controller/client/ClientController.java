@@ -33,13 +33,23 @@ public class ClientController implements ClientObserver {
         this.view = view;
         client = new Client(this);
         shortModel = new ShortModel();
-        visitor = new ClientSideVisitor(view,shortModel);
+        visitor = new ClientSideVisitor(view, shortModel);
         view.injectResource(shortModel);
 
     }
 
+    public static boolean isValidIp(String ip) {
+        String regex = "^(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(\\.(?!$)|$)){4}$)|^localhost$";
+        return ip.matches(regex);
+    }
+
+    public static boolean isValidPort(int port) {
+        return port >= 1 && port <= 65535;
+    }
+
     /**
      * Receive messages from server and dispatch them using a {@link NotificationVisitor}
+     *
      * @param msg to be dispatched
      */
     public void receiveMessage(Notification msg) {
@@ -48,11 +58,10 @@ public class ClientController implements ClientObserver {
 
     @Override
     public void updateConnection(String ip, int port) {
-        if(client.connect(ip,port)){
+        if (client.connect(ip, port)) {
             client.start();
             view.setNickname();
-        }
-        else {
+        } else {
             view.showDisconnection("Server not reachable! Exiting...");
             exit(0);
         }
@@ -70,7 +79,7 @@ public class ClientController implements ClientObserver {
     @Override
     public void updateGameModeNumPlayer(String mode, int numOfPlayer) {
         boolean isExpert = mode.equalsIgnoreCase("Expert");
-        Notification chooseGameMode = new ChooseGameModeNotification(numOfPlayer,isExpert);
+        Notification chooseGameMode = new ChooseGameModeNotification(numOfPlayer, isExpert);
         chooseGameMode.setClientId(nickname);
         client.sendMessage(chooseGameMode);
     }
@@ -105,7 +114,7 @@ public class ClientController implements ClientObserver {
 
     @Override
     public void updateMoveStudent(PawnColor color, Target target, int island) {
-        Notification moveStudentNotification = new MoveStudentNotification(color,target,island);
+        Notification moveStudentNotification = new MoveStudentNotification(color, target, island);
         moveStudentNotification.setClientId(nickname);
         client.sendMessage(moveStudentNotification);
     }
@@ -135,14 +144,5 @@ public class ClientController implements ClientObserver {
         String s = "Connection closed with the server. Exiting...";
         view.showDisconnection(s);
         exit(0);
-    }
-
-    public static boolean isValidIp(String ip) {
-        String regex = "^(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(\\.(?!$)|$)){4}$)|^localhost$";
-        return ip.matches(regex);
-    }
-
-    public static boolean isValidPort(int port) {
-        return port >= 1 && port <= 65535;
     }
 }

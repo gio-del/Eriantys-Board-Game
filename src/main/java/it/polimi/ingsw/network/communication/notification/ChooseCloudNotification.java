@@ -13,7 +13,9 @@ public class ChooseCloudNotification extends Notification {
     private List<ShortCloud> availableClouds;
     private int chosenCloud;
 
-    public ChooseCloudNotification(int chosenCloud) { this.chosenCloud = chosenCloud; }
+    public ChooseCloudNotification(int chosenCloud) {
+        this.chosenCloud = chosenCloud;
+    }
 
     public ChooseCloudNotification(List<ShortCloud> availableClouds) {
         this.availableClouds = availableClouds;

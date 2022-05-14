@@ -10,7 +10,7 @@ import java.util.Map;
  * This class represents the Bank used in expert mode
  */
 public class Bank {
-    private final Map<Player,Integer> cashMap;
+    private final Map<Player, Integer> cashMap;
     private int generalBank;
 
     public Bank() {
@@ -27,19 +27,21 @@ public class Bank {
 
     /**
      * Getter of each player money
+     *
      * @param player cash holder
      * @return money of the player
      */
-    public int getCashByPlayer(Player player){
+    public int getCashByPlayer(Player player) {
         return cashMap.get(player);
     }
 
     /**
      * Initialize a player. Gives him a coin taken from the bank
+     *
      * @param player to initialize
      */
-    public void initPlayer(Player player){
-        if(generalBank > 0) {
+    public void initPlayer(Player player) {
+        if (generalBank > 0) {
             generalBank -= 1;
             cashMap.put(player, Constants.INITIAL_CASH_PER_PLAYER);
         }
@@ -47,13 +49,14 @@ public class Bank {
 
     /**
      * Add a coin to the player
+     *
      * @param player to reward
      * @return true if player was rewarded, otherwise false
      */
-    public boolean reward(Player player){
-        if(generalBank > 0){
+    public boolean reward(Player player) {
+        if (generalBank > 0) {
             generalBank -= 1;
-            cashMap.put(player,cashMap.get(player) + 1);
+            cashMap.put(player, cashMap.get(player) + 1);
             return true;
         }
         return false;
@@ -61,13 +64,14 @@ public class Bank {
 
     /**
      * Take coins from a player
+     *
      * @param player to take money from
-     * @param coin number of coins to take
+     * @param coin   number of coins to take
      * @return true if player can pay that amount of coins (and pays it), otherwise false
      */
     public boolean pay(Player player, int coin) {
-        if(canPay(player,coin)) {
-            cashMap.put(player,cashMap.get(player) - coin);
+        if (canPay(player, coin)) {
+            cashMap.put(player, cashMap.get(player) - coin);
             generalBank += coin;
             return true;
         }
@@ -76,7 +80,7 @@ public class Bank {
 
     /**
      * @param player paying
-     * @param coin number of coins to take
+     * @param coin   number of coins to take
      * @return true if player can pay that amount of coins, otherwise false
      */
     public boolean canPay(Player player, int coin) {

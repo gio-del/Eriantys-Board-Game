@@ -15,7 +15,7 @@ public class SchoolExtended {
         lines.add(CLISymbol.SCHOOL_HEADER);
         int i;
         int max;
-        for(PawnColor pawnColor: PawnColor.values()) {
+        for (PawnColor pawnColor : PawnColor.values()) {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(CLIColor.valueOf(pawnColor.name()));
             max = school.getEntrance().getFromColor(pawnColor);
@@ -47,26 +47,26 @@ public class SchoolExtended {
         lines.add(bottomBuilder(school.getNumTower()));
     }
 
-    private String nameBuilder(String name){
+    private String nameBuilder(String name) {
         StringBuilder stringBuilder = new StringBuilder("YOUR SCHOOL: " + name);
         stringBuilder.append(empties(Constants.SCHOOL_WIDTH - stringBuilder.length()));
         return stringBuilder.toString();
     }
 
-    private String bottomBuilder(int numTower){
+    private String bottomBuilder(int numTower) {
         int i;
         StringBuilder stringBuilder = new StringBuilder("TOWER TO BE PLACED: ");
-        for(i = 0; i < numTower; i++){
+        for (i = 0; i < numTower; i++) {
             stringBuilder.append(CLISymbol.TOWER).append(" ");
         }
         stringBuilder.append(empties(Constants.SCHOOL_WIDTH - stringBuilder.length()));
         return stringBuilder.toString();
     }
 
-    private String empties(int rep){
+    private String empties(int rep) {
         int i;
         StringBuilder string = new StringBuilder();
-        for (i = 0; i < rep; i++){
+        for (i = 0; i < rep; i++) {
             string.append(" ");
         }
         return string.toString();

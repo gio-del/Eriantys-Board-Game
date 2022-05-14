@@ -11,14 +11,14 @@ import java.util.List;
  * This class represents the single island with pawns on it, the tower if present and the dimension
  */
 public class Island implements Place {
-    private int dimension;
     private final Pawns students;
+    private int dimension;
     private TowerColor tower;
 
     /**
      * Construct the basic island
      */
-    public Island(){
+    public Island() {
         this.dimension = 1;
         this.students = new Pawns();
         this.tower = null;
@@ -26,6 +26,7 @@ public class Island implements Place {
 
     /**
      * Cannot be removed
+     *
      * @param pawns to be removed
      * @return false, because a pawn cannot be removed from an island
      */
@@ -36,6 +37,7 @@ public class Island implements Place {
 
     /**
      * To add some students on the island
+     *
      * @param pawns to be added
      * @return if works
      */
@@ -46,6 +48,7 @@ public class Island implements Place {
 
     /**
      * If students can move in this island
+     *
      * @param pawns to be moved in this island
      * @return true, always can be
      */
@@ -56,6 +59,7 @@ public class Island implements Place {
 
     /**
      * If students can be removed from this island
+     *
      * @param pawns to be removed
      * @return false, must stay here
      */
@@ -66,6 +70,7 @@ public class Island implements Place {
 
     /**
      * To add a single pawn of a color
+     *
      * @param pawnColor to be added
      * @return true if added
      */
@@ -75,31 +80,31 @@ public class Island implements Place {
 
     /**
      * To calculate if there is a winner of the island during a movement of mother nature
+     *
      * @param winners list of the player with the maximum score on the island
      * @param players of the game
      * @return the towerColor added if island is conquered, otherwise null if nothing changes
      */
-    public TowerColor conquerIsland(List<Player> winners, List<Player> players){
-        if(winners.size() != 1) return null;
-        if(this.tower == null){
+    public TowerColor conquerIsland(List<Player> winners, List<Player> players) {
+        if (winners.size() != 1) return null;
+        if (this.tower == null) {
             this.tower = winners.get(0).addTowerToIsland();
             return this.tower;
         } else {
-            if(this.tower != (winners.get(0).getColor())){
-                for(Player player : players){
-                    if(this.tower == (player.getColor())){
+            if (this.tower != (winners.get(0).getColor())) {
+                for (Player player : players) {
+                    if (this.tower == (player.getColor())) {
                         player.backTowerToPlayer();
                         this.tower = winners.get(0).addTowerToIsland();
                         return this.tower;
-                        }
                     }
                 }
             }
+        }
         return null;
     }
 
     /**
-     *
      * @return dimension of the island
      */
     public int getDimension() {
@@ -114,7 +119,6 @@ public class Island implements Place {
     }
 
     /**
-     *
      * @return the TowerColor if a tower is present
      */
     public TowerColor getTower() {
@@ -123,25 +127,29 @@ public class Island implements Place {
 
     /**
      * Used during a conquest of the island
+     *
      * @param towerColor of the tower to be added
      */
-    public void addTower(TowerColor towerColor){
+    public void addTower(TowerColor towerColor) {
         this.tower = towerColor;
     }
 
     /**
      * When two adjacent islands has the same towerColor they merge and change dimension
+     *
      * @param dimension of the island to merge with
      */
-    public void upgradeDimension(int dimension){ this.dimension = this.dimension + dimension;
+    public void upgradeDimension(int dimension) {
+        this.dimension = this.dimension + dimension;
     }
 
     /**
      * To print the content of the island
+     *
      * @return the string of the content
      */
     @Override
     public String toString() {
-        return students + (((tower!=null)?"TOWER "+tower:" ") + dimension);
+        return students + (((tower != null) ? "TOWER " + tower : " ") + dimension);
     }
 }

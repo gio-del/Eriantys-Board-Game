@@ -19,18 +19,16 @@ public class TurnManager {
     private final List<String> playersOrder;
     private final Game game;
     private final GameController controller;
+    private final Set<TowerColor> availableTowerColor;
+    private final Set<Wizard> availableWizard;
     private int request = 0;
     private int studentsMoved = 1;
     private int characterRequest = 0;
     private String requestName;
     private boolean isLastTurn = false;
-    private final Set<TowerColor> availableTowerColor;
-    private final Set<Wizard> availableWizard;
-    public enum GameState{PLANNING_ADD_TO_CLOUD,PLANNING_ASSISTANT,ACTION_MOVE,ACTION_MN,ACTION_CHOOSE_CLOUD,USE_CHARACTER}
     private GameState gameState;
     private GameState callbackState;
     private CharacterCard chosenCard;
-
     public TurnManager(Game game, GameController controller) {
         this.availableWizard = EnumSet.allOf(Wizard.class);
         this.availableTowerColor = new HashSet<>();
@@ -41,10 +39,11 @@ public class TurnManager {
 
     /**
      * Set the order to the action one according to the played assistant (ascendant card's value order)
+     *
      * @param nicknameMapAssistant a list of relation between player and played assistant
      */
-    public void setActionOrder(List<Pair<String,Assistant>> nicknameMapAssistant) {
-        List<Pair<String,Assistant>> sortedList = nicknameMapAssistant.stream().sorted(Comparator.comparingInt(o -> o.second().value())).toList();
+    public void setActionOrder(List<Pair<String, Assistant>> nicknameMapAssistant) {
+        List<Pair<String, Assistant>> sortedList = nicknameMapAssistant.stream().sorted(Comparator.comparingInt(o -> o.second().value())).toList();
         List<String> order = sortedList.stream().map(Pair::first).toList();
         playersOrder.clear();
         playersOrder.addAll(order);
@@ -52,19 +51,20 @@ public class TurnManager {
 
     /**
      * Set the order to the planning one according to the played assistant (the lowest card's value and so clockwise)
+     *
      * @param nicknameMapAssistant a list of relation between player and played assistant
-     * @param players the order of player at the table
+     * @param players              the order of player at the table
      */
-    public void setPlanningOrder(List<Pair<String,Assistant>> nicknameMapAssistant, List<String> players) {
+    public void setPlanningOrder(List<Pair<String, Assistant>> nicknameMapAssistant, List<String> players) {
         String minValuePlayer = nicknameMapAssistant.stream().min(Comparator.comparingInt(o -> o.second().value())).map(Pair::first).orElse("");
-        List<String> order = pickListFromFirst(minValuePlayer,players);
+        List<String> order = pickListFromFirst(minValuePlayer, players);
         playersOrder.clear();
         playersOrder.addAll(order);
-        }
+    }
 
     private List<String> pickListFromFirst(String first, List<String> players) {
         List<String> order = new ArrayList<>();
-        if(players.contains(first)) {
+        if (players.contains(first)) {
             int pos = players.indexOf(first);
             int index;
             if (pos != -1) {
@@ -86,7 +86,7 @@ public class TurnManager {
         List<String> clone = new ArrayList<>(players);
         Collections.shuffle(clone);
         playersOrder.clear();
-        playersOrder.addAll(pickListFromFirst(clone.get(0),clone));
+        playersOrder.addAll(pickListFromFirst(clone.get(0), clone));
     }
 
     //todo: state pattern
@@ -119,7 +119,7 @@ public class TurnManager {
                 controller.getVirtualView(requestName).chooseCloud(game.getClouds().stream().map(ShortCloud::new).toList());
             }
             case USE_CHARACTER -> {
-                if(characterRequest < chosenCard.getRequires().size())
+                if (characterRequest < chosenCard.getRequires().size())
                     askRequirements(chosenCard.getRequires().get(characterRequest));
                 else
                     chosenCard.getAction().accept(new ActionVisitor(this, game, chosenCard));
@@ -130,18 +130,17 @@ public class TurnManager {
     public void onInit() {
         availableTowerColor.addAll(GameLimit.getLimit(playersOrder.size()).getTowerColors());
         requestName = playersOrder.get(request);
-        controller.getVirtualView(requestName).chooseWizardAndTowerColor(availableWizard,availableTowerColor);
+        controller.getVirtualView(requestName).chooseWizardAndTowerColor(availableWizard, availableTowerColor);
     }
 
     public void onChosenWizAndColor(Wizard wizard, TowerColor towerColor) {
-        if(!controller.gameReady()) {
+        if (!controller.gameReady()) {
             availableWizard.remove(wizard);
             availableTowerColor.remove(towerColor);
             request++;
             requestName = playersOrder.get(request);
             controller.getVirtualView(requestName).chooseWizardAndTowerColor(availableWizard, availableTowerColor);
-        }
-        else {
+        } else {
             game.startGame(controller.isExpertMode());
             controller.startMatch();
             gameState = GameState.PLANNING_ADD_TO_CLOUD;
@@ -151,9 +150,9 @@ public class TurnManager {
     }
 
     public void onChosenAssistant() {
-        if(game.getPlayerByName(requestName).getHand().isEmpty())
+        if (game.getPlayerByName(requestName).getHand().isEmpty())
             isLastTurn = true;
-        if(request == playersOrder.size()-1) {
+        if (request == playersOrder.size() - 1) {
             gameState = GameState.ACTION_MOVE;
             setActionOrder(game.getPlayedAssistantMap());
             request = 0;
@@ -165,7 +164,7 @@ public class TurnManager {
     }
 
     public void onMoveStudent() {
-        if(studentsMoved == game.getGameLimit().getStudentOnCloud()) {
+        if (studentsMoved == game.getGameLimit().getStudentOnCloud()) {
             studentsMoved = 1;
             gameState = GameState.ACTION_MN;
             turn();
@@ -186,12 +185,12 @@ public class TurnManager {
     }
 
     public void onChosenCloud() {
-        if(request == playersOrder.size()-1 && !isLastTurn) {
-			request = 0;
+        if (request == playersOrder.size() - 1 && !isLastTurn) {
+            request = 0;
             gameState = GameState.PLANNING_ADD_TO_CLOUD;
-            setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
+            setPlanningOrder(game.getPlayedAssistantMap(), game.getPlayers().stream().map(Player::getPlayerName).toList());
             turn();
-        } else if (request == playersOrder.size()-1 && isLastTurn) {
+        } else if (request == playersOrder.size() - 1 && isLastTurn) {
             controller.getWinHandler().handleWin();
         } else {
             gameState = GameState.ACTION_MOVE;
@@ -204,7 +203,7 @@ public class TurnManager {
         //todo: add control on name of the user of this character, it must be the only character played by him/her
         callbackState = gameState;
         gameState = GameState.USE_CHARACTER;
-        if(character!=null && game.canUseCharacter(character)) {
+        if (character != null && game.canUseCharacter(character)) {
             this.chosenCard = character;
             turn();
         } else {
@@ -216,7 +215,6 @@ public class TurnManager {
         controller.getVirtualView(requestName).showMessage("Chosen character is not valid.");
         turn();
     }
-
 
     private void askRequirements(String requirement) {
         switch (requirement) {
@@ -263,11 +261,13 @@ public class TurnManager {
         return playersOrder;
     }
 
+    public boolean isLastTurn() {
+        return isLastTurn;
+    }
+
     public void setLastTurn(boolean lastTurn) {
         isLastTurn = lastTurn;
     }
 
-    public boolean isLastTurn() {
-        return isLastTurn;
-    }
+    public enum GameState {PLANNING_ADD_TO_CLOUD, PLANNING_ASSISTANT, ACTION_MOVE, ACTION_MN, ACTION_CHOOSE_CLOUD, USE_CHARACTER}
 }

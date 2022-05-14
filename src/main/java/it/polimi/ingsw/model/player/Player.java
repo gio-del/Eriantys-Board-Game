@@ -1,16 +1,19 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.clouds.Cloud;
-import it.polimi.ingsw.model.place.HallManager;
-import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.HallManager;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.place.School;
+import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumSet;
+import java.util.Objects;
+import java.util.Set;
 
-import static it.polimi.ingsw.model.player.Assistant.*;
+import static it.polimi.ingsw.model.player.Assistant.values;
 
 /**
  * This class represents the Player, the main actor of the game, to player is associated a {@link School}.
@@ -19,8 +22,8 @@ public class Player {
     private final String playerName;
     private final Set<Assistant> hand;
     private final Wizard wizard;
-    private Assistant lastPlayedAssistant;
     private final School school;
+    private Assistant lastPlayedAssistant;
 
     public Player(String name, Wizard wizard, TowerColor towerColor, GameLimitData gameLimitData, HallManager hallManager) {
         this.playerName = name;
@@ -31,7 +34,7 @@ public class Player {
     }
 
     public Player(ShortPlayer shortPlayer, GameLimitData gameLimitData, HallManager hallManager) {
-        this(shortPlayer.playerName(), shortPlayer.wizard(),shortPlayer.color(),gameLimitData,hallManager);
+        this(shortPlayer.playerName(), shortPlayer.wizard(), shortPlayer.color(), gameLimitData, hallManager);
     }
 
     /**
@@ -125,30 +128,30 @@ public class Player {
      * @param pawns group of students to move.
      * @return false if the operation is invalid, true otherwise.
      */
-    public boolean moveFromEntranceToHall(Pawns pawns){
+    public boolean moveFromEntranceToHall(Pawns pawns) {
         return school.moveStudentToHall(pawns);
     }
 
-    public boolean moveFromEntranceToHall(PawnColor pawnColor){
+    public boolean moveFromEntranceToHall(PawnColor pawnColor) {
         return moveFromEntranceToHall(new Pawns(pawnColor));
     }
 
     /**
      * This method move a group of {@link Pawns} (students) from player's Entrance (in {@link School}) to an {@link Island}.
      *
-     * @param pawns group of students to move.
+     * @param pawns  group of students to move.
      * @param island destination.
      * @return false if the operation is invalid, true otherwise.
      */
-    public boolean moveFromEntranceToIsland(Pawns pawns, Island island){
-        if(school.removeStudentFromEntrance(pawns)){
+    public boolean moveFromEntranceToIsland(Pawns pawns, Island island) {
+        if (school.removeStudentFromEntrance(pawns)) {
             island.add(pawns);
             return true;
         }
         return false;
     }
 
-    public boolean addPawnsFromCloud(Cloud cloud){
+    public boolean addPawnsFromCloud(Cloud cloud) {
         return school.addStudentInEntrance(cloud.getStudentsAndRemove());
     }
 
@@ -157,14 +160,14 @@ public class Player {
      *
      * @return color of the Player's towers.
      */
-    public TowerColor addTowerToIsland(){
+    public TowerColor addTowerToIsland() {
         return school.removeTower();
     }
 
     /**
      * This method add {@code 1} tower to player (previously removed from {@link Island}).
      */
-    public void backTowerToPlayer(){
+    public void backTowerToPlayer() {
         school.addTower();
     }
 
@@ -188,6 +191,7 @@ public class Player {
 
     /**
      * This method initialize {@link Player}'s hall with the correct number of pawn.
+     *
      * @param pawns to extract from
      */
     public void initialEntranceFill(Pawns pawns) {

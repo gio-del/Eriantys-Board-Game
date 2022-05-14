@@ -37,13 +37,12 @@ public class SocketConnection implements Connection {
     @Override
     public void run() {
         Server.LOGGER.info(() -> "Client connected from " + client.getInetAddress());
-        try{
-            while(!Thread.currentThread().isInterrupted()) {
+        try {
+            while (!Thread.currentThread().isInterrupted()) {
                 Notification notification = (Notification) in.readObject();
-                if(notification instanceof LoginNotification loginNotification){
-                    server.addClient(loginNotification.getNickname(),this);
-                }
-                else if(!(notification instanceof PingNotification)) {
+                if (notification instanceof LoginNotification loginNotification) {
+                    server.addClient(loginNotification.getNickname(), this);
+                } else if (!(notification instanceof PingNotification)) {
                     Server.LOGGER.info(() -> "Message received from: " + notification.getSenderID() + ". Type: " + notification.getClass().getName());
                     server.receiveMessage(notification);
                 }
@@ -57,6 +56,7 @@ public class SocketConnection implements Connection {
 
     /**
      * Sends a message to the client
+     *
      * @param msg to be sent
      */
     @Override
@@ -71,9 +71,9 @@ public class SocketConnection implements Connection {
 
     @Override
     public void disconnect() {
-        if(running){
-            running=false;
-            if(!client.isClosed()) {
+        if (running) {
+            running = false;
+            if (!client.isClosed()) {
                 try {
                     client.close();
                 } catch (IOException e) {

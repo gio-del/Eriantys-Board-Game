@@ -6,4 +6,4 @@ public class ConnectionController extends ClientObservable implements BasicScene
     //serve specificare ip port
 }
 
-    //serve scena inserire porta: png eryantis e inserire ip port
+//serve scena inserire porta: png eryantis e inserire ip port

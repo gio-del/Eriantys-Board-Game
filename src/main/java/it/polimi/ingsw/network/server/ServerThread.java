@@ -21,12 +21,12 @@ public class ServerThread implements Runnable {
 
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()){
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 Socket socket = serverSocket.accept();
                 socket.setSoTimeout(3000);
 
-                SocketConnection socketConnection = new SocketConnection(this,socket);
+                SocketConnection socketConnection = new SocketConnection(this, socket);
                 new Thread(socketConnection).start();
 
             } catch (IOException e) {
@@ -35,11 +35,11 @@ public class ServerThread implements Runnable {
         }
     }
 
-    public void addClient(String nickname, SocketConnection socketConnection){
+    public void addClient(String nickname, SocketConnection socketConnection) {
         server.addClient(nickname, socketConnection);
     }
 
-    public void receiveMessage(Notification msg){
+    public void receiveMessage(Notification msg) {
         server.receiveMessage(msg);
     }
 

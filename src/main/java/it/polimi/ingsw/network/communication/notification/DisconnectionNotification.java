@@ -9,14 +9,13 @@ import java.io.Serial;
  * a client disconnected and so the game is terminated
  */
 public class DisconnectionNotification extends Notification {
+    @Serial
+    private static final long serialVersionUID = 464475177645496215L;
     private final String nickname;
 
     public DisconnectionNotification(String nickname) {
         this.nickname = nickname;
     }
-
-    @Serial
-    private static final long serialVersionUID = 464475177645496215L;
 
     @Override
     public void accept(NotificationVisitor visitor) {

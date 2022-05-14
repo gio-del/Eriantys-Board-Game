@@ -80,7 +80,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(ChooseWizAndTowerColorNotification msg) {
-        view.chooseWizardAndTowerColor(msg.getAvailableWizards(),msg.getAvailableColors());
+        view.chooseWizardAndTowerColor(msg.getAvailableWizards(), msg.getAvailableColors());
     }
 
     @Override

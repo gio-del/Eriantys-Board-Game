@@ -20,10 +20,10 @@ public class ThiefAction implements Action {
     public boolean apply() {
         //TODO: color must return in the sack
         players.forEach(player ->
-                        player.getSchool().getHall().
-                                removeColor(colorToSteal,
-                                        Math.min(numberOfRemovedStudents,
-                                                player.getSchool().getHall().getFromColor(colorToSteal))));
+                player.getSchool().getHall().
+                        removeColor(colorToSteal,
+                                Math.min(numberOfRemovedStudents,
+                                        player.getSchool().getHall().getFromColor(colorToSteal))));
         return true;
     }
 

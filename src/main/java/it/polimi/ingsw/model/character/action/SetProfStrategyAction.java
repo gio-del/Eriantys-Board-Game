@@ -20,7 +20,6 @@ public class SetProfStrategyAction implements Action {
         if ("Farmer".equals(influenceChoice)) {
             professorAssignor.setProfessorStrategy(new FarmerProfStrategy(player));
             return true;
-        }
-        else return false;
+        } else return false;
     }
 }

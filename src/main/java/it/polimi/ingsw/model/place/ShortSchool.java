@@ -33,5 +33,7 @@ public class ShortSchool implements Serializable {
         return hall;
     }
 
-    public int getNumTower() { return numTower; }
+    public int getNumTower() {
+        return numTower;
+    }
 }

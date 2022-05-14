@@ -23,7 +23,8 @@ public class SetInfluenceStrategyAction implements Action {
         switch (chosenCard.getName()) {
             case "Centaur" -> board.setStrategy(new CentaurStrategy());
             case "Knight" -> board.setStrategy(new KnightStrategy(player.getColor()));
-            case "Mushroom Seller" -> board.setStrategy(new MushroomSellerStrategy(chosenCard.getChosenColor())); // this need blockedColor
+            case "Mushroom Seller" ->
+                    board.setStrategy(new MushroomSellerStrategy(chosenCard.getChosenColor())); // this need blockedColor
             default -> {
                 return false;
             }

@@ -17,16 +17,17 @@ public class Hall extends SchoolPlace {
     /**
      * When a {@link Pawns} is added, foreach Pawn in the collection the observer is updated.
      * The observer manages both coins assignment (if expert mode) and professors assignment
+     *
      * @param pawns to add
      * @return {@code true} if {@code pawns} was added correctly, otherwise {@code false}.
      * When a {@link Pawns} is added the {@link HallManager} is notified
      */
     @Override
     public boolean add(Pawns pawns) {
-        if(canBeMoved(pawns)) {
-            for(PawnColor pawnColor: PawnColor.values()){
+        if (canBeMoved(pawns)) {
+            for (PawnColor pawnColor : PawnColor.values()) {
                 int numberOfPawn = pawns.getFromColor(pawnColor);
-                for(int i=0;i<numberOfPawn;i++) {
+                for (int i = 0; i < numberOfPawn; i++) {
                     super.add(new Pawns(pawnColor));
                     hallManager.update(this, pawnColor);
                 }
@@ -38,8 +39,8 @@ public class Hall extends SchoolPlace {
 
     @Override
     public boolean canBeMoved(Pawns pawns) {
-        for(PawnColor pawnColor: PawnColor.values()){
-            if(super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MAX_HALL_PER_COLOR){
+        for (PawnColor pawnColor : PawnColor.values()) {
+            if (super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MAX_HALL_PER_COLOR) {
                 return false;
             }
         }

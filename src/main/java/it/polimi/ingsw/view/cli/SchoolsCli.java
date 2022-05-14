@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class SchoolsCli {
 
-    private List<SchoolSmall> otherSchools = new ArrayList<>();
+    private final List<SchoolSmall> otherSchools = new ArrayList<>();
     private SchoolExtended schoolExtended;
     private List<StringBuilder> upperHalf;
 
@@ -18,25 +18,25 @@ public class SchoolsCli {
             SchoolSmall schoolSmall = new SchoolSmall(entry.getValue(), entry.getKey());
             this.otherSchools.add(schoolSmall);
         }
-        for(Map.Entry<String, ShortSchool> entry : ownerSchool.entrySet()){
+        for (Map.Entry<String, ShortSchool> entry : ownerSchool.entrySet()) {
             schoolExtended = new SchoolExtended(entry.getValue(), entry.getKey());
         }
         generateParts();
     }
 
-    private void generateParts(){
+    private void generateParts() {
         upperHalf = new ArrayList<>();
-        for(int i = 0; i < Constants.SCHOOL_HIGH; i++){
+        for (int i = 0; i < Constants.SCHOOL_HIGH; i++) {
             StringBuilder up = new StringBuilder();
             up.append(schoolExtended.getLines().get(i)).append("      ");
-            for(SchoolSmall schoolSmall : otherSchools){
+            for (SchoolSmall schoolSmall : otherSchools) {
                 up.append(schoolSmall.getLines().get(i)).append("      ");
             }
             upperHalf.add(up);
         }
     }
 
-    public void printSchools(){
+    public void printSchools() {
         upperHalf.forEach(System.out::println);
     }
 

@@ -13,7 +13,8 @@ public interface InfluenceStrategy {
 
     /**
      * This method is called whenever mother nature stops on an island
-     * @param island the island to calc influence on
+     *
+     * @param island  the island to calc influence on
      * @param players the list of players in the game
      * @return the influence of each player on the island calculated with the appropriate strategy
      */

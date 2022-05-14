@@ -13,10 +13,8 @@ public class EriantysClient {
                 ClientController clientController = new ClientController(view);
                 view.addObserver(clientController);
                 view.init();
-            }
-            else Application.launch(RunnableGui.class);
-        }
-        else {
+            } else Application.launch(RunnableGui.class);
+        } else {
             Application.launch(RunnableGui.class);
         }
     }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.model.character.action;
 
-import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.Place;
 
 public class SwapAction implements Action {
     private final Place from;
@@ -18,7 +18,7 @@ public class SwapAction implements Action {
 
     @Override
     public boolean apply() {
-        if((toBeSwappedFrom.totalElements() == toBeSwappedTo.totalElements()) && from.canBeRemoved(toBeSwappedFrom) && to.canBeRemoved(toBeSwappedTo))
+        if ((toBeSwappedFrom.totalElements() == toBeSwappedTo.totalElements()) && from.canBeRemoved(toBeSwappedFrom) && to.canBeRemoved(toBeSwappedTo))
             return from.remove(toBeSwappedFrom) &&
                     from.add(toBeSwappedTo) &&
                     to.remove(toBeSwappedTo) &&

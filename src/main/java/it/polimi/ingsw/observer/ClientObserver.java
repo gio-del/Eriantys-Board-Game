@@ -11,14 +11,24 @@ import it.polimi.ingsw.network.communication.Target;
  */
 public interface ClientObserver {
     void updateConnection(String ip, int port);
+
     void updateNickname(String nickname);
+
     void updateGameModeNumPlayer(String mode, int numOfPlayer);
+
     void updateWizardAndColor(Wizard wizard, TowerColor towerColor);
+
     void updateAssistant(Assistant assistant);
+
     void updateCloud(int cloud);
+
     void updateStepsMN(int steps);
+
     void updateMoveStudent(PawnColor color, Target target, int island);
+
     void updateUseCharacter(int id);
+
     void updateColorAction(PawnColor chosen);
+
     void updateIslandAction(int island);
 }

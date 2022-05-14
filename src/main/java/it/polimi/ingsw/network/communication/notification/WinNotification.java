@@ -10,7 +10,8 @@ public class WinNotification extends Notification {
 
     private final String name;
     private final boolean win;
-    public WinNotification(String name,boolean win) {
+
+    public WinNotification(String name, boolean win) {
         this.name = name;
         this.win = win;
     }

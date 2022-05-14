@@ -9,11 +9,11 @@ import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
+
 import java.util.List;
 import java.util.Set;
 
 /**
- *
  * The graphical user interface implementation of the game.
  * This class is observed by the {@link ClientController}.
  * Gui communicates with the controller only with update() and it's a controller's job to communicate with server via network
@@ -33,15 +33,14 @@ public class Gui extends ClientObservable implements View {
     }
 
     /**
+     * Check if is a valid name
      *
-     *Check if is a valid name
-     *@param nickname from input
+     * @param nickname from input
      */
     public void checkNickName(String nickname) {
-        if(nickname.length() > 0) {
+        if (nickname.length() > 0) {
             notifyObserver(observer -> observer.updateNickname(nickname));
-        }
-        else {
+        } else {
             //allertbox e richiedere il nickname.
         }
     }

@@ -5,7 +5,7 @@ import it.polimi.ingsw.model.pawns.Pawns;
 /**
  * Abstract class that represents all {@link School} places
  */
-public abstract class SchoolPlace implements Place{
+public abstract class SchoolPlace implements Place {
     private final Pawns schoolPawns;
 
     protected SchoolPlace() {

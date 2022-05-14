@@ -1,7 +1,8 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.constants.Constants;
-import it.polimi.ingsw.model.pawns.*;
+import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.observer.WinObservable;
 
@@ -27,8 +28,8 @@ public class Sack extends WinObservable {
      * This method fill the Sack with {@code 10} pawns of each {@link PawnColor}. Is used for the student's extraction on {@link Island} at the beginning of the game.
      */
     public void initialFill() {
-        for(PawnColor pawnColor: PawnColor.values()){
-            sackPawns.addColor(pawnColor,Constants.INIT_SACK_STUDENTS_PER_COLOR);
+        for (PawnColor pawnColor : PawnColor.values()) {
+            sackPawns.addColor(pawnColor, Constants.INIT_SACK_STUDENTS_PER_COLOR);
         }
     }
 
@@ -37,8 +38,8 @@ public class Sack extends WinObservable {
      * the initialFill. These students will be extracted during the game.
      */
     public void fill() {
-        for(PawnColor pawnColor: PawnColor.values()){
-            sackPawns.addColor(pawnColor,Constants.STUDENTS_OF_EACH_COLOR - Constants.INIT_SACK_STUDENTS_PER_COLOR);
+        for (PawnColor pawnColor : PawnColor.values()) {
+            sackPawns.addColor(pawnColor, Constants.STUDENTS_OF_EACH_COLOR - Constants.INIT_SACK_STUDENTS_PER_COLOR);
         }
     }
 

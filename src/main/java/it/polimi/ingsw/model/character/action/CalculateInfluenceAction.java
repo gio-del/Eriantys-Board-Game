@@ -19,7 +19,7 @@ public class CalculateInfluenceAction implements Action {
 
     @Override
     public boolean apply() {
-        board.calculateInfluence(island,players);
+        board.calculateInfluence(island, players);
         return true;
     }
 }

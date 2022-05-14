@@ -19,16 +19,14 @@ import java.util.logging.Logger;
  * when a message from server arrives it notifies the ClientController. It is also used
  * by the client controller to send messages to the server.
  */
-public class Client extends Thread{
+public class Client extends Thread {
+    private static final Logger logger = Logger.getLogger(Client.class.getSimpleName());
+    private final ClientController clientController;
+    private final ScheduledExecutorService ping;
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private static final Logger logger = Logger.getLogger(Client.class.getSimpleName());
-
-    private final ClientController clientController;
-    private boolean running = true;
-
-    private final ScheduledExecutorService ping;
+    private final boolean running = true;
 
     public Client(ClientController clientController) {
         this.clientController = clientController;
@@ -36,32 +34,32 @@ public class Client extends Thread{
         ping = new ScheduledThreadPoolExecutor(1);
     }
 
-    public boolean connect(String address, int port){
-        try{
-            socket = new Socket(address,port);
+    public boolean connect(String address, int port) {
+        try {
+            socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             runPing(); //todo: check this
             return true;
-        } catch(IOException e){
+        } catch (IOException e) {
             return false;
         }
     }
 
     @Override
-    public void run(){
+    public void run() {
         try {
-            while(running){
+            while (running) {
                 Notification msg = (Notification) in.readObject();
                 clientController.receiveMessage(msg);
             }
-        } catch (IOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e) {
             clientController.onDisconnection();
         }
     }
 
-    public void sendMessage(Notification msg){
-        try{
+    public void sendMessage(Notification msg) {
+        try {
             out.writeObject(msg);
             out.reset();
         } catch (IOException e) {
@@ -73,7 +71,7 @@ public class Client extends Thread{
     /**
      * Send a ping notification to the server each second so that the server knows it's still alive
      */
-    public void runPing(){
-        ping.scheduleAtFixedRate(() -> sendMessage(new PingNotification()),0,1, TimeUnit.SECONDS);
+    public void runPing() {
+        ping.scheduleAtFixedRate(() -> sendMessage(new PingNotification()), 0, 1, TimeUnit.SECONDS);
     }
 }

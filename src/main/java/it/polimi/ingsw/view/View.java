@@ -39,6 +39,7 @@ public interface View {
     /**
      * ACTION PHASE:
      * Move the students from the cloud to the hall
+     *
      * @param clouds available to selected
      */
     void chooseCloud(List<ShortCloud> clouds);
@@ -46,6 +47,7 @@ public interface View {
     /**
      * ACTION PHASE:
      * Move the students from the entrance to the hall
+     *
      * @param movableColor list of color that can be moved
      */
     void moveStudent(List<PawnColor> movableColor);
@@ -54,6 +56,7 @@ public interface View {
      * ACTION PHASE:
      * Move mother nature from the origin island to a target island
      * with a number of steps
+     *
      * @param maximumSteps available for this turn for this player based on the assistant played
      */
     void moveMNature(int maximumSteps);
@@ -69,6 +72,7 @@ public interface View {
 
     /**
      * In case of a disconnection, the players still connected will receive a message
+     *
      * @param message content
      */
     void showDisconnection(String message);
@@ -80,6 +84,7 @@ public interface View {
 
     /**
      * Show a generic message received from server
+     *
      * @param msg to be displayed
      */
     void showMessage(String msg);

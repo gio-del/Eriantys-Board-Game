@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.observer.ClientObservable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+
 import java.awt.*;
 
 public class LoginSceneController extends ClientObservable implements BasicSceneController {

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.model.character;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import it.polimi.ingsw.model.Sack;
 import it.polimi.ingsw.model.character.actiondata.ActionData;
 import it.polimi.ingsw.model.pawns.PawnColor;
@@ -14,6 +14,10 @@ import java.util.List;
 import java.util.Map;
 
 public class CharacterCard implements Place {
+    @JsonIgnore
+    private final Map<Island, Integer> islandMapBan = new HashMap<>();
+    @JsonIgnore
+    private final Pawns students = new Pawns();
     private String name;
     private int cost;
     private String description;
@@ -21,12 +25,8 @@ public class CharacterCard implements Place {
     private List<String> requires;
     @JsonIgnore
     private boolean coinOn = false;
-    @JsonIgnore
-    private final Map<Island,Integer> islandMapBan = new HashMap<>();
     private int numberOfBanTiles;
     private int numberOfStudentsOn;
-    @JsonIgnore
-    private final Pawns students = new Pawns();
     @JsonIgnore
     private PawnColor chosenColor;
     private Island chosenIsland;
@@ -34,7 +34,7 @@ public class CharacterCard implements Place {
 
     @Override
     public boolean remove(Pawns pawns) {
-        if(canBeRemoved(pawns)){
+        if (canBeRemoved(pawns)) {
             students.removePawns(pawns);
             return true;
         }
@@ -43,7 +43,7 @@ public class CharacterCard implements Place {
 
     @Override
     public boolean add(Pawns pawns) {
-        if(canBeMoved(pawns)){
+        if (canBeMoved(pawns)) {
             students.addPawns(pawns);
             return true;
         }
@@ -52,16 +52,20 @@ public class CharacterCard implements Place {
 
     @Override
     public boolean canBeMoved(Pawns pawns) {
-        return numberOfStudentsOn>0 && pawns.totalElements()+students.totalElements() <= numberOfStudentsOn;
+        return numberOfStudentsOn > 0 && pawns.totalElements() + students.totalElements() <= numberOfStudentsOn;
     }
 
     @Override
     public boolean canBeRemoved(Pawns pawns) {
-        return numberOfStudentsOn>0 && students.canBeRemoved(pawns);
+        return numberOfStudentsOn > 0 && students.canBeRemoved(pawns);
     }
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getCost() {
@@ -80,11 +84,7 @@ public class CharacterCard implements Place {
         this.coinOn = coinOn;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public ActionData getAction(){
+    public ActionData getAction() {
         return action;
     }
 
@@ -92,20 +92,20 @@ public class CharacterCard implements Place {
         return chosenColor;
     }
 
-    public Island getChosenIsland() {
-        return chosenIsland;
-    }
-
-    public List<PawnColor> getChosenSwap() {
-        return chosenSwap;
-    }
-
     public void setChosenColor(PawnColor chosenColor) {
         this.chosenColor = chosenColor;
     }
 
+    public Island getChosenIsland() {
+        return chosenIsland;
+    }
+
     public void setChosenIsland(Island chosenIsland) {
         this.chosenIsland = chosenIsland;
+    }
+
+    public List<PawnColor> getChosenSwap() {
+        return chosenSwap;
     }
 
     public void setChosenSwap(List<PawnColor> chosenSwap) {
@@ -133,7 +133,7 @@ public class CharacterCard implements Place {
     }
 
     public void fill(Sack sack) {
-        for(int i=students.totalElements();i<numberOfStudentsOn;i++) {
+        for (int i = students.totalElements(); i < numberOfStudentsOn; i++) {
             students.addColor(sack.extract());
         }
     }

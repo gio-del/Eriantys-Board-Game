@@ -12,8 +12,8 @@ import java.util.*;
  * It uses a {@link Bank} to manage coins
  */
 public class HallManager {
-    private static final List<Integer> rewardPositions = Arrays.asList(3,6,9);
-    private final Map<Place,Player> hallMap;
+    private static final List<Integer> rewardPositions = Arrays.asList(3, 6, 9);
+    private final Map<Place, Player> hallMap;
     private final Bank bank;
     private final List<Player> playerList;
     private final ProfessorAssignor professorAssignor;
@@ -27,21 +27,22 @@ public class HallManager {
 
     /**
      * Add player a player to the list
+     *
      * @param player to be added
      */
     public void addPlayer(Player player) {
         this.playerList.add(player);
-        hallMap.put(player.getSchool().getHallAsPlace(),player);
+        hallMap.put(player.getSchool().getHallAsPlace(), player);
         bank.initPlayer(player);
     }
 
     /**
      * @param observable hall that triggered this method
-     * @param pawnColor the pawns on which to check professor assignment and to check coin assignment
+     * @param pawnColor  the pawns on which to check professor assignment and to check coin assignment
      */
     public void update(Hall observable, PawnColor pawnColor) {
-        professorAssignor.colorProfessorChecker(pawnColor,playerList);
-        if(rewardPositions.contains(observable.getPawns().getFromColor(pawnColor))){
+        professorAssignor.colorProfessorChecker(pawnColor, playerList);
+        if (rewardPositions.contains(observable.getPawns().getFromColor(pawnColor))) {
             reward(hallMap.get(observable));
         }
     }
@@ -49,15 +50,16 @@ public class HallManager {
     /**
      * Reset strategy to the standard one
      */
-    public void resetStrategy(){
+    public void resetStrategy() {
         professorAssignor.resetStrategy();
     }
 
     /**
      * Add a coin to a player
+     *
      * @param player to reward
      */
-    private void reward(Player player){
+    private void reward(Player player) {
         bank.reward(player);
     }
 

@@ -17,12 +17,12 @@ public class MoveData implements ActionData {
         return from;
     }
 
-    public PlaceData getTo() {
-        return to;
-    }
-
     public void setFrom(PlaceData from) {
         this.from = from;
+    }
+
+    public PlaceData getTo() {
+        return to;
     }
 
     public void setTo(PlaceData to) {

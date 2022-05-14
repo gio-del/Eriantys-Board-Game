@@ -23,15 +23,15 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(ChooseWizAndTowerColorNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
-            game.addPlayer(msg.getSenderID(),msg.getWizard(),msg.getTowerColor());
-            turn.onChosenWizAndColor(msg.getWizard(),msg.getTowerColor());
+        if (turn.getRequestName().equals(msg.getSenderID())) {
+            game.addPlayer(msg.getSenderID(), msg.getWizard(), msg.getTowerColor());
+            turn.onChosenWizAndColor(msg.getWizard(), msg.getTowerColor());
         }
     }
 
     @Override
     public void visit(ChooseAssistantNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
+        if (turn.getRequestName().equals(msg.getSenderID())) {
             game.playAssistant(msg.getChosenAssistant());
             turn.onChosenAssistant();
         }
@@ -39,16 +39,15 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(MoveStudentNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
+        if (turn.getRequestName().equals(msg.getSenderID())) {
             if (msg.getTarget().equals(Target.ISLAND)) {
                 int island = msg.getIsland();
-                if(island<0 || island>=game.getBoard().numberOfIslands()) {
+                if (island < 0 || island >= game.getBoard().numberOfIslands()) {
                     turn.onIncorrectIsland();
                     return;
                 }
                 game.moveFromEntranceToIsland(msg.getColor(), island);
-            }
-            else
+            } else
                 game.moveFromEntranceToHall(msg.getColor());
             turn.onMoveStudent();
         }
@@ -56,7 +55,7 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(MoveMNNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
+        if (turn.getRequestName().equals(msg.getSenderID())) {
             game.moveMotherNature(msg.getSteps(), game.getCurrentPlayer());
             turn.onMoveMN();
         }
@@ -64,7 +63,7 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(ChooseCloudNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
+        if (turn.getRequestName().equals(msg.getSenderID())) {
             game.pickFromCloud(msg.getChosenCloud());
             turn.onChosenCloud();
         }
@@ -72,10 +71,10 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(CharacterNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
+        if (turn.getRequestName().equals(msg.getSenderID())) {
             int size = game.getCharacterInUse().size();
             int characterId = msg.getCharacter();
-            if(characterId<0 || characterId>=size) {
+            if (characterId < 0 || characterId >= size) {
                 turn.onChosenInvalidCharacter();
                 return;
             }
@@ -85,19 +84,18 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(IslandNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
+        if (turn.getRequestName().equals(msg.getSenderID())) {
             int boardSize = game.getBoard().getIslands().size();
-            if(msg.getIsland()>=0  && msg.getIsland() < boardSize) {
+            if (msg.getIsland() >= 0 && msg.getIsland() < boardSize) {
                 turn.onChooseIsland(game.getBoard().getIslands().get(msg.getIsland()));
-            }
-            else turn.onActionFailed();
+            } else turn.onActionFailed();
 
         }
     }
 
     @Override
     public void visit(ColorNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
+        if (turn.getRequestName().equals(msg.getSenderID())) {
             turn.onChosenColor(msg.getChosen());
         }
     }
@@ -121,6 +119,7 @@ public class ServerSideVisitor implements NotificationVisitor {
     public void visit(GenericMessageNotification msg) {
         //do nothing
     }
+
     @Override
     public void visit(LoginNotification msg) {
         //do nothing

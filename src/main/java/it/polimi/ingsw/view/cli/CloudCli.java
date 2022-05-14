@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 
@@ -11,8 +10,8 @@ public class CloudCli {
 
     private final List<String> lines = new ArrayList<>();
 
-    public CloudCli(ShortCloud shortCloud, int number){
-        lines.add(number+CLISymbol.CLOUD_HEAD_START+CLISymbol.CLOUD_HEAD);
+    public CloudCli(ShortCloud shortCloud, int number) {
+        lines.add(number + CLISymbol.CLOUD_HEAD_START + CLISymbol.CLOUD_HEAD);
         lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.GREEN), CLISymbol.CLOUD_GREEN_START, CLISymbol.CLOUD_GREEN_END));
         lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.RED), CLISymbol.CLOUD_RED_START, CLISymbol.CLOUD_RED_END));
         lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.YELLOW), CLISymbol.CLOUD_YELLOW_START, CLISymbol.CLOUD_YELLOW_END));
@@ -21,11 +20,11 @@ public class CloudCli {
         lines.add(CLISymbol.CLOUD_BOTTOM);
     }
 
-    private String stringRow(int numColor, String start, String end){
+    private String stringRow(int numColor, String start, String end) {
 
         StringBuilder string = new StringBuilder();
         string.append(start).append(empties(CLISymbol.CLOUD_REPETITION));
-        if(numColor == 0){
+        if (numColor == 0) {
             string.append("     ");
         } else {
             string.append(numColor).append(" x ").append("@");
@@ -35,14 +34,16 @@ public class CloudCli {
         return string.toString();
     }
 
-    private String empties(int rep){
+    private String empties(int rep) {
         int i;
         StringBuilder string = new StringBuilder();
-        for (i = 0; i < rep; i++){
+        for (i = 0; i < rep; i++) {
             string.append(" ");
         }
         return string.toString();
     }
 
-    public List<String> getLines() {return lines;}
+    public List<String> getLines() {
+        return lines;
+    }
 }

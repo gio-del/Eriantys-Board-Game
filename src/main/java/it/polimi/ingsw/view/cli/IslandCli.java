@@ -10,7 +10,7 @@ import java.util.List;
 public class IslandCli {
     private final List<String> lines = new ArrayList<>();
 
-    public IslandCli(ShortIsland island, int number, int mn){
+    public IslandCli(ShortIsland island, int number, int mn) {
         boolean motherNature = number == mn;
         lines.add(headerBuilder(number, motherNature));
         lines.add(stringRow(island.getStudents().getFromColor(PawnColor.GREEN), CLISymbol.GREEN_START, CLISymbol.GREEN_END));
@@ -21,15 +21,15 @@ public class IslandCli {
         lines.add(bottomBuilder(island));
     }
 
-    private String stringRow(int numColor, String start, String end){
+    private String stringRow(int numColor, String start, String end) {
 
         StringBuilder string = new StringBuilder();
-        if(numColor >= 10){
+        if (numColor >= 10) {
             string.append(start).append(empties(CLISymbol.REPETITION - 1));
         } else {
             string.append(start).append(empties(CLISymbol.REPETITION));
         }
-        if(numColor == 0){
+        if (numColor == 0) {
             string.append("     ");
         } else {
             string.append(numColor).append(" x ").append("@");
@@ -40,16 +40,16 @@ public class IslandCli {
     }
 
 
-    private String headerBuilder(int number, boolean motherNature){
+    private String headerBuilder(int number, boolean motherNature) {
         StringBuilder string = new StringBuilder();
-        if(motherNature){
-            if(number>=10){
+        if (motherNature) {
+            if (number >= 10) {
                 string.append(CLISymbol.HEAD_START).append(number).append(" ").append(CLISymbol.HEAD_MN).append(CLISymbol.HEAD_END);
             } else {
                 string.append(CLISymbol.HEAD_START).append(number).append("  ").append(CLISymbol.HEAD_MN).append(CLISymbol.HEAD_END);
             }
         } else {
-            if(number>=10){
+            if (number >= 10) {
                 string.append(CLISymbol.HEAD_START).append(number).append(" ").append(CLISymbol.HEAD).append(CLISymbol.HEAD_END);
 
             } else {
@@ -59,9 +59,9 @@ public class IslandCli {
         return string.toString();
     }
 
-    private String bottomBuilder(ShortIsland island){
+    private String bottomBuilder(ShortIsland island) {
         StringBuilder bottom = new StringBuilder();
-        if(island.getTower() != null){
+        if (island.getTower() != null) {
             String color = colorTower(island);
             bottom.append(CLISymbol.BOTTOM_START).append(color).append(CLISymbol.BOTTOM_END);
         } else {
@@ -70,21 +70,21 @@ public class IslandCli {
         return bottom.toString();
     }
 
-    private String empties(int rep){
+    private String empties(int rep) {
         int i;
         StringBuilder string = new StringBuilder();
-        for (i = 0; i < rep; i++){
+        for (i = 0; i < rep; i++) {
             string.append(" ");
         }
         return string.toString();
     }
 
 
-    private String colorTower(ShortIsland island){
+    private String colorTower(ShortIsland island) {
         StringBuilder string = new StringBuilder();
-        if(island.getTower()!=null && island.getTower().name().equals("WHITE")){
+        if (island.getTower() != null && island.getTower().name().equals("WHITE")) {
             string.append("_#").append("WHITE(").append(island.getDimension()).append(")");
-        } else if(island.getTower()!=null && island.getTower().name().equals("BLACK")){
+        } else if (island.getTower() != null && island.getTower().name().equals("BLACK")) {
             string.append("_#").append("BLACK(").append(island.getDimension()).append(")");
         } else {
             string.append("_#").append("GRAY(").append(island.getDimension()).append(")").append("_");
@@ -92,11 +92,9 @@ public class IslandCli {
         return string.toString();
     }
 
-    public List<String> getLines() {return lines;}
-
-
-
-
+    public List<String> getLines() {
+        return lines;
+    }
 
 
 }

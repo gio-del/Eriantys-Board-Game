@@ -12,6 +12,7 @@ public class ShortBoard implements Serializable {
 
     private final List<ShortIsland> islands;
     private final int motherNaturePos;
+
     public ShortBoard(Board board) {
         islands = board.getIslands().stream().map(ShortIsland::new).toList();
         this.motherNaturePos = board.getMotherNaturePos();

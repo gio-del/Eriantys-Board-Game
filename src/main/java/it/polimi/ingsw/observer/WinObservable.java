@@ -7,12 +7,12 @@ import java.util.function.Consumer;
 public class WinObservable {
     private final List<WinObserver> observers = new ArrayList<>();
 
-    public void addObserver(WinObserver observer){
-        if(observer!=null && !observers.contains(observer))
+    public void addObserver(WinObserver observer) {
+        if (observer != null && !observers.contains(observer))
             observers.add(observer);
     }
 
-    public void notifyObserver(Consumer<WinObserver> function){
+    public void notifyObserver(Consumer<WinObserver> function) {
         observers.forEach(function);
     }
 }

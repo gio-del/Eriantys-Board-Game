@@ -2,8 +2,13 @@ package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
-import it.polimi.ingsw.network.communication.notification.*;
-import it.polimi.ingsw.network.server.*;
+import it.polimi.ingsw.network.communication.notification.DisconnectionNotification;
+import it.polimi.ingsw.network.communication.notification.GameStartedNotification;
+import it.polimi.ingsw.network.communication.notification.Notification;
+import it.polimi.ingsw.network.server.Connection;
+import it.polimi.ingsw.network.server.Server;
+import it.polimi.ingsw.network.server.ServerSideVisitor;
+import it.polimi.ingsw.network.server.VirtualView;
 
 import java.util.*;
 
@@ -19,27 +24,28 @@ public class GameController {
     private final List<String> names;
     private final Game game;
     private final TurnManager turnManager;
-    private boolean isExpertMode;
     private final WinHandler winHandler;
+    private boolean isExpertMode;
 
     public GameController() {
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.connectionMap = Collections.synchronizedMap(new HashMap<>());
         this.names = new ArrayList<>();
         this.game = new Game();
-        this.turnManager = new TurnManager(game,this);
-        this.visitor = new ServerSideVisitor(game,turnManager);
-        this.winHandler = new WinHandler(this,game);
+        this.turnManager = new TurnManager(game, this);
+        this.visitor = new ServerSideVisitor(game, turnManager);
+        this.winHandler = new WinHandler(this, game);
     }
 
     public synchronized void addClient(String nickname, Connection socketConnection) {
         names.add(nickname);
         connectionMap.put(nickname, socketConnection);
-        virtualViewMap.put(nickname,new VirtualView(socketConnection));
+        virtualViewMap.put(nickname, new VirtualView(socketConnection));
     }
 
     /**
      * This method is used to update model according to view's action (client input)
+     *
      * @param msg the message sent by the client
      */
     public void handleMessage(Notification msg) {
@@ -60,17 +66,17 @@ public class GameController {
 
 
     public void handleWin(String name) {
-        if(connectionMap.isEmpty()) return; //in case of "multiple win condition" the client are notified one time
+        if (connectionMap.isEmpty()) return; //in case of "multiple win condition" the client are notified one time
         notifyWinner(name);
         connectionMap.clear();
         virtualViewMap.clear();
 
     }
 
-    private void notifyWinner(String winner){
-        virtualViewMap.get(winner).win(winner,true);
-        for(String name: names){
-            virtualViewMap.get(name).win(winner,false);
+    private void notifyWinner(String winner) {
+        virtualViewMap.get(winner).win(winner, true);
+        for (String name : names) {
+            virtualViewMap.get(name).win(winner, false);
         }
     }
 
@@ -78,7 +84,7 @@ public class GameController {
         connectionMap.remove(nickname);
         virtualViewMap.remove(nickname);
         Notification disconnection = new DisconnectionNotification(nickname + " has left the match! GAME ENDED.");
-        broadcast(disconnection,nickname);
+        broadcast(disconnection, nickname);
     }
 
     public void broadcast(Notification msg) {
@@ -90,7 +96,7 @@ public class GameController {
         connectionMap.keySet().stream().filter(s -> !s.equals(exclusion)).map(connectionMap::get).forEach(connection -> connection.sendMessage(msg));
     }
 
-    public VirtualView getVirtualView(String name){
+    public VirtualView getVirtualView(String name) {
         return virtualViewMap.get(name);
     }
 

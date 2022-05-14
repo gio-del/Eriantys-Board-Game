@@ -1,11 +1,7 @@
 package it.polimi.ingsw.model;
 
-import it.polimi.ingsw.model.character.ShortCharacter;
-import it.polimi.ingsw.network.communication.notification.*;
-import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.character.CharacterCard;
-import it.polimi.ingsw.model.player.*;
-import it.polimi.ingsw.utility.character.CharactersDeck;
+import it.polimi.ingsw.model.character.ShortCharacter;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.model.clouds.ShortCloud;
@@ -13,12 +9,19 @@ import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.place.ShortSchool;
+import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
+import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.observer.Observable;
-import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 import it.polimi.ingsw.utility.Pair;
+import it.polimi.ingsw.utility.character.CharactersDeck;
+import it.polimi.ingsw.utility.gamelimit.GameLimit;
+import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * This class represents Eriantys game
@@ -28,12 +31,12 @@ public class Game extends Observable {
     private final List<ShortPlayer> shortPlayers;
     private final Board board;
     private final Sack sack;
-    private CloudManager clouds;
-    private Player currentPlayer;
     private final HallManager hallManager;
     private final Bank bank;
     private final List<CharacterCard> characterInUse;
-    private final List<Pair<String,Assistant>> playedAssistantMap;
+    private final List<Pair<String, Assistant>> playedAssistantMap;
+    private CloudManager clouds;
+    private Player currentPlayer;
     private GameLimitData gameLimitData;
 
     /**
@@ -55,8 +58,8 @@ public class Game extends Observable {
      */
     public void init() {
         gameLimitData = GameLimit.getLimit(shortPlayers.size());
-        for(ShortPlayer shortPlayer: shortPlayers) {
-            Player player = new Player(shortPlayer,gameLimitData,hallManager);
+        for (ShortPlayer shortPlayer : shortPlayers) {
+            Player player = new Player(shortPlayer, gameLimitData, hallManager);
             this.hallManager.addPlayer(player);
             this.players.add(player);
         }
@@ -75,7 +78,7 @@ public class Game extends Observable {
             player.initialEntranceFill(sack.extractListOfPawns(gameLimitData.getMaxEntrance()));
             notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()), player.getPlayerName()));
         }
-        if(isExpertMode) {
+        if (isExpertMode) {
             characterInUse.forEach(character -> character.fill(sack));
             notifyObserver(new CharacterNotification(characterInUse.stream().map(ShortCharacter::new).toList()));
         }
@@ -152,8 +155,8 @@ public class Game extends Observable {
 
     public void useCharacter(CharacterCard character) {
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
-        bank.pay(currentPlayer,cost);
-        if(!character.hasCoinOn()) character.setCoinOn(true);
+        bank.pay(currentPlayer, cost);
+        if (!character.hasCoinOn()) character.setCoinOn(true);
         character.fill(sack);
         notifyObserver(new ModelUpdateNotification(new ShortModel(this)));
 
@@ -184,14 +187,15 @@ public class Game extends Observable {
 
     /**
      * Pick pawns from the chosen cloud and put it in current player's entrance
-     * @param cloud  the chosen cloud
+     *
+     * @param cloud the chosen cloud
      * @return true if adding to the entrance is ok, otherwise false
      */
     public boolean pickFromCloud(int cloud) {
         Cloud cloudChosen = clouds.getSpecificCloud(cloud);
         if (cloudChosen != null) {
             boolean check = currentPlayer.addPawnsFromCloud(cloudChosen);
-            notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()),currentPlayer.getPlayerName()));
+            notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
             notifyObserver(new CloudsNotification(clouds.getClouds().stream().map(ShortCloud::new).toList()));
             return check;
         }
@@ -212,7 +216,7 @@ public class Game extends Observable {
      */
     public void playAssistant(Assistant assistant) {
         currentPlayer.playAssistant(assistant);
-        playedAssistantMap.add(new Pair<>(currentPlayer.getPlayerName(),assistant));
+        playedAssistantMap.add(new Pair<>(currentPlayer.getPlayerName(), assistant));
     }
 
     /**
@@ -222,8 +226,8 @@ public class Game extends Observable {
      */
     public void moveFromEntranceToHall(PawnColor pawnColor) {
         currentPlayer.moveFromEntranceToHall(pawnColor);
-        for(Player player: players){ //todo: send one notification only with all the schools!!
-            notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()),player.getPlayerName()));
+        for (Player player : players) { //todo: send one notification only with all the schools!!
+            notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()), player.getPlayerName()));
         }
     }
 
@@ -245,17 +249,18 @@ public class Game extends Observable {
 
     public Set<Assistant> getPlayableAssistant() {
         Set<Assistant> assistants = EnumSet.allOf(Assistant.class);
-        for(Assistant assistant: Assistant.values())
+        for (Assistant assistant : Assistant.values())
             if (!currentPlayer.getHand().contains(assistant)) assistants.remove(assistant);
         List<Assistant> playedAssistant = playedAssistantMap.stream().map(Pair::second).toList();
         playedAssistant.forEach(assistants::remove);
-        if(assistants.isEmpty()) return currentPlayer.getHand(); //a player has only played assistant, in this case it's ok to play them
+        if (assistants.isEmpty())
+            return currentPlayer.getHand(); //a player has only played assistant, in this case it's ok to play them
         return assistants;
     }
 
     public Assistant getPlayedAssistantByName(String requestName) {
-        for(Pair<String,Assistant> assistantMap: playedAssistantMap){
-            if(assistantMap.first().equals(requestName)){
+        for (Pair<String, Assistant> assistantMap : playedAssistantMap) {
+            if (assistantMap.first().equals(requestName)) {
                 return assistantMap.second();
             }
         }
@@ -307,15 +312,15 @@ public class Game extends Observable {
         return currentPlayer;
     }
 
+    public void setCurrentPlayer(String player) {
+        currentPlayer = getPlayerByName(player);
+    }
+
     /**
      * @return the character available in this game
      */
     public List<CharacterCard> getCharacterInUse() {
         return characterInUse;
-    }
-
-    public void setCurrentPlayer(String player) {
-        currentPlayer = getPlayerByName(player);
     }
 
     public ProfessorAssignor getProfessorAssignor() {

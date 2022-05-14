@@ -17,14 +17,14 @@ public class CloudManager {
         this.studentsOnClouds = studentsOnClouds;
     }
 
-    public Pawns pickFromCloud(int cloud){
+    public Pawns pickFromCloud(int cloud) {
         Cloud cloudChosen = getSpecificCloud(cloud);
-        if(cloudChosen != null) return cloudChosen.getStudentsAndRemove();
+        if (cloudChosen != null) return cloudChosen.getStudentsAndRemove();
         return null;
     }
 
-    public Cloud getSpecificCloud(int cloud){
-        if(cloud>=clouds.size()) return null;
+    public Cloud getSpecificCloud(int cloud) {
+        if (cloud >= clouds.size()) return null;
         return clouds.get(cloud);
     }
 
@@ -33,7 +33,7 @@ public class CloudManager {
     }
 
     public void fillClouds(Sack sack) {
-        for(Cloud cloud: clouds){
+        for (Cloud cloud : clouds) {
             cloud.fill(sack.extractListOfPawns(this.studentsOnClouds));
         }
     }

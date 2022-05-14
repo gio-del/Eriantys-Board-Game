@@ -1,7 +1,9 @@
 package it.polimi.ingsw.model.clouds;
-import it.polimi.ingsw.model.pawns.*;
-import it.polimi.ingsw.model.player.Player;
+
+import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.School;
+import it.polimi.ingsw.model.player.Player;
 
 /**
  * This class represents the Clouds from where {@link Player} can choose a {@link Pawns} to move to his {@link School}.
@@ -21,7 +23,7 @@ public class Cloud {
      *
      * @return the students in the cloud.
      */
-    public Pawns getStudents(){
+    public Pawns getStudents() {
         return students;
     }
 
@@ -37,8 +39,8 @@ public class Cloud {
         return extracted;
     }
 
-    public boolean isEmpty(){
-        return students.totalElements()==0;
+    public boolean isEmpty() {
+        return students.totalElements() == 0;
     }
 
     /**

@@ -34,7 +34,7 @@ public class ShortModel implements Serializable {
     public ShortModel(Game game) {
         this.clouds = game.getClouds().stream().map(ShortCloud::new).toList();
         this.schoolMap = new HashMap<>();
-        game.getPlayers().forEach(p -> schoolMap.put(p.getPlayerName(),new ShortSchool(p.getSchool())));
+        game.getPlayers().forEach(p -> schoolMap.put(p.getPlayerName(), new ShortSchool(p.getSchool())));
         this.board = new ShortBoard(game.getBoard());
         this.characters = game.getCharacterInUse().stream().map(ShortCharacter::new).toList();
     }
@@ -59,16 +59,32 @@ public class ShortModel implements Serializable {
         return wizardsAvailable;
     }
 
+    public void setWizardsAvailable(Set<Wizard> wizardsAvailable) {
+        this.wizardsAvailable = wizardsAvailable;
+    }
+
     public Set<TowerColor> getColorsAvailable() {
         return colorsAvailable;
+    }
+
+    public void setColorsAvailable(Set<TowerColor> colorsAvailable) {
+        this.colorsAvailable = colorsAvailable;
     }
 
     public Set<Assistant> getPlayableAssistant() {
         return playableAssistant;
     }
 
+    public void setPlayableAssistant(Set<Assistant> playableAssistant) {
+        this.playableAssistant = playableAssistant;
+    }
+
     public List<PawnColor> getPawnsAvailable() {
         return pawnsAvailable;
+    }
+
+    public void setPawnsAvailable(List<PawnColor> pawnsAvailable) {
+        this.pawnsAvailable = pawnsAvailable;
     }
 
     public List<ShortCharacter> getCharacters() {
@@ -80,7 +96,7 @@ public class ShortModel implements Serializable {
     }
 
     public void updateSchool(ShortSchool school, String owner) {
-        this.schoolMap.put(owner,school);
+        this.schoolMap.put(owner, school);
     }
 
     public void updateClouds(List<ShortCloud> clouds) {
@@ -89,22 +105,6 @@ public class ShortModel implements Serializable {
 
     public void updateBoard(ShortBoard board) {
         this.board = board;
-    }
-
-    public void setWizardsAvailable(Set<Wizard> wizardsAvailable) {
-        this.wizardsAvailable = wizardsAvailable;
-    }
-
-    public void setColorsAvailable(Set<TowerColor> colorsAvailable) {
-        this.colorsAvailable = colorsAvailable;
-    }
-
-    public void setPlayableAssistant(Set<Assistant> playableAssistant) {
-        this.playableAssistant = playableAssistant;
-    }
-
-    public void setPawnsAvailable(List<PawnColor> pawnsAvailable) {
-        this.pawnsAvailable = pawnsAvailable;
     }
 
     public void update(ShortModel model) {

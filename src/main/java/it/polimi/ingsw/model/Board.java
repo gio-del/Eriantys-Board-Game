@@ -8,7 +8,10 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.observer.WinObservable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class represents the Board with the islands inside
@@ -20,13 +23,12 @@ public class Board extends WinObservable {
     private InfluenceStrategy influenceStrategy;
 
     /**
-     *
      * Initiate the board with 12 Islands, set Strategy at standard and motherNature
      * on the first island of the ArrayList
      */
-    public Board(){
+    public Board() {
         this.islands = new ArrayList<>(Constants.MAX_ISLAND);
-        for(int i = 0; i < Constants.MAX_ISLAND; i++){
+        for (int i = 0; i < Constants.MAX_ISLAND; i++) {
             islands.add(new Island());
         }
         this.influenceStrategy = new StandardStrategy();
@@ -34,12 +36,11 @@ public class Board extends WinObservable {
     }
 
     /**
-     *
      * @param sack from which the island will draw the pawns
      */
     public void initIslands(Sack sack) {
-        for(int i = 1; i < Constants.MAX_ISLAND; i++){
-            if (i!=6) {
+        for (int i = 1; i < Constants.MAX_ISLAND; i++) {
+            if (i != 6) {
                 islands.get(i).add(sack.extract());
             }
         }
@@ -52,19 +53,19 @@ public class Board extends WinObservable {
 
     public void adjacencyUpdate() {
         int i = 0;
-        while(i<islands.size()) {
+        while (i < islands.size()) {
             if (i == islands.size() - 1) {
-                if (islands.get(i).getTower()!=null && islands.get(i).getTower().equals(islands.get(0).getTower())) {
+                if (islands.get(i).getTower() != null && islands.get(i).getTower().equals(islands.get(0).getTower())) {
                     islands.get(0).add(islands.get(i).getStudents());
                     islands.get(0).upgradeDimension(islands.get(i).getDimension());
-                    if(motherNaturePos == islands.size() - 1) motherNaturePos = 0;
+                    if (motherNaturePos == islands.size() - 1) motherNaturePos = 0;
                     islands.remove(i);
                 }
             } else {
-                if (islands.get(i).getTower()!=null && islands.get(i).getTower().equals(islands.get(i + 1).getTower())) {
+                if (islands.get(i).getTower() != null && islands.get(i).getTower().equals(islands.get(i + 1).getTower())) {
                     islands.get(i).add(islands.get(i + 1).getStudents());
                     islands.get(i).upgradeDimension(islands.get(i + 1).getDimension());
-                    if(motherNaturePos == i+1) motherNaturePos = i;
+                    if (motherNaturePos == i + 1) motherNaturePos = i;
                     islands.remove(i + 1);
                     i--;
                 }
@@ -76,31 +77,33 @@ public class Board extends WinObservable {
 
     /**
      * Move mother nature, trigger influence calc on island where she stops
-     * @param steps to move mother nature
+     *
+     * @param steps   to move mother nature
      * @param players in the game
      * @return the TowerColor of the winner if present, null otherwise
      */
-    public TowerColor moveMotherNature(int steps, List<Player> players){
+    public TowerColor moveMotherNature(int steps, List<Player> players) {
         int index = motherNaturePos;
-        if((index + steps) > islands.size() - 1){
+        if ((index + steps) > islands.size() - 1) {
             motherNaturePos = index + steps - islands.size();
-        } else{
+        } else {
             motherNaturePos = index + steps;
         }
-        return calculateInfluence(islands.get(motherNaturePos),players);
+        return calculateInfluence(islands.get(motherNaturePos), players);
     }
 
     /**
      * Calculate influence on a given island
-     * @param island on which to calc influence
+     *
+     * @param island  on which to calc influence
      * @param players players in game
      * @return the TowerColor of the winner if present, null otherwise
      */
-    public TowerColor calculateInfluence(Island island, List<Player> players){
+    public TowerColor calculateInfluence(Island island, List<Player> players) {
         Map<Player, Integer> scores = influenceStrategy.getScores(island, players);
         List<Player> winners = getWinners(scores);
         TowerColor winner = island.conquerIsland(winners, players);
-        if(winner != null){
+        if (winner != null) {
             adjacencyUpdate();
             notifyObserver(obs -> obs.updateTowerPlaced(winner));
         }
@@ -109,11 +112,12 @@ public class Board extends WinObservable {
 
     /**
      * private to calculate the winners from the scores
+     *
      * @param scores for each player
      * @return the player or players with the highest points
      */
 
-    private List<Player> getWinners(Map<Player, Integer> scores){
+    private List<Player> getWinners(Map<Player, Integer> scores) {
         int winnerValue = (Collections.max(scores.values()));
         List<Player> winners = new ArrayList<>();
         for (Map.Entry<Player, Integer> entry : scores.entrySet())
@@ -122,27 +126,29 @@ public class Board extends WinObservable {
         return winners;
     }
 
-    public int numberOfIslands(){
+    public int numberOfIslands() {
         return islands.size();
     }
 
     /**
      * Method used to change the actual strategy
+     *
      * @param influenceStrategy the concrete strategy to be created
      */
-    public void setStrategy(InfluenceStrategy influenceStrategy){
+    public void setStrategy(InfluenceStrategy influenceStrategy) {
         this.influenceStrategy = influenceStrategy;
     }
 
     /**
      * reset the influenceStrategy at Standard
      */
-    public void resetStrategy(){
+    public void resetStrategy() {
         this.influenceStrategy = new StandardStrategy();
     }
 
     /**
      * return the strategy to calculate the influences during this turn
+     *
      * @return strategy of the turn
      */
     public InfluenceStrategy getInfluenceStrategy() {
@@ -151,26 +157,26 @@ public class Board extends WinObservable {
 
     /**
      * Return List of islands
+     *
      * @return list of islands
      */
     public List<Island> getIslands() {
         return islands;
     }
 
-
     /**
-     * set the position of motherNature for the tests
-     * @param motherNaturePos index of the island
-     */
-    public void setMotherNaturePos(int motherNaturePos) {
-        this.motherNaturePos = motherNaturePos;
-    }
-
-    /**
-     *
      * @return the actual position of MotherNature
      */
     public int getMotherNaturePos() {
         return motherNaturePos;
+    }
+
+    /**
+     * set the position of motherNature for the tests
+     *
+     * @param motherNaturePos index of the island
+     */
+    public void setMotherNaturePos(int motherNaturePos) {
+        this.motherNaturePos = motherNaturePos;
     }
 }

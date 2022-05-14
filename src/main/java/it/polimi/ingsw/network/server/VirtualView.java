@@ -31,12 +31,12 @@ public class VirtualView implements View, Observer {
 
     @Override
     public void chooseGameMode() {
-        connection.sendMessage(new ChooseGameModeNotification(0,false));
+        connection.sendMessage(new ChooseGameModeNotification(0, false));
     }
 
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
-        connection.sendMessage(new ChooseWizAndTowerColorNotification(wizardsAvailable,colorsAvailable));
+        connection.sendMessage(new ChooseWizAndTowerColorNotification(wizardsAvailable, colorsAvailable));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class VirtualView implements View, Observer {
 
     @Override
     public void updateScreen(String nickname) {
-        //TODO
+        //do nothing
     }
 
     @Override
@@ -82,7 +82,7 @@ public class VirtualView implements View, Observer {
 
     @Override
     public void win(String winner, boolean win) {
-        connection.sendMessage(new WinNotification(winner,win));
+        connection.sendMessage(new WinNotification(winner, win));
     }
 
     @Override

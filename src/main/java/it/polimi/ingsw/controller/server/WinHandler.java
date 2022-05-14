@@ -21,19 +21,19 @@ public class WinHandler implements WinObserver {
 
     @Override
     public void updateBoardUsage(int size) {
-        if(size<= Constants.MIN_ISLAND)
+        if (size <= Constants.MIN_ISLAND)
             handleWin();
     }
 
     @Override
     public void updateSackUsage(int totalElements) {
-        if(totalElements == 0)
+        if (totalElements == 0)
             turn.setLastTurn(true);
     }
 
     @Override
     public void updateTowerPlaced(TowerColor winner) {
-        if(model.getPlayerByTowerColor(winner).getTowerNum() <= 0)
+        if (model.getPlayerByTowerColor(winner).getTowerNum() <= 0)
             handleWin();
     }
 
@@ -41,14 +41,14 @@ public class WinHandler implements WinObserver {
      * Extract the winner, the player with the minimum number of towers. If there are more than one, professors number is checked.
      */
     public void handleWin() {
-        Map<String,Integer> playerMapTowerNum = new HashMap<>();
+        Map<String, Integer> playerMapTowerNum = new HashMap<>();
         List<String> names = model.getPlayers().stream().map(Player::getPlayerName).toList();
-        for(String name: names) {
-            playerMapTowerNum.put(name,model.getPlayerByName(name).getTowerNum());
+        for (String name : names) {
+            playerMapTowerNum.put(name, model.getPlayerByName(name).getTowerNum());
         }
         int minValue = playerMapTowerNum.values().stream().min(Comparator.naturalOrder()).orElse(model.getGameLimit().getNumberOfTower());
-        List<String> winners = playerMapTowerNum.entrySet().stream().filter(entry -> entry.getValue()==minValue).map(Map.Entry::getKey).toList();
-        if(winners.size() > 1)
+        List<String> winners = playerMapTowerNum.entrySet().stream().filter(entry -> entry.getValue() == minValue).map(Map.Entry::getKey).toList();
+        if (winners.size() > 1)
             handleWinProfessor(winners);
         else
             controller.handleWin(winners.get(0));
@@ -56,15 +56,16 @@ public class WinHandler implements WinObserver {
 
     /**
      * Extract "winners" list, the players with the maximum professor in the school. If there are more than one, a winner is randomly extracted
+     *
      * @param winners the list of players that has the minimum number of tower
      */
     private void handleWinProfessor(List<String> winners) {
-        Map<String,Integer> playerMapProfNum = new HashMap<>();
-        for(String name: winners)
-            playerMapProfNum.put(name,model.getPlayerByName(name).getSchool().getProfessorTable().totalElements());
+        Map<String, Integer> playerMapProfNum = new HashMap<>();
+        for (String name : winners)
+            playerMapProfNum.put(name, model.getPlayerByName(name).getSchool().getProfessorTable().totalElements());
         int maxValue = playerMapProfNum.values().stream().max(Comparator.naturalOrder()).orElse(0);
-        List<String> profWinners = playerMapProfNum.entrySet().stream().filter(entry -> entry.getValue()==maxValue).map(Map.Entry::getKey).toList();
-        if(profWinners.size() > 1)
+        List<String> profWinners = playerMapProfNum.entrySet().stream().filter(entry -> entry.getValue() == maxValue).map(Map.Entry::getKey).toList();
+        if (profWinners.size() > 1)
             randomWinner(profWinners);
         else
             controller.handleWin(profWinners.get(0));
@@ -72,6 +73,7 @@ public class WinHandler implements WinObserver {
 
     /**
      * Extract a random player that win the match
+     *
      * @param profWinners the players that have even the same number of professors
      */
     private void randomWinner(List<String> profWinners) {

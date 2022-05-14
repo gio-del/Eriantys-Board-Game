@@ -23,36 +23,37 @@ public class ActionVisitor {
 
     public void visit(MoveData data) {
         Player player = game.getPlayerByName(turn.getRequestName());
-        Action action = switch(data.getTo()) {
+        Action action = switch (data.getTo()) {
             case ENTRANCE, SELF -> null;
-            case ISLAND -> new MoveAction(chosen,chosen.getChosenIsland(),new Pawns(chosen.getChosenColor()));
-            case HALL -> new MoveAction(chosen,player.getSchool().getHallAsPlace(), new Pawns(chosen.getChosenColor()));
+            case ISLAND -> new MoveAction(chosen, chosen.getChosenIsland(), new Pawns(chosen.getChosenColor()));
+            case HALL ->
+                    new MoveAction(chosen, player.getSchool().getHallAsPlace(), new Pawns(chosen.getChosenColor()));
         };
-        if(action!=null && action.apply())
+        if (action != null && action.apply())
             turn.onActionCompleted();
         else
             turn.onActionFailed();
     }
 
     public void visit(CalculateInfluenceData data) {
-        Action action = new CalculateInfluenceAction(game.getPlayers(),game.getBoard(),chosen.getChosenIsland());
+        Action action = new CalculateInfluenceAction(game.getPlayers(), game.getBoard(), chosen.getChosenIsland());
         validateAction(action);
     }
 
     public void visit(SetInfluenceStrategyData data) {
         Player player = game.getPlayerByName(turn.getRequestName());
-        Action action = new SetInfluenceStrategyAction(chosen,game.getBoard(),player);
+        Action action = new SetInfluenceStrategyAction(chosen, game.getBoard(), player);
         validateAction(action);
     }
 
     public void visit(SetProfStrategyData data) {
         Player player = game.getPlayerByName(turn.getRequestName());
-        Action action = new SetProfStrategyAction(chosen.getName(), game.getProfessorAssignor(),player);
+        Action action = new SetProfStrategyAction(chosen.getName(), game.getProfessorAssignor(), player);
         validateAction(action);
     }
 
     public void visit(ThiefData data) {
-        Action action = new ThiefAction(chosen.getChosenColor(),game.getPlayers(),data.getRemovedStudents());
+        Action action = new ThiefAction(chosen.getChosenColor(), game.getPlayers(), data.getRemovedStudents());
         validateAction(action);
     }
 
@@ -61,7 +62,7 @@ public class ActionVisitor {
     }
 
     private void validateAction(Action action) {
-        if(action.apply()) {
+        if (action.apply()) {
             turn.onActionCompleted();
         } else turn.onActionFailed();
     }

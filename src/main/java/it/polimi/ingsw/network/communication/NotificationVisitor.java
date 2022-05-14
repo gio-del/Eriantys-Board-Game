@@ -9,23 +9,42 @@ import it.polimi.ingsw.network.communication.notification.*;
  */
 public interface NotificationVisitor {
     void visit(LoginNotification msg);
+
     void visit(WinNotification msg);
+
     void visit(CloudsNotification msg);
+
     void visit(MoveStudentNotification msg);
+
     void visit(MoveMNNotification msg);
+
     void visit(ChooseCloudNotification msg);
+
     void visit(ChooseGameModeNotification msg);
+
     void visit(SchoolNotification msg);
+
     void visit(DisconnectionNotification msg);
+
     void visit(ChooseWizAndTowerColorNotification msg);
+
     void visit(ChooseAssistantNotification msg);
+
     void visit(NicknameErrorNotification msg);
+
     void visit(EventNotification msg);
+
     void visit(GameStartedNotification msg);
+
     void visit(GenericMessageNotification msg);
+
     void visit(BoardNotification msg);
+
     void visit(CharacterNotification msg);
+
     void visit(ColorNotification msg);
+
     void visit(IslandNotification msg);
+
     void visit(ModelUpdateNotification msg);
 }
