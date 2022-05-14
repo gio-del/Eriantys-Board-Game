@@ -154,7 +154,7 @@ public class Game extends Observable {
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
         bank.pay(currentPlayer,cost);
         if(!character.hasCoinOn()) character.setCoinOn(true);
-        //character.refill()
+        character.fill(sack);
         notifyObserver(new ModelUpdateNotification(new ShortModel(this)));
 
     }

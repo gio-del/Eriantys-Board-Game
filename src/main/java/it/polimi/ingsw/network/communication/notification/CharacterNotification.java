@@ -10,11 +10,11 @@ public class CharacterNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 7093800236657076836L;
 
-    private ShortCharacter character;
+    private int characterId;
     private List<ShortCharacter> characterInUse;
 
-    public CharacterNotification(ShortCharacter character) {
-        this.character = character;
+    public CharacterNotification(int characterId) {
+        this.characterId = characterId;
     }
 
     public CharacterNotification(List<ShortCharacter> characterInUse) {
@@ -26,8 +26,8 @@ public class CharacterNotification extends Notification {
         visitor.visit(this);
     }
 
-    public ShortCharacter getCharacter() {
-        return character;
+    public int getCharacter() {
+        return characterId;
     }
 
     public List<ShortCharacter> getCharacterInUse() {

@@ -18,4 +18,8 @@ public class ShortCloud implements Serializable {
     public ShortPawns getStudents() {
         return students;
     }
+
+    public boolean isEmpty() {
+        return students.totalElements() == 0;
+    }
 }

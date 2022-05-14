@@ -3,7 +3,6 @@ package it.polimi.ingsw.controller.server;
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.model.character.ActionVisitor;
 import it.polimi.ingsw.model.character.CharacterCard;
-import it.polimi.ingsw.model.character.ShortCharacter;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.Island;
@@ -31,6 +30,7 @@ public class TurnManager {
     private GameState gameState;
     private GameState callbackState;
     private CharacterCard chosenCard;
+
     public TurnManager(Game game, GameController controller) {
         this.availableWizard = EnumSet.allOf(Wizard.class);
         this.availableTowerColor = new HashSet<>();
@@ -175,6 +175,11 @@ public class TurnManager {
         }
     }
 
+    public void onIncorrectIsland() {
+        controller.getVirtualView(requestName).showMessage("Island provided is not correct.");
+        turn();
+    }
+
     public void onMoveMN() {
         gameState = GameState.ACTION_CHOOSE_CLOUD;
         turn();
@@ -195,18 +200,23 @@ public class TurnManager {
         }
     }
 
-    public void onChosenCharacter(ShortCharacter character) {
+    public void onChosenCharacter(CharacterCard character) {
         //todo: add control on name of the user of this character, it must be the only character played by him/her
         callbackState = gameState;
         gameState = GameState.USE_CHARACTER;
-        CharacterCard characterCard = game.getCharacterInUse().stream().filter(c -> c.getName().equals(character.getName())).findFirst().orElse(null);
-        if(characterCard!=null && game.canUseCharacter(characterCard)) {
-            this.chosenCard = characterCard;
+        if(character!=null && game.canUseCharacter(character)) {
+            this.chosenCard = character;
             turn();
         } else {
             onActionFailed();
         }
     }
+
+    public void onChosenInvalidCharacter() {
+        controller.getVirtualView(requestName).showMessage("Chosen character is not valid.");
+        turn();
+    }
+
 
     private void askRequirements(String requirement) {
         switch (requirement) {

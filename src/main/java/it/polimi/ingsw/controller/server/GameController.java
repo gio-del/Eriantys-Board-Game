@@ -60,9 +60,11 @@ public class GameController {
 
 
     public void handleWin(String name) {
+        if(connectionMap.isEmpty()) return; //in case of "multiple win condition" the client are notified one time
         notifyWinner(name);
         connectionMap.clear();
         virtualViewMap.clear();
+
     }
 
     private void notifyWinner(String winner){
@@ -75,7 +77,6 @@ public class GameController {
     public void handleDisconnection(String nickname) {
         connectionMap.remove(nickname);
         virtualViewMap.remove(nickname);
-        //todo check this
         Notification disconnection = new DisconnectionNotification(nickname + " has left the match! GAME ENDED.");
         broadcast(disconnection,nickname);
     }
@@ -85,7 +86,7 @@ public class GameController {
         connectionMap.values().forEach(connection -> connection.sendMessage(msg));
     }
 
-    public void broadcast(Notification msg,String exclusion) {
+    public void broadcast(Notification msg, String exclusion) {
         connectionMap.keySet().stream().filter(s -> !s.equals(exclusion)).map(connectionMap::get).forEach(connection -> connection.sendMessage(msg));
     }
 

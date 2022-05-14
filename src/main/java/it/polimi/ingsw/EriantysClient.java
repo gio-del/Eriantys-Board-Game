@@ -2,6 +2,8 @@ package it.polimi.ingsw;
 
 import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.view.cli.Cli;
+import it.polimi.ingsw.view.gui.RunnableGui;
+import javafx.application.Application;
 
 public class EriantysClient {
     public static void main(String[] args) {
@@ -12,13 +14,10 @@ public class EriantysClient {
                 view.addObserver(clientController);
                 view.init();
             }
+            else Application.launch(RunnableGui.class);
         }
         else {
-            //GUI HERE NOT IMPLEMENTED YET
-            Cli view = new Cli();
-            ClientController clientController = new ClientController(view);
-            view.addObserver(clientController);
-            view.init();
+            Application.launch(RunnableGui.class);
         }
     }
 }

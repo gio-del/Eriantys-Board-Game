@@ -21,4 +21,8 @@ public class ShortPawns implements Serializable {
     public int getFromColor(PawnColor pawnColor){
         return state.get(pawnColor);
     }
+
+    public int totalElements() {
+        return state.values().stream().reduce(Integer::sum).orElse(0);
+    }
 }

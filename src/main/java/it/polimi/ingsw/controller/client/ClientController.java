@@ -112,16 +112,9 @@ public class ClientController implements ClientObserver {
 
     @Override
     public void updateUseCharacter(int id) {
-        //todo: manda l'id così com'è poi sarà il server a validare e al massimo a richiedermi la cosa di prima
-        if(id>=0 && id<shortModel.getCharacters().size()) {
-            Notification useCharacterNotification = new CharacterNotification(shortModel.getCharacters().get(id));
-            useCharacterNotification.setClientId(nickname);
-            client.sendMessage(useCharacterNotification);
-        }
-        else {
-            //re-ask last action
-        }
-
+        Notification useCharacterNotification = new CharacterNotification(id);
+        useCharacterNotification.setClientId(nickname);
+        client.sendMessage(useCharacterNotification);
     }
 
     @Override
@@ -142,5 +135,14 @@ public class ClientController implements ClientObserver {
         String s = "Connection closed with the server. Exiting...";
         view.showDisconnection(s);
         exit(0);
+    }
+
+    public static boolean isValidIp(String ip) {
+        String regex = "^(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(\\.(?!$)|$)){4}$)|^localhost$";
+        return ip.matches(regex);
+    }
+
+    public static boolean isValidPort(int port) {
+        return port >= 1 && port <= 65535;
     }
 }

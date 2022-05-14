@@ -83,15 +83,16 @@ public class Server {
         String nickname = socketStringMap.get(client);
         if(nickname==null) return; //if the client hasn't chosen nickname he is nor in the lobby nor in a match.
         alreadyChosenNicknames.remove(nickname);
+        socketStringMap.remove(client);
         boolean check = false;
         for(Map.Entry<String,GameController> entry: matchesMap.entrySet()) {
             String name = entry.getKey();
             if(name.equals(nickname)) {
-                check = true;
+                check = true; //the client is in a game
                 matchesMap.get(name).handleDisconnection(nickname);
             }
         }
-        if(!check)
+        if(!check) //the client is in the lobby
             lobbyManager.handleDisconnection(nickname);
     }
 

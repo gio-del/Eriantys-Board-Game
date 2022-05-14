@@ -55,7 +55,7 @@ public class Cli extends ClientObservable implements View {
      * @param address from the input of the client
      */
     public void checkIP(String address) {
-        String ip; //add regex to check ip
+        String ip;
         int port;
         int i;
         i = getSpacePos(address);
@@ -65,19 +65,25 @@ public class Cli extends ClientObservable implements View {
             return;
         }
         ip = address.substring(0, i);
-        try {
-            port = Integer.parseInt(address.substring(i + 1));
-            notifyObserver(observer -> observer.updateConnection(ip,port));
-        } catch (NumberFormatException e) {
-            System.out.println("INPUT NOT VALID -- Unable to find the port, please retry:");
+        if(!ClientController.isValidIp(ip)) {
+            System.out.println("INPUT NOT VALID -- Please, insert a valid ip");
+            setIp();
+            return;
+        }
+        port = scanListener.converterToInt(address.substring(i+1));
+        if(!ClientController.isValidPort(port)) {
+            System.out.println("INPUT NOT VALID -- Please, insert a valid port");
             setIp();
         }
+        else
+            notifyObserver(observer -> observer.updateConnection(ip,port));
+
     }
 
     protected int getSpacePos(String string) {
         int i;
-        for(i = 0; i < string.length(); i++){
-            if(string.charAt(i) == ' '){
+        for(i = 0; i < string.length(); i++) {
+            if(string.charAt(i) == ' ') {
                 break;
             }
         }
@@ -98,7 +104,7 @@ public class Cli extends ClientObservable implements View {
      * @param nickname from input
      */
     public void checkNickName(String nickname) {
-        if(nickname.length() > 0){
+        if(nickname.length() > 0) {
             notifyObserver(observer -> observer.updateNickname(nickname));
         } else {
             System.out.println("NAME not valid, please choose another name");
@@ -114,7 +120,7 @@ public class Cli extends ClientObservable implements View {
 
     public void checkGameMode(String gameMode) {
         int pos = getSpacePos(gameMode);
-        if(pos >= gameMode.length()){
+        if(pos >= gameMode.length()) {
             System.out.println("ERROR - Game mode or number of player are missing!, retry");
             scanListener.setRequest(Request.GAME_MODE);
             return;
@@ -126,7 +132,7 @@ public class Cli extends ClientObservable implements View {
             return;
         }
         int numOfPlayer = Integer.parseInt(gameMode.substring(pos+1));
-        if(Constants.NUM_PLAYER_AVAILABLE.stream().noneMatch(i -> i.equals(numOfPlayer))){
+        if(Constants.NUM_PLAYER_AVAILABLE.stream().noneMatch(i -> i.equals(numOfPlayer))) {
             System.out.println("ERROR - Insert a valid number of player!, retry");
             scanListener.setRequest(Request.GAME_MODE);
             return;
@@ -201,8 +207,13 @@ public class Cli extends ClientObservable implements View {
             scanListener.setRequest(Request.CLOUD);
             return;
         }
-        if(cloudNum >= resource.getClouds().size()){
+        if(cloudNum<0 || cloudNum >= resource.getClouds().size()){
             System.out.println("ERROR - Cloud does not exist, retry");
+            scanListener.setRequest(Request.CLOUD);
+            return;
+        }
+        if(resource.getClouds().get(cloudNum).isEmpty()) {
+            System.out.println("ERROR - Chosen cloud is empty, retry");
             scanListener.setRequest(Request.CLOUD);
             return;
         }
@@ -217,12 +228,17 @@ public class Cli extends ClientObservable implements View {
     }
 
     public void checkStepsMN(int steps) {
-        if(steps == - 1){
+        if(steps == - 1) {
             System.out.println("ERROR - Steps not a number, retry");
             scanListener.setRequest(Request.MOTHER);
             return;
         }
-        if(steps > maxSteps){
+        if(steps <= 0) {
+            System.out.println("ERROR - Steps should be a positive number, retry");
+            scanListener.setRequest(Request.MOTHER);
+            return;
+        }
+        if(steps > maxSteps) {
             System.out.println("ERROR - Too many steps, retry");
             scanListener.setRequest(Request.MOTHER);
             return;

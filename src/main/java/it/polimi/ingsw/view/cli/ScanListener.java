@@ -107,6 +107,10 @@ public class ScanListener extends Thread {
 
     private int filter(String input) {
         int pos = cli.getSpacePos(input);
+        if(pos == input.length()) {
+            System.out.println("Character use not valid. The correct syntax is [use #id]. Please, insert a valid character or do the previous task");
+            return -1;
+        }
         String cmd = input.substring(0,pos);
         if(cmd.equals("use")) {
             int id = converterToInt(input.substring(pos+1));

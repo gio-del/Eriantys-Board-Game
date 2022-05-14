@@ -133,7 +133,7 @@ public class CharacterCard implements Place {
     }
 
     public void fill(Sack sack) {
-        for(int i=0;i<numberOfStudentsOn;i++) {
+        for(int i=students.totalElements();i<numberOfStudentsOn;i++) {
             students.addColor(sack.extract());
         }
     }

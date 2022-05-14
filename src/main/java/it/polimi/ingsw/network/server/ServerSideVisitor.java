@@ -40,8 +40,14 @@ public class ServerSideVisitor implements NotificationVisitor {
     @Override
     public void visit(MoveStudentNotification msg) {
         if(turn.getRequestName().equals(msg.getSenderID())) {
-            if (msg.getTarget().equals(Target.ISLAND))
-                game.moveFromEntranceToIsland(msg.getColor(), msg.getIsland());
+            if (msg.getTarget().equals(Target.ISLAND)) {
+                int island = msg.getIsland();
+                if(island<0 || island>=game.getBoard().numberOfIslands()) {
+                    turn.onIncorrectIsland();
+                    return;
+                }
+                game.moveFromEntranceToIsland(msg.getColor(), island);
+            }
             else
                 game.moveFromEntranceToHall(msg.getColor());
             turn.onMoveStudent();
@@ -67,7 +73,13 @@ public class ServerSideVisitor implements NotificationVisitor {
     @Override
     public void visit(CharacterNotification msg) {
         if(turn.getRequestName().equals(msg.getSenderID())) {
-            turn.onChosenCharacter(msg.getCharacter());
+            int size = game.getCharacterInUse().size();
+            int characterId = msg.getCharacter();
+            if(characterId<0 || characterId>=size) {
+                turn.onChosenInvalidCharacter();
+                return;
+            }
+            turn.onChosenCharacter(game.getCharacterInUse().get(characterId));
         }
     }
 
