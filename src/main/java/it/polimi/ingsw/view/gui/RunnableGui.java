@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.controller.client.ClientController;
-import it.polimi.ingsw.view.gui.scene.LoginSceneController;
+import it.polimi.ingsw.view.gui.scene.HomeSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,7 +19,7 @@ public class RunnableGui extends Application {
         view.addObserver(clientController);
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/login.fxml"));
+        loader.setLocation(getClass().getResource("/fxml/home.fxml"));
         Parent root = null;
         try {
             root = loader.load();
@@ -28,9 +28,6 @@ public class RunnableGui extends Application {
             System.exit(1);
         }
 
-        LoginSceneController controller = loader.getController();
-        controller.addObserver(clientController);
-
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setWidth(1280d);
@@ -38,5 +35,9 @@ public class RunnableGui extends Application {
         stage.setResizable(true);
         stage.setTitle("Eriantys - by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era");
         stage.show();
+
+        HomeSceneController first = loader.getController();
+        SceneController main = new SceneController(stage,scene,first);
+        first.addObserver(clientController);
     }
 }
