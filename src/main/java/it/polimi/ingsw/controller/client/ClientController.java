@@ -143,6 +143,6 @@ public class ClientController implements ClientObserver {
     public void onDisconnection() {
         String s = "Connection closed with the server. Exiting...";
         view.showDisconnection(s);
-        exit(0);
+        exit(0); //todo: check this
     }
 }

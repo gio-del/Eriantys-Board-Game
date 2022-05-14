@@ -105,7 +105,7 @@ public class School {
      * @return {@code true} if it was correctly moved, otherwise {@code false}
      */
     public boolean moveStudentToHall(Pawns pawns) {
-        if (entrance.canBeRemoved(pawns) && hall.canBeMoved(pawns)) {
+        if (entrance.canBeRemoved(pawns) && hall.canBeAdded(pawns)) {
             entrance.remove(pawns);
             hall.add(pawns);
             return true;

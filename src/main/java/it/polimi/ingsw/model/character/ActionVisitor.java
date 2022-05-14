@@ -29,10 +29,7 @@ public class ActionVisitor {
             case HALL ->
                     new MoveAction(chosen, player.getSchool().getHallAsPlace(), new Pawns(chosen.getChosenColor()));
         };
-        if (action != null && action.apply())
-            turn.onActionCompleted();
-        else
-            turn.onActionFailed();
+        validateAction(action);
     }
 
     public void visit(CalculateInfluenceData data) {
@@ -57,12 +54,22 @@ public class ActionVisitor {
         validateAction(action);
     }
 
-    public void visit(SwapData swapData) {
-        //TODO
+    public void visit(SwapData data) {
+        Player player = game.getPlayerByName(turn.getRequestName());
+        Action action = switch (data.getFrom()) {
+            case ENTRANCE, ISLAND -> null;
+            case SELF -> new SwapAction(chosen, player.getSchool().getEntranceAsPlace(), chosen.getChosenSwap());
+            case HALL -> new SwapAction(player.getSchool().getHallAsPlace(),player.getSchool().getEntranceAsPlace(),chosen.getChosenSwap());
+        };
+        validateAction(action);
+    }
+
+    public void visit(StepsIncrementData data) {
+        Action action = new StepsIncrementAction(game,data.getIncrement());
     }
 
     private void validateAction(Action action) {
-        if (action.apply()) {
+        if (action!=null && action.apply()) {
             turn.onActionCompleted();
         } else turn.onActionFailed();
     }

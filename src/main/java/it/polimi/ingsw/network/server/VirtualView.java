@@ -70,6 +70,11 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
+    public void askSwapList(int swap) {
+        connection.sendMessage(new SwapNotification(swap));
+    }
+
+    @Override
     public void updateScreen(String nickname) {
         //do nothing
     }

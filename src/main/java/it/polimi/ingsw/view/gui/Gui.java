@@ -46,71 +46,76 @@ public class Gui extends ClientObservable implements View {
     }
 
     public void setNickname() {
-
+        //TODO
     }
 
     @Override
     public void chooseGameMode() {
-
+        //TODO
     }
 
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
-
+        //TODO
     }
 
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
-
+        //TODO
     }
 
     @Override
     public void chooseCloud(List<ShortCloud> clouds) {
-
+        //TODO
     }
 
     @Override
     public void moveStudent(List<PawnColor> movableColor) {
-
+        //TODO
     }
 
     @Override
     public void moveMNature(int maximumSteps) {
-
+        //TODO
     }
 
     @Override
     public void askColor() {
-
+        //TODO
     }
 
     @Override
     public void askIsland() {
+        //TODO
+    }
 
+    @Override
+    public void askSwapList(int swap) {
+        //TODO
     }
 
     @Override
     public void updateScreen(String nickname) {
-
+        //TODO
     }
 
     @Override
     public void showDisconnection(String message) {
-
+        //TODO
     }
 
     @Override
     public void win(String winner, boolean win) {
-
+        //TODO
     }
 
     @Override
     public void showMessage(String msg) {
-
+        //TODO
     }
 
     @Override
     public void injectResource(ShortModel resource) {
-
+        //TODO
     }
 }

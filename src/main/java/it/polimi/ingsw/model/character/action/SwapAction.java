@@ -1,28 +1,39 @@
 package it.polimi.ingsw.model.character.action;
 
+import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Place;
+
+import java.util.List;
 
 public class SwapAction implements Action {
     private final Place from;
     private final Place to;
-    private final Pawns toBeSwappedFrom;
-    private final Pawns toBeSwappedTo;
+    private final List<PawnColor> swapList;
 
-    public SwapAction(Place from, Place to, Pawns toBeSwappedFrom, Pawns toBeSwappedTo) {
+    public SwapAction(Place from, Place to, List<PawnColor> swapList) {
         this.from = from;
         this.to = to;
-        this.toBeSwappedFrom = toBeSwappedFrom;
-        this.toBeSwappedTo = toBeSwappedTo;
+        this.swapList = swapList;
     }
 
     @Override
     public boolean apply() {
-        if ((toBeSwappedFrom.totalElements() == toBeSwappedTo.totalElements()) && from.canBeRemoved(toBeSwappedFrom) && to.canBeRemoved(toBeSwappedTo))
-            return from.remove(toBeSwappedFrom) &&
-                    from.add(toBeSwappedTo) &&
-                    to.remove(toBeSwappedTo) &&
-                    to.add(toBeSwappedFrom);
+        int i=0;
+        Pawns toBeRemovedFrom = new Pawns();
+        Pawns toBeRemovedTo = new Pawns();
+        if(swapList.size()%2!=0) return false;
+        while(i<swapList.size()) {
+            toBeRemovedFrom.addColor(swapList.get(i));
+            toBeRemovedTo.addColor(swapList.get(i+1));
+            i+=2;
+        }
+        if(from.canBeRemoved(toBeRemovedFrom) && to.canBeRemoved(toBeRemovedTo)) {
+            return from.remove(toBeRemovedFrom) &&
+                    from.add(toBeRemovedTo) &&
+                    to.remove(toBeRemovedTo) &&
+                    to.add(toBeRemovedFrom);
+        }
         return false;
     }
 }

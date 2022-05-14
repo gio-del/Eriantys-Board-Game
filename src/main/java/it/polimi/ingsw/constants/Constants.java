@@ -27,6 +27,8 @@ public class Constants {
     public static final int SCHOOL_HIGH = 9;
     public static final int SCHOOL_WIDTH = 46;
     public static final int SCHOOL_SHORT_WIDTH = 20;
+    public static final int DEFAULT_PORT = 17000;
+
     /**
      * This class cannot be instantiated
      */

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.communication;
 
 import it.polimi.ingsw.network.communication.notification.*;
+import it.polimi.ingsw.network.server.SwapNotification;
 
 /**
  * This interface is used to implement the visitor pattern. Both in client and
@@ -47,4 +48,5 @@ public interface NotificationVisitor {
     void visit(IslandNotification msg);
 
     void visit(ModelUpdateNotification msg);
+    void visit(SwapNotification msg);
 }

@@ -152,7 +152,7 @@ class GameTest {
 
     @Test
     void getPlayableAssistantTest() {
-        game.resetTurn();
+        game.endTurn();
         game.setCurrentPlayer("Marco");
         game.playAssistant(Assistant.EAGLE);
         assertFalse(game.getPlayableAssistant().contains(Assistant.EAGLE));
@@ -167,7 +167,7 @@ class GameTest {
      */
     @Test
     void getPlayableAssistantTest_1() {
-        game.resetTurn();
+        game.endTurn();
         for(Assistant assistant: Assistant.values()) {
             if(!assistant.equals(Assistant.TURTLE))
                 game.getPlayerByName("Marco").playAssistant(assistant);
@@ -183,7 +183,7 @@ class GameTest {
      */
     @Test
     void resetStrategiesTest() {
-        assertTrue(game.resetStrategies());
+        game.resetStrategies();
         assertTrue(game.getProfessorAssignor().getProfessorStrategy() instanceof StandardProfStrategy);
         assertTrue(game.getBoard().getInfluenceStrategy() instanceof StandardStrategy);
     }

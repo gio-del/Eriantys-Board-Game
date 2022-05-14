@@ -10,13 +10,13 @@ import it.polimi.ingsw.model.pawns.Pawns;
 public class ProfTable extends SchoolPlace {
     @Override
     public boolean add(Pawns pawns) {
-        if (canBeMoved(pawns))
+        if (canBeAdded(pawns))
             return super.add(pawns);
         return false;
     }
 
     @Override
-    public boolean canBeMoved(Pawns pawns) {
+    public boolean canBeAdded(Pawns pawns) {
         for (PawnColor pawnColor : PawnColor.values()) {
             if (super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MAX_PROFESSOR_PER_COLOR) {
                 return false;

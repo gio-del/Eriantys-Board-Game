@@ -53,7 +53,7 @@ public class Island implements Place {
      * @return true, always can be
      */
     @Override
-    public boolean canBeMoved(Pawns pawns) {
+    public boolean canBeAdded(Pawns pawns) {
         return true;
     }
 

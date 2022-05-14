@@ -20,13 +20,13 @@ public interface Place {
     boolean add(Pawns pawns);
 
     /**
-     * @param pawns
+     * @param pawns to be added
      * @return {@code true} if it can be added, otherwise {@code false}
      */
-    boolean canBeMoved(Pawns pawns);
+    boolean canBeAdded(Pawns pawns);
 
     /**
-     * @param pawns
+     * @param pawns to be removed
      * @return {@code true} if it can be removed, otherwise {@code false}
      */
     boolean canBeRemoved(Pawns pawns);

@@ -168,9 +168,9 @@ class SchoolTest {
     @Test
     void booleanTest() {
         boolean result;
-        result = school.getHallAsPlace().canBeMoved(maxHall);
+        result = school.getHallAsPlace().canBeAdded(maxHall);
         assertTrue(result);
-        result = school.getEntranceAsPlace().canBeMoved(overMax);
+        result = school.getEntranceAsPlace().canBeAdded(overMax);
         assertFalse(result);
         result = school.getEntranceAsPlace().canBeRemoved(overMax);
         assertFalse(result);

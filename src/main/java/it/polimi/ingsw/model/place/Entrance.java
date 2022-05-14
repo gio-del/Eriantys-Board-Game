@@ -20,7 +20,7 @@ public class Entrance extends SchoolPlace {
      */
     @Override
     public boolean add(Pawns pawns) {
-        if (canBeMoved(pawns))
+        if (canBeAdded(pawns))
             return super.add(pawns);
         return false;
     }
@@ -31,7 +31,7 @@ public class Entrance extends SchoolPlace {
      * But in every case doesn't add {@code pawns}
      */
     @Override
-    public boolean canBeMoved(Pawns pawns) {
+    public boolean canBeAdded(Pawns pawns) {
         return super.getPawns().totalElements() + pawns.totalElements() <= limit;
     }
 }

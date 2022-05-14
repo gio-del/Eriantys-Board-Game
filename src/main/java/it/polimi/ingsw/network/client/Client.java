@@ -39,7 +39,7 @@ public class Client extends Thread {
             socket = new Socket(address, port);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
-            runPing(); //todo: check this
+            runPing();
             return true;
         } catch (IOException e) {
             return false;

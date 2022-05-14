@@ -24,7 +24,7 @@ public class Hall extends SchoolPlace {
      */
     @Override
     public boolean add(Pawns pawns) {
-        if (canBeMoved(pawns)) {
+        if (canBeAdded(pawns)) {
             for (PawnColor pawnColor : PawnColor.values()) {
                 int numberOfPawn = pawns.getFromColor(pawnColor);
                 for (int i = 0; i < numberOfPawn; i++) {
@@ -38,7 +38,7 @@ public class Hall extends SchoolPlace {
     }
 
     @Override
-    public boolean canBeMoved(Pawns pawns) {
+    public boolean canBeAdded(Pawns pawns) {
         for (PawnColor pawnColor : PawnColor.values()) {
             if (super.getPawns().getFromColor(pawnColor) + pawns.getFromColor(pawnColor) > Constants.MAX_HALL_PER_COLOR) {
                 return false;

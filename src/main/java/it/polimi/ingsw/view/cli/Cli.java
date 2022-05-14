@@ -329,6 +329,11 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
+    public void askSwapList(int swap) {
+        //TODO
+    }
+
+    @Override
     public void showDisconnection(String message) {
         System.out.println(message);
         System.exit(0);

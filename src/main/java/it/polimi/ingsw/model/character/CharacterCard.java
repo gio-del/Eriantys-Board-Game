@@ -43,7 +43,7 @@ public class CharacterCard implements Place {
 
     @Override
     public boolean add(Pawns pawns) {
-        if (canBeMoved(pawns)) {
+        if (canBeAdded(pawns)) {
             students.addPawns(pawns);
             return true;
         }
@@ -51,7 +51,7 @@ public class CharacterCard implements Place {
     }
 
     @Override
-    public boolean canBeMoved(Pawns pawns) {
+    public boolean canBeAdded(Pawns pawns) {
         return numberOfStudentsOn > 0 && pawns.totalElements() + students.totalElements() <= numberOfStudentsOn;
     }
 

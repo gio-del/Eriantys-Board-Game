@@ -94,7 +94,6 @@ public class TurnManager {
         switch (gameState) {
             case PLANNING_ADD_TO_CLOUD -> {
                 game.fillClouds();
-                game.resetTurn();
                 gameState = GameState.PLANNING_ASSISTANT;
                 turn();
             }
@@ -185,10 +184,12 @@ public class TurnManager {
     }
 
     public void onChosenCloud() {
+        game.prepareNextTurn();
         if (request == playersOrder.size() - 1 && !isLastTurn) {
             request = 0;
             gameState = GameState.PLANNING_ADD_TO_CLOUD;
             setPlanningOrder(game.getPlayedAssistantMap(), game.getPlayers().stream().map(Player::getPlayerName).toList());
+            game.endTurn();
             turn();
         } else if (request == playersOrder.size() - 1 && isLastTurn) {
             controller.getWinHandler().handleWin();
@@ -221,10 +222,11 @@ public class TurnManager {
             case "color" -> controller.getVirtualView(requestName).askColor();
             case "island" -> controller.getVirtualView(requestName).askIsland();
             case "swap" -> {
-                //TODO
-                // chosenCard.getRequires().get(1); number of swap
+                characterRequest++;
+                int swap = Integer.parseInt(chosenCard.getRequires().get(characterRequest));
+                controller.getVirtualView(requestName).askSwapList(swap);
             }
-            default -> chosenCard.getAction().accept(new ActionVisitor(this, game, chosenCard));
+            default -> chosenCard.getAction().accept(new ActionVisitor(this, game, chosenCard)); //no inputs needed
         }
     }
 
@@ -240,6 +242,13 @@ public class TurnManager {
         turn();
     }
 
+    public void onChosenSwapList(List<PawnColor> swapList) {
+        chosenCard.setChosenSwap(swapList);
+        characterRequest++;
+        turn();
+    }
+
+
     public void onActionCompleted() {
         characterRequest = 0;
         game.useCharacter(chosenCard);
@@ -248,6 +257,7 @@ public class TurnManager {
     }
 
     public void onActionFailed() {
+        characterRequest = 0;
         controller.getVirtualView(requestName).showMessage("Not enough money to play this character or incorrect input has been provided.");
         gameState = callbackState;
         turn();

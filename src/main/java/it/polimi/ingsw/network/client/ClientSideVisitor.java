@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.*;
+import it.polimi.ingsw.network.server.SwapNotification;
 import it.polimi.ingsw.view.View;
 
 /**
@@ -109,6 +110,11 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(IslandNotification msg) {
         view.askIsland();
+    }
+
+    @Override
+    public void visit(SwapNotification msg) {
+        view.askSwapList(msg.getSwap());
     }
 
     @Override

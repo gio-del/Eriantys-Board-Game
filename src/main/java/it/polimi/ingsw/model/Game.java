@@ -38,6 +38,7 @@ public class Game extends Observable {
     private CloudManager clouds;
     private Player currentPlayer;
     private GameLimitData gameLimitData;
+    private int stepsIncrement;
 
     /**
      * The class that represents Eriantys game
@@ -144,13 +145,10 @@ public class Game extends Observable {
 
     /**
      * To reset all the strategies to the standard ones
-     *
-     * @return true when done
      */
-    public boolean resetStrategies() {
+    public void resetStrategies() {
         board.resetStrategy();
         hallManager.resetStrategy();
-        return true;
     }
 
     public void useCharacter(CharacterCard character) {
@@ -176,8 +174,7 @@ public class Game extends Observable {
      */
     public boolean moveMotherNature(int steps, Player player) {
         // TODO: remove player and substitute with current player.
-        // TODO: implement card to add 2 more possible steps, add a Mover class with a limit standard strategy etc.
-        int maxMove = player.getLastPlayedAssistant().movement();
+        int maxMove = player.getLastPlayedAssistant().movement()+stepsIncrement;
         if (steps <= maxMove && steps > 0) {
             board.moveMotherNature(steps, players);
             notifyObserver(new BoardNotification(new ShortBoard(board)));
@@ -268,12 +265,14 @@ public class Game extends Observable {
     }
 
     public int getMotherNatureSteps(String requestName) {
-        //TODO: implement limitation of mother nature steps with default strategy and character
-        return getPlayedAssistantByName(requestName).movement();
+        return getPlayedAssistantByName(requestName).movement()+stepsIncrement;
     }
 
-    public void resetTurn() {
+    public void endTurn() {
         playedAssistantMap.clear();
+    }
+    public void prepareNextTurn() {
+        this.stepsIncrement = 0;
         resetStrategies();
     }
 
@@ -313,6 +312,7 @@ public class Game extends Observable {
     }
 
     public void setCurrentPlayer(String player) {
+        this.stepsIncrement = 0;
         currentPlayer = getPlayerByName(player);
     }
 
@@ -337,5 +337,9 @@ public class Game extends Observable {
 
     public GameLimitData getGameLimit() {
         return gameLimitData;
+    }
+
+    public void setStepsIncrement(int increment) {
+        this.stepsIncrement = increment;
     }
 }

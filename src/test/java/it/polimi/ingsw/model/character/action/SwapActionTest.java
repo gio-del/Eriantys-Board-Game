@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.Place;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -8,12 +9,15 @@ import it.polimi.ingsw.model.player.Wizard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class SwapActionTest {
     Place from;
     Place to;
+    Pawns fromEntrance;
+    Pawns toHall;
 
     @BeforeEach
     void setUp() {
@@ -22,13 +26,16 @@ class SwapActionTest {
         game.addPlayer("Marco", Wizard.FLAME_MAGICIAN, TowerColor.WHITE);
         game.init();
 
+        fromEntrance = game.getPlayerByName("Luigi").getSchool().getEntrance();
         from = game.getPlayerByName("Luigi").getSchool().getEntranceAsPlace();
+
+        toHall = game.getPlayerByName("Luigi").getSchool().getHall();
         to = game.getPlayerByName("Luigi").getSchool().getHallAsPlace();
 
         Pawns pawns = new Pawns(1,1,1,1,1);
-        from.add(pawns);
+        from.add(pawns); //FROM: 1 1 1 1 1
         to.add(pawns);
-        to.add(pawns);
+        to.add(pawns); //TO: 2 2 2 2 2
     }
 
     /**
@@ -36,10 +43,13 @@ class SwapActionTest {
      */
     @Test
     void swapActionIfOk() {
-
-        Pawns pawnsToBeSwappedFrom = new Pawns(0,1,1,0,0);
-        Pawns pawnsToBeSwappedTo = new Pawns(1,0,0,0,1);
-        assertTrue(new SwapAction(from,to,pawnsToBeSwappedFrom,pawnsToBeSwappedTo).apply());
+        List<PawnColor> swapList = List.of(PawnColor.RED,PawnColor.BLUE,PawnColor.GREEN,PawnColor.YELLOW);
+        //EXPECTED AFTER SWAP
+        // FROM: 0 0 2 1 2
+        // TO: 3 3 1 2 1
+        assertTrue(new SwapAction(from,to,swapList).apply());
+        assertEquals(new Pawns(0,0,2,1,2),fromEntrance);
+        assertEquals(new Pawns(3,3,1,2,1),toHall);
     }
 
     /**
@@ -47,9 +57,11 @@ class SwapActionTest {
      */
     @Test
     void moveActionKO_1() {
-        Pawns pawnsToBeSwappedFrom = new Pawns(1,1,1,0,0);
-        Pawns pawnsToBeSwappedTo = new Pawns(1,0,0,0,1);
-        assertFalse(new SwapAction(from,to,pawnsToBeSwappedFrom,pawnsToBeSwappedTo).apply());
+        List<PawnColor> swapList = List.of(PawnColor.RED,PawnColor.BLUE,PawnColor.YELLOW);
+        assertFalse(new SwapAction(from,to,swapList).apply());
+        //check that nothing is changed
+        assertEquals(new Pawns(1,1,1,1,1),fromEntrance);
+        assertEquals(new Pawns(2,2,2,2,2),toHall);
     }
 
     /**
@@ -57,9 +69,11 @@ class SwapActionTest {
      */
     @Test
     void moveActionKO_2() {
-        Pawns pawnsToBeSwappedFrom = new Pawns(1,1,2,0,0);
-        Pawns pawnsToBeSwappedTo = new Pawns(1,0,2,0,1);
-        assertFalse(new SwapAction(from,to,pawnsToBeSwappedFrom,pawnsToBeSwappedTo).apply());
+        List<PawnColor> swapList = List.of(PawnColor.RED,PawnColor.BLUE,PawnColor.RED,PawnColor.GREEN);
+        assertFalse(new SwapAction(from,to,swapList).apply());
+        //check that nothing is changed
+        assertEquals(new Pawns(1,1,1,1,1),fromEntrance);
+        assertEquals(new Pawns(2,2,2,2,2),toHall);
     }
 
     /**
@@ -67,8 +81,10 @@ class SwapActionTest {
      */
     @Test
     void moveActionKO_3() {
-        Pawns pawnsToBeSwappedFrom = new Pawns(1,1,1,1,0);
-        Pawns pawnsToBeSwappedTo = new Pawns(1,0,3,0,0);
-        assertFalse(new SwapAction(from,to,pawnsToBeSwappedFrom,pawnsToBeSwappedTo).apply());
+        List<PawnColor> swapList = List.of(PawnColor.GREEN,PawnColor.RED,PawnColor.BLUE,PawnColor.RED, PawnColor.YELLOW,PawnColor.RED);
+        assertFalse(new SwapAction(from,to,swapList).apply());
+        //check that nothing is changed
+        assertEquals(new Pawns(1,1,1,1,1),fromEntrance);
+        assertEquals(new Pawns(2,2,2,2,2),toHall);
     }
 }
