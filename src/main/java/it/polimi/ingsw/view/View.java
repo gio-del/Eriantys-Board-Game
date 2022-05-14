@@ -90,5 +90,6 @@ public interface View {
     void showMessage(String msg);
 
     void injectResource(ShortModel resource);
+
     void askSwapList(int swap);
 }

@@ -6,11 +6,11 @@ import it.polimi.ingsw.network.server.Server;
 public class EriantysServer {
     public static void main(String[] args) {
         Server server;
-        if(args.length > 0) {
-            for(int i=0;i<args.length;i++) {
-                if(args[i].equals("-p") || args[i].equals("--port")) {
+        if (args.length > 0) {
+            for (int i = 0; i < args.length; i++) {
+                if (args[i].equals("-p") || args[i].equals("--port")) {
                     try {
-                        server = new Server(Integer.parseInt(args[i+1]));
+                        server = new Server(Integer.parseInt(args[i + 1]));
                         server.start();
                         return;
                     } catch (NumberFormatException e) {

@@ -174,7 +174,7 @@ public class Game extends Observable {
      */
     public boolean moveMotherNature(int steps, Player player) {
         // TODO: remove player and substitute with current player.
-        int maxMove = player.getLastPlayedAssistant().movement()+stepsIncrement;
+        int maxMove = player.getLastPlayedAssistant().movement() + stepsIncrement;
         if (steps <= maxMove && steps > 0) {
             board.moveMotherNature(steps, players);
             notifyObserver(new BoardNotification(new ShortBoard(board)));
@@ -265,12 +265,13 @@ public class Game extends Observable {
     }
 
     public int getMotherNatureSteps(String requestName) {
-        return getPlayedAssistantByName(requestName).movement()+stepsIncrement;
+        return getPlayedAssistantByName(requestName).movement() + stepsIncrement;
     }
 
     public void endTurn() {
         playedAssistantMap.clear();
     }
+
     public void prepareNextTurn() {
         this.stepsIncrement = 0;
         resetStrategies();

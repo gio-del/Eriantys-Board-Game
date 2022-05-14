@@ -13,6 +13,7 @@ public class SwapNotification extends Notification {
 
     private int swap;
     private List<PawnColor> swapList;
+
     public SwapNotification(int swap) {
         this.swap = swap;
     }

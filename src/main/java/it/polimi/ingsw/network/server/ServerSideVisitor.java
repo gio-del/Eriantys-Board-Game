@@ -102,7 +102,7 @@ public class ServerSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(SwapNotification msg) {
-        if(turn.getRequestName().equals(msg.getSenderID())) {
+        if (turn.getRequestName().equals(msg.getSenderID())) {
             turn.onChosenSwapList(msg.getSwapList());
         }
     }

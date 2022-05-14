@@ -29,6 +29,7 @@ public class TurnManager {
     private GameState gameState;
     private GameState callbackState;
     private CharacterCard chosenCard;
+
     public TurnManager(Game game, GameController controller) {
         this.availableWizard = EnumSet.allOf(Wizard.class);
         this.availableTowerColor = new HashSet<>();

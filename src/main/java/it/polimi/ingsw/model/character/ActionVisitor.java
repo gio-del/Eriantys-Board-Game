@@ -59,17 +59,18 @@ public class ActionVisitor {
         Action action = switch (data.getFrom()) {
             case ENTRANCE, ISLAND -> null;
             case SELF -> new SwapAction(chosen, player.getSchool().getEntranceAsPlace(), chosen.getChosenSwap());
-            case HALL -> new SwapAction(player.getSchool().getHallAsPlace(),player.getSchool().getEntranceAsPlace(),chosen.getChosenSwap());
+            case HALL ->
+                    new SwapAction(player.getSchool().getHallAsPlace(), player.getSchool().getEntranceAsPlace(), chosen.getChosenSwap());
         };
         validateAction(action);
     }
 
     public void visit(StepsIncrementData data) {
-        Action action = new StepsIncrementAction(game,data.getIncrement());
+        Action action = new StepsIncrementAction(game, data.getIncrement());
     }
 
     private void validateAction(Action action) {
-        if (action!=null && action.apply()) {
+        if (action != null && action.apply()) {
             turn.onActionCompleted();
         } else turn.onActionFailed();
     }

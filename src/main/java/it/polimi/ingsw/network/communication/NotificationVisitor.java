@@ -48,5 +48,6 @@ public interface NotificationVisitor {
     void visit(IslandNotification msg);
 
     void visit(ModelUpdateNotification msg);
+
     void visit(SwapNotification msg);
 }

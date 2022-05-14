@@ -19,16 +19,16 @@ public class SwapAction implements Action {
 
     @Override
     public boolean apply() {
-        int i=0;
+        int i = 0;
         Pawns toBeRemovedFrom = new Pawns();
         Pawns toBeRemovedTo = new Pawns();
-        if(swapList.size()%2!=0) return false;
-        while(i<swapList.size()) {
+        if (swapList.size() % 2 != 0) return false;
+        while (i < swapList.size()) {
             toBeRemovedFrom.addColor(swapList.get(i));
-            toBeRemovedTo.addColor(swapList.get(i+1));
-            i+=2;
+            toBeRemovedTo.addColor(swapList.get(i + 1));
+            i += 2;
         }
-        if(from.canBeRemoved(toBeRemovedFrom) && to.canBeRemoved(toBeRemovedTo)) {
+        if (from.canBeRemoved(toBeRemovedFrom) && to.canBeRemoved(toBeRemovedTo)) {
             return from.remove(toBeRemovedFrom) &&
                     from.add(toBeRemovedTo) &&
                     to.remove(toBeRemovedTo) &&
