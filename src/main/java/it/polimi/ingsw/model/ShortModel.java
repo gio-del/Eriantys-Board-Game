@@ -5,6 +5,7 @@ import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.ShortPlayer;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 
@@ -22,7 +23,8 @@ public class ShortModel implements Serializable {
     @Serial
     private static final long serialVersionUID = 8456994722346490452L;
 
-    private Map<String, ShortSchool> schoolMap;
+    private Map<ShortPlayer, ShortSchool> schoolMap;
+    private Map<String, Integer> moneyMap;
     private List<ShortCloud> clouds;
     private ShortBoard board;
     private Set<Wizard> wizardsAvailable;
@@ -31,19 +33,23 @@ public class ShortModel implements Serializable {
     private List<PawnColor> pawnsAvailable;
     private List<ShortCharacter> characters;
 
-    public ShortModel(Game game) {
+    public ShortModel(Game game, boolean expertMode) {
         this.clouds = game.getClouds().stream().map(ShortCloud::new).toList();
         this.schoolMap = new HashMap<>();
-        game.getPlayers().forEach(p -> schoolMap.put(p.getPlayerName(), new ShortSchool(p.getSchool())));
+        game.getPlayers().forEach(p -> schoolMap.put(new ShortPlayer(p), new ShortSchool(p.getSchool())));
         this.board = new ShortBoard(game.getBoard());
-        this.characters = game.getCharacterInUse().stream().map(ShortCharacter::new).toList();
+        if (expertMode) {
+            this.characters = game.getCharacterInUse().stream().map(ShortCharacter::new).toList();
+            this.moneyMap = new HashMap<>();
+            game.getPlayers().forEach(p -> moneyMap.put(p.getPlayerName(), game.getBank().getCashByPlayer(p)));
+        }
     }
 
     public ShortModel() {
         this.schoolMap = new HashMap<>();
     }
 
-    public Map<String, ShortSchool> getSchoolMap() {
+    public Map<ShortPlayer, ShortSchool> getSchoolMap() {
         return schoolMap;
     }
 
@@ -91,11 +97,15 @@ public class ShortModel implements Serializable {
         return characters;
     }
 
+    public Map<String, Integer> getMoneyMap() {
+        return moneyMap;
+    }
+
     public void updateCharacters(List<ShortCharacter> characters) {
         this.characters = characters;
     }
 
-    public void updateSchool(ShortSchool school, String owner) {
+    public void updateSchool(ShortSchool school, ShortPlayer owner) {
         this.schoolMap.put(owner, school);
     }
 
@@ -112,5 +122,10 @@ public class ShortModel implements Serializable {
         this.board = model.board;
         this.schoolMap = model.schoolMap;
         this.clouds = model.clouds;
+        this.moneyMap = model.moneyMap;
+    }
+
+    public void updateMoneyMap(Map<String, Integer> moneyMap) {
+        this.moneyMap = moneyMap;
     }
 }

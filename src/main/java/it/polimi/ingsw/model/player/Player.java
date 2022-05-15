@@ -34,7 +34,7 @@ public class Player {
     }
 
     public Player(ShortPlayer shortPlayer, GameLimitData gameLimitData, HallManager hallManager) {
-        this(shortPlayer.playerName(), shortPlayer.wizard(), shortPlayer.color(), gameLimitData, hallManager);
+        this(shortPlayer.name(), shortPlayer.wizard(), shortPlayer.color(), gameLimitData, hallManager);
     }
 
     /**

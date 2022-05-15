@@ -143,11 +143,6 @@ public class ServerSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(SchoolNotification msg) {
-        //do nothing
-    }
-
-    @Override
     public void visit(BoardNotification msg) {
         //do nothing
     }

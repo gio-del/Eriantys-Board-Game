@@ -2,6 +2,7 @@ package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.place.ShortSchool;
+import it.polimi.ingsw.model.player.ShortPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,13 +14,17 @@ public class SchoolsCli {
     private SchoolExtended schoolExtended;
     private List<StringBuilder> upperHalf;
 
-    public SchoolsCli(Map<String, ShortSchool> otherSchools, Map<String, ShortSchool> ownerSchool) {
-        for (Map.Entry<String, ShortSchool> entry : otherSchools.entrySet()) {
-            SchoolSmall schoolSmall = new SchoolSmall(entry.getValue(), entry.getKey());
+    public SchoolsCli(Map<ShortPlayer, ShortSchool> otherSchools, Map<ShortPlayer, ShortSchool> ownerSchool, Map<String, Integer> moneyMap) {
+        for (Map.Entry<ShortPlayer, ShortSchool> entry : otherSchools.entrySet()) {
+            int coin = 0;
+            if (moneyMap != null) coin = moneyMap.get(entry.getKey().name());
+            SchoolSmall schoolSmall = new SchoolSmall(entry.getValue(), entry.getKey(), coin);
             this.otherSchools.add(schoolSmall);
         }
-        for (Map.Entry<String, ShortSchool> entry : ownerSchool.entrySet()) {
-            schoolExtended = new SchoolExtended(entry.getValue(), entry.getKey());
+        for (Map.Entry<ShortPlayer, ShortSchool> entry : ownerSchool.entrySet()) {
+            int coin = 0;
+            if (moneyMap != null) coin = moneyMap.get(entry.getKey().name());
+            schoolExtended = new SchoolExtended(entry.getValue(), entry.getKey(), coin);
         }
         generateParts();
     }
