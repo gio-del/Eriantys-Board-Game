@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
+import javafx.application.Platform;
 
 import java.util.List;
 import java.util.Set;
@@ -19,18 +20,6 @@ import java.util.Set;
  * Gui communicates with the controller only with update() and it's a controller's job to communicate with server via network
  */
 public class Gui extends ClientObservable implements View {
-    private int maxSteps;
-    private PawnColor chosenColor;
-    private ShortModel resource;
-
-    public void init() {
-        //set scena per chiedere connessione
-        //askConnectionInfo();
-    }
-
-    public void askConnection() {
-        //chiedere ip port
-    }
 
     /**
      * Check if is a valid name
@@ -41,17 +30,17 @@ public class Gui extends ClientObservable implements View {
         if (nickname.length() > 0) {
             notifyObserver(observer -> observer.updateNickname(nickname));
         } else {
-            //allertbox e richiedere il nickname.
+            //alertbox e richiedere il nickname.
         }
     }
 
     public void setNickname() {
-        //TODO
+        Platform.runLater(() -> SceneController.changeScene(observers, "login.fxml"));
     }
 
     @Override
     public void chooseGameMode() {
-        //TODO
+        Platform.runLater(() -> SceneController.changeScene(observers, "game_mode.fxml"));
     }
 
     @Override

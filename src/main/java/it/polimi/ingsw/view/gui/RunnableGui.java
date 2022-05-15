@@ -24,20 +24,22 @@ public class RunnableGui extends Application {
         try {
             root = loader.load();
         } catch (IOException e) {
-            //avvisare client prima
+            System.out.println(e.getMessage());
             System.exit(1);
         }
+
+        HomeSceneController homeController = loader.getController();
+        homeController.addObserver(clientController);
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.setWidth(1280d);
         stage.setHeight(720d);
         stage.setResizable(true);
+        stage.setMaximized(true);
         stage.setTitle("Eriantys - by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era");
+        //todo: handle the case of windows closed
         stage.show();
 
-        HomeSceneController first = loader.getController();
-        SceneController main = new SceneController(scene, first);
-        first.addObserver(clientController);
     }
 }

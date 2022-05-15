@@ -1,39 +1,49 @@
 package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.observer.ClientObservable;
+import it.polimi.ingsw.observer.ClientObserver;
 import it.polimi.ingsw.view.gui.scene.BasicSceneController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 
 import java.io.IOException;
+import java.util.List;
 
 public class SceneController extends ClientObservable {
     private static Scene actualScene;
     private static BasicSceneController actualController;
 
-    public SceneController(Scene actualScene, BasicSceneController actualController) {
-        SceneController.actualScene = actualScene;
-        SceneController.actualController = actualController;
+    public static void changeScene(List<ClientObserver> observerList, Scene newScene, String pathToFxml) {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(SceneController.class.getResource("/fxml/" + pathToFxml));
+        Parent root;
+        try {
+            root = loader.load();
+
+            actualController = loader.getController();
+            ClientObservable observable = (ClientObservable) actualController;
+            observerList.forEach(observable::addObserver);
+
+            actualScene = newScene;
+            actualScene.setRoot(root);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+            //System.exit(1);
+        }
+
     }
 
-    /**
-     * This method change the actual scene
-     *
-     * @param actual is the ctual scene
-     * @param newFXML is the fxml file reference to the new scene
-     */
-    public static void changeScene(Scene actual, String newFXML) {
-        Parent root = null;
-        try {
-            root = FXMLLoader.load(SceneController.class.getResource(newFXML));
-        } catch (IOException e) {
-            //avvisare client prima
-            System.exit(1);
-        }
-        Stage stage = (Stage) actual.getWindow();
-        stage.setScene(new Scene(root,1220d,700d));
+    public static void changeScene(List<ClientObserver> observers, String pathToFXML) {
+        changeScene(observers, actualScene, pathToFXML);
+    }
+
+    public static void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
+        alert.setTitle(title);
+        alert.show();
     }
 
     /**

@@ -8,7 +8,7 @@ import java.util.function.Consumer;
  * The view extends this interface.
  */
 public class ClientObservable {
-    private final List<ClientObserver> observers = new ArrayList<>();
+    protected final List<ClientObserver> observers = new ArrayList<>();
 
     public void addObserver(ClientObserver observer) {
         if (observer != null && !observers.contains(observer))
