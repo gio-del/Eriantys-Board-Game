@@ -1,12 +1,14 @@
 package it.polimi.ingsw.view.cli;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.School;
 import it.polimi.ingsw.model.place.ShortSchool;
+import it.polimi.ingsw.model.player.ShortPlayer;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 
@@ -73,6 +75,15 @@ public class TestingCli {
         clouds.add(shortCloud2);
         cli.showClouds(clouds);
 
+        ShortModel shortModel = new ShortModel();
+//        Map<String,Integer> moneyMap = Map.of("Luca",2,"Marco",124,"Paolo",0,"Alberto",2);
+//        shortModel.updateMoneyMap(moneyMap);
+        shortModel.updateSchool(shortSchool, new ShortPlayer("Luca", Wizard.KING, TowerColor.BLACK));
+        shortModel.updateSchool(shortSchool, new ShortPlayer("Marco", Wizard.SORCERER, TowerColor.GRAY));
+        shortModel.updateSchool(shortSchool, new ShortPlayer("Paolo", Wizard.KING, TowerColor.BLACK));
+        shortModel.updateSchool(shortSchool, new ShortPlayer("Alberto", Wizard.SORCERER, TowerColor.GRAY));
+        cli.injectResource(shortModel);
+        cli.updateScreen("Luca");
 
         exit(0);
 

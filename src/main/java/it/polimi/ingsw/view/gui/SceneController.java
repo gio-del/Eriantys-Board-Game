@@ -2,37 +2,27 @@ package it.polimi.ingsw.view.gui;
 
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.gui.scene.BasicSceneController;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class SceneController extends ClientObservable {
+    private static Stage stage;
     private static Scene actualScene;
     private static BasicSceneController actualController;
 
-    /**
-     * SceneController initialization
-     *
-     * @param firstScene is the first scene
-     * @param firstController is the first controller
-     */
-    public SceneController(Scene firstScene, BasicSceneController firstController) {
-        this.actualScene = firstScene;
-        this.actualController = firstController;
+    public SceneController(Stage primaryStage, Scene actualScene, BasicSceneController actualController) {
+        stage = primaryStage;
+        SceneController.actualScene = actualScene;
+        SceneController.actualController = actualController;
     }
 
-    /**
-     * SceneController initialization
-     *
-     * @param newScene is the new scene
-     * @param newController is the first controller
-     */
-    private static void setSceneController(Scene newScene, BasicSceneController newController) {
-        actualScene = newScene;
-        actualController = newController;
+    public static void changeScene(Scene newScene) {
+        stage.setScene(newScene);
+        stage.setWidth(1280d);
+        stage.setHeight(720d);
+        stage.setResizable(true);
+        stage.setTitle("Eriantys - by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era");
+        stage.show();
     }
 
     /**
@@ -40,7 +30,7 @@ public class SceneController extends ClientObservable {
      *
      * @return actual scene
      */
-    public static Scene getActualScene() {
+    public Scene getActualScene() {
         return actualScene;
     }
 
@@ -49,28 +39,8 @@ public class SceneController extends ClientObservable {
      *
      * @return actual controller
      */
-    public static BasicSceneController getActualController() {
+    public BasicSceneController getActualController() {
         return actualController;
     }
 
-    /**
-     * This method change the actual scene with another
-     *
-     * @param active is the actual scene
-     * @param newFXML is the fxml file containing the new scene
-     */
-    public static void changeScene(Scene active, String newFXML) {
-        Parent root = null;
-        try {
-            FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(SceneController.class.getResource(newFXML));
-            root = loader.load();
-        } catch (IOException e) {
-            //avvisare client prima
-            System.exit(1);
-        }
-        Stage stage = (Stage) active.getWindow();
-        Scene scene = new Scene(root, 1200d, 700d);
-        stage.setScene(scene);
-    }
 }

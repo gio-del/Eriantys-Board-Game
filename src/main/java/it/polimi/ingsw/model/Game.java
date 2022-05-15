@@ -1,17 +1,17 @@
 package it.polimi.ingsw.model;
 
 import it.polimi.ingsw.model.character.CharacterCard;
-import it.polimi.ingsw.model.character.ShortCharacter;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallManager;
-import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
-import it.polimi.ingsw.network.communication.notification.*;
+import it.polimi.ingsw.network.communication.notification.BoardNotification;
+import it.polimi.ingsw.network.communication.notification.CloudsNotification;
+import it.polimi.ingsw.network.communication.notification.ModelUpdateNotification;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.utility.character.CharactersDeck;
@@ -38,6 +38,7 @@ public class Game extends Observable {
     private CloudManager clouds;
     private Player currentPlayer;
     private GameLimitData gameLimitData;
+    private boolean expertMode;
     private int stepsIncrement;
 
     /**
@@ -70,20 +71,17 @@ public class Game extends Observable {
     /**
      * Starts the game filling island and the entrance of each player
      */
-    public void startGame(boolean isExpertMode) {
+    public void startGame(boolean expertMode) {
         init();
         sack.initialFill();
         board.initIslands(sack);
         sack.fill();
-        for (Player player : players) {
+        this.expertMode = expertMode;
+        for (Player player : players)
             player.initialEntranceFill(sack.extractListOfPawns(gameLimitData.getMaxEntrance()));
-            notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()), player.getPlayerName()));
-        }
-        if (isExpertMode) {
+        if (expertMode)
             characterInUse.forEach(character -> character.fill(sack));
-            notifyObserver(new CharacterNotification(characterInUse.stream().map(ShortCharacter::new).toList()));
-        }
-        notifyObserver(new BoardNotification(new ShortBoard(board)));
+        notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
     }
 
     /**
@@ -92,7 +90,7 @@ public class Game extends Observable {
      * @param towerColor color chosen by the player
      */
     public void addPlayer(String name, Wizard wizard, TowerColor towerColor) {
-        if (shortPlayers.stream().noneMatch(shortPlayer -> shortPlayer.playerName().equals(name))) {
+        if (shortPlayers.stream().noneMatch(shortPlayer -> shortPlayer.name().equals(name))) {
             ShortPlayer shortPlayer = new ShortPlayer(name, wizard, towerColor);
             this.shortPlayers.add(shortPlayer);
         }
@@ -156,11 +154,11 @@ public class Game extends Observable {
         bank.pay(currentPlayer, cost);
         if (!character.hasCoinOn()) character.setCoinOn(true);
         character.fill(sack);
-        notifyObserver(new ModelUpdateNotification(new ShortModel(this)));
-
+        notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
     }
 
     public boolean canUseCharacter(CharacterCard character) {
+        //todo:  check if is expert mode and if current player has already played a character
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
         return bank.canPay(currentPlayer, cost);
     }
@@ -192,8 +190,7 @@ public class Game extends Observable {
         Cloud cloudChosen = clouds.getSpecificCloud(cloud);
         if (cloudChosen != null) {
             boolean check = currentPlayer.addPawnsFromCloud(cloudChosen);
-            notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
-            notifyObserver(new CloudsNotification(clouds.getClouds().stream().map(ShortCloud::new).toList()));
+            notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
             return check;
         }
         return false;
@@ -223,9 +220,7 @@ public class Game extends Observable {
      */
     public void moveFromEntranceToHall(PawnColor pawnColor) {
         currentPlayer.moveFromEntranceToHall(pawnColor);
-        for (Player player : players) { //todo: send one notification only with all the schools!!
-            notifyObserver(new SchoolNotification(new ShortSchool(player.getSchool()), player.getPlayerName()));
-        }
+        notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
     }
 
     /**
@@ -236,8 +231,7 @@ public class Game extends Observable {
      */
     public void moveFromEntranceToIsland(PawnColor pawnColor, int island) {
         currentPlayer.moveFromEntranceToIsland(new Pawns(pawnColor), board.getIslands().get(island));
-        notifyObserver(new SchoolNotification(new ShortSchool(currentPlayer.getSchool()), currentPlayer.getPlayerName()));
-        notifyObserver(new BoardNotification(new ShortBoard(board))); //todo: send one notification only
+        notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
     }
 
     public int numOfPlayer() {

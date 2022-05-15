@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.ShortPawns;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.ShortPlayer;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.network.communication.Target;
@@ -378,6 +379,7 @@ public class Cli extends ClientObservable implements View {
     private void showBoard(ShortBoard board) {
         BoardCli boardCli = new BoardCli(board);
         boardCli.printBoard();
+        System.out.println(" ");
     }
 
     public void showClouds(List<ShortCloud> clouds) {
@@ -400,25 +402,24 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void updateScreen(String owner) {
-        Map<String, ShortSchool> otherSchools = new HashMap<>();
-        Map<String, ShortSchool> ownerSchool = new HashMap<>();
+        Map<ShortPlayer, ShortSchool> otherSchools = new HashMap<>();
+        Map<ShortPlayer, ShortSchool> ownerSchool = new HashMap<>();
         clearScreen();
-        for (Map.Entry<String, ShortSchool> entry : resource.getSchoolMap().entrySet()) {
-            if (entry.getKey().equals(owner)) {
+        for (Map.Entry<ShortPlayer, ShortSchool> entry : resource.getSchoolMap().entrySet()) {
+            if (entry.getKey().name().equals(owner)) {
                 ownerSchool.put(entry.getKey(), entry.getValue());
             } else {
                 otherSchools.put(entry.getKey(), entry.getValue());
             }
         }
         if (!ownerSchool.isEmpty()) {
-            SchoolsCli schoolsCli = new SchoolsCli(otherSchools, ownerSchool);
+            SchoolsCli schoolsCli = new SchoolsCli(otherSchools, ownerSchool, resource.getMoneyMap());
             schoolsCli.printSchools();
             System.out.println(" ");
         }
         if (resource.getBoard() != null) {
             System.out.println("BOARD:");
             showBoard(resource.getBoard());
-            System.out.println(" ");
         }
         if (resource.getClouds() != null) {
             showClouds(resource.getClouds());
@@ -429,7 +430,7 @@ public class Cli extends ClientObservable implements View {
 
     }
 
-    public void showCharacter(List<ShortCharacter> characters) {
+    private void showCharacter(List<ShortCharacter> characters) {
         for (int i = 0; i < characters.size(); i++) {
             ShortCharacter character = characters.get(i);
             System.out.print(CLIColor.RED + "Name[ID]: " + CLIColor.RESET + character.getName() + "[" + i + "] " + CLIColor.RESET);

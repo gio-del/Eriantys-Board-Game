@@ -23,7 +23,6 @@ public interface NotificationVisitor {
 
     void visit(ChooseGameModeNotification msg);
 
-    void visit(SchoolNotification msg);
 
     void visit(DisconnectionNotification msg);
 
