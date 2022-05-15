@@ -33,10 +33,10 @@ public class RunnableGui extends Application {
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setWidth(1280d);
-        stage.setHeight(720d);
-        stage.setResizable(true);
-        stage.setMaximized(true);
+        stage.setWidth(616d);
+        stage.setHeight(439d);           //starting dimension
+        stage.setResizable(false);
+        stage.setMaximized(false);
         stage.setTitle("Eriantys - by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era");
         //todo: handle the case of windows closed
         stage.show();
