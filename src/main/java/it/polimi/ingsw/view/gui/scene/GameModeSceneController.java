@@ -16,8 +16,6 @@ public class GameModeSceneController extends ClientObservable implements BasicSc
 
     @FXML
     public void confirm(ActionEvent event) {
-
-
         //inoltre cambia scena alla game/board scene
     }
 }

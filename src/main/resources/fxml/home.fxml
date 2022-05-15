@@ -15,7 +15,7 @@
             <Image url="@../images/Eriantys.png" />
          </image>
       </ImageView>
-      <Button fx:id="button" layoutX="246.0" layoutY="337.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="109.0" text="PRESS TO PLAY" textAlignment="CENTER" onAction="#startLogin">
+      <Button fx:id="homeButton" layoutX="246.0" layoutY="337.0" mnemonicParsing="false" prefHeight="49.0" prefWidth="109.0" text="PRESS TO PLAY" textAlignment="CENTER" onAction="#startLogin">
          <font>
             <Font name="Javanese Text" size="12.0" />
          </font>

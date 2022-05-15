@@ -37,7 +37,7 @@ public class RunnableGui extends Application {
         stage.show();
 
         HomeSceneController first = loader.getController();
-        SceneController main = new SceneController(stage,scene,first);
+        SceneController main = new SceneController(scene,first);
         first.addObserver(clientController);
     }
 }

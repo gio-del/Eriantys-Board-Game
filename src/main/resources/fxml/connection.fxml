@@ -14,8 +14,8 @@
             <Image url="@../images/Eriantys.png" />
          </image>
       </ImageView>
-      <HBox fx:id="myBox" alignment="CENTER" layoutX="205.0" layoutY="188.0" />
-      <TextField fx:id="textField" alignment="CENTER" layoutX="226.0" layoutY="292.0" text="Insert IP Port"/>
-      <Button fx:id="button" layoutX="271.0" layoutY="332.0" mnemonicParsing="false" text="Confirm" onAction="#confirm"/>
+      <HBox fx:id="connectionMyBox" alignment="CENTER" layoutX="205.0" layoutY="188.0" />
+      <TextField fx:id="connectionTextField" alignment="CENTER" layoutX="226.0" layoutY="292.0" text="Insert IP Port"/>
+      <Button fx:id="connectionButton" layoutX="271.0" layoutY="332.0" mnemonicParsing="false" text="Confirm" onAction="#confirm"/>
    </children>
 </AnchorPane>
