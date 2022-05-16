@@ -71,11 +71,11 @@ public interface View {
     void updateScreen(String nickname);
 
     /**
-     * In case of a disconnection, the players still connected will receive a message
+     * In case of a disconnection, the players still connected will receive a msg
      *
-     * @param message content
+     * @param msg content
      */
-    void showDisconnection(String message);
+    void showError(String msg);
 
     /**
      * When win happens
@@ -92,4 +92,6 @@ public interface View {
     void injectResource(ShortModel resource);
 
     void askSwapList(int swap);
+
+    void askConnectionInfo();
 }

@@ -148,7 +148,7 @@ public class ServerSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(DisconnectionNotification msg) {
+    public void visit(ErrorNotification msg) {
         //do nothing
     }
 

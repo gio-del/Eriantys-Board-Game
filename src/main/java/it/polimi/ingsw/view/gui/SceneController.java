@@ -40,10 +40,9 @@ public class SceneController extends ClientObservable {
         changeScene(observers, actualScene, pathToFXML);
     }
 
-    public static void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR, message, ButtonType.OK);
-        alert.setTitle(title);
-        alert.show();
+    public static void showAlert(Alert.AlertType type, String message) {
+        Alert alert = new Alert(type, message, ButtonType.OK);
+        alert.showAndWait();
     }
 
     /**

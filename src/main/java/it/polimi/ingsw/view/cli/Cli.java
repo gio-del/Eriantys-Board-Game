@@ -371,8 +371,8 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void showDisconnection(String message) {
-        System.out.println(message);
+    public void showError(String msg) {
+        System.out.println(msg);
         System.exit(0);
     }
 

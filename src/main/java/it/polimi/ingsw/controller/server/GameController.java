@@ -2,7 +2,7 @@ package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
-import it.polimi.ingsw.network.communication.notification.DisconnectionNotification;
+import it.polimi.ingsw.network.communication.notification.ErrorNotification;
 import it.polimi.ingsw.network.communication.notification.GameStartedNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.server.Connection;
@@ -83,7 +83,7 @@ public class GameController {
     public void handleDisconnection(String nickname) {
         connectionMap.remove(nickname);
         virtualViewMap.remove(nickname);
-        Notification disconnection = new DisconnectionNotification(nickname + " has left the match! GAME ENDED.");
+        Notification disconnection = new ErrorNotification(nickname + " has left the match! GAME ENDED.");
         broadcast(disconnection, nickname);
     }
 

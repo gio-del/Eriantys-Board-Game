@@ -6,9 +6,12 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+import static java.lang.System.exit;
 
 public class RunnableGui extends Application {
 
@@ -25,7 +28,7 @@ public class RunnableGui extends Application {
             root = loader.load();
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            System.exit(1);
+            exit(1);
         }
 
         HomeSceneController homeController = loader.getController();
@@ -33,13 +36,16 @@ public class RunnableGui extends Application {
 
         Scene scene = new Scene(root);
         stage.setScene(scene);
-        stage.setWidth(616d);
-        stage.setHeight(439d);           //starting dimension
         stage.setResizable(false);
-        stage.setMaximized(false);
+        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/home.jpg")));
         stage.setTitle("Eriantys - by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era");
         //todo: handle the case of windows closed
         stage.show();
 
+    }
+
+    @Override
+    public void stop() {
+        exit(0);
     }
 }

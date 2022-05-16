@@ -4,6 +4,7 @@ import it.polimi.ingsw.controller.client.ClientController;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.gui.SceneController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -32,7 +33,7 @@ public class ConnectionSceneController extends ClientObservable implements Basic
         boolean valid = ClientController.isValidPort(port) && ClientController.isValidIp(address);
 
         if (!valid) {
-            SceneController.showAlert("ERROR", "IP address or port number not correct!");
+            SceneController.showAlert(Alert.AlertType.ERROR, "IP address or port number not correct!");
         }
 
         if (valid) {

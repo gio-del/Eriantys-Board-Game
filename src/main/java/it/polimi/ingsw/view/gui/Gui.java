@@ -10,6 +10,7 @@ import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 import javafx.application.Platform;
+import javafx.scene.control.Alert;
 
 import java.util.List;
 import java.util.Set;
@@ -20,18 +21,9 @@ import java.util.Set;
  * Gui communicates with the controller only with update() and it's a controller's job to communicate with server via network
  */
 public class Gui extends ClientObservable implements View {
-
-    /**
-     * Check if is a valid name
-     *
-     * @param nickname from input
-     */
-    public void checkNickName(String nickname) {
-        if (nickname.length() > 0) {
-            notifyObserver(observer -> observer.updateNickname(nickname));
-        } else {
-            //alertbox e richiedere il nickname.
-        }
+    @Override
+    public void askConnectionInfo() {
+        Platform.runLater(() -> SceneController.changeScene(observers, "connection.fxml"));
     }
 
     public void setNickname() {
@@ -89,8 +81,8 @@ public class Gui extends ClientObservable implements View {
     }
 
     @Override
-    public void showDisconnection(String message) {
-        //TODO
+    public void showError(String msg) {
+        Platform.runLater(() -> SceneController.showAlert(Alert.AlertType.ERROR, msg));
     }
 
     @Override
@@ -100,7 +92,7 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void showMessage(String msg) {
-        //TODO
+        Platform.runLater(() -> SceneController.showAlert(Alert.AlertType.INFORMATION, msg));
     }
 
     @Override

@@ -80,9 +80,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void showDisconnection(String message) {
-        //TODO: check this
-        connection.sendMessage(new DisconnectionNotification(message));
+    public void showError(String msg) {
+        connection.sendMessage(new ErrorNotification(msg));
     }
 
     @Override
@@ -92,8 +91,12 @@ public class VirtualView implements View, Observer {
 
     @Override
     public void showMessage(String msg) {
-        Notification message = new GenericMessageNotification(msg);
-        connection.sendMessage(message);
+        connection.sendMessage(new GenericMessageNotification(msg));
+    }
+
+    @Override
+    public void askConnectionInfo() {
+        //do nothing
     }
 
     @Override

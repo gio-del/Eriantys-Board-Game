@@ -24,7 +24,7 @@ public interface NotificationVisitor {
     void visit(ChooseGameModeNotification msg);
 
 
-    void visit(DisconnectionNotification msg);
+    void visit(ErrorNotification msg);
 
     void visit(ChooseWizAndTowerColorNotification msg);
 

@@ -69,8 +69,8 @@ public class ClientSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(DisconnectionNotification msg) {
-        view.showDisconnection(msg.getNickname());
+    public void visit(ErrorNotification msg) {
+        view.showError(msg.getNickname());
     }
 
     @Override
