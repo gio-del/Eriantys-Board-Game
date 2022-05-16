@@ -14,6 +14,7 @@ public class ShortCharacter implements Serializable {
     private final int cost;
     private final ShortPawns studentsOn;
     private final boolean coinOn;
+    private final int banTiles;
 
     public ShortCharacter(CharacterCard character) {
         this.name = character.getName();
@@ -21,6 +22,7 @@ public class ShortCharacter implements Serializable {
         this.cost = character.getCost();
         this.studentsOn = new ShortPawns(character.getStudents());
         this.coinOn = character.hasCoinOn();
+        this.banTiles = character.getNumberOfBanTiles();
     }
 
     public String getName() {
@@ -41,5 +43,9 @@ public class ShortCharacter implements Serializable {
 
     public boolean hasCoinOn() {
         return coinOn;
+    }
+
+    public int getBanTiles() {
+        return banTiles;
     }
 }

@@ -18,6 +18,7 @@ public class WinHandlerTest {
     private WinHandler winHandler;
     private String winner;
     private Game model;
+
     @BeforeEach
     void setUp() {
 
@@ -25,7 +26,7 @@ public class WinHandlerTest {
 
             @Override
             public void sendMessage(Notification msg) {
-                if(msg instanceof WinNotification winNotification){
+                if (msg instanceof WinNotification winNotification) {
                     winner = winNotification.getName(); //intercept Win messages
                 }
             }
@@ -41,8 +42,8 @@ public class WinHandlerTest {
             }
         };
         GameController controller = new GameController();
-        controller.addClient("Luca",connection);
-        controller.addClient("Marco",connection);
+        controller.addClient("Luca", connection);
+        controller.addClient("Marco", connection);
         controller.init(false);
         model = controller.getGame();
 
@@ -67,7 +68,7 @@ public class WinHandlerTest {
         String player = model.getPlayers().get(0).getPlayerName();
         model.getPlayers().get(0).addTowerToIsland(); //now has 7 towers
         winHandler.handleWin();
-        assertEquals(player,winner);
+        assertEquals(player, winner);
     }
 
     /**
@@ -78,7 +79,7 @@ public class WinHandlerTest {
         String player = model.getPlayers().get(0).getPlayerName();
         model.getPlayers().get(0).getSchool().getProfessorTable().addColor(PawnColor.GREEN); //now has 1 professors
         winHandler.handleWin();
-        assertEquals(player,winner);
+        assertEquals(player, winner);
     }
 
     /**

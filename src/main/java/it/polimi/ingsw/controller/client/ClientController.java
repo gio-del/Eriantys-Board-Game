@@ -10,7 +10,6 @@ import it.polimi.ingsw.network.client.ClientSideVisitor;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.network.communication.notification.*;
-import it.polimi.ingsw.network.server.SwapNotification;
 import it.polimi.ingsw.observer.ClientObserver;
 import it.polimi.ingsw.view.View;
 

@@ -19,7 +19,7 @@ class CharacterJSONParserTest {
 
     @Test
     void parseCharacters() {
-        assertTrue(characterCardList.size()>0);
+        assertTrue(characterCardList.size() > 0);
     }
 
 }

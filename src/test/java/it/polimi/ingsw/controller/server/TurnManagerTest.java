@@ -18,12 +18,12 @@ class TurnManagerTest {
 
     @BeforeEach
     void setUp() {
-        turnManager = new TurnManager(game,new GameController());
+        turnManager = new TurnManager(game, new GameController());
 
         game = new Game();
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
-        game.addPlayer("Marco",Wizard.SORCERER, TowerColor.WHITE);
-        game.addPlayer("Lorenzo",Wizard.WITCH,TowerColor.GRAY);
+        game.addPlayer("Marco", Wizard.SORCERER, TowerColor.WHITE);
+        game.addPlayer("Lorenzo", Wizard.WITCH, TowerColor.GRAY);
 
         game.init();
     }
@@ -44,9 +44,9 @@ class TurnManagerTest {
         turnManager.setActionOrder(game.getPlayedAssistantMap());
         List<String> order = turnManager.getPlayersOrder();
 
-        assertEquals("Lorenzo",order.get(0));
-        assertEquals("Marco",order.get(1));
-        assertEquals("Luca",order.get(2));
+        assertEquals("Lorenzo", order.get(0));
+        assertEquals("Marco", order.get(1));
+        assertEquals("Luca", order.get(2));
     }
 
     /**
@@ -65,9 +65,9 @@ class TurnManagerTest {
         turnManager.setActionOrder(game.getPlayedAssistantMap());
         List<String> order = turnManager.getPlayersOrder();
 
-        assertEquals("Marco",order.get(0));
-        assertEquals("Lorenzo",order.get(1));
-        assertEquals("Luca",order.get(2));
+        assertEquals("Marco", order.get(0));
+        assertEquals("Lorenzo", order.get(1));
+        assertEquals("Luca", order.get(2));
     }
 
     @Test
@@ -83,9 +83,9 @@ class TurnManagerTest {
         turnManager.setActionOrder(game.getPlayedAssistantMap());
         List<String> order = turnManager.getPlayersOrder();
 
-        assertEquals("Marco",order.get(0));
-        assertEquals("Luca",order.get(1));
-        assertEquals("Lorenzo",order.get(2));
+        assertEquals("Marco", order.get(0));
+        assertEquals("Luca", order.get(1));
+        assertEquals("Lorenzo", order.get(2));
     }
 
     @Test
@@ -99,12 +99,12 @@ class TurnManagerTest {
 
         game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.TURTLE); //value:1
-        turnManager.setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
+        turnManager.setPlanningOrder(game.getPlayedAssistantMap(), game.getPlayers().stream().map(Player::getPlayerName).toList());
         List<String> order = turnManager.getPlayersOrder();
 
-        assertEquals("Lorenzo",order.get(0));
-        assertEquals("Luca",order.get(1));
-        assertEquals("Marco",order.get(2));
+        assertEquals("Lorenzo", order.get(0));
+        assertEquals("Luca", order.get(1));
+        assertEquals("Marco", order.get(2));
     }
 
     /**
@@ -121,12 +121,12 @@ class TurnManagerTest {
 
         game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.LION); //value:10
-        turnManager.setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
+        turnManager.setPlanningOrder(game.getPlayedAssistantMap(), game.getPlayers().stream().map(Player::getPlayerName).toList());
         List<String> order = turnManager.getPlayersOrder();
 
-        assertEquals("Marco",order.get(0));
-        assertEquals("Lorenzo",order.get(1));
-        assertEquals("Luca",order.get(2));
+        assertEquals("Marco", order.get(0));
+        assertEquals("Lorenzo", order.get(1));
+        assertEquals("Luca", order.get(2));
     }
 
     @Test
@@ -140,18 +140,18 @@ class TurnManagerTest {
 
         game.setCurrentPlayer("Lorenzo");
         game.playAssistant(Assistant.LION); //value:10
-        turnManager.setPlanningOrder(game.getPlayedAssistantMap(),game.getPlayers().stream().map(Player::getPlayerName).toList());
+        turnManager.setPlanningOrder(game.getPlayedAssistantMap(), game.getPlayers().stream().map(Player::getPlayerName).toList());
         List<String> order = turnManager.getPlayersOrder();
 
-        assertEquals("Luca",order.get(0));
-        assertEquals("Marco",order.get(1));
-        assertEquals("Lorenzo",order.get(2));
+        assertEquals("Luca", order.get(0));
+        assertEquals("Marco", order.get(1));
+        assertEquals("Lorenzo", order.get(2));
     }
 
     @Test
     void firstOrderTest() {
         turnManager.setFirstOrder(game.getPlayers().stream().map(Player::getPlayerName).toList());
         List<String> players = turnManager.getPlayersOrder();
-        assertEquals(3,players.size());
+        assertEquals(3, players.size());
     }
 }

@@ -15,9 +15,10 @@ public class CharactersDeck {
     }
 
     public static List<CharacterCard> extractCharacterInUse() {
-        List<CharacterCard> clone = new ArrayList<>(characterCards);
-        Collections.shuffle(clone);
-        return clone.stream().limit(Constants.CHARACTER_IN_USE).toList();
+        List<CharacterCard> characters = new ArrayList<>();
+        characterCards.forEach(character -> characters.add(new CharacterCard(character)));
+        Collections.shuffle(characters);
+        return characters.stream().limit(Constants.CHARACTER_IN_USE).toList();
     }
 
     public static void start() {

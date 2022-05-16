@@ -20,7 +20,7 @@ Prof. Alessandro Margara
 | GUI               |  🟡   |
 | CLI               |  🟢   |
 | Multiple games    |  🟢   |
-| All Characters    |  🟡   |
+| All Characters    |  🟢   |
 | 4 players support |  🔴   |
-| Persistance       |  🔴   |
+| Persistence       |  🔴   |
 

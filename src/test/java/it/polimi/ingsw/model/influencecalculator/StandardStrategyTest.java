@@ -1,22 +1,23 @@
 package it.polimi.ingsw.model.influencecalculator;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
-
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.player.Player;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static it.polimi.ingsw.model.player.TowerColor.*;
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static it.polimi.ingsw.model.pawns.PawnColor.*;
+import static it.polimi.ingsw.model.player.TowerColor.BLACK;
+import static it.polimi.ingsw.model.player.TowerColor.WHITE;
 import static it.polimi.ingsw.model.player.Wizard.KING;
 import static it.polimi.ingsw.model.player.Wizard.SORCERER;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * This test class is used to test the standard strategy of the influence calc
@@ -27,7 +28,7 @@ class StandardStrategyTest {
     private List<Player> players;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         Game game = new Game();
         game.addPlayer("Mario", KING, BLACK);
         game.addPlayer("Lorenzo", SORCERER, WHITE);
@@ -57,9 +58,9 @@ class StandardStrategyTest {
      * Player 2 controls Blue professor so its influence is 3
      */
     @Test
-    void calculateScoresTest(){
+    void calculateScoresTest() {
         Island island = new Island();
-        Pawns exampleIsland = new Pawns(1,0,1,0,3);
+        Pawns exampleIsland = new Pawns(1, 0, 1, 0, 3);
         island.add(exampleIsland);
         Map<Player, Integer> score = new HashMap<>();
         score.put(player1, 2);

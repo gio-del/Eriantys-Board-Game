@@ -27,6 +27,8 @@ public class BoardCli {
         int numOfIslands;
         numOfIslands = board.getIslands().size();
 
+        printBlockIslandHeader();
+
         for (ShortIsland island : board.getIslands()) {
             IslandCli islandCli = new IslandCli(island, board.getIslands().indexOf(island), board.getMotherNaturePos());
             islandsCli.add(islandCli);
@@ -66,6 +68,18 @@ public class BoardCli {
         stringMiddle.append(underScores((islandsFirstRow - 2) * Constants.ISLAND_WIDTH_1));
         System.out.println(stringMiddle);
         row1.forEach(System.out::println);
+    }
+
+    private void printBlockIslandHeader() {
+        StringBuilder blockedIsland = new StringBuilder("Blocked island: ");
+        boolean check = false;
+        for (int k = 0; k < board.getIslands().size(); k++) {
+            if (board.getIslands().get(k).getBanTiles() > 0) {
+                blockedIsland.append("[id: " + k + ", num of tiles: " + board.getIslands().get(k).getBanTiles() + "]");
+                check = true;
+            }
+        }
+        if (check) System.out.println(blockedIsland);
     }
 
 

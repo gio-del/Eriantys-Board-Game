@@ -9,7 +9,8 @@ import org.junit.jupiter.api.Test;
 import static it.polimi.ingsw.model.pawns.PawnColor.GREEN;
 import static it.polimi.ingsw.model.player.TowerColor.*;
 import static it.polimi.ingsw.model.player.Wizard.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 class ProfessorAssignorTest {
     Game game;
@@ -19,7 +20,7 @@ class ProfessorAssignorTest {
     ProfessorAssignor professorAssignor;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         game = new Game();
         game.addPlayer("Mario", KING, BLACK);
         game.addPlayer("Albert", SORCERER, WHITE);
@@ -37,7 +38,7 @@ class ProfessorAssignorTest {
      * Test the first assignment of a professor
      */
     @Test
-    void firstProfessorAssignment(){
+    void firstProfessorAssignment() {
         player2.getSchool().addStudentInHall(new Pawns(GREEN));
         assertEquals(1, player2.getSchool().getProfessorTable().getFromColor(GREEN));
     }
@@ -46,9 +47,9 @@ class ProfessorAssignorTest {
      * Test the case of tie
      */
     @Test
-    void firsProfessorTie(){
-        player1.getSchool().getHall().addPawns(new Pawns(1,0,0,0,0));
-        player2.getSchool().getHall().addPawns(new Pawns(1,0,0,0,0));
+    void firsProfessorTie() {
+        player1.getSchool().getHall().addPawns(new Pawns(1, 0, 0, 0, 0));
+        player2.getSchool().getHall().addPawns(new Pawns(1, 0, 0, 0, 0));
         assertNull(professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
     }
 
@@ -56,10 +57,10 @@ class ProfessorAssignorTest {
      * Test the correct assignment of Professor
      */
     @Test
-    void moreProfessorsWin(){
-        player1.getSchool().getHall().addPawns(new Pawns(5,0,0,0,0));
-        player2.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
-        player3.getSchool().getHall().addPawns(new Pawns(7,0,0,0,0));
+    void moreProfessorsWin() {
+        player1.getSchool().getHall().addPawns(new Pawns(5, 0, 0, 0, 0));
+        player2.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
+        player3.getSchool().getHall().addPawns(new Pawns(7, 0, 0, 0, 0));
         assertEquals(player3, professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
     }
 
@@ -67,10 +68,10 @@ class ProfessorAssignorTest {
      * Test case of tie when 3 player are involved
      */
     @Test
-    void moreProfessorsTie(){
-        player1.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
-        player2.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
-        player3.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
+    void moreProfessorsTie() {
+        player1.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
+        player2.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
+        player3.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
         assertNull(professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
     }
 
@@ -78,13 +79,13 @@ class ProfessorAssignorTest {
      * Test the case of Professor gained
      */
     @Test
-    void gainProfessor(){
-        player1.getSchool().getHall().addPawns(new Pawns(1,0,0,0,0));
-        assertEquals(player1,professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
+    void gainProfessor() {
+        player1.getSchool().getHall().addPawns(new Pawns(1, 0, 0, 0, 0));
+        assertEquals(player1, professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
 
-        player1.getSchool().getHall().addPawns(new Pawns(5,0,0,0,0));
-        player2.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
-        player3.getSchool().getHall().addPawns(new Pawns(7,0,0,0,0));
+        player1.getSchool().getHall().addPawns(new Pawns(5, 0, 0, 0, 0));
+        player2.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
+        player3.getSchool().getHall().addPawns(new Pawns(7, 0, 0, 0, 0));
         assertEquals(player3, professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
     }
 
@@ -92,12 +93,12 @@ class ProfessorAssignorTest {
      * In case of tie, if farmerStrategy is set the player who chose the card to set it wins
      */
     @Test
-    void farmerStrategy(){
+    void farmerStrategy() {
         FarmerProfStrategy farmerProfStrategy = new FarmerProfStrategy(player1);
         professorAssignor.setProfessorStrategy(farmerProfStrategy);
-        player1.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
-        player2.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
-        player3.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
+        player1.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
+        player2.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
+        player3.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
         assertEquals(player1, professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
     }
 
@@ -106,12 +107,12 @@ class ProfessorAssignorTest {
      * are less than others Player
      */
     @Test
-    void farmerStrategyButPlayerLoseAnyway(){
+    void farmerStrategyButPlayerLoseAnyway() {
         FarmerProfStrategy farmerProfStrategy = new FarmerProfStrategy(player1);
         professorAssignor.setProfessorStrategy(farmerProfStrategy);
-        player1.getSchool().getHall().addPawns(new Pawns(5,0,0,0,0));
-        player2.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
-        player3.getSchool().getHall().addPawns(new Pawns(6,0,0,0,0));
+        player1.getSchool().getHall().addPawns(new Pawns(5, 0, 0, 0, 0));
+        player2.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
+        player3.getSchool().getHall().addPawns(new Pawns(6, 0, 0, 0, 0));
         assertNull(professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
     }
 
@@ -119,7 +120,7 @@ class ProfessorAssignorTest {
      * Test that if no Pawns are present in  each Hall no bugs are present
      */
     @Test
-    void zeroPawns(){
+    void zeroPawns() {
         assertNull(professorAssignor.colorProfessorChecker(GREEN, game.getPlayers()));
     }
 
@@ -127,8 +128,8 @@ class ProfessorAssignorTest {
      * Test that initially Professor are not assigned, and they are hold by the {@link ProfessorAssignor}
      */
     @Test
-    void professorsStart(){
-        Pawns pawns = new Pawns(1,1,1,1,1);
-        assertEquals(pawns,professorAssignor.getProfsNotYetAssigned());
+    void professorsStart() {
+        Pawns pawns = new Pawns(1, 1, 1, 1, 1);
+        assertEquals(pawns, professorAssignor.getProfsNotYetAssigned());
     }
 }

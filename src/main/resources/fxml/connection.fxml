@@ -5,12 +5,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.ConnectionSceneController">
-   <ImageView fitHeight="400.0" fitWidth="600.0">
-      <Image url="@../images/menu.jpeg" />
-   </ImageView>
-   <TextField fx:id="portField" alignment="CENTER" layoutX="225.0" layoutY="320.0" promptText="Insert port" />
-   <Button fx:id="button" layoutX="271.0" layoutY="360.0" mnemonicParsing="false" onMouseClicked="#confirm" text="Confirm" />
-   <TextField fx:id="ipField" alignment="CENTER" layoutX="225.0" layoutY="279.0" promptText="Insert IP address" />
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17"
+            fx:controller="it.polimi.ingsw.view.gui.scene.ConnectionSceneController">
+    <ImageView fitHeight="400.0" fitWidth="600.0">
+        <Image url="@../images/menu.jpeg"/>
+    </ImageView>
+    <TextField fx:id="portField" alignment="CENTER" layoutX="225.0" layoutY="320.0" promptText="Insert port"/>
+    <Button fx:id="button" layoutX="271.0" layoutY="360.0" mnemonicParsing="false" onMouseClicked="#confirm"
+            text="Confirm"/>
+    <TextField fx:id="ipField" alignment="CENTER" layoutX="225.0" layoutY="279.0" promptText="Insert IP address"/>
 </AnchorPane>

@@ -9,7 +9,6 @@ import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
-import it.polimi.ingsw.network.communication.notification.BoardNotification;
 import it.polimi.ingsw.network.communication.notification.CloudsNotification;
 import it.polimi.ingsw.network.communication.notification.ModelUpdateNotification;
 import it.polimi.ingsw.observer.Observable;
@@ -174,8 +173,13 @@ public class Game extends Observable {
         // TODO: remove player and substitute with current player.
         int maxMove = player.getLastPlayedAssistant().movement() + stepsIncrement;
         if (steps <= maxMove && steps > 0) {
-            board.moveMotherNature(steps, players);
-            notifyObserver(new BoardNotification(new ShortBoard(board)));
+            board.moveMotherNature(steps);
+            if (board.getMotherNatureIsland().getBanTiles() > 0) {
+                characterInUse.stream().filter(CharacterCard::isBanCard).forEach(CharacterCard::addBanTiles);
+                board.getMotherNatureIsland().removeBanTiles();
+            } else
+                board.calculateInfluence(players);
+            notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
             return true;
         } else return false;
     }

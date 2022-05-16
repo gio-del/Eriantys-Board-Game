@@ -15,9 +15,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ThiefActionTest {
-    private List<Player> players;
     Player p1;
     Player p2;
+    private List<Player> players;
+
     @BeforeEach
     void setUp() {
         Game game = new Game();
@@ -29,10 +30,10 @@ class ThiefActionTest {
         p1 = game.getPlayerByName("Luca");
         p2 = game.getPlayerByName("Mario");
 
-        Pawns pawns1 = new Pawns(8,6,5,3,2);
+        Pawns pawns1 = new Pawns(8, 6, 5, 3, 2);
         p1.getSchool().getHall().addPawns(pawns1);
 
-        Pawns pawns2 = new Pawns(1,5,3,6,7);
+        Pawns pawns2 = new Pawns(1, 5, 3, 6, 7);
         p2.getSchool().getHall().addPawns(pawns2);
 
         players = new ArrayList<>();
@@ -43,13 +44,13 @@ class ThiefActionTest {
 
     @Test
     void thiefTest() {
-        Action action = new ThiefAction(PawnColor.GREEN,players,3);
+        Action action = new ThiefAction(PawnColor.GREEN, players, 3);
         action.apply();
 
-        Pawns pawnsExpectedP1 = new Pawns(5,6,5,3,2);
-        assertEquals(pawnsExpectedP1,p1.getSchool().getHall());
+        Pawns pawnsExpectedP1 = new Pawns(5, 6, 5, 3, 2);
+        assertEquals(pawnsExpectedP1, p1.getSchool().getHall());
 
-        Pawns pawnsExpectedP2 = new Pawns(0,5,3,6,7);
-        assertEquals(pawnsExpectedP2,p2.getSchool().getHall());
+        Pawns pawnsExpectedP2 = new Pawns(0, 5, 3, 6, 7);
+        assertEquals(pawnsExpectedP2, p2.getSchool().getHall());
     }
 }

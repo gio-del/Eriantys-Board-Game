@@ -17,7 +17,7 @@ class BankTest {
     void setUp() {
         Game game = new Game();
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
-        game.addPlayer("Marco",Wizard.SORCERER,TowerColor.WHITE);
+        game.addPlayer("Marco", Wizard.SORCERER, TowerColor.WHITE);
         game.init();
 
         p1 = game.getPlayerByName("Luca");
@@ -28,24 +28,24 @@ class BankTest {
 
     @Test
     void payTestOk() {
-        assertTrue(bank.pay(p1,1));
-        assertEquals(0,bank.getCashByPlayer(p1));
+        assertTrue(bank.pay(p1, 1));
+        assertEquals(0, bank.getCashByPlayer(p1));
     }
 
     @Test
     void payTestFail() {
-        assertFalse(bank.pay(p1,2));
+        assertFalse(bank.pay(p1, 2));
         assertEquals(1, bank.getCashByPlayer(p1));
     }
 
     @Test
     void rewardFail() {
-        for(int i=0;i<18;i++){
+        for (int i = 0; i < 18; i++) {
             assertTrue(bank.reward(p1));
         }
-        assertEquals(19,bank.getCashByPlayer(p1));
-        assertEquals(1,bank.getCashByPlayer(p2));
-        assertEquals(0,bank.getGeneralBank());
+        assertEquals(19, bank.getCashByPlayer(p1));
+        assertEquals(1, bank.getCashByPlayer(p2));
+        assertEquals(0, bank.getGeneralBank());
         assertFalse(bank.reward(p1));
 
     }

@@ -379,7 +379,7 @@ public class Cli extends ClientObservable implements View {
     private void showBoard(ShortBoard board) {
         BoardCli boardCli = new BoardCli(board);
         boardCli.printBoard();
-        System.out.println(" ");
+        System.out.println();
     }
 
     public void showClouds(List<ShortCloud> clouds) {
@@ -435,6 +435,7 @@ public class Cli extends ClientObservable implements View {
             ShortCharacter character = characters.get(i);
             System.out.print(CLIColor.RED + "Name[ID]: " + CLIColor.RESET + character.getName() + "[" + i + "] " + CLIColor.RESET);
             printPawns(character.getStudentsOn());
+            printBanTile(character.getBanTiles());
             System.out.println(CLIColor.RED + "Cost: " + CLIColor.RESET + character.getCost() + (character.hasCoinOn() ? (CLIColor.BLUE + "(+1)" + CLIColor.RESET) : ""));
             System.out.println(CLIColor.RED + "Effect: " + CLIColor.RESET + character.getDescription());
             System.out.print(CLIColor.RESET);
@@ -451,7 +452,14 @@ public class Cli extends ClientObservable implements View {
                 }
             }
         }
-        System.out.println(builder);
+        System.out.print(builder);
+    }
+
+    private void printBanTile(int banTiles) {
+        if (banTiles > 0) {
+            System.out.print("Remaining ban tiles: " + banTiles);
+        }
+        System.out.println();
     }
 
     private void clearScreen() {

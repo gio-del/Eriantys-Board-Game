@@ -1,13 +1,12 @@
 package it.polimi.ingsw.model.place;
 
-import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.model.Bank;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
-
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
+import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -29,10 +28,10 @@ class SchoolTest {
         hallManager.addPlayer(player);
 
         school = player.getSchool();
-        example = new Pawns(3,0,4,0,1);
-        professorExample = new Pawns(1,0,1,0,1);
-        maxHall = new Pawns(10,10,10,10,10);
-        overMax = new Pawns(10,10,10,10,11);
+        example = new Pawns(3, 0, 4, 0, 1);
+        professorExample = new Pawns(1, 0, 1, 0, 1);
+        maxHall = new Pawns(10, 10, 10, 10, 10);
+        overMax = new Pawns(10, 10, 10, 10, 11);
     }
 
     /**
@@ -41,9 +40,9 @@ class SchoolTest {
     @Test
     void initialTest() {
         Pawns pawns = new Pawns();
-        assertEquals(pawns,school.getEntrance());
-        assertEquals(pawns,school.getHall());
-        assertEquals(pawns,school.getProfessorTable());
+        assertEquals(pawns, school.getEntrance());
+        assertEquals(pawns, school.getHall());
+        assertEquals(pawns, school.getProfessorTable());
     }
 
     /**
@@ -61,7 +60,7 @@ class SchoolTest {
     @Test
     void addStudentInHallIfKOTest() {
         assertFalse(school.addStudentInHall(overMax));
-        assertEquals(new Pawns(),school.getHall());
+        assertEquals(new Pawns(), school.getHall());
     }
 
     /**
@@ -88,8 +87,8 @@ class SchoolTest {
      */
     @Test
     void addProfessorTest() {
-        for(PawnColor pawnColor: PawnColor.values()){
-            for(int i=0;i<example.getFromColor(pawnColor);i++) {
+        for (PawnColor pawnColor : PawnColor.values()) {
+            for (int i = 0; i < example.getFromColor(pawnColor); i++) {
                 school.addProfessor(pawnColor);
             }
         }
@@ -144,12 +143,12 @@ class SchoolTest {
      */
     @Test
     void moveIfOKTest() {
-        Pawns entrancePawns = new Pawns(1,2,1,2,1);
+        Pawns entrancePawns = new Pawns(1, 2, 1, 2, 1);
         school.addStudentInEntrance(entrancePawns);
         school.getHall().addPawns(example);
         school.moveStudentToHall(new Pawns(GREEN));
-        assertEquals(new Pawns(0,2,1,2,1),school.getEntrance());
-        assertEquals(new Pawns(4,0,4,0,1), school.getHall());
+        assertEquals(new Pawns(0, 2, 1, 2, 1), school.getEntrance());
+        assertEquals(new Pawns(4, 0, 4, 0, 1), school.getHall());
     }
 
     /**
@@ -157,11 +156,11 @@ class SchoolTest {
      */
     @Test
     void moveIfKOTest() {
-        Pawns entrancePawns = new Pawns(1,2,1,2,1);
+        Pawns entrancePawns = new Pawns(1, 2, 1, 2, 1);
         school.addStudentInEntrance(entrancePawns);
         school.getHall().addPawns(example);
-        school.moveStudentToHall(new Pawns(2,0,0,0,0));
-        assertEquals(new Pawns(1,2,1,2,1),school.getEntrance());
+        school.moveStudentToHall(new Pawns(2, 0, 0, 0, 0));
+        assertEquals(new Pawns(1, 2, 1, 2, 1), school.getEntrance());
         assertEquals(example, school.getHall());
     }
 

@@ -2,9 +2,9 @@ package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Board;
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.player.Wizard;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,13 +26,13 @@ class CalculateInfluenceActionTest {
     void setUp() {
         Game game = new Game();
         game.addPlayer("Luca", Wizard.KING, BLACK);
-        game.addPlayer("Paolo",Wizard.SORCERER, WHITE);
+        game.addPlayer("Paolo", Wizard.SORCERER, WHITE);
         game.init();
 
         board = game.getBoard();
         island = board.getIslands().get(0);
 
-        island.add(new Pawns(3,1,0,2,0));
+        island.add(new Pawns(3, 1, 0, 2, 0));
 
         game.getPlayerByName("Luca").getSchool().getProfessorTable().addPawns(new Pawns(PawnColor.GREEN));
 
@@ -44,7 +44,7 @@ class CalculateInfluenceActionTest {
 
     @Test
     void calculateInfluenceTest() {
-        assertTrue(new CalculateInfluenceAction(players,board,island).apply());
+        assertTrue(new CalculateInfluenceAction(players, board, island).apply());
         assertNotNull(island.getTower());
         assertEquals(BLACK, island.getTower());
     }

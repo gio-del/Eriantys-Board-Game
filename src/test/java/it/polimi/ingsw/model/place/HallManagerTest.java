@@ -27,10 +27,10 @@ class HallManagerTest {
         game.init();
 
         p1 = game.getPlayerByName("Luca");
-        p1.getSchool().getEntrance().addPawns(new Pawns(4,0,0,0,0));
+        p1.getSchool().getEntrance().addPawns(new Pawns(4, 0, 0, 0, 0));
 
         p2 = game.getPlayerByName("Marco");
-        p2.getSchool().getHall().addPawns(new Pawns(2,0,0,0,0));
+        p2.getSchool().getHall().addPawns(new Pawns(2, 0, 0, 0, 0));
         p2.getSchool().getProfessorTable().addColor(GREEN);
 
         game.getProfessorAssignor().getProfsNotYetAssigned().removeColor(GREEN);
@@ -46,17 +46,17 @@ class HallManagerTest {
     @Test
     void ProfessorAssignmentTriggerTest() {
         assertTrue(p1.moveFromEntranceToHall(new Pawns(GREEN)));
-        assertEquals(1,p2.getSchool().getProfessorTable().getFromColor(GREEN));
-        assertEquals(0,p1.getSchool().getProfessorTable().getFromColor(GREEN));
+        assertEquals(1, p2.getSchool().getProfessorTable().getFromColor(GREEN));
+        assertEquals(0, p1.getSchool().getProfessorTable().getFromColor(GREEN));
 
         assertTrue(p1.moveFromEntranceToHall(new Pawns(GREEN)));
-        assertEquals(1,p2.getSchool().getProfessorTable().getFromColor(GREEN));
-        assertEquals(0,p1.getSchool().getProfessorTable().getFromColor(GREEN));
+        assertEquals(1, p2.getSchool().getProfessorTable().getFromColor(GREEN));
+        assertEquals(0, p1.getSchool().getProfessorTable().getFromColor(GREEN));
 
 
         assertTrue(p1.moveFromEntranceToHall(new Pawns(GREEN)));
-        assertEquals(0,p2.getSchool().getProfessorTable().getFromColor(GREEN));
-        assertEquals(1,p1.getSchool().getProfessorTable().getFromColor(GREEN));
+        assertEquals(0, p2.getSchool().getProfessorTable().getFromColor(GREEN));
+        assertEquals(1, p1.getSchool().getProfessorTable().getFromColor(GREEN));
     }
 
     @Test
@@ -76,14 +76,14 @@ class HallManagerTest {
 
         p1.moveFromEntranceToHall(new Pawns(GREEN));
         assertEquals(2, bank.getCashByPlayer(p1));
-        assertEquals(17,bank.getGeneralBank());
+        assertEquals(17, bank.getGeneralBank());
     }
 
     @Test
-    void CheckIfMorePawnsAreMoved(){
-        Pawns pawns = new Pawns(4,0,0,0,0);
+    void CheckIfMorePawnsAreMoved() {
+        Pawns pawns = new Pawns(4, 0, 0, 0, 0);
         p1.moveFromEntranceToHall(pawns);
-        assertEquals(2,bank.getCashByPlayer(p1));
-        assertEquals(17,bank.getGeneralBank());
+        assertEquals(2, bank.getCashByPlayer(p1));
+        assertEquals(17, bank.getGeneralBank());
     }
 }

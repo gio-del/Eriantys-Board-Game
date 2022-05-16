@@ -1,14 +1,18 @@
 package it.polimi.ingsw.model.player;
 
 import it.polimi.ingsw.model.Game;
-import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.pawns.Pawns;
-import static it.polimi.ingsw.model.pawns.PawnColor.*;
-import static it.polimi.ingsw.model.player.Assistant.*;
-import static it.polimi.ingsw.model.player.TowerColor.*;
-import static it.polimi.ingsw.model.player.Wizard.*;
+import it.polimi.ingsw.model.place.Island;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import static it.polimi.ingsw.model.pawns.PawnColor.BLUE;
+import static it.polimi.ingsw.model.pawns.PawnColor.GREEN;
+import static it.polimi.ingsw.model.player.Assistant.LION;
+import static it.polimi.ingsw.model.player.TowerColor.BLACK;
+import static it.polimi.ingsw.model.player.TowerColor.WHITE;
+import static it.polimi.ingsw.model.player.Wizard.KING;
+import static it.polimi.ingsw.model.player.Wizard.SORCERER;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -28,14 +32,14 @@ class PlayerTest {
         game.init();
 
         player1 = game.getPlayerByName("Mario");
-        player1.getSchool().getEntrance().addColor(GREEN,4);
-        player1.getSchool().getEntrance().addColor(BLUE,1);
+        player1.getSchool().getEntrance().addColor(GREEN, 4);
+        player1.getSchool().getEntrance().addColor(BLUE, 1);
 
         player2 = game.getPlayerByName("Lorenzo");
 
         pawns = new Pawns();
-        pawns.addColor(GREEN,4);
-        pawns.addColor(BLUE,1);
+        pawns.addColor(GREEN, 4);
+        pawns.addColor(BLUE, 1);
         island = new Island();
     }
 
@@ -44,8 +48,8 @@ class PlayerTest {
      */
     @Test
     void playerNameTest() {
-        assertEquals("Mario",player1.getPlayerName());
-        assertEquals("Lorenzo",player2.getPlayerName());
+        assertEquals("Mario", player1.getPlayerName());
+        assertEquals("Lorenzo", player2.getPlayerName());
     }
 
     /**
@@ -53,8 +57,8 @@ class PlayerTest {
      */
     @Test
     void colorTest() {
-        assertEquals(BLACK,player1.getColor());
-        assertEquals(WHITE,player2.getColor());
+        assertEquals(BLACK, player1.getColor());
+        assertEquals(WHITE, player2.getColor());
     }
 
     /**
@@ -62,8 +66,8 @@ class PlayerTest {
      */
     @Test
     void wizardTest() {
-        assertEquals(KING,player1.getWizard());
-        assertEquals(SORCERER,player2.getWizard());
+        assertEquals(KING, player1.getWizard());
+        assertEquals(SORCERER, player2.getWizard());
     }
 
     /**
@@ -74,9 +78,9 @@ class PlayerTest {
         int valueTest;
         int initialHandSize = player1.getHand().size();
         valueTest = player1.playAssistant(LION);
-        assertEquals(10,valueTest);
+        assertEquals(10, valueTest);
         assertEquals(LION, player1.getLastPlayedAssistant());
-        assertEquals(initialHandSize,player1.getHand().size()+1);
+        assertEquals(initialHandSize, player1.getHand().size() + 1);
     }
 
     /**
@@ -92,9 +96,9 @@ class PlayerTest {
      */
     @Test
     void moveToIsland() {
-        assertEquals(pawns,player1.getSchool().getEntrance());
-        player1.moveFromEntranceToIsland(pawns,island);
-        assertEquals(pawns,island.getStudents());
+        assertEquals(pawns, player1.getSchool().getEntrance());
+        player1.moveFromEntranceToIsland(pawns, island);
+        assertEquals(pawns, island.getStudents());
         assertEquals(0, player1.getSchool().getEntrance().totalElements());
     }
 
@@ -103,7 +107,7 @@ class PlayerTest {
      */
     @Test
     void moveFromEntranceToIslandFail() {
-        assertFalse(player1.moveFromEntranceToIsland(new Pawns(50,50,50,50,50),new Island()));
+        assertFalse(player1.moveFromEntranceToIsland(new Pawns(50, 50, 50, 50, 50), new Island()));
     }
 
     /**
@@ -112,9 +116,9 @@ class PlayerTest {
     @Test
     void lastPlayedAssistantTest() {
         int i = 0;
-        for(Assistant assistant: Assistant.values()){
+        for (Assistant assistant : Assistant.values()) {
             player1.playAssistant(assistant);
-            if(++i == 9) assertTrue(player1.isLastAssistant());
+            if (++i == 9) assertTrue(player1.isLastAssistant());
             else assertFalse(player1.isLastAssistant());
         }
     }

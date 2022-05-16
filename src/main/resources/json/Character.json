@@ -3,9 +3,12 @@
     "name": "Monk",
     "cost": 1,
     "description": "Take a student from the card and place him on an island of your choice",
-    "requires": ["color","island"],
+    "requires": [
+      "color",
+      "island"
+    ],
     "action": {
-      "actionType":"MOVE",
+      "actionType": "MOVE",
       "from": "SELF",
       "to": "ISLAND"
     },
@@ -15,35 +18,56 @@
     "name": "Farmer",
     "cost": 2,
     "description": "During this turn, you take control of the Professors even if you have the same number of Students in your hall as the player currently controlling them.",
-    "requires" :[""],
+    "requires": [
+      ""
+    ],
     "action": {
-      "actionType":"SET_PROF_STRATEGY"
+      "actionType": "SET_PROF_STRATEGY"
     }
   },
   {
     "name": "Herald",
     "cost": 3,
     "description": "Choose an island and calculate the influence as if Mother Nature stopped there",
-    "requires": ["island"],
+    "requires": [
+      "island"
+    ],
     "action": {
       "actionType": "CALCULATE_INFLUENCE"
     }
   },
   {
-  "name": "Magic Postman",
-  "cost": 1,
-  "description": "You can move mother nature up to 2 additional islands than indicated on the played Assistant card",
-  "requires": [""],
-  "action": {
-    "actionType": "SET_STEPS_INCREMENT",
-    "increment": 2
-  }
-},
+    "name": "Magic Postman",
+    "cost": 1,
+    "description": "You can move mother nature up to 2 additional islands than indicated on the played Assistant card",
+    "requires": [
+      ""
+    ],
+    "action": {
+      "actionType": "SET_STEPS_INCREMENT",
+      "increment": 2
+    }
+  },
+  {
+    "name": "Grandmother of Herbs",
+    "cost": 2,
+    "description": "Place a ban tile on an island of your choice. The first time Mother Nature finishes her move there, put the ban tile back on the card without calculating the influence on that island",
+    "requires": [
+      "island"
+    ],
+    "action": {
+      "actionType": "BAN"
+    },
+    "numberOfBanTiles": 4,
+    "banCard": true
+  },
   {
     "name": "Centaur",
     "cost": 3,
     "description": "During this turn the towers do not count in the influence calculation",
-    "requires": [""],
+    "requires": [
+      ""
+    ],
     "action": {
       "actionType": "SET_INFLUENCE_STRATEGY"
     }
@@ -52,7 +76,10 @@
     "name": "Jester",
     "cost": 1,
     "description": "You can exchange up to 2 Students present FROM your this card TO your Entrance",
-    "requires": ["swap","3"],
+    "requires": [
+      "swap",
+      "3"
+    ],
     "action": {
       "actionType": "SWAP",
       "from": "SELF",
@@ -64,7 +91,9 @@
     "name": "Knight",
     "cost": 2,
     "description": "During this turn you have 2 additional points during the influence count",
-    "requires": [""],
+    "requires": [
+      ""
+    ],
     "action": {
       "actionType": "SET_INFLUENCE_STRATEGY"
     }
@@ -73,7 +102,9 @@
     "name": "Mushroom Seller",
     "cost": 3,
     "description": "Choose a Student color. This turn, that color provides no influence when calculating influence",
-    "requires": ["color"],
+    "requires": [
+      "color"
+    ],
     "action": {
       "actionType": "SET_INFLUENCE_STRATEGY"
     }
@@ -82,7 +113,10 @@
     "name": "Minstrel",
     "cost": 1,
     "description": "You can exchange up to 2 Students present FROM your Hall TO your Entrance",
-    "requires": ["swap",2],
+    "requires": [
+      "swap",
+      2
+    ],
     "action": {
       "actionType": "SWAP",
       "from": "HALL",
@@ -93,7 +127,9 @@
     "name": "Spoiled Princess",
     "cost": 2,
     "description": "Take a Student from this card and place it in your Hall. Then take a new Student out of the sack and place it on this card.",
-    "requires": ["color"],
+    "requires": [
+      "color"
+    ],
     "action": {
       "actionType": "MOVE",
       "from": "SELF",
@@ -105,7 +141,9 @@
     "name": "Thief",
     "cost": 3,
     "description": "Choose a Student color; each player (including you) must return 3 Students of that color present in your Hall to the sack. Whoever has less will put all he has",
-    "requires": ["color"],
+    "requires": [
+      "color"
+    ],
     "action": {
       "actionType": "THIEF",
       "removedStudents": "3"

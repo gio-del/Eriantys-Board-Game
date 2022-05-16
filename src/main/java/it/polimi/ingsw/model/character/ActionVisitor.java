@@ -67,6 +67,12 @@ public class ActionVisitor {
 
     public void visit(StepsIncrementData data) {
         Action action = new StepsIncrementAction(game, data.getIncrement());
+        validateAction(action);
+    }
+
+    public void visit(BanData data) {
+        Action action = new BanAction(chosen);
+        validateAction(action);
     }
 
     private void validateAction(Action action) {

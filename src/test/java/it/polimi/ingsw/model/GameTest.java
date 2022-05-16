@@ -25,7 +25,7 @@ class GameTest {
         game = new Game();
 
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
-        game.addPlayer("Marco", Wizard.SORCERER,TowerColor.WHITE);
+        game.addPlayer("Marco", Wizard.SORCERER, TowerColor.WHITE);
 
         game.init();
     }
@@ -37,16 +37,16 @@ class GameTest {
     void startGameTest() {
         game.startGame(false);
         assertEquals(Constants.CHARACTER_IN_USE, game.getCharacterInUse().size());
-        int expected = (Constants.STUDENTS_OF_EACH_COLOR-Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length
-                - game.getPlayers().size()*game.getGameLimit().getMaxEntrance();
-        assertEquals(expected,game.getSack().getNumberOfPawns());
-        for(int i=1;i<Constants.MAX_ISLAND;i++){
-            if(i!=6)
-                assertEquals(1,game.getBoard().getIslands().get(i).getStudents().totalElements());
+        int expected = (Constants.STUDENTS_OF_EACH_COLOR - Constants.INIT_SACK_STUDENTS_PER_COLOR) * PawnColor.values().length
+                - game.getPlayers().size() * game.getGameLimit().getMaxEntrance();
+        assertEquals(expected, game.getSack().getNumberOfPawns());
+        for (int i = 1; i < Constants.MAX_ISLAND; i++) {
+            if (i != 6)
+                assertEquals(1, game.getBoard().getIslands().get(i).getStudents().totalElements());
         }
 
-        for(Player player: game.getPlayers()){
-            assertEquals(game.getGameLimit().getNumberOfTower(),player.getTowerNum());
+        for (Player player : game.getPlayers()) {
+            assertEquals(game.getGameLimit().getNumberOfTower(), player.getTowerNum());
         }
     }
 
@@ -55,7 +55,7 @@ class GameTest {
      */
     @Test
     void getPlayerByName_ifPresent() {
-        assertEquals("Luca",game.getPlayerByName("Luca").getPlayerName());
+        assertEquals("Luca", game.getPlayerByName("Luca").getPlayerName());
     }
 
     /**
@@ -71,7 +71,7 @@ class GameTest {
      */
     @Test
     void getPlayerByTowerColor_ifPresent() {
-        assertEquals("Luca",game.getPlayerByTowerColor(TowerColor.BLACK).getPlayerName());
+        assertEquals("Luca", game.getPlayerByTowerColor(TowerColor.BLACK).getPlayerName());
     }
 
     /**
@@ -86,9 +86,9 @@ class GameTest {
      * Test nextPlayer method()
      */
     @Test
-    void nextPlayerFirst(){
+    void nextPlayerFirst() {
         game.setCurrentPlayer("Marco");
-        assertEquals(game.getPlayerByName("Marco"),game.getCurrentPlayer());
+        assertEquals(game.getPlayerByName("Marco"), game.getCurrentPlayer());
         assertEquals("Luca", game.nextPlayer());
     }
 
@@ -96,17 +96,17 @@ class GameTest {
      * Test nextPlayer method()
      */
     @Test
-    void nextPlayerLast(){
+    void nextPlayerLast() {
         game.setCurrentPlayer("Luca");
-        assertEquals(game.getPlayerByName("Luca"),game.getCurrentPlayer());
+        assertEquals(game.getPlayerByName("Luca"), game.getCurrentPlayer());
         assertEquals("Marco", game.nextPlayer());
     }
 
     /**
-     * Test Move Mother Nature test. In the example, elephant has movement = 1 so this is the limit
+     * Test Move Mother Nature movement. In the example, elephant has movement = 1 so this is the limit
      */
     @Test
-    void moveMotherNature(){
+    void moveMotherNature() {
         game.getPlayers().get(0).playAssistant(Assistant.ELEPHANT);
         assertTrue(game.moveMotherNature(1, game.getPlayers().get(0)));
         assertFalse(game.moveMotherNature(0, game.getPlayers().get(0)));
@@ -117,13 +117,13 @@ class GameTest {
     void fillCloudTest() {
         game.startGame(false);
         List<Cloud> cloudList = game.getClouds();
-        for(Cloud cloud: cloudList){
-            assertEquals(new Pawns(),cloud.getStudents());
+        for (Cloud cloud : cloudList) {
+            assertEquals(new Pawns(), cloud.getStudents());
         }
         game.fillClouds();
-        for(Cloud cloud: cloudList){
-            assertNotEquals(new Pawns(),cloud.getStudents());
-            assertEquals(game.getGameLimit().getStudentOnCloud(),cloud.getStudents().totalElements());
+        for (Cloud cloud : cloudList) {
+            assertNotEquals(new Pawns(), cloud.getStudents());
+            assertEquals(game.getGameLimit().getStudentOnCloud(), cloud.getStudents().totalElements());
         }
     }
 
@@ -134,10 +134,10 @@ class GameTest {
         Player player = game.getPlayerByName("Luca");
 
         //CLEAR ENTRANCE
-        for(PawnColor pawnColor: PawnColor.values())
-            player.getSchool().getEntrance().removeColor(pawnColor,7);
+        for (PawnColor pawnColor : PawnColor.values())
+            player.getSchool().getEntrance().removeColor(pawnColor, 7);
 
-        Pawns alreadyInEntrance = new Pawns(3,0,0,0,0);
+        Pawns alreadyInEntrance = new Pawns(3, 0, 0, 0, 0);
         player.getSchool().getEntrance().addPawns(alreadyInEntrance);
         game.setCurrentPlayer(player.getPlayerName());
         game.pickFromCloud(0);
@@ -146,7 +146,7 @@ class GameTest {
         EntranceAfterPicking.addPawns(alreadyInEntrance);
         EntranceAfterPicking.addPawns(pawnsOnCloud);
 
-        assertEquals(EntranceAfterPicking,player.getSchool().getEntrance());
+        assertEquals(EntranceAfterPicking, player.getSchool().getEntrance());
 
     }
 
@@ -156,8 +156,8 @@ class GameTest {
         game.setCurrentPlayer("Marco");
         game.playAssistant(Assistant.EAGLE);
         assertFalse(game.getPlayableAssistant().contains(Assistant.EAGLE));
-        for(Assistant assistant: Assistant.values()){
-            if(!assistant.equals(Assistant.EAGLE))
+        for (Assistant assistant : Assistant.values()) {
+            if (!assistant.equals(Assistant.EAGLE))
                 assertTrue(game.getPlayableAssistant().contains(assistant));
         }
     }
@@ -168,8 +168,8 @@ class GameTest {
     @Test
     void getPlayableAssistantTest_1() {
         game.endTurn();
-        for(Assistant assistant: Assistant.values()) {
-            if(!assistant.equals(Assistant.TURTLE))
+        for (Assistant assistant : Assistant.values()) {
+            if (!assistant.equals(Assistant.TURTLE))
                 game.getPlayerByName("Marco").playAssistant(assistant);
         } //now Marco has only turtle in his hand
         game.setCurrentPlayer("Luca");

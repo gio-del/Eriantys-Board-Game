@@ -8,21 +8,22 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.GameModeSceneController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17"
+            fx:controller="it.polimi.ingsw.view.gui.scene.GameModeSceneController">
     <ImageView fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/menu.jpeg" />
+        <Image url="@../images/menu.jpeg"/>
     </ImageView>
     <CheckBox fx:id="expertMode" layoutX="240.0" layoutY="304.0" mnemonicParsing="false" text="Expert Mode">
         <font>
-          <Font size="16.0" />
+            <Font size="16.0"/>
         </font>
     </CheckBox>
-    <Button fx:id="confirmGameModeButton" layoutX="252.0" layoutY="350.0" mnemonicParsing="false" onMouseClicked="#confirm" prefHeight="25.0" prefWidth="95.0" text="Confirm" />
-    <ChoiceBox fx:id="numOfPlayerChoiceBox" layoutX="225.0" layoutY="271.0" prefWidth="150.0" />
+    <Button fx:id="confirmGameModeButton" layoutX="252.0" layoutY="350.0" mnemonicParsing="false"
+            onMouseClicked="#confirm" prefHeight="25.0" prefWidth="95.0" text="Confirm"/>
+    <ChoiceBox fx:id="numOfPlayerChoiceBox" layoutX="225.0" layoutY="271.0" prefWidth="150.0"/>
     <Label layoutX="50.0" layoutY="271.0" text="Select number of player">
         <font>
-          <Font size="16.0" />
+            <Font size="16.0"/>
         </font>
     </Label>
 </AnchorPane>

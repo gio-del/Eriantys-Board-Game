@@ -16,6 +16,6 @@ class StepsIncrementActionTest {
 
     @Test
     void stepsIncrementActionTest() {
-        assertTrue(new StepsIncrementAction(game,2).apply());
+        assertTrue(new StepsIncrementAction(game, 2).apply());
     }
 }

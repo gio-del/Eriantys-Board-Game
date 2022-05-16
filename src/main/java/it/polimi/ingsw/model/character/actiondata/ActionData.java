@@ -15,7 +15,8 @@ import it.polimi.ingsw.model.character.ActionVisitor;
         @JsonSubTypes.Type(value = SetInfluenceStrategyData.class, name = "SET_INFLUENCE_STRATEGY"),
         @JsonSubTypes.Type(value = SwapData.class, name = "SWAP"),
         @JsonSubTypes.Type(value = ThiefData.class, name = "THIEF"),
-        @JsonSubTypes.Type(value = StepsIncrementData.class, name = "SET_STEPS_INCREMENT")
+        @JsonSubTypes.Type(value = StepsIncrementData.class, name = "SET_STEPS_INCREMENT"),
+        @JsonSubTypes.Type(value = BanData.class, name = "BAN")
 })
 @JsonTypeName("action")
 public interface ActionData {

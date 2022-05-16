@@ -14,6 +14,7 @@ public class Island implements Place {
     private final Pawns students;
     private int dimension;
     private TowerColor tower;
+    private int numOfBanTile;
 
     /**
      * Construct the basic island
@@ -22,6 +23,7 @@ public class Island implements Place {
         this.dimension = 1;
         this.students = new Pawns();
         this.tower = null;
+        this.numOfBanTile = 0;
     }
 
     /**
@@ -125,6 +127,10 @@ public class Island implements Place {
         return tower;
     }
 
+    public int getBanTiles() {
+        return numOfBanTile;
+    }
+
     /**
      * Used during a conquest of the island
      *
@@ -144,12 +150,15 @@ public class Island implements Place {
     }
 
     /**
-     * To print the content of the island
+     * When two adjacent islands has the same towerColor they merge and ban tiles are upgraded
      *
-     * @return the string of the content
+     * @param numOfBanTile of the island to merge with
      */
-    @Override
-    public String toString() {
-        return students + (((tower != null) ? "TOWER " + tower : " ") + dimension);
+    public void upgradeBanTiles(int numOfBanTile) {
+        this.numOfBanTile = this.numOfBanTile + numOfBanTile;
+    }
+
+    public void removeBanTiles() {
+        this.numOfBanTile = this.numOfBanTile - 1;
     }
 }

@@ -4,6 +4,7 @@ import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -27,15 +28,15 @@ class SackTest {
     @Test
     void extractTest() {
         sack1.extract();
-        assertEquals((Constants.INIT_SACK_STUDENTS_PER_COLOR *PawnColor.values().length)-1,sack1.getNumberOfPawns());
+        assertEquals((Constants.INIT_SACK_STUDENTS_PER_COLOR * PawnColor.values().length) - 1, sack1.getNumberOfPawns());
     }
 
     /**
      * This method tests extract and getNumberOfPawns, check the emptiness of sack after the extraction of the max_number of pawns for each {@link PawnColor}
      */
     @Test
-    void extractAll_checkEmptiness(){
-        for(int i = 0; i<(Constants.STUDENTS_OF_EACH_COLOR-Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length; i++){
+    void extractAll_checkEmptiness() {
+        for (int i = 0; i < (Constants.STUDENTS_OF_EACH_COLOR - Constants.INIT_SACK_STUDENTS_PER_COLOR) * PawnColor.values().length; i++) {
             sack2.extract();
         }
         assertEquals(0, sack2.getNumberOfPawns());
@@ -45,7 +46,7 @@ class SackTest {
      * This method tests extractListOfPawns.
      */
     @Test
-    void extractListOfPawnsTest(){
+    void extractListOfPawnsTest() {
         assertEquals(5, sack1.extractListOfPawns(5).totalElements());
     }
 
@@ -53,8 +54,8 @@ class SackTest {
      * This method tests extractListOfPawns and getNumberOfPawns, check the emptiness of sack after the extraction of the max_number of pawns for each {@link PawnColor}.
      */
     @Test
-    void extractListOfPawnsTest_checkEmptiness(){
-        sack2.extractListOfPawns((Constants.STUDENTS_OF_EACH_COLOR -Constants.INIT_SACK_STUDENTS_PER_COLOR)*PawnColor.values().length);
-        assertEquals(0,sack2.getNumberOfPawns());
+    void extractListOfPawnsTest_checkEmptiness() {
+        sack2.extractListOfPawns((Constants.STUDENTS_OF_EACH_COLOR - Constants.INIT_SACK_STUDENTS_PER_COLOR) * PawnColor.values().length);
+        assertEquals(0, sack2.getNumberOfPawns());
     }
 }

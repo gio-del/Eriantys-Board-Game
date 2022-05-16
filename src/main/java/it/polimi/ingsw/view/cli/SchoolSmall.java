@@ -43,12 +43,10 @@ public class SchoolSmall {
 
     private String coinBuilder(int coin) {
         StringBuilder stringBuilder = new StringBuilder();
-        if (coin != 0) {
-            String coinString = "Coin: " + coin;
-            String color = CLIColor.YELLOW_BG.toString() + CLIColor.BLACK;
-            stringBuilder.append(color).append(coinString).append(CLIColor.RESET);
-            stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - stringBuilder.length() + color.length() + CLIColor.RESET.toString().length()));
-        }
+        String coinString = "Coin: " + coin;
+        String color = CLIColor.YELLOW_BG.toString() + CLIColor.BLACK;
+        stringBuilder.append(color).append(coinString).append(CLIColor.RESET);
+        stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - stringBuilder.length() + color.length() + CLIColor.RESET.toString().length()));
         return stringBuilder.toString();
     }
 

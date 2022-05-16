@@ -5,10 +5,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.LoginSceneController">
-   <ImageView fitHeight="400.0" fitWidth="600.0">
-      <Image url="@../images/menu.jpeg" />
-   </ImageView>
-   <TextField fx:id="nicknameTextField" alignment="CENTER" layoutX="225.0" layoutY="298.0" promptText="Insert nickname" />
-   <Button fx:id="confirmNicknameButton" layoutX="271.0" layoutY="332.0" mnemonicParsing="false" onMouseClicked="#confirm" text="Confirm" />
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17"
+            fx:controller="it.polimi.ingsw.view.gui.scene.LoginSceneController">
+    <ImageView fitHeight="400.0" fitWidth="600.0">
+        <Image url="@../images/menu.jpeg"/>
+    </ImageView>
+    <TextField fx:id="nicknameTextField" alignment="CENTER" layoutX="225.0" layoutY="298.0"
+               promptText="Insert nickname"/>
+    <Button fx:id="confirmNicknameButton" layoutX="271.0" layoutY="332.0" mnemonicParsing="false"
+            onMouseClicked="#confirm" text="Confirm"/>
 </AnchorPane>

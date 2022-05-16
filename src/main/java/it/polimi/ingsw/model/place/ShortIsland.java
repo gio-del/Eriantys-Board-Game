@@ -13,11 +13,13 @@ public class ShortIsland implements Serializable {
     private final ShortPawns students;
     private final TowerColor tower;
     private final int dimension;
+    private final int banTiles;
 
     public ShortIsland(Island island) {
         students = new ShortPawns(island.getStudents());
         tower = island.getTower();
         dimension = island.getDimension();
+        banTiles = island.getBanTiles();
     }
 
     public ShortPawns getStudents() {
@@ -30,5 +32,9 @@ public class ShortIsland implements Serializable {
 
     public int getDimension() {
         return dimension;
+    }
+
+    public int getBanTiles() {
+        return banTiles;
     }
 }

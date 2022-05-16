@@ -9,15 +9,12 @@ import it.polimi.ingsw.model.place.Island;
 import it.polimi.ingsw.model.place.Place;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CharacterCard implements Place {
     @JsonIgnore
-    private final Map<Island, Integer> islandMapBan = new HashMap<>();
-    @JsonIgnore
     private final Pawns students = new Pawns();
+    private boolean banCard;
     private String name;
     private int cost;
     private String description;
@@ -31,6 +28,20 @@ public class CharacterCard implements Place {
     private PawnColor chosenColor;
     private Island chosenIsland;
     private List<PawnColor> chosenSwap = new ArrayList<>();
+
+    public CharacterCard() {
+    }
+
+    public CharacterCard(CharacterCard copy) {
+        this.name = copy.name;
+        this.cost = copy.cost;
+        this.description = copy.description;
+        this.action = copy.action; //todo does this need to be a copy?
+        this.requires = copy.requires;
+        this.numberOfStudentsOn = copy.numberOfStudentsOn;
+        this.numberOfBanTiles = copy.numberOfBanTiles;
+        this.banCard = copy.banCard;
+    }
 
     @Override
     public boolean remove(Pawns pawns) {
@@ -58,6 +69,10 @@ public class CharacterCard implements Place {
     @Override
     public boolean canBeRemoved(Pawns pawns) {
         return numberOfStudentsOn > 0 && students.canBeRemoved(pawns);
+    }
+
+    public boolean isBanCard() {
+        return banCard;
     }
 
     public String getName() {
@@ -112,6 +127,7 @@ public class CharacterCard implements Place {
         this.chosenSwap = chosenSwap;
     }
 
+
     public int getNumberOfStudentsOn() {
         return numberOfStudentsOn;
     }
@@ -120,12 +136,16 @@ public class CharacterCard implements Place {
         return students;
     }
 
-    public Map<Island, Integer> getIslandMapBan() {
-        return islandMapBan;
-    }
-
     public int getNumberOfBanTiles() {
         return numberOfBanTiles;
+    }
+
+    public void setNumberOfBanTiles(int numberOfBanTiles) {
+        this.numberOfBanTiles = numberOfBanTiles;
+    }
+
+    public void addBanTiles() {
+        this.numberOfBanTiles += 1;
     }
 
     public List<String> getRequires() {

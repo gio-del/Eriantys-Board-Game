@@ -1,8 +1,7 @@
-package it.polimi.ingsw.network.server;
+package it.polimi.ingsw.network.communication.notification;
 
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
-import it.polimi.ingsw.network.communication.notification.Notification;
 
 import java.io.Serial;
 import java.util.List;

@@ -58,6 +58,7 @@ public class Board extends WinObservable {
                 if (islands.get(i).getTower() != null && islands.get(i).getTower().equals(islands.get(0).getTower())) {
                     islands.get(0).add(islands.get(i).getStudents());
                     islands.get(0).upgradeDimension(islands.get(i).getDimension());
+                    islands.get(0).upgradeBanTiles(islands.get(i).getBanTiles());
                     if (motherNaturePos == islands.size() - 1) motherNaturePos = 0;
                     islands.remove(i);
                 }
@@ -65,6 +66,7 @@ public class Board extends WinObservable {
                 if (islands.get(i).getTower() != null && islands.get(i).getTower().equals(islands.get(i + 1).getTower())) {
                     islands.get(i).add(islands.get(i + 1).getStudents());
                     islands.get(i).upgradeDimension(islands.get(i + 1).getDimension());
+                    islands.get(i).upgradeBanTiles(islands.get(i + 1).getBanTiles());
                     if (motherNaturePos == i + 1) motherNaturePos = i;
                     islands.remove(i + 1);
                     i--;
@@ -78,18 +80,15 @@ public class Board extends WinObservable {
     /**
      * Move mother nature, trigger influence calc on island where she stops
      *
-     * @param steps   to move mother nature
-     * @param players in the game
-     * @return the TowerColor of the winner if present, null otherwise
+     * @param steps to move mother nature
      */
-    public TowerColor moveMotherNature(int steps, List<Player> players) {
+    public void moveMotherNature(int steps) {
         int index = motherNaturePos;
         if ((index + steps) > islands.size() - 1) {
             motherNaturePos = index + steps - islands.size();
         } else {
             motherNaturePos = index + steps;
         }
-        return calculateInfluence(islands.get(motherNaturePos), players);
     }
 
     /**
@@ -100,6 +99,7 @@ public class Board extends WinObservable {
      * @return the TowerColor of the winner if present, null otherwise
      */
     public TowerColor calculateInfluence(Island island, List<Player> players) {
+
         Map<Player, Integer> scores = influenceStrategy.getScores(island, players);
         List<Player> winners = getWinners(scores);
         TowerColor winner = island.conquerIsland(winners, players);
@@ -108,6 +108,16 @@ public class Board extends WinObservable {
             notifyObserver(obs -> obs.updateTowerPlaced(winner));
         }
         return winner;
+    }
+
+    /**
+     * Calculate influence on the island where mother nature stopped
+     *
+     * @param players players in game
+     * @return the TowerColor of the winner if present, null otherwise
+     */
+    public TowerColor calculateInfluence(List<Player> players) {
+        return calculateInfluence(islands.get(motherNaturePos), players);
     }
 
     /**
@@ -162,6 +172,15 @@ public class Board extends WinObservable {
      */
     public List<Island> getIslands() {
         return islands;
+    }
+
+    /**
+     * Get island of mother nature
+     *
+     * @return island with mother nature
+     */
+    public Island getMotherNatureIsland() {
+        return islands.get(motherNaturePos);
     }
 
     /**

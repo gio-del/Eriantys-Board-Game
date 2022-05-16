@@ -28,20 +28,20 @@ class SetInfluenceStrategyActionTest {
     @ParameterizedTest
     @ValueSource(strings = {"Centaur", "Knight", "Mushroom Seller"})
     void SetStrategyTest(String arg) {
-        assertEquals("StandardStrategy",board.getInfluenceStrategy().getClass().getSimpleName());
+        assertEquals("StandardStrategy", board.getInfluenceStrategy().getClass().getSimpleName());
         CharacterCard stub = new CharacterCard();
         stub.setName(arg);
-        assertTrue(new SetInfluenceStrategyAction(stub,board,player).apply());
-        assertEquals((arg+"Strategy").replace(" ",""),board.getInfluenceStrategy().getClass().getSimpleName());
+        assertTrue(new SetInfluenceStrategyAction(stub, board, player).apply());
+        assertEquals((arg + "Strategy").replace(" ", ""), board.getInfluenceStrategy().getClass().getSimpleName());
     }
 
     @Test
     void SetDefaultStrategyTest() {
-        assertEquals("StandardStrategy",board.getInfluenceStrategy().getClass().getSimpleName());
+        assertEquals("StandardStrategy", board.getInfluenceStrategy().getClass().getSimpleName());
         CharacterCard stub = new CharacterCard();
         stub.setName("null");
-        assertFalse(new SetInfluenceStrategyAction(stub,board,player).apply());
-        assertEquals("StandardStrategy",board.getInfluenceStrategy().getClass().getSimpleName());
+        assertFalse(new SetInfluenceStrategyAction(stub, board, player).apply());
+        assertEquals("StandardStrategy", board.getInfluenceStrategy().getClass().getSimpleName());
 
     }
 }

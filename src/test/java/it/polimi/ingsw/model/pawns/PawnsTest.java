@@ -2,6 +2,7 @@ package it.polimi.ingsw.model.pawns;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
@@ -12,7 +13,7 @@ class PawnsTest {
 
     @BeforeEach
     void setUp() {
-        pawns = new Pawns(3,7,6,2,5);
+        pawns = new Pawns(3, 7, 6, 2, 5);
     }
 
     /**
@@ -20,11 +21,11 @@ class PawnsTest {
      */
     @Test
     void getFromColorTest() {
-        assertEquals(5,pawns.getFromColor(PawnColor.BLUE));
-        assertEquals(6,pawns.getFromColor(PawnColor.YELLOW));
-        assertEquals(3,pawns.getFromColor(PawnColor.GREEN));
-        assertEquals(7,pawns.getFromColor(PawnColor.RED));
-        assertEquals(2,pawns.getFromColor(PawnColor.PINK));
+        assertEquals(5, pawns.getFromColor(PawnColor.BLUE));
+        assertEquals(6, pawns.getFromColor(PawnColor.YELLOW));
+        assertEquals(3, pawns.getFromColor(PawnColor.GREEN));
+        assertEquals(7, pawns.getFromColor(PawnColor.RED));
+        assertEquals(2, pawns.getFromColor(PawnColor.PINK));
     }
 
     /**
@@ -32,7 +33,7 @@ class PawnsTest {
      */
     @Test
     void totalElementsTest() {
-        assertEquals(23,pawns.totalElements());
+        assertEquals(23, pawns.totalElements());
     }
 
     /**
@@ -41,7 +42,7 @@ class PawnsTest {
     @Test
     void removeColorTest() {
         pawns.removeColor(PawnColor.BLUE);
-        assertEquals(4,pawns.getFromColor(PawnColor.BLUE));
+        assertEquals(4, pawns.getFromColor(PawnColor.BLUE));
     }
 
     /**
@@ -50,17 +51,17 @@ class PawnsTest {
     @Test
     void addPawnsTest() {
         Pawns p2 = new Pawns();
-        p2.addColor(PawnColor.BLUE,2);
-        p2.addColor(PawnColor.YELLOW,3);
-        p2.addColor(PawnColor.GREEN,5);
-        p2.addColor(PawnColor.RED,1);
-        p2.addColor(PawnColor.PINK,6);
+        p2.addColor(PawnColor.BLUE, 2);
+        p2.addColor(PawnColor.YELLOW, 3);
+        p2.addColor(PawnColor.GREEN, 5);
+        p2.addColor(PawnColor.RED, 1);
+        p2.addColor(PawnColor.PINK, 6);
         pawns.addPawns(p2);
-        assertEquals(7,pawns.getFromColor(PawnColor.BLUE));
-        assertEquals(9,pawns.getFromColor(PawnColor.YELLOW));
-        assertEquals(8,pawns.getFromColor(PawnColor.GREEN));
-        assertEquals(8,pawns.getFromColor(PawnColor.RED));
-        assertEquals(8,pawns.getFromColor(PawnColor.PINK));
+        assertEquals(7, pawns.getFromColor(PawnColor.BLUE));
+        assertEquals(9, pawns.getFromColor(PawnColor.YELLOW));
+        assertEquals(8, pawns.getFromColor(PawnColor.GREEN));
+        assertEquals(8, pawns.getFromColor(PawnColor.RED));
+        assertEquals(8, pawns.getFromColor(PawnColor.PINK));
     }
 
     /**
@@ -68,6 +69,6 @@ class PawnsTest {
      */
     @Test
     void getLastElement() {
-        assertEquals(PawnColor.BLUE,pawns.getByIndex(23));
+        assertEquals(PawnColor.BLUE, pawns.getByIndex(23));
     }
 }
