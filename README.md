@@ -1,5 +1,7 @@
 # Software Engineering Project 2022
 
+![](src/main/resources/images/home.jpg)
+
 The aim of the project is the design and implementation of a board game ([Eriantys](https://www.craniocreations.it/prodotto/eriantys/)) through a distributed system.
 
 Prof. Alessandro Margara
@@ -12,13 +14,13 @@ Prof. Alessandro Margara
 
 | Functionality     | State |
 |:------------------|:-----:|
-| Basic rules       |  🟡   |
-| Complete rules    |  🟡   |
-| Socket            |  🟡   |
-| GUI               |  🔴   |
-| CLI               |  🟡   |
-| Multiple games    |  🟡   |
-| Persistence       |  🔴   |
-| All characters    |  🔴   |
+| Basic rules       |  🟢   |
+| Complete rules    |  🟢   |
+| Socket            |  🟢   |
+| GUI               |  🟡   |
+| CLI               |  🟢   |
+| Multiple games    |  🟢   |
+| All Characters    |  🟡   |
 | 4 players support |  🔴   |
+| Persistance       |  🔴   |
 
