@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="356.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.PlayAssistantSceneController">
+   <children>
+      <ImageView fitHeight="356.0" fitWidth="600.0">
+         <image>
+            <Image url="@../images/layout_assistant.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="turtle" fitHeight="164.0" fitWidth="106.0" layoutX="34.0" layoutY="13.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/turtle.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="elephant" fitHeight="164.0" fitWidth="105.0" layoutX="141.0" layoutY="13.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/elephant.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="dog" fitHeight="164.0" fitWidth="106.0" layoutX="247.0" layoutY="13.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/dog.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="octopus" fitHeight="164.0" fitWidth="106.0" layoutX="354.0" layoutY="13.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/octopus.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="crocodile" fitHeight="164.0" fitWidth="105.0" layoutX="462.0" layoutY="13.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/crocodile.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="fox" fitHeight="164.0" fitWidth="106.0" layoutX="34.0" layoutY="179.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/fox.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="eagle" fitHeight="164.0" fitWidth="105.0" layoutX="141.0" layoutY="179.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/eagle.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="cat" fitHeight="164.0" fitWidth="106.0" layoutX="247.0" layoutY="179.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/cat.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="ostrich" fitHeight="164.0" fitWidth="106.0" layoutX="354.0" layoutY="179.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/ostrich.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="lion" fitHeight="164.0" fitWidth="105.0" layoutX="462.0" layoutY="179.0" onMouseClicked="#play">
+         <image>
+            <Image url="@../images/lion.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

@@ -36,6 +36,5 @@ public class GameModeSceneController extends ClientObservable implements BasicSc
 
         String finalMode = mode;
         new Thread(() -> notifyObserver(obs -> obs.updateGameModeNumPlayer(finalMode, Integer.parseInt(numOfPlayerChoiceBox.getValue())))).start();
-
     }
 }
