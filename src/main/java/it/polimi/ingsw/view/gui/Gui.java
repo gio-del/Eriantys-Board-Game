@@ -9,7 +9,8 @@ import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
-import it.polimi.ingsw.view.cli.Request;
+import it.polimi.ingsw.view.gui.scene.ChooseWizardAndTCController;
+import it.polimi.ingsw.view.gui.scene.PlayAssistantSceneController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 
@@ -22,7 +23,6 @@ import java.util.Set;
  * Gui communicates with the controller only with update() and it's a controller's job to communicate with server via network
  */
 public class Gui extends ClientObservable implements View {
-    private ShortModel resource;
 
     @Override
     public void askConnectionInfo() {
@@ -40,13 +40,17 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
-        //TODO
+        ChooseWizardAndTCController controller = new ChooseWizardAndTCController(wizardsAvailable,colorsAvailable);
+        observers.forEach(controller::addObserver);
+        SceneController.changeScene(controller,"choose_wizard.fxml");
     }
 
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
-        resource.setPlayableAssistant(playableAssistant);
-        Platform.runLater(() -> SceneController.changeScene(observers, "play_assistant.fxml"));
+        PlayAssistantSceneController controller = new PlayAssistantSceneController();
+        observers.forEach(controller::addObserver);
+        controller.setPlayableAssistant(playableAssistant);
+        //sceneController.changeScene(controller,eccetera);
     }
 
     @Override

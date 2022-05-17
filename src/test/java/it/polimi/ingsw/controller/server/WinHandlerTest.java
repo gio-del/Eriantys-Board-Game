@@ -66,7 +66,7 @@ public class WinHandlerTest {
     @Test
     void winnerTest_1() {
         String player = model.getPlayers().get(0).getPlayerName();
-        model.getPlayers().get(0).addTowerToIsland(); //now has 7 towers
+        model.getPlayers().get(0).addTowerToIsland(1); //now has 7 towers
         winHandler.handleWin();
         assertEquals(player, winner);
     }

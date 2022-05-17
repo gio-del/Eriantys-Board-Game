@@ -160,15 +160,15 @@ public class Player {
      *
      * @return color of the Player's towers.
      */
-    public TowerColor addTowerToIsland() {
-        return school.removeTower();
+    public TowerColor addTowerToIsland(int dim) {
+        return school.removeTower(dim);
     }
 
     /**
      * This method add {@code 1} tower to player (previously removed from {@link Island}).
      */
-    public void backTowerToPlayer() {
-        school.addTower();
+    public void backTowerToPlayer(int dim) {
+        school.addTower(dim);
     }
 
     @Override

@@ -90,14 +90,14 @@ public class Island implements Place {
     public TowerColor conquerIsland(List<Player> winners, List<Player> players) {
         if (winners.size() != 1) return null;
         if (this.tower == null) {
-            this.tower = winners.get(0).addTowerToIsland();
+            this.tower = winners.get(0).addTowerToIsland(this.dimension);
             return this.tower;
         } else {
             if (this.tower != (winners.get(0).getColor())) {
                 for (Player player : players) {
                     if (this.tower == (player.getColor())) {
-                        player.backTowerToPlayer();
-                        this.tower = winners.get(0).addTowerToIsland();
+                        player.backTowerToPlayer(this.dimension);
+                        this.tower = winners.get(0).addTowerToIsland(this.dimension);
                         return this.tower;
                     }
                 }

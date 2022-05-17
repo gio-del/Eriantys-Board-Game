@@ -137,8 +137,8 @@ public class School {
     /**
      * Add a tower
      */
-    public void addTower() {
-        towerNum += 1;
+    public void addTower(int dim) {
+        towerNum += dim;
     }
 
     /**
@@ -146,8 +146,8 @@ public class School {
      *
      * @return color of the tower
      */
-    public TowerColor removeTower() {
-        towerNum -= 1;
+    public TowerColor removeTower(int dim) {
+        towerNum -= dim;
         return towerColor;
     }
 

@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.observer.ClientObserver;
 import it.polimi.ingsw.view.gui.scene.BasicSceneController;
+import it.polimi.ingsw.view.gui.scene.ChooseWizardAndTCController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -12,7 +13,7 @@ import javafx.scene.control.ButtonType;
 import java.io.IOException;
 import java.util.List;
 
-public class SceneController extends ClientObservable {
+public class SceneController {
     private static Scene actualScene;
     private static BasicSceneController actualController;
 
@@ -33,12 +34,24 @@ public class SceneController extends ClientObservable {
             System.out.println(e.getMessage());
             //System.exit(1);
         }
-
     }
 
     public static void changeScene(List<ClientObserver> observers, String pathToFXML) {
         changeScene(observers, actualScene, pathToFXML);
     }
+
+    public static void changeScene(BasicSceneController controller, String pathToFXML) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/" + pathToFXML));
+            fxmlLoader.setController(controller);
+            actualController = controller;
+            Parent parent = fxmlLoader.load();
+            actualScene.setRoot(parent);
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     public static void showAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type, message, ButtonType.OK);
