@@ -5,27 +5,46 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
-    <ImageView fx:id="sorcerer" fitHeight="149.0" fitWidth="98.0" layoutX="307.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/wizards/sorcerer.png" />
-    </ImageView>
-    <ImageView fx:id="flameMagician" fitHeight="149.0" fitWidth="98.0" layoutX="189.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/wizards/flame_magician.png" />
-    </ImageView>
-    <ImageView fx:id="king" fitHeight="149.0" fitWidth="98.0" layoutX="76.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/wizards/king.png" />
-    </ImageView>
-    <ImageView fx:id="witch" fitHeight="149.0" fitWidth="98.0" layoutX="427.0" layoutY="61.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/wizards/witch.png" />
-    </ImageView>
-    <ImageView fx:id="blackTower" fitHeight="98.0" fitWidth="98.0" layoutX="152.0" layoutY="248.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/tower/black_tower.png" />
-    </ImageView>
-    <ImageView fx:id="greyTower" fitHeight="106.0" fitWidth="106.0" layoutX="250.0" layoutY="244.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/tower/grey_tower.png" />
-    </ImageView>
-    <ImageView fx:id="whiteTower" fitHeight="92.0" fitWidth="98.0" layoutX="355.0" layoutY="251.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/tower/white_tower.png" />
-    </ImageView>
-    <Button fx:id="okButton" layoutX="271.0" layoutY="360.0" mnemonicParsing="false" text="Confirm" />
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <ImageView fitHeight="400.0" fitWidth="600.0">
+      <image>
+         <Image url="@../images/wizards/layout_wizard.png" />
+      </image>
+   </ImageView>
+    <Button fx:id="okButton" layoutX="271.0" layoutY="361.0" mnemonicParsing="false" text="Confirm" />
+   <ImageView fx:id="king" fitHeight="162.0" fitWidth="104.0" layoutX="48.0" layoutY="36.0">
+      <image>
+         <Image url="@../images/wizards/king.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="flameMagician" fitHeight="162.0" fitWidth="106.0" layoutX="179.0" layoutY="36.0">
+      <image>
+         <Image url="@../images/wizards/flame_magician.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="witch" fitHeight="162.0" fitWidth="105.0" layoutX="449.0" layoutY="36.0">
+      <image>
+         <Image url="@../images/wizards/witch.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="sorcerer" fitHeight="162.0" fitWidth="106.0" layoutX="314.0" layoutY="36.0">
+      <image>
+         <Image url="@../images/wizards/sorcerer.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="greyTower" fitHeight="140.0" fitWidth="104.0" layoutX="384.0" layoutY="209.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../images/tower/grey_tower.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="whiteTower" fitHeight="188.0" fitWidth="148.0" layoutX="82.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../images/tower/white_tower.png" />
+      </image>
+   </ImageView>
+   <ImageView fx:id="blackTower" fitHeight="181.0" fitWidth="139.0" layoutX="226.0" layoutY="184.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@../images/tower/black_tower.png" />
+      </image>
+   </ImageView>
 </AnchorPane>

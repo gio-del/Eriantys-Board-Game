@@ -66,7 +66,4 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     private void selectWizard(Wizard wizard) {
         this.selectedWizard = wizard;
     }
-
-
-
 }
