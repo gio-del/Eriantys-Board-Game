@@ -39,5 +39,5 @@
    <ImageView fx:id="lion" fitHeight="164.0" fitWidth="105.0" layoutX="462.0" layoutY="179.0">
       <Image url="@../images/assistants/lion.png" />
    </ImageView>
-   <Button layoutX="274.0" layoutY="362.0" mnemonicParsing="false" text="Confirm" />
+   <Button fx:id="okButton" layoutX="274.0" layoutY="362.0" mnemonicParsing="false" text="Confirm" />
 </AnchorPane>

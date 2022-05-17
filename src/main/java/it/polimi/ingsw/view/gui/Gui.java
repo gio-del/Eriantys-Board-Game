@@ -50,7 +50,7 @@ public class Gui extends ClientObservable implements View {
         PlayAssistantSceneController controller = new PlayAssistantSceneController();
         observers.forEach(controller::addObserver);
         controller.setPlayableAssistant(playableAssistant);
-        //sceneController.changeScene(controller,eccetera);
+        SceneController.changeScene(controller,"play_assistant.fxml");
     }
 
     @Override
