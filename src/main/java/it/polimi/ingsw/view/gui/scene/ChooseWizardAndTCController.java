@@ -3,11 +3,17 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
+import it.polimi.ingsw.view.gui.SceneController;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.Set;
 
 public class ChooseWizardAndTCController extends ClientObservable implements BasicSceneController {
@@ -27,6 +33,11 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     @FXML private ImageView greyTower;
 
     @FXML private Button okButton;
+
+    private final Map<TowerColor,ImageView> towerColorMapImage = new EnumMap<>(TowerColor.class);
+    private final Map<Wizard,ImageView> wizardMapImage = new EnumMap<>(Wizard.class);
+
+
     public ChooseWizardAndTCController(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
         this.wizardsAvailable = wizardsAvailable;
         this.colorsAvailable = colorsAvailable;
@@ -34,28 +45,69 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
 
     @FXML
     private void initialize() {
-        king.setDisable(!wizardsAvailable.contains(Wizard.KING));
-        sorcerer.setDisable(!wizardsAvailable.contains(Wizard.SORCERER));
-        flameMagician.setDisable(!wizardsAvailable.contains(Wizard.FLAME_MAGICIAN));
-        witch.setDisable(!wizardsAvailable.contains(Wizard.WITCH));
+       towerColorMapImage.put(TowerColor.BLACK,blackTower);
+       towerColorMapImage.put(TowerColor.WHITE,whiteTower);
+       towerColorMapImage.put(TowerColor.GRAY,greyTower);
+       wizardMapImage.put(Wizard.KING,king);
+       wizardMapImage.put(Wizard.SORCERER,sorcerer);
+       wizardMapImage.put(Wizard.WITCH,witch);
+       wizardMapImage.put(Wizard.FLAME_MAGICIAN,flameMagician);
 
-        blackTower.setDisable(!colorsAvailable.contains(TowerColor.BLACK));
-        greyTower.setDisable(!colorsAvailable.contains(TowerColor.GRAY));
-        whiteTower.setDisable(!colorsAvailable.contains(TowerColor.WHITE));
+        for(TowerColor color: TowerColor.values()) {
+            if(!colorsAvailable.contains(color)) {
+                disable(color);
+            }
+            else {
+                towerColorMapImage.get(color).setCursor(Cursor.HAND);
+                towerColorMapImage.get(color).addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> selectTower(color));
+            }
+        }
 
-        king.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selectWizard(Wizard.KING));
-        flameMagician.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selectWizard(Wizard.FLAME_MAGICIAN));
-        sorcerer.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selectWizard(Wizard.SORCERER));
-        witch.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selectWizard(Wizard.WITCH));
+        for(Wizard wizard: Wizard.values()) {
+            if(!wizardsAvailable.contains(wizard)) {
+                disable(wizard);
+            }
+            else {
+                wizardMapImage.get(wizard).setCursor(Cursor.HAND);
+                wizardMapImage.get(wizard).addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> selectWizard(wizard));
+            }
+        }
 
-        blackTower.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selectTower(TowerColor.BLACK));
-        whiteTower.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selectTower(TowerColor.WHITE));
-        greyTower.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> selectTower(TowerColor.GRAY));
+        okButton.setCursor(Cursor.HAND);
+        okButton.addEventHandler(MouseEvent.MOUSE_CLICKED,evt -> confirm());
+}
 
-        okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> confirm());
+    private void disable(TowerColor color) {
+        disableImage(towerColorMapImage.get(color));
+    }
+
+    private void disable(Wizard wizard) {
+        disableImage(wizardMapImage.get(wizard));
+    }
+
+    private void disableImage(ImageView imageView) {
+        ColorAdjust effect = new ColorAdjust();
+        effect.setSaturation(-1d);
+        imageView.setEffect(effect);
+    }
+
+
+    private void disableAll(){
+        for(ImageView imageView: wizardMapImage.values()) {
+            imageView.setDisable(true);
+        }
+        for(ImageView imageView: towerColorMapImage.values()) {
+            imageView.setDisable(true);
+        }
+        okButton.setDisable(true);
     }
 
     private void confirm() {
+        if(selectedWizard == null || selectedColor == null) {
+            SceneController.showAlert(Alert.AlertType.WARNING,"You must select Wizard and Tower Color!");
+            return;
+        }
+        disableAll();
         new Thread(() -> notifyObserver(obs -> obs.updateWizardAndColor(selectedWizard,selectedColor))).start();
     }
 

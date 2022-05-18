@@ -7,7 +7,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 
 public class ConnectionSceneController extends ClientObservable implements BasicSceneController {
@@ -19,7 +20,16 @@ public class ConnectionSceneController extends ClientObservable implements Basic
     private TextField ipField;
 
     @FXML
-    private void confirm(MouseEvent actionEvent) {
+    private void initialize() {
+        button.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+                confirm();
+            }
+        });
+    }
+
+    @FXML
+    private void confirm() {
         String address = ipField.getText();
         String stringPort = portField.getText();
         int port;

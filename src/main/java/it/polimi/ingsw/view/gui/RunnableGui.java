@@ -41,7 +41,6 @@ public class RunnableGui extends Application {
         stage.setTitle("Eriantys - by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era");
         //todo: handle the case of windows closed
         stage.show();
-
     }
 
     @Override

@@ -3,7 +3,6 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.observer.ClientObserver;
 import it.polimi.ingsw.view.gui.scene.BasicSceneController;
-import it.polimi.ingsw.view.gui.scene.ChooseWizardAndTCController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -48,6 +47,7 @@ public class SceneController {
             Parent parent = fxmlLoader.load();
             actualScene.setRoot(parent);
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
         }
     }

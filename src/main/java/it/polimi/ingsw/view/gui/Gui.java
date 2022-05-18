@@ -48,8 +48,8 @@ public class Gui extends ClientObservable implements View {
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
         PlayAssistantSceneController controller = new PlayAssistantSceneController();
-        observers.forEach(controller::addObserver);
         controller.setPlayableAssistant(playableAssistant);
+        observers.forEach(controller::addObserver);
         SceneController.changeScene(controller,"play_assistant.fxml");
     }
 

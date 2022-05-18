@@ -1,15 +1,17 @@
 package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.model.player.Assistant;
-import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
-import javafx.application.Platform;
+import it.polimi.ingsw.view.gui.SceneController;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
-import java.util.Set;
+import java.util.*;
 
 public class PlayAssistantSceneController extends ClientObservable implements BasicSceneController {
     @FXML
@@ -39,31 +41,40 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
 
     private Assistant selectedAssistant;
 
+    private final Map<Assistant, ImageView> assistantMapImage = new EnumMap<>(Assistant.class);
+
     @FXML
     private void initialize() {
-        turtle.setDisable(!playableAssistant.contains(Assistant.TURTLE));
-        elephant.setDisable(!playableAssistant.contains(Assistant.ELEPHANT));
-        dog.setDisable(!playableAssistant.contains(Assistant.DOG));
-        octopus.setDisable(!playableAssistant.contains(Assistant.OCTOPUS));
-        crocodile.setDisable(!playableAssistant.contains(Assistant.CROCODILE));
-        fox.setDisable(!playableAssistant.contains(Assistant.FOX));
-        eagle.setDisable(!playableAssistant.contains(Assistant.EAGLE));
-        cat.setDisable(!playableAssistant.contains(Assistant.CAT));
-        ostrich.setDisable(!playableAssistant.contains(Assistant.OSTRICH));
-        lion.setDisable(!playableAssistant.contains(Assistant.LION));
+        Arrays.stream(PlayAssistantSceneController.class.getDeclaredFields()).
+                filter(
+                        field -> Arrays.stream(Assistant.values()).
+                                anyMatch(assistant -> assistant.name().equalsIgnoreCase(field.getName()))
+                ).forEach(field -> {
+                    try {
+                        assistantMapImage.put(Assistant.valueOf(field.getName().toUpperCase()),(ImageView) field.get(this));
+                    } catch (IllegalAccessException e) {
+                        System.out.println(e.getMessage());
+                    }
+                });
 
-        turtle.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.TURTLE));
-        elephant.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.ELEPHANT));
-        dog.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.DOG));
-        octopus.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.OCTOPUS));
-        crocodile.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.CROCODILE));
-        fox.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.FOX));
-        eagle.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.EAGLE));
-        cat.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.CAT));
-        ostrich.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.OSTRICH));
-        lion.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> selectAssistant(Assistant.LION));
+        for(Assistant assistant: Assistant.values()) {
+            if(!playableAssistant.contains(assistant)) {
+                disable(assistant);
+            }
+            else {
+                assistantMapImage.get(assistant).setCursor(Cursor.HAND);
+                assistantMapImage.get(assistant).addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> selectAssistant(assistant));
+            }
+        }
 
-        okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> confirm());
+        okButton.setCursor(Cursor.HAND);
+        okButton.addEventHandler(MouseEvent.MOUSE_CLICKED,evt -> confirm());
+    }
+
+    private void disable(Assistant assistant) {
+        ColorAdjust effect = new ColorAdjust();
+        effect.setSaturation(-1d);
+        assistantMapImage.get(assistant).setEffect(effect);
     }
 
     private void disableAll() {
@@ -79,6 +90,7 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
         lion.setDisable(true);
         okButton.setDisable(true);
     }
+
     public void setPlayableAssistant(Set<Assistant> playableAssistant) {
         this.playableAssistant = playableAssistant;
     }
@@ -88,6 +100,10 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
     }
 
     private void confirm() {
+        if(selectedAssistant == null) {
+            SceneController.showAlert(Alert.AlertType.INFORMATION,"You must select an assistant!");
+            return;
+        }
         disableAll();
         new Thread(() -> notifyObserver(obs -> obs.updateAssistant(selectedAssistant))).start();
     }
