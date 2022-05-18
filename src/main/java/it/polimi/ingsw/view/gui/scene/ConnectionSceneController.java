@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
-
 public class ConnectionSceneController extends ClientObservable implements BasicSceneController {
     @FXML
     private TextField portField;
