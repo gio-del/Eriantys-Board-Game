@@ -22,19 +22,19 @@ public class LoginSceneController extends ClientObservable implements BasicScene
 
     @FXML
     private void initialize() {
-        anchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED,mouseEvent -> {
+        anchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             anchorPane.requestFocus();
             nicknameTextField.setPromptText("Insert Nickname");
         });
         anchorPane.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if(keyEvent.getCode().equals(KeyCode.ENTER))
+            if (keyEvent.getCode().equals(KeyCode.ENTER))
                 confirm();
         });
     }
 
     public void confirm() {
-        if(nicknameTextField.getText().trim().equals("")) {
-            SceneController.showAlert(Alert.AlertType.WARNING,"You must chose a nickname");
+        if (nicknameTextField.getText().trim().equals("")) {
+            SceneController.showAlert(Alert.AlertType.WARNING, "You must chose a nickname");
             return;
         }
         nicknameTextField.setDisable(true);

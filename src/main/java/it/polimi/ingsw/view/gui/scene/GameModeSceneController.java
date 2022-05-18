@@ -23,8 +23,8 @@ public class GameModeSceneController extends ClientObservable implements BasicSc
     private void initialize() {
         numOfPlayerChoiceBox.setValue("2");
         numOfPlayerChoiceBox.setItems(FXCollections.observableArrayList("2", "3"));
-        confirmGameModeButton.addEventHandler(KeyEvent.KEY_PRESSED,keyEvent -> {
-            if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+        confirmGameModeButton.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                 confirm();
             }
         });

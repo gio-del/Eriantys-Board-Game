@@ -8,12 +8,18 @@ import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Map;
+import java.util.Set;
 
 public class PlayAssistantSceneController extends ClientObservable implements BasicSceneController {
+    private final Map<Assistant, ImageView> assistantMapImage = new EnumMap<>(Assistant.class);
     @FXML
     private ImageView turtle;
     @FXML
@@ -36,12 +42,8 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
     private ImageView lion;
     @FXML
     private Button okButton;
-
     private Set<Assistant> playableAssistant;
-
     private Assistant selectedAssistant;
-
-    private final Map<Assistant, ImageView> assistantMapImage = new EnumMap<>(Assistant.class);
 
     @FXML
     private void initialize() {
@@ -51,24 +53,23 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
                                 anyMatch(assistant -> assistant.name().equalsIgnoreCase(field.getName()))
                 ).forEach(field -> {
                     try {
-                        assistantMapImage.put(Assistant.valueOf(field.getName().toUpperCase()),(ImageView) field.get(this));
+                        assistantMapImage.put(Assistant.valueOf(field.getName().toUpperCase()), (ImageView) field.get(this));
                     } catch (IllegalAccessException e) {
                         System.out.println(e.getMessage());
                     }
                 });
 
-        for(Assistant assistant: Assistant.values()) {
-            if(!playableAssistant.contains(assistant)) {
+        for (Assistant assistant : Assistant.values()) {
+            if (!playableAssistant.contains(assistant)) {
                 disable(assistant);
-            }
-            else {
+            } else {
                 assistantMapImage.get(assistant).setCursor(Cursor.HAND);
                 assistantMapImage.get(assistant).addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> selectAssistant(assistant));
             }
         }
 
         okButton.setCursor(Cursor.HAND);
-        okButton.addEventHandler(MouseEvent.MOUSE_CLICKED,evt -> confirm());
+        okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> confirm());
     }
 
     private void disable(Assistant assistant) {
@@ -78,16 +79,8 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
     }
 
     private void disableAll() {
-        turtle.setDisable(true);
-        elephant.setDisable(true);
-        dog.setDisable(true);
-        octopus.setDisable(true);
-        crocodile.setDisable(true);
-        fox.setDisable(true);
-        eagle.setDisable(true);
-        cat.setDisable(true);
-        ostrich.setDisable(true);
-        lion.setDisable(true);
+        for (Assistant assistant : Assistant.values())
+            assistantMapImage.get(assistant).setDisable(true);
         okButton.setDisable(true);
     }
 
@@ -96,12 +89,17 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
     }
 
     private void selectAssistant(Assistant assistant) {
+        assistantMapImage.get(assistant).setEffect(new DropShadow(50, Color.GREEN));
+        for (Assistant notSelected : Assistant.values()) {
+            if (!notSelected.equals(assistant) && playableAssistant.contains(notSelected))
+                assistantMapImage.get(notSelected).setEffect(null);
+        }
         this.selectedAssistant = assistant;
     }
 
     private void confirm() {
-        if(selectedAssistant == null) {
-            SceneController.showAlert(Alert.AlertType.INFORMATION,"You must select an assistant!");
+        if (selectedAssistant == null) {
+            SceneController.showAlert(Alert.AlertType.INFORMATION, "You must select an assistant!");
             return;
         }
         disableAll();

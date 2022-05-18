@@ -22,7 +22,7 @@ public class ConnectionSceneController extends ClientObservable implements Basic
     @FXML
     private void initialize() {
         button.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if(keyEvent.getCode().equals(KeyCode.ENTER)) {
+            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                 confirm();
             }
         });

@@ -40,9 +40,9 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
-        ChooseWizardAndTCController controller = new ChooseWizardAndTCController(wizardsAvailable,colorsAvailable);
+        ChooseWizardAndTCController controller = new ChooseWizardAndTCController(wizardsAvailable, colorsAvailable);
         observers.forEach(controller::addObserver);
-        SceneController.changeScene(controller,"choose_wizard.fxml");
+        SceneController.changeScene(controller, "choose_wizard.fxml");
     }
 
     @Override
@@ -50,7 +50,7 @@ public class Gui extends ClientObservable implements View {
         PlayAssistantSceneController controller = new PlayAssistantSceneController();
         controller.setPlayableAssistant(playableAssistant);
         observers.forEach(controller::addObserver);
-        SceneController.changeScene(controller,"play_assistant.fxml");
+        SceneController.changeScene(controller, "play_assistant.fxml");
     }
 
     @Override
