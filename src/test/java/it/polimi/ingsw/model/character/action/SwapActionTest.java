@@ -23,7 +23,7 @@ class SwapActionTest {
     void setUp() {
         Game game = new Game();
         game.addPlayer("Luigi", Wizard.KING, TowerColor.BLACK);
-        game.addPlayer("Marco", Wizard.FLAME_MAGICIAN, TowerColor.WHITE);
+        game.addPlayer("Marco", Wizard.SAGE, TowerColor.WHITE);
         game.init();
 
         fromEntrance = game.getPlayerByName("Luigi").getSchool().getEntrance();

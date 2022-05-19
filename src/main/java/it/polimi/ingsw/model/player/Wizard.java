@@ -7,7 +7,7 @@ public enum Wizard {
     KING("King"),
     SORCERER("Sorcerer"),
     WITCH("Witch"),
-    FLAME_MAGICIAN("Flame magician");
+    SAGE("Sage");
 
     private final String name;
 

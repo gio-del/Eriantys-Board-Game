@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.gui;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.observer.ClientObserver;
 import it.polimi.ingsw.view.gui.scene.BasicSceneController;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,13 +23,13 @@ public class SceneController {
         Parent root;
         try {
             root = loader.load();
-
             actualController = loader.getController();
             ClientObservable observable = (ClientObservable) actualController;
             observerList.forEach(observable::addObserver);
 
             actualScene = newScene;
             actualScene.setRoot(root);
+            actualScene.getWindow().sizeToScene();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             //System.exit(1);
@@ -46,6 +47,7 @@ public class SceneController {
             actualController = controller;
             Parent parent = fxmlLoader.load();
             actualScene.setRoot(parent);
+            Platform.runLater(() -> actualScene.getWindow().sizeToScene());
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());

@@ -1,19 +1,23 @@
 package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.observer.ClientObservable;
-import it.polimi.ingsw.view.gui.SceneController;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class GameModeSceneController extends ClientObservable implements BasicSceneController {
 
 
+    @FXML
+    private Group groupOfWizard;
+    @FXML
+    private ImageView loading;
     @FXML
     private ChoiceBox<String> numOfPlayerChoiceBox;
     @FXML
@@ -34,8 +38,13 @@ public class GameModeSceneController extends ClientObservable implements BasicSc
 
     public void confirm() {
         expertMode.setDisable(true);
+        expertMode.setVisible(false);
         confirmGameModeButton.setDisable(true);
+        confirmGameModeButton.setVisible(false);
         numOfPlayerChoiceBox.setDisable(true);
+        numOfPlayerChoiceBox.setVisible(false);
+        loading.setVisible(true);
+        groupOfWizard.setVisible(true);
 
         String mode = "Simple";
         if (expertMode.isSelected()) {

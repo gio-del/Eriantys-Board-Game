@@ -39,8 +39,8 @@ public class RunnableGui extends Application {
         stage.setResizable(false);
         stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/home.jpg")));
         stage.setTitle("Eriantys - by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era");
-        //todo: handle the case of windows closed
         stage.show();
+        stage.sizeToScene();
     }
 
     @Override

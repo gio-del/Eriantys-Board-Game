@@ -8,7 +8,6 @@ import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import org.w3c.dom.events.Event;
 
 
 public class HomeSceneController extends ClientObservable implements BasicSceneController {

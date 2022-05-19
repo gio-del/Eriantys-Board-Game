@@ -56,7 +56,7 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
         wizardMapImage.put(Wizard.KING, king);
         wizardMapImage.put(Wizard.SORCERER, sorcerer);
         wizardMapImage.put(Wizard.WITCH, witch);
-        wizardMapImage.put(Wizard.FLAME_MAGICIAN, flameMagician);
+        wizardMapImage.put(Wizard.SAGE, flameMagician);
 
         for (TowerColor color : TowerColor.values()) {
             if (!colorsAvailable.contains(color)) {
