@@ -12,8 +12,11 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
@@ -81,7 +84,15 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     }
 
     private void disable(TowerColor color) {
-        disableImage(towerColorMapImage.get(color));
+        ImageView imageView = towerColorMapImage.get(color);
+        Line line1 = new Line(imageView.getLayoutX(), imageView.getLayoutY(), imageView.getLayoutX() + imageView.getFitWidth(), imageView.getLayoutY() + imageView.getFitHeight());
+        Line line2 = new Line(imageView.getLayoutX() + imageView.getFitWidth(), imageView.getLayoutY(), imageView.getLayoutX(), imageView.getLayoutY() + imageView.getFitHeight());
+        Arrays.stream(new Line[]{line1,line2}).forEach(line -> {
+            line.setStroke(Color.RED);
+            line.setStrokeWidth(2);
+        });
+        ((AnchorPane) imageView.getParent()).getChildren().addAll(line1, line2);
+        disableImage(imageView);
     }
 
     private void disable(Wizard wizard) {

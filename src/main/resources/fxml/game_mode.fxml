@@ -1,46 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.GameModeSceneController">
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17"
+            fx:controller="it.polimi.ingsw.view.gui.scene.GameModeSceneController">
     <ImageView fitHeight="481.0" fitWidth="755.0" pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/menu.jpeg" />
+        <Image url="@../images/menu.jpeg"/>
     </ImageView>
     <CheckBox fx:id="expertMode" layoutX="301.0" layoutY="381.0" mnemonicParsing="false" text="Expert Mode">
         <font>
-            <Font size="16.0" />
+            <Font size="16.0"/>
         </font>
     </CheckBox>
-    <Button fx:id="confirmGameModeButton" layoutX="313.0" layoutY="419.0" mnemonicParsing="false" onMouseClicked="#confirm" prefHeight="25.0" prefWidth="95.0" text="Confirm" />
-    <ChoiceBox fx:id="numOfPlayerChoiceBox" layoutX="286.0" layoutY="344.0" prefWidth="150.0" />
+    <Button fx:id="confirmGameModeButton" layoutX="313.0" layoutY="419.0" mnemonicParsing="false"
+            onMouseClicked="#confirm" prefHeight="25.0" prefWidth="95.0" text="Confirm"/>
+    <ChoiceBox fx:id="numOfPlayerChoiceBox" layoutX="286.0" layoutY="344.0" prefWidth="150.0"/>
     <Label layoutX="277.0" layoutY="318.0" text="Select number of player">
         <font>
-            <Font size="16.0" />
+            <Font size="16.0"/>
         </font>
     </Label>
     <Group fx:id="groupOfWizard" layoutX="227.0" layoutY="306.0" visible="false">
         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="52.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/various/sage_nobg.png" />
+            <Image url="@../images/various/sage_nobg.png"/>
         </ImageView>
         <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/various/king_nobg.png" />
+            <Image url="@../images/various/king_nobg.png"/>
         </ImageView>
         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="94.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/various/sorcerer_nobg.png" />
+            <Image url="@../images/various/sorcerer_nobg.png"/>
         </ImageView>
         <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="148.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/various/witch_nobg.png" />
+            <Image url="@../images/various/witch_nobg.png"/>
         </ImageView>
     </Group>
-    <ImageView fx:id="loading" fitHeight="124.0" fitWidth="168.0" layoutX="299.0" layoutY="182.0" pickOnBounds="true" preserveRatio="true" visible="false">
-        <Image url="@../images/loading.png" />
+    <ImageView fx:id="loading" fitHeight="124.0" fitWidth="168.0" layoutX="299.0" layoutY="182.0" pickOnBounds="true"
+               preserveRatio="true" visible="false">
+        <Image url="@../images/loading.png"/>
     </ImageView>
 </AnchorPane>
