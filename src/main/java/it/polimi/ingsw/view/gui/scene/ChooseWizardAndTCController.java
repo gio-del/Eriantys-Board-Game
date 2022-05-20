@@ -87,7 +87,7 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
         ImageView imageView = towerColorMapImage.get(color);
         Line line1 = new Line(imageView.getLayoutX(), imageView.getLayoutY(), imageView.getLayoutX() + imageView.getFitWidth(), imageView.getLayoutY() + imageView.getFitHeight());
         Line line2 = new Line(imageView.getLayoutX() + imageView.getFitWidth(), imageView.getLayoutY(), imageView.getLayoutX(), imageView.getLayoutY() + imageView.getFitHeight());
-        Arrays.stream(new Line[]{line1,line2}).forEach(line -> {
+        Arrays.stream(new Line[]{line1, line2}).forEach(line -> {
             line.setStroke(Color.RED);
             line.setStrokeWidth(2);
         });

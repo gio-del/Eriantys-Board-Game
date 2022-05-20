@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #69bbea;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.BoardSceneController">
+    <GridPane fx:id="islandGrid" alignment="CENTER" centerShape="false" prefHeight="720.0" prefWidth="1280.0" scaleShape="false">
+        <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.3333129882812" minWidth="10.0" prefWidth="223.3333536783854" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="635.3333129882812" minWidth="10.0" prefWidth="479.33331298828125" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="653.6667073567709" minWidth="10.0" prefWidth="322.666748046875" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="947.9999694824219" minWidth="10.0" prefWidth="255.333251953125" />
+            <ColumnConstraints halignment="CENTER" />
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints maxHeight="256.6666717529297" minHeight="10.0" prefHeight="172.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="303.3333333333333" minHeight="10.0" prefHeight="158.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="335.33332824707026" minHeight="10.0" prefHeight="176.0" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="251.33335367838538" minHeight="10.0" prefHeight="215.33333333333331" vgrow="SOMETIMES" />
+        </rowConstraints>
+      <opaqueInsets>
+         <Insets />
+      </opaqueInsets>
+    </GridPane>
+    <ImageView fx:id="useCharacter" fitHeight="150.0" fitWidth="200.0" layoutX="314.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../images/characters/CharacterBack.png" />
+    </ImageView>
+    <ImageView fx:id="school" fitHeight="196.0" fitWidth="508.0" layoutX="413.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../images/school.png" />
+    </ImageView>
+    <ImageView fx:id="assistantDeck" fitHeight="150.0" fitWidth="200.0" layoutX="865.0" layoutY="233.0" pickOnBounds="true" preserveRatio="true">
+        <Image url="@../images/wizards/DeckKing.png" />
+    </ImageView>
+    <HBox fx:id="cloudBox" layoutX="414.0" layoutY="406.0" prefHeight="100.0" prefWidth="452.0">
+        <ImageView fitHeight="121.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/clouds/cloud_2_player.png" />
+        </ImageView>
+        <ImageView fitHeight="146.0" fitWidth="99.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/clouds/cloud_2_player.png" />
+        </ImageView>
+    </HBox>
+</AnchorPane>
