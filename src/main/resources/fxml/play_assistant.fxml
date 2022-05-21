@@ -1,43 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="408.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17">
-    <ImageView fitHeight="355.0" fitWidth="600.0">
-        <Image url="@../images/assistants/layout_assistant.png"/>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+   <ImageView fitHeight="400.0" fitWidth="600.0">
+      <image>
+         <Image url="@../images/background.png" />
+      </image>
+   </ImageView>
+    <ImageView fx:id="turtle" fitHeight="166.0" fitWidth="106.0" layoutX="34.0" layoutY="12.0">
+        <Image url="@../images/assistants/turtle.png" />
     </ImageView>
-    <ImageView fx:id="turtle" fitHeight="164.0" fitWidth="106.0" layoutX="34.0" layoutY="13.0">
-        <Image url="@../images/assistants/turtle.png"/>
+    <ImageView fx:id="elephant" fitHeight="166.0" fitWidth="105.0" layoutX="141.0" layoutY="12.0">
+        <Image url="@../images/assistants/elephant.png" />
     </ImageView>
-    <ImageView fx:id="elephant" fitHeight="164.0" fitWidth="105.0" layoutX="141.0" layoutY="13.0">
-        <Image url="@../images/assistants/elephant.png"/>
+    <ImageView fx:id="dog" fitHeight="166.0" fitWidth="106.0" layoutX="247.0" layoutY="12.0">
+        <Image url="@../images/assistants/dog.png" />
     </ImageView>
-    <ImageView fx:id="dog" fitHeight="164.0" fitWidth="106.0" layoutX="247.0" layoutY="13.0">
-        <Image url="@../images/assistants/dog.png"/>
+    <ImageView fx:id="octopus" fitHeight="166.0" fitWidth="106.0" layoutX="354.0" layoutY="12.0">
+        <Image url="@../images/assistants/octopus.png" />
     </ImageView>
-    <ImageView fx:id="octopus" fitHeight="164.0" fitWidth="106.0" layoutX="354.0" layoutY="13.0">
-        <Image url="@../images/assistants/octopus.png"/>
+    <ImageView fx:id="crocodile" fitHeight="166.0" fitWidth="106.0" layoutX="461.0" layoutY="12.0">
+        <Image url="@../images/assistants/crocodile.png" />
     </ImageView>
-    <ImageView fx:id="crocodile" fitHeight="164.0" fitWidth="105.0" layoutX="462.0" layoutY="13.0">
-        <Image url="@../images/assistants/crocodile.png"/>
+    <ImageView fx:id="fox" fitHeight="166.0" fitWidth="107.0" layoutX="34.0" layoutY="177.0">
+        <Image url="@../images/assistants/fox.png" />
     </ImageView>
-    <ImageView fx:id="fox" fitHeight="164.0" fitWidth="106.0" layoutX="34.0" layoutY="178.0">
-        <Image url="@../images/assistants/fox.png"/>
+    <ImageView fx:id="eagle" fitHeight="166.0" fitWidth="107.0" layoutX="140.0" layoutY="177.0">
+        <Image url="@../images/assistants/eagle.png" />
     </ImageView>
-    <ImageView fx:id="eagle" fitHeight="164.0" fitWidth="105.0" layoutX="141.0" layoutY="178.0">
-        <Image url="@../images/assistants/eagle.png"/>
+    <ImageView fx:id="cat" fitHeight="166.0" fitWidth="107.0" layoutX="247.0" layoutY="177.0">
+        <Image url="@../images/assistants/cat.png" />
     </ImageView>
-    <ImageView fx:id="cat" fitHeight="164.0" fitWidth="106.0" layoutX="247.0" layoutY="178.0">
-        <Image url="@../images/assistants/cat.png"/>
+    <ImageView fx:id="ostrich" fitHeight="167.0" fitWidth="106.0" layoutX="354.0" layoutY="176.0">
+        <Image url="@../images/assistants/ostrich.png" />
     </ImageView>
-    <ImageView fx:id="ostrich" fitHeight="164.0" fitWidth="106.0" layoutX="354.0" layoutY="178.0">
-        <Image url="@../images/assistants/ostrich.png"/>
+    <ImageView fx:id="lion" fitHeight="166.0" fitWidth="108.0" layoutX="459.0" layoutY="177.0">
+        <Image url="@../images/assistants/lion.png" />
     </ImageView>
-    <ImageView fx:id="lion" fitHeight="164.0" fitWidth="105.0" layoutX="462.0" layoutY="178.0">
-        <Image url="@../images/assistants/lion.png"/>
-    </ImageView>
-    <Button fx:id="okButton" layoutX="274.0" layoutY="362.0" mnemonicParsing="false" text="Confirm"/>
+    <Button fx:id="okButton" layoutX="274.0" layoutY="362.0" mnemonicParsing="false" text="Confirm" />
+   <ImageView fitHeight="355.0" fitWidth="600.0">
+      <image>
+         <Image url="@../images/assistants/layout_assistant.png" />
+      </image>
+   </ImageView>
 </AnchorPane>
