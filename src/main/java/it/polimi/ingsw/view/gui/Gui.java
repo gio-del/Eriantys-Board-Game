@@ -24,6 +24,8 @@ import java.util.Set;
  */
 public class Gui extends ClientObservable implements View {
 
+    private ShortModel resource;
+
     @Override
     public void askConnectionInfo() {
         Platform.runLater(() -> SceneController.changeScene(observers, "connection.fxml"));
@@ -105,6 +107,6 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void injectResource(ShortModel resource) {
-        //TODO
+        this.resource = resource;
     }
 }

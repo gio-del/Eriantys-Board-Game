@@ -23,7 +23,7 @@ class TurnManagerTest {
         game = new Game();
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
         game.addPlayer("Marco", Wizard.SORCERER, TowerColor.WHITE);
-        game.addPlayer("Lorenzo", Wizard.WITCH, TowerColor.GRAY);
+        game.addPlayer("Lorenzo", Wizard.WITCH, TowerColor.GREY);
 
         game.init();
     }

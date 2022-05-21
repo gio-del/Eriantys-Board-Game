@@ -1,6 +1,10 @@
 package it.polimi.ingsw.view.gui.scene;
 
+import it.polimi.ingsw.model.pawns.Pawns;
+import it.polimi.ingsw.model.place.Island;
+import it.polimi.ingsw.model.place.ShortIsland;
 import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.gui.boardcomponent.IslandGui;
 import javafx.fxml.FXML;
@@ -12,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -38,9 +43,17 @@ public class BoardSceneController extends ClientObservable {
         for(int i=0;i<4;i++) {
             for(int j=0;j<4;j++) {
                 if(!(i==1 && (j==1 || j==2)) && !(i==2 && (j==1 || j==2))) {
-                    IslandGui island = new IslandGui();
-                    island.setAlignment(Pos.CENTER);
-                    islandGrid.add(island,i,j);
+                    Island island = new Island();
+                    island.upgradeBanTiles(1);
+                    island.upgradeDimension(2);
+                    island.add(new Pawns(1,1,1,1,1));
+                    island.addTower(TowerColor.WHITE);
+                    IslandGui islandGUI = new IslandGui(new ShortIsland(island),true);
+                    HBox hBox = new HBox(islandGUI);
+                    hBox.setAlignment(Pos.CENTER);
+                    VBox vBox = new VBox(hBox);
+                    vBox.setAlignment(Pos.TOP_CENTER);
+                    islandGrid.add(vBox,i,j);
                 }
             }
         }

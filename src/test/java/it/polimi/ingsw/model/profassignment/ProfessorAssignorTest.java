@@ -24,7 +24,7 @@ class ProfessorAssignorTest {
         game = new Game();
         game.addPlayer("Mario", KING, BLACK);
         game.addPlayer("Albert", SORCERER, WHITE);
-        game.addPlayer("Giovanni", WITCH, GRAY);
+        game.addPlayer("Giovanni", WITCH, GREY);
         game.init();
 
         professorAssignor = new ProfessorAssignor();

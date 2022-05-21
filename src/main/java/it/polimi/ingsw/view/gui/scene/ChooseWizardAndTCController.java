@@ -55,7 +55,7 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     private void initialize() {
         towerColorMapImage.put(TowerColor.BLACK, blackTower);
         towerColorMapImage.put(TowerColor.WHITE, whiteTower);
-        towerColorMapImage.put(TowerColor.GRAY, greyTower);
+        towerColorMapImage.put(TowerColor.GREY, greyTower);
         wizardMapImage.put(Wizard.KING, king);
         wizardMapImage.put(Wizard.SORCERER, sorcerer);
         wizardMapImage.put(Wizard.WITCH, witch);

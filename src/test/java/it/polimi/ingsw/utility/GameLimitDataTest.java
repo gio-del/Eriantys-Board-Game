@@ -41,7 +41,7 @@ class GameLimitDataTest {
         assertEquals(8, gameLimitData.getNumberOfTower());
         assertEquals(3, gameLimitData.getStudentOnCloud());
         Set<TowerColor> towerColors = EnumSet.allOf(TowerColor.class);
-        towerColors.remove(TowerColor.GRAY);
+        towerColors.remove(TowerColor.GREY);
         assertEquals(towerColors, gameLimitData.getTowerColors());
     }
 }

@@ -79,7 +79,7 @@ class GameTest {
      */
     @Test
     void getPlayerByTowerColor_ifNotPresent() {
-        assertNull(game.getPlayerByTowerColor(TowerColor.GRAY));
+        assertNull(game.getPlayerByTowerColor(TowerColor.GREY));
     }
 
     /**
