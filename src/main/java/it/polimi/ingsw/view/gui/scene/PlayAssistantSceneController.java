@@ -12,6 +12,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Stage;
 
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -104,5 +105,6 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
         }
         disableAll();
         new Thread(() -> notifyObserver(obs -> obs.updateAssistant(selectedAssistant))).start();
+        ((Stage)okButton.getScene().getWindow()).close();
     }
 }

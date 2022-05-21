@@ -10,6 +10,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 import static java.lang.System.exit;
 
@@ -37,9 +38,8 @@ public class TestingGUI extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setMaximized(true);
-        stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/home.jpg")));
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/home.jpg"))));
         stage.setTitle("Testing GUI");
         stage.show();
-        //stage.sizeToScene();
     }
 }
