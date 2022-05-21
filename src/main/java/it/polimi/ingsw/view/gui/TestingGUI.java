@@ -1,6 +1,9 @@
 package it.polimi.ingsw.view.gui;
 
-import it.polimi.ingsw.controller.client.ClientController;
+import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.ShortModel;
+import it.polimi.ingsw.model.player.TowerColor;
+import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.view.gui.scene.BoardSceneController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,29 +15,28 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-import static java.lang.System.exit;
-
 public class TestingGUI extends Application {
     @Override
     public void start(Stage stage) {
-        Gui view = new Gui();
-        ClientController clientController = new ClientController(view);
-        view.addObserver(clientController);
 
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/fxml/board.fxml"));
+        Game game = new Game();
+        game.addPlayer("Marco", Wizard.KING, TowerColor.BLACK);
+        game.addPlayer("Giovanni", Wizard.SORCERER, TowerColor.WHITE);
+        game.startGame(true);
+        ShortModel resource = new ShortModel(game, true);
+
+        BoardSceneController boardSceneController = new BoardSceneController(resource, "Giovanni");
         Parent root = null;
         try {
-            root = loader.load();
+            FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource("/fxml/board.fxml"));
+            fxmlLoader.setController(boardSceneController);
+            root = fxmlLoader.load();
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
-            exit(1);
         }
 
-        BoardSceneController boardSceneController = loader.getController();
-        boardSceneController.addObserver(clientController);
-
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(Objects.requireNonNull(root));
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setMaximized(true);

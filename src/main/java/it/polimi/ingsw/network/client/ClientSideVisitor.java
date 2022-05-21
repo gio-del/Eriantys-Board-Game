@@ -13,7 +13,6 @@ import it.polimi.ingsw.view.View;
 public class ClientSideVisitor implements NotificationVisitor {
     private final ShortModel shortModel;
     private final View view;
-    private String nickname;
 
     public ClientSideVisitor(View view, ShortModel shortModel) {
         this.shortModel = shortModel;
@@ -23,7 +22,7 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(ModelUpdateNotification msg) {
         shortModel.update(msg.getModel());
-        view.updateScreen(nickname);
+        view.updateScreen();
     }
 
     @Override
@@ -34,25 +33,25 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(CloudsNotification msg) {
         shortModel.updateClouds(msg.getCloudList());
-        view.updateScreen(nickname);
+        view.updateScreen();
     }
 
     @Override
     public void visit(MoveStudentNotification msg) {
-        view.updateScreen(nickname);
+        view.updateScreen();
         view.moveStudent(msg.getMovableColor());
     }
 
     @Override
     public void visit(MoveMNNotification msg) {
-        view.updateScreen(nickname);
+        view.updateScreen();
         view.moveMNature(msg.getSteps());
     }
 
     @Override
     public void visit(ChooseCloudNotification msg) {
         shortModel.updateClouds(msg.getAvailableClouds());
-        view.updateScreen(nickname);
+        view.updateScreen();
         view.chooseCloud(msg.getAvailableClouds());
     }
 
@@ -64,7 +63,7 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(BoardNotification msg) {
         shortModel.updateBoard(msg.getBoard());
-        view.updateScreen(nickname);
+        view.updateScreen();
     }
 
     @Override
@@ -80,7 +79,7 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(ChooseAssistantNotification msg) {
         shortModel.setPlayableAssistant(msg.getPlayableAssistant());
-        view.updateScreen(nickname);
+        view.updateScreen();
         view.chooseAssistant(msg.getPlayableAssistant());
     }
 
@@ -93,7 +92,7 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(CharacterNotification msg) {
         shortModel.updateCharacters(msg.getCharacterInUse());
-        view.updateScreen(nickname);
+        view.updateScreen();
     }
 
     @Override
@@ -129,9 +128,5 @@ public class ClientSideVisitor implements NotificationVisitor {
     @Override
     public void visit(LoginNotification msg) {
         //do nothing
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
     }
 }

@@ -75,7 +75,7 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void updateScreen(String nickname) {
+    public void updateScreen() {
         //do nothing
     }
 

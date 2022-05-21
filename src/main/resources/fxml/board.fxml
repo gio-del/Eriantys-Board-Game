@@ -33,18 +33,15 @@
         </opaqueInsets>
     </GridPane>
     <ImageView fx:id="characterDeck" fitHeight="150.0" fitWidth="200.0" layoutX="314.0" layoutY="233.0"
-               pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/characters/CharacterBack.png"/>
-    </ImageView>
+               pickOnBounds="true" preserveRatio="true"/>
     <ImageView fx:id="school" fitHeight="196.0" fitWidth="508.0" layoutX="413.0" layoutY="210.0" pickOnBounds="true"
                preserveRatio="true">
         <Image url="@../images/school.png"/>
     </ImageView>
     <ImageView fx:id="assistantDeck" fitHeight="150.0" fitWidth="200.0" layoutX="865.0" layoutY="233.0"
                pickOnBounds="true" preserveRatio="true">
-        <Image url="@../images/wizards/DeckKing.png"/>
         <cursor>
-            <Cursor fx:constant="HAND"/>
+            <Cursor fx:constant="DEFAULT"/>
         </cursor>
     </ImageView>
     <HBox fx:id="cloudBox" alignment="CENTER" layoutX="414.0" layoutY="406.0" prefHeight="100.0" prefWidth="452.0">

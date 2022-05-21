@@ -9,13 +9,11 @@ import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 
 import java.util.Objects;
-import java.util.Random;
 
 public class IslandGui extends Pane {
     private final ImageView island;
 
     public IslandGui(ShortIsland shortIsland, boolean motherNatureOn) {
-        Random random = new Random();
 
         //Island picture
         island = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/islands/island1.png"))));

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.observer.ClientObservable;
+import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 
 public class LoginSceneController extends ClientObservable implements BasicSceneController {
 
+    private final Gui gui;
     @FXML
     private AnchorPane anchorPane;
     @FXML
@@ -20,12 +22,17 @@ public class LoginSceneController extends ClientObservable implements BasicScene
     @FXML
     private Button confirmNicknameButton;
 
+    public LoginSceneController(Gui gui) {
+        this.gui = gui;
+    }
+
     @FXML
     private void initialize() {
         anchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
             anchorPane.requestFocus();
             nicknameTextField.setPromptText("Insert Nickname");
         });
+        confirmNicknameButton.setOnAction(actionEvent -> confirm());
         anchorPane.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER))
                 confirm();
@@ -33,12 +40,15 @@ public class LoginSceneController extends ClientObservable implements BasicScene
     }
 
     public void confirm() {
-        if (nicknameTextField.getText().trim().equals("")) {
+        String nickname = nicknameTextField.getText();
+        if (nickname.trim().equals("")) {
             SceneManager.showAlert(Alert.AlertType.WARNING, "You must chose a nickname");
             return;
         }
         nicknameTextField.setDisable(true);
         confirmNicknameButton.setDisable(true);
-        new Thread(() -> notifyObserver(obs -> obs.updateNickname(nicknameTextField.getText()))).start();
+
+        gui.setNickname(nickname);
+        new Thread(() -> notifyObserver(obs -> obs.updateNickname(nickname))).start();
     }
 }

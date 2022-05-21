@@ -17,6 +17,9 @@ public class SceneManager {
     private static Scene actualScene;
     private static BasicSceneController actualController;
 
+    private SceneManager() {
+    }
+
     public static void changeScene(List<ClientObserver> observerList, Scene newScene, String pathToFxml) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SceneManager.class.getResource("/fxml/" + pathToFxml));
@@ -31,8 +34,8 @@ public class SceneManager {
             actualScene.setRoot(root);
             actualScene.getWindow().sizeToScene();
         } catch (IOException e) {
+            e.printStackTrace();
             System.out.println(e.getMessage());
-            //System.exit(1);
         }
     }
 

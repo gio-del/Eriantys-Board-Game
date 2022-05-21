@@ -1,6 +1,5 @@
 package it.polimi.ingsw.view.gui.scene;
 
-import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.observer.ClientObservable;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
@@ -19,6 +18,6 @@ public class CharactersSceneController extends ClientObservable implements Basic
     }
 
     public void confirm() {
-
+        //TODO
     }
 }

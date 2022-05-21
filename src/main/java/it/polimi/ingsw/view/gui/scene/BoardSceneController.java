@@ -3,6 +3,8 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.model.player.Assistant;
+import it.polimi.ingsw.model.player.ShortPlayer;
+import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.gui.boardcomponent.IslandGui;
 import javafx.fxml.FXML;
@@ -28,6 +30,7 @@ import static java.lang.System.exit;
 
 public class BoardSceneController extends ClientObservable implements BasicSceneController {
     private final ShortModel resource;
+    private final String nickname;
     @FXML
     private ImageView characterDeck;
     @FXML
@@ -40,19 +43,23 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private ImageView assistantDeck;
     private Set<Assistant> playableAssistant;
 
-    public BoardSceneController(ShortModel resource) {
+    public BoardSceneController(ShortModel resource, String nickname) {
         this.resource = resource;
+        this.nickname = nickname;
 
     }
 
     @FXML
     private void initialize() {
+        Wizard myWizard = resource.getSchoolMap().keySet().stream().filter(player -> player.name().equals(nickname)).map(ShortPlayer::wizard).findFirst().orElse(null);
+        assistantDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wizards/" + Objects.requireNonNull(myWizard).name().toLowerCase() + "_deck.png"))));
+        if (resource.getCharacters() != null)
+            characterDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
         printIslands();
     }
 
     @FXML
     private void useAssistant(MouseEvent mouseEvent) {
-        //TODO: check this
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/play_assistant.fxml"));

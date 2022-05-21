@@ -15,8 +15,6 @@ import it.polimi.ingsw.view.View;
 
 import java.util.List;
 
-import static java.lang.System.exit;
-
 /**
  * A controller on client's side. It instantiates a {@link Client} when connection info are provided.
  * It observes the {@link View}.
@@ -64,7 +62,7 @@ public class ClientController implements ClientObserver {
             client.start();
             view.setNickname();
         } else {
-            view.showError("Server not found!");
+            view.showMessage("Server not found!");
             view.askConnectionInfo();
         }
     }
@@ -74,7 +72,6 @@ public class ClientController implements ClientObserver {
         this.nickname = nickname;
         Notification login = new LoginNotification(nickname);
         login.setClientId(nickname);
-        visitor.setNickname(nickname);
         client.sendMessage(login);
     }
 
@@ -152,6 +149,5 @@ public class ClientController implements ClientObserver {
     public void onDisconnection() {
         String s = "Connection closed with the server. Exiting...";
         view.showError(s);
-        exit(0); //todo: check this
     }
 }

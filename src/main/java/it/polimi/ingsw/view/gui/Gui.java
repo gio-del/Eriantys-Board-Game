@@ -11,6 +11,7 @@ import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
 import it.polimi.ingsw.view.gui.scene.BoardSceneController;
 import it.polimi.ingsw.view.gui.scene.ChooseWizardAndTCController;
+import it.polimi.ingsw.view.gui.scene.LoginSceneController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.stage.Stage;
@@ -26,6 +27,7 @@ import java.util.Set;
 public class Gui extends ClientObservable implements View {
 
     private ShortModel resource;
+    private String nickname;
 
     @Override
     public void askConnectionInfo() {
@@ -33,7 +35,9 @@ public class Gui extends ClientObservable implements View {
     }
 
     public void setNickname() {
-        Platform.runLater(() -> SceneManager.changeScene(observers, "login.fxml"));
+        LoginSceneController controller = new LoginSceneController(this);
+        observers.forEach(controller::addObserver);
+        Platform.runLater(() -> SceneManager.changeScene(controller, "login.fxml"));
     }
 
     @Override
@@ -87,13 +91,16 @@ public class Gui extends ClientObservable implements View {
     }
 
     @Override
-    public void updateScreen(String nickname) {
+    public void updateScreen() {
         Platform.runLater(() -> getBoardController().refresh());
     }
 
     @Override
     public void showError(String msg) {
-        Platform.runLater(() -> SceneManager.showAlert(Alert.AlertType.ERROR, msg));
+        Platform.runLater(() -> {
+            SceneManager.showAlert(Alert.AlertType.ERROR, msg);
+            System.exit(0);
+        });
     }
 
     @Override
@@ -116,11 +123,15 @@ public class Gui extends ClientObservable implements View {
         try {
             controller = (BoardSceneController) SceneManager.getActualController();
         } catch (ClassCastException e) {
-            controller = new BoardSceneController(resource);
+            controller = new BoardSceneController(resource, nickname);
             BoardSceneController finalController = controller;
             observers.forEach(finalController::addObserver);
             SceneManager.changeScene(controller, "board.fxml");
         }
         return controller;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 }

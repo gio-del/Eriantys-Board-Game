@@ -32,6 +32,7 @@ public class Cli extends ClientObservable implements View {
     private int maxSteps;
     private PawnColor chosenColor;
     private ShortModel resource;
+    private String nickname;
 
 
     public Cli() {
@@ -109,6 +110,7 @@ public class Cli extends ClientObservable implements View {
      */
     public void checkNickName(String nickname) {
         if (nickname.length() > 0) {
+            this.nickname = nickname;
             notifyObserver(observer -> observer.updateNickname(nickname));
         } else {
             System.out.println("NAME not valid, please choose another name");
@@ -400,12 +402,12 @@ public class Cli extends ClientObservable implements View {
     }
 
     @Override
-    public void updateScreen(String owner) {
+    public void updateScreen() {
         Map<ShortPlayer, ShortSchool> otherSchools = new HashMap<>();
         Map<ShortPlayer, ShortSchool> ownerSchool = new HashMap<>();
         clearScreen();
         for (Map.Entry<ShortPlayer, ShortSchool> entry : resource.getSchoolMap().entrySet()) {
-            if (entry.getKey().name().equals(owner)) {
+            if (entry.getKey().name().equals(nickname)) {
                 ownerSchool.put(entry.getKey(), entry.getValue());
             } else {
                 otherSchools.put(entry.getKey(), entry.getValue());

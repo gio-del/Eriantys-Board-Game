@@ -105,10 +105,6 @@ public class ShortModel implements Serializable {
         this.characters = characters;
     }
 
-    public void updateSchool(ShortSchool school, ShortPlayer owner) {
-        this.schoolMap.put(owner, school);
-    }
-
     public void updateClouds(List<ShortCloud> clouds) {
         this.clouds = clouds;
     }
@@ -123,9 +119,5 @@ public class ShortModel implements Serializable {
         this.schoolMap = model.schoolMap;
         this.clouds = model.clouds;
         this.moneyMap = model.moneyMap;
-    }
-
-    public void updateMoneyMap(Map<String, Integer> moneyMap) {
-        this.moneyMap = moneyMap;
     }
 }

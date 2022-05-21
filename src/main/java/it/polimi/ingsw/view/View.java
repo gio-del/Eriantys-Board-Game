@@ -68,7 +68,7 @@ public interface View {
     /**
      * update of the view
      */
-    void updateScreen(String nickname);
+    void updateScreen();
 
     /**
      * In case of a disconnection, the players still connected will receive a msg
