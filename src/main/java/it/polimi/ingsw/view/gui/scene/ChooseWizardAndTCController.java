@@ -3,7 +3,7 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
-import it.polimi.ingsw.view.gui.SceneController;
+import it.polimi.ingsw.view.gui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
@@ -118,7 +118,7 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
 
     private void confirm() {
         if (selectedWizard == null || selectedColor == null) {
-            SceneController.showAlert(Alert.AlertType.WARNING, "You must select Wizard and Tower Color!");
+            SceneManager.showAlert(Alert.AlertType.WARNING, "You must select Wizard and Tower Color!");
             return;
         }
         disableAll();

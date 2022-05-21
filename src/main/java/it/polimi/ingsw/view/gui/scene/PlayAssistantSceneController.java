@@ -2,7 +2,7 @@ package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.observer.ClientObservable;
-import it.polimi.ingsw.view.gui.SceneController;
+import it.polimi.ingsw.view.gui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Alert;
@@ -100,11 +100,11 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
 
     private void confirm() {
         if (selectedAssistant == null) {
-            SceneController.showAlert(Alert.AlertType.INFORMATION, "You must select an assistant!");
+            SceneManager.showAlert(Alert.AlertType.INFORMATION, "You must select an assistant!");
             return;
         }
         disableAll();
         new Thread(() -> notifyObserver(obs -> obs.updateAssistant(selectedAssistant))).start();
-        ((Stage)okButton.getScene().getWindow()).close();
+        ((Stage) okButton.getScene().getWindow()).close();
     }
 }

@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.observer.ClientObservable;
-import it.polimi.ingsw.view.gui.SceneController;
+import it.polimi.ingsw.view.gui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -18,13 +18,13 @@ public class HomeSceneController extends ClientObservable implements BasicSceneC
     private void initialize() {
         button.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                SceneController.changeScene(observers, button.getScene(), "connection.fxml");
+                SceneManager.changeScene(observers, button.getScene(), "connection.fxml");
             }
         });
     }
 
     @FXML
     private void startLogin(MouseEvent event) {
-        SceneController.changeScene(observers, ((Node) event.getSource()).getScene(), "connection.fxml");
+        SceneManager.changeScene(observers, ((Node) event.getSource()).getScene(), "connection.fxml");
     }
 }

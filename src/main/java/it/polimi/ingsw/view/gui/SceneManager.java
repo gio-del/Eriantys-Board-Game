@@ -13,13 +13,13 @@ import javafx.scene.control.ButtonType;
 import java.io.IOException;
 import java.util.List;
 
-public class SceneController {
+public class SceneManager {
     private static Scene actualScene;
     private static BasicSceneController actualController;
 
     public static void changeScene(List<ClientObserver> observerList, Scene newScene, String pathToFxml) {
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(SceneController.class.getResource("/fxml/" + pathToFxml));
+        loader.setLocation(SceneManager.class.getResource("/fxml/" + pathToFxml));
         Parent root;
         try {
             root = loader.load();
@@ -42,7 +42,7 @@ public class SceneController {
 
     public static void changeScene(BasicSceneController controller, String pathToFXML) {
         try {
-            FXMLLoader fxmlLoader = new FXMLLoader(SceneController.class.getResource("/fxml/" + pathToFXML));
+            FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource("/fxml/" + pathToFXML));
             fxmlLoader.setController(controller);
             actualController = controller;
             Parent parent = fxmlLoader.load();
@@ -65,7 +65,7 @@ public class SceneController {
      *
      * @return actual scene
      */
-    public Scene getActualScene() {
+    public static Scene getActualScene() {
         return actualScene;
     }
 
@@ -74,7 +74,7 @@ public class SceneController {
      *
      * @return actual controller
      */
-    public BasicSceneController getActualController() {
+    public static BasicSceneController getActualController() {
         return actualController;
     }
 

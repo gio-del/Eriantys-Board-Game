@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.observer.ClientObservable;
-import it.polimi.ingsw.view.gui.SceneController;
+import it.polimi.ingsw.view.gui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -34,7 +34,7 @@ public class LoginSceneController extends ClientObservable implements BasicScene
 
     public void confirm() {
         if (nicknameTextField.getText().trim().equals("")) {
-            SceneController.showAlert(Alert.AlertType.WARNING, "You must chose a nickname");
+            SceneManager.showAlert(Alert.AlertType.WARNING, "You must chose a nickname");
             return;
         }
         nicknameTextField.setDisable(true);

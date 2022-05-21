@@ -182,7 +182,6 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
-        resource.setPlayableAssistant(playableAssistant);
         System.out.println("Choose an assistant from the available: ");
         resource.getPlayableAssistant().forEach(o -> System.out.println(o.name().toUpperCase() + ": Value (" + o.value() + ") - Movement (" + o.movement() + ")"));
         scanListener.setRequest(Request.ASSISTANT);

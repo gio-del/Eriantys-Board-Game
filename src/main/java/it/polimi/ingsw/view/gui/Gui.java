@@ -9,10 +9,11 @@ import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.View;
+import it.polimi.ingsw.view.gui.scene.BoardSceneController;
 import it.polimi.ingsw.view.gui.scene.ChooseWizardAndTCController;
-import it.polimi.ingsw.view.gui.scene.PlayAssistantSceneController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
 import java.util.List;
 import java.util.Set;
@@ -28,31 +29,31 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void askConnectionInfo() {
-        Platform.runLater(() -> SceneController.changeScene(observers, "connection.fxml"));
+        Platform.runLater(() -> SceneManager.changeScene(observers, "connection.fxml"));
     }
 
     public void setNickname() {
-        Platform.runLater(() -> SceneController.changeScene(observers, "login.fxml"));
+        Platform.runLater(() -> SceneManager.changeScene(observers, "login.fxml"));
     }
 
     @Override
     public void chooseGameMode() {
-        Platform.runLater(() -> SceneController.changeScene(observers, "game_mode.fxml"));
+        Platform.runLater(() -> SceneManager.changeScene(observers, "game_mode.fxml"));
     }
 
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
         ChooseWizardAndTCController controller = new ChooseWizardAndTCController(wizardsAvailable, colorsAvailable);
         observers.forEach(controller::addObserver);
-        SceneController.changeScene(controller, "choose_wizard.fxml");
+        Platform.runLater(() -> SceneManager.changeScene(controller, "choose_wizard.fxml"));
     }
 
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
-        PlayAssistantSceneController controller = new PlayAssistantSceneController();
-        controller.setPlayableAssistant(playableAssistant);
-        observers.forEach(controller::addObserver);
-        SceneController.changeScene(controller, "play_assistant.fxml");
+        Platform.runLater(() -> {
+            getBoardController().setPlayableAssistant(playableAssistant);
+            ((Stage) SceneManager.getActualScene().getWindow()).setMaximized(true);
+        });
     }
 
     @Override
@@ -87,12 +88,12 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void updateScreen(String nickname) {
-        //TODO
+        Platform.runLater(() -> getBoardController().refresh());
     }
 
     @Override
     public void showError(String msg) {
-        Platform.runLater(() -> SceneController.showAlert(Alert.AlertType.ERROR, msg));
+        Platform.runLater(() -> SceneManager.showAlert(Alert.AlertType.ERROR, msg));
     }
 
     @Override
@@ -102,11 +103,24 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void showMessage(String msg) {
-        Platform.runLater(() -> SceneController.showAlert(Alert.AlertType.INFORMATION, msg));
+        Platform.runLater(() -> SceneManager.showAlert(Alert.AlertType.INFORMATION, msg));
     }
 
     @Override
     public void injectResource(ShortModel resource) {
         this.resource = resource;
+    }
+
+    private BoardSceneController getBoardController() {
+        BoardSceneController controller;
+        try {
+            controller = (BoardSceneController) SceneManager.getActualController();
+        } catch (ClassCastException e) {
+            controller = new BoardSceneController(resource);
+            BoardSceneController finalController = controller;
+            observers.forEach(finalController::addObserver);
+            SceneManager.changeScene(controller, "board.fxml");
+        }
+        return controller;
     }
 }

@@ -79,6 +79,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(ChooseAssistantNotification msg) {
+        shortModel.setPlayableAssistant(msg.getPlayableAssistant());
         view.updateScreen(nickname);
         view.chooseAssistant(msg.getPlayableAssistant());
     }
