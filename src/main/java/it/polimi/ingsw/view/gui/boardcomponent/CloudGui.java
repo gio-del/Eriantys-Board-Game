@@ -15,6 +15,7 @@ public class CloudGui extends Pane {
 
     public CloudGui(ShortCloud cloud) {
         this.cloud = cloud;
+        //TODO fix when the cloud is empty: it must show the same image but without pawns on...
 
         Image image;
         List<ImageView> imageViewList;

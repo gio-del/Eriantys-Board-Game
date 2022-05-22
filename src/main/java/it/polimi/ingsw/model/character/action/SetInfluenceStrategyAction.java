@@ -7,6 +7,9 @@ import it.polimi.ingsw.model.influencecalculator.KnightStrategy;
 import it.polimi.ingsw.model.influencecalculator.MushroomSellerStrategy;
 import it.polimi.ingsw.model.player.Player;
 
+/**
+ * This action is used to set the strategy of the influence calculation to that specified by the character.
+ */
 public class SetInfluenceStrategyAction implements Action {
     private final CharacterCard chosenCard;
     private final Board board;

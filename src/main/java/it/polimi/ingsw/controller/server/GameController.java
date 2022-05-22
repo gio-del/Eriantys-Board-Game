@@ -37,6 +37,12 @@ public class GameController {
         this.winHandler = new WinHandler(this, game);
     }
 
+    /**
+     * Add a client in the game
+     *
+     * @param nickname         the nickname of the player
+     * @param socketConnection the connection entity with the player
+     */
     public synchronized void addClient(String nickname, Connection socketConnection) {
         names.add(nickname);
         connectionMap.put(nickname, socketConnection);
@@ -60,19 +66,34 @@ public class GameController {
         turnManager.onInit();
     }
 
+    /**
+     * The game is ready when all the players have chosen the Wizard and Tower Color.
+     *
+     * @return true if the game is ready to start, false otherwise.
+     */
     public boolean gameReady() {
         return game.numOfPlayer() == names.size();
     }
 
-
+    /**
+     * When the Winner Handler notifies the controller, this method is used to show all client the winner and close the game.
+     *
+     * @param name the winner nickname
+     */
     public void handleWin(String name) {
-        if (connectionMap.isEmpty()) return; //in case of "multiple win condition" the client are notified one time
+        if (connectionMap.isEmpty())
+            return; //in case of "multiple win condition" (e.g. a player finishes all his towers and the island are less than 3) the client are notified one time
         notifyWinner(name);
         connectionMap.clear();
         virtualViewMap.clear();
 
     }
 
+    /**
+     * Show win message via the virtual views
+     *
+     * @param winner the nickname of the winner
+     */
     private void notifyWinner(String winner) {
         virtualViewMap.get(winner).win(winner, true);
         for (String name : names) {
@@ -80,6 +101,11 @@ public class GameController {
         }
     }
 
+    /**
+     * Broadcast a disconnection message to all the listening client and close the game
+     *
+     * @param nickname the nickname of the disconnected client
+     */
     public void handleDisconnection(String nickname) {
         connectionMap.remove(nickname);
         virtualViewMap.remove(nickname);
@@ -87,39 +113,83 @@ public class GameController {
         broadcast(disconnection, nickname);
     }
 
+    /**
+     * Broadcast a message to all the connected client
+     *
+     * @param msg the message to broadcast
+     */
     public void broadcast(Notification msg) {
         msg.setClientId(Server.NAME);
         connectionMap.values().forEach(connection -> connection.sendMessage(msg));
     }
 
+    /**
+     * Broadcast a message to all the client, except the specified one
+     *
+     * @param msg       the message to broadcast
+     * @param exclusion the excluded client
+     */
     public void broadcast(Notification msg, String exclusion) {
         connectionMap.keySet().stream().filter(s -> !s.equals(exclusion)).map(connectionMap::get).forEach(connection -> connection.sendMessage(msg));
     }
 
+    /**
+     * Virtual View getter
+     *
+     * @param name the nickname of the client
+     * @return the virtual view associated to that nickname
+     */
     public VirtualView getVirtualView(String name) {
         return virtualViewMap.get(name);
     }
 
+    /**
+     * Notification Visitor getter
+     *
+     * @return the server side visitor
+     */
     protected NotificationVisitor getVisitor() {
         return visitor;
     }
 
+    /**
+     * Turn Manager getter
+     *
+     * @return the turn manager of this game
+     */
     protected TurnManager getTurnManager() {
         return turnManager;
     }
 
+    /**
+     * Game getter
+     *
+     * @return the model representation of this match
+     */
     protected Game getGame() {
         return game;
     }
 
+    /**
+     * WinHandler getter
+     * The Winner Handler of this game
+     *
+     * @return the Winner Handler of this game
+     */
     protected WinHandler getWinHandler() {
         return winHandler;
     }
 
+    /**
+     * @return true if the game mode is set, false otherwise.
+     */
     public boolean isExpertMode() {
         return isExpertMode;
     }
 
+    /**
+     * In order to start the match the board and the sack are subscribed to the WinHandler
+     */
     public void startMatch() {
         game.getBoard().addObserver(winHandler);
         game.getSack().addObserver(winHandler);

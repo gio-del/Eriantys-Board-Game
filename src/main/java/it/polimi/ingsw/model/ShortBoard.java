@@ -6,6 +6,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * This class represents a shorted version of the {@link Board} that can be sent to the clients via network.
+ */
 public class ShortBoard implements Serializable {
     @Serial
     private static final long serialVersionUID = 4692321416529377896L;

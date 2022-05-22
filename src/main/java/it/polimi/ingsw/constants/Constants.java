@@ -18,9 +18,7 @@ public class Constants {
     public static final int MAX_PROFESSOR_PER_COLOR = 1;
     public static final int MAX_ISLAND = 12;
     public static final int MIN_ISLAND = 3;
-    public static final int MAX_TOWER = 8;
     public static final int MAX_NUM_OF_COINS = 20;
-    public static final List<String> COLORS = List.of("GREEN", "RED", "YELLOW", "PINK", "BLUE");
     public static final int MAX_ENTRANCE = 9;
     public static final int ISLAND_WIDTH_1 = 21;
     public static final int ISLAND_HIGH = 7;

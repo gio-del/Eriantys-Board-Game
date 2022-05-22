@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
 
+/**
+ * This action is used to steal students from the hall of the player following characters logic.
+ */
 public class ThiefAction implements Action {
     private final PawnColor colorToSteal;
     private final List<Player> players;

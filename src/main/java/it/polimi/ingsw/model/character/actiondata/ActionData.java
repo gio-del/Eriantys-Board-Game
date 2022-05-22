@@ -5,6 +5,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import it.polimi.ingsw.model.character.ActionVisitor;
 
+/**
+ * This data classes represent a blueprint of the runtime built action to be executed. An {@link ActionVisitor} is used to build the real action.
+ */
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "actionType")

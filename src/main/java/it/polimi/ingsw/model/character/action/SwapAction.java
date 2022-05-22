@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.place.Place;
 
 import java.util.List;
 
+/**
+ * This action is used to swap students when a character permits it.
+ */
 public class SwapAction implements Action {
     private final Place from;
     private final Place to;

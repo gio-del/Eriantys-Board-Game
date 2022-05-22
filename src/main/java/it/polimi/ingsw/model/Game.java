@@ -148,6 +148,11 @@ public class Game extends Observable {
         hallManager.resetStrategy();
     }
 
+    /**
+     * Pays the cost of the chosen character, refills it with students and notify the observer the changes.
+     *
+     * @param character the chosen character
+     */
     public void useCharacter(CharacterCard character) {
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
         bank.pay(currentPlayer, cost);
@@ -156,6 +161,10 @@ public class Game extends Observable {
         notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
     }
 
+    /**
+     * @param character the chosen character
+     * @return true if the character can be played by the current player, otherwise false
+     */
     public boolean canUseCharacter(CharacterCard character) {
         //todo:  check if is expert mode and if current player has already played a character
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
@@ -242,6 +251,9 @@ public class Game extends Observable {
         return shortPlayers.size();
     }
 
+    /**
+     * @return a sets of {@link Assistant} that can be played by the current player
+     */
     public Set<Assistant> getPlayableAssistant() {
         Set<Assistant> assistants = EnumSet.allOf(Assistant.class);
         for (Assistant assistant : Assistant.values())
@@ -253,30 +265,44 @@ public class Game extends Observable {
         return assistants;
     }
 
-    public Assistant getPlayedAssistantByName(String requestName) {
+    /**
+     * @param nickname the requested nickname
+     * @return the {@link Assistant} played by the requested player if present, otherwise {@code null}
+     */
+    public Assistant getPlayedAssistantByName(String nickname) {
         for (Pair<String, Assistant> assistantMap : playedAssistantMap) {
-            if (assistantMap.first().equals(requestName)) {
+            if (assistantMap.first().equals(nickname)) {
                 return assistantMap.second();
             }
         }
         return null;
     }
 
-    public int getMotherNatureSteps(String requestName) {
-        return getPlayedAssistantByName(requestName).movement() + stepsIncrement;
+    /**
+     * @param nickname the requested nickname
+     * @return the number of steps that the requested player can perform to mother nature
+     */
+    public int getMotherNatureSteps(String nickname) {
+        return getPlayedAssistantByName(nickname).movement() + stepsIncrement;
     }
 
+    /**
+     * When a turn is completed the map of the played assistant is cleared
+     */
     public void endTurn() {
         playedAssistantMap.clear();
     }
 
+    /**
+     * Before the beginning of the turn of each player, the strategies in use are reset to the default ones.
+     */
     public void prepareNextTurn() {
         this.stepsIncrement = 0;
         resetStrategies();
     }
 
     /**
-     * @return list of players
+     * @return list of players in the game
      */
     public List<Player> getPlayers() {
         return players;

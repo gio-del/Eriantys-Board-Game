@@ -15,6 +15,9 @@ import it.polimi.ingsw.utility.gamelimit.GameLimit;
 
 import java.util.*;
 
+/**
+ * This class handles the turn logic of each game
+ */
 public class TurnManager {
     private final List<String> playersOrder;
     private final Game game;
@@ -63,6 +66,23 @@ public class TurnManager {
         playersOrder.addAll(order);
     }
 
+    /**
+     * Set the first (random) turn of the game
+     *
+     * @param players the list of players in game
+     */
+    public void setFirstOrder(List<String> players) {
+        List<String> clone = new ArrayList<>(players);
+        Collections.shuffle(clone);
+        playersOrder.clear();
+        playersOrder.addAll(pickListFromFirst(clone.get(0), clone));
+    }
+
+    /**
+     * @param first   the starting player
+     * @param players the list of player in game
+     * @return a list of player starting from the first following a clockwise order
+     */
     private List<String> pickListFromFirst(String first, List<String> players) {
         List<String> order = new ArrayList<>();
         if (players.contains(first)) {
@@ -83,14 +103,9 @@ public class TurnManager {
         return order;
     }
 
-    public void setFirstOrder(List<String> players) {
-        List<String> clone = new ArrayList<>(players);
-        Collections.shuffle(clone);
-        playersOrder.clear();
-        playersOrder.addAll(pickListFromFirst(clone.get(0), clone));
-    }
-
-    //todo: state pattern
+    /**
+     * Switch to the next turn, following game logic
+     */
     private void turn() {
         switch (gameState) {
             case PLANNING_ADD_TO_CLOUD -> {
@@ -127,12 +142,21 @@ public class TurnManager {
         }
     }
 
+    /**
+     * Receive update when controller is initialized, so wait for user to send wizard and tower color.
+     */
     public void onInit() {
         availableTowerColor.addAll(GameLimit.getLimit(playersOrder.size()).getTowerColors());
         requestName = playersOrder.get(request);
         controller.getVirtualView(requestName).chooseWizardAndTowerColor(availableWizard, availableTowerColor);
     }
 
+    /**
+     * Receive update about the wizard and tower color
+     *
+     * @param wizard     the chosen wizard
+     * @param towerColor the chosen tower color
+     */
     public void onChosenWizAndColor(Wizard wizard, TowerColor towerColor) {
         if (!controller.gameReady()) {
             availableWizard.remove(wizard);
@@ -149,6 +173,9 @@ public class TurnManager {
         }
     }
 
+    /**
+     * Receive update when the assistant is chosen.
+     */
     public void onChosenAssistant() {
         if (game.getPlayerByName(requestName).getHand().isEmpty())
             isLastTurn = true;
@@ -163,6 +190,9 @@ public class TurnManager {
         }
     }
 
+    /**
+     * Receive update on moved student.
+     */
     public void onMoveStudent() {
         if (studentsMoved == game.getGameLimit().getStudentOnCloud()) {
             studentsMoved = 1;
@@ -174,16 +204,25 @@ public class TurnManager {
         }
     }
 
+    /**
+     * Send message to the client when the given island is not correct
+     */
     public void onIncorrectIsland() {
         controller.getVirtualView(requestName).showMessage("Island provided is not correct.");
         turn();
     }
 
+    /**
+     * Receive update about mother nature movement
+     */
     public void onMoveMN() {
         gameState = GameState.ACTION_CHOOSE_CLOUD;
         turn();
     }
 
+    /**
+     * Receive update about the chosen cloud
+     */
     public void onChosenCloud() {
         game.prepareNextTurn();
         if (request == playersOrder.size() - 1 && !isLastTurn) {
@@ -201,6 +240,11 @@ public class TurnManager {
         }
     }
 
+    /**
+     * Receive update about the use of a character by the current player
+     *
+     * @param character the chosen card
+     */
     public void onChosenCharacter(CharacterCard character) {
         //todo: add control on name of the user of this character, it must be the only character played by him/her
         callbackState = gameState;
@@ -213,11 +257,19 @@ public class TurnManager {
         }
     }
 
+    /**
+     * Send message to the client when the chosen character is not available.
+     */
     public void onChosenInvalidCharacter() {
         controller.getVirtualView(requestName).showMessage("Chosen character is not valid.");
         turn();
     }
 
+    /**
+     * Ask the current player the requirement associated to the character he chose.
+     *
+     * @param requirement the requirement of the character
+     */
     private void askRequirements(String requirement) {
         switch (requirement) {
             case "color" -> controller.getVirtualView(requestName).askColor();
@@ -231,25 +283,42 @@ public class TurnManager {
         }
     }
 
+    /**
+     * Receive update about the chosen island associated with the character the current player has chosen
+     *
+     * @param island the chosen island
+     */
     public void onChooseIsland(Island island) {
         chosenCard.setChosenIsland(island);
         characterRequest++;
         turn();
     }
 
+    /**
+     * Receive update about the chosen color associated with the character the current player has chosen
+     *
+     * @param chosen the chosen color
+     */
     public void onChosenColor(PawnColor chosen) {
         chosenCard.setChosenColor(chosen);
         characterRequest++;
         turn();
     }
 
+    /**
+     * Receive update about the chosen list of swaps associated with the character the current player has chosen
+     *
+     * @param swapList the chosen list of swaps
+     */
     public void onChosenSwapList(List<PawnColor> swapList) {
         chosenCard.setChosenSwap(swapList);
         characterRequest++;
         turn();
     }
 
-
+    /**
+     * This method is called when the action associated with the character chosen by the current player is correctly executed.
+     */
     public void onActionCompleted() {
         characterRequest = 0;
         game.useCharacter(chosenCard);
@@ -257,6 +326,9 @@ public class TurnManager {
         turn();
     }
 
+    /**
+     * This method is called when the action associated with the character chosen by the current player fails.
+     */
     public void onActionFailed() {
         characterRequest = 0;
         controller.getVirtualView(requestName).showMessage("Not enough money to play this character or incorrect input has been provided.");
@@ -264,18 +336,36 @@ public class TurnManager {
         turn();
     }
 
+    /**
+     * Current player nickname getter
+     *
+     * @return the nickname of the current player
+     */
     public String getRequestName() {
         return requestName;
     }
 
+    /**
+     * Current players order getter
+     *
+     * @return the players order
+     */
     public List<String> getPlayersOrder() {
         return playersOrder;
     }
 
+    /**
+     * @return true if this is the last turn, otherwise false
+     */
     public boolean isLastTurn() {
         return isLastTurn;
     }
 
+    /**
+     * This method is used by the winner handler to set lastTur to true when a win condition is detected
+     *
+     * @param lastTurn the lastTurn to set
+     */
     public void setLastTurn(boolean lastTurn) {
         isLastTurn = lastTurn;
     }

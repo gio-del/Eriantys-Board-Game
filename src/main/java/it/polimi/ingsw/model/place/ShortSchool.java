@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.pawns.ShortPawns;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * This class represents a shorted version of the {@link School} of a player that can be sent to the clients via network
+ */
 public class ShortSchool implements Serializable {
     @Serial
     private static final long serialVersionUID = 4591212221569832638L;

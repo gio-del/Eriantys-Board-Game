@@ -8,6 +8,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.IntStream;
 
+/**
+ * This class represents a shorted version of a {@link Pawns} that can be sent to the clients via network.
+ */
 public class ShortPawns implements Serializable {
     @Serial
     private static final long serialVersionUID = -371972955700755135L;

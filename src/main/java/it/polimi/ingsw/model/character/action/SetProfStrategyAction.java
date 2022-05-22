@@ -4,6 +4,9 @@ import it.polimi.ingsw.model.player.Player;
 import it.polimi.ingsw.model.profassignment.FarmerProfStrategy;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
 
+/**
+ * This action is used to set the professor assignor's strategy to that specified by the character.
+ */
 public class SetProfStrategyAction implements Action {
     private final String influenceChoice;
     private final ProfessorAssignor professorAssignor;

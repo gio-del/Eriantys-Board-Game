@@ -8,6 +8,10 @@ import it.polimi.ingsw.observer.WinObserver;
 
 import java.util.*;
 
+/**
+ * This class observer game component that can trigger a win condition (e.g. the sack, the board of islands, the schools of each player ecc.).
+ * When a win condition occurs, the game can end immediately or at the end of the current turn,
+ */
 public class WinHandler implements WinObserver {
     private final TurnManager turn;
     private final GameController controller;
@@ -19,18 +23,33 @@ public class WinHandler implements WinObserver {
         this.turn = controller.getTurnManager();
     }
 
+    /**
+     * Update about the number of islands in the game
+     *
+     * @param size the size of the board
+     */
     @Override
     public void updateBoardUsage(int size) {
         if (size <= Constants.MIN_ISLAND)
             handleWin();
     }
 
+    /**
+     * Update about the number of students in the sack
+     *
+     * @param totalElements the remaining pawns in the sack
+     */
     @Override
     public void updateSackUsage(int totalElements) {
         if (totalElements == 0)
             turn.setLastTurn(true);
     }
 
+    /**
+     * Update when a tower is placed by a player
+     *
+     * @param winner the tower color of the player that conquest an island
+     */
     @Override
     public void updateTowerPlaced(TowerColor winner) {
         if (model.getPlayerByTowerColor(winner).getTowerNum() <= 0)

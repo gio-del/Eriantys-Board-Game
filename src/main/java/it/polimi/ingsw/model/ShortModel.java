@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class represents a shorted version of the model that the client has.
+ * This class represents a shorted version of the model that can be sent to the clients via network.
  */
 public class ShortModel implements Serializable {
     @Serial

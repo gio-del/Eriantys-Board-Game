@@ -11,6 +11,9 @@ import it.polimi.ingsw.model.place.Place;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class represent a generic character.
+ */
 public class CharacterCard implements Place {
     @JsonIgnore
     private final Pawns students = new Pawns();
@@ -36,7 +39,7 @@ public class CharacterCard implements Place {
         this.name = copy.name;
         this.cost = copy.cost;
         this.description = copy.description;
-        this.action = copy.action; //todo does this need to be a copy?
+        this.action = copy.action;
         this.requires = copy.requires;
         this.numberOfStudentsOn = copy.numberOfStudentsOn;
         this.numberOfBanTiles = copy.numberOfBanTiles;

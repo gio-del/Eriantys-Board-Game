@@ -4,6 +4,9 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * This class represents a shorted version of a {@link Player} that can be sent to the clients via network.
+ */
 public final class ShortPlayer implements Serializable {
     @Serial
     private static final long serialVersionUID = 6360991580516027489L;

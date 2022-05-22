@@ -50,7 +50,6 @@ public class Board extends WinObservable {
     /**
      * Used to calculate if some adjacent islands as the same tower.
      */
-
     public void adjacencyUpdate() {
         int i = 0;
         while (i < islands.size()) {
@@ -99,7 +98,6 @@ public class Board extends WinObservable {
      * @return the TowerColor of the winner if present, null otherwise
      */
     public TowerColor calculateInfluence(Island island, List<Player> players) {
-
         Map<Player, Integer> scores = influenceStrategy.getScores(island, players);
         List<Player> winners = getWinners(scores);
         TowerColor winner = island.conquerIsland(winners, players);

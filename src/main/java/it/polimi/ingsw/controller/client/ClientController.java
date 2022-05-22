@@ -1,6 +1,7 @@
 package it.polimi.ingsw.controller.client;
 
 import it.polimi.ingsw.model.ShortModel;
+import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.TowerColor;
@@ -56,6 +57,12 @@ public class ClientController implements ClientObserver {
         msg.accept(visitor);
     }
 
+    /**
+     * Receive update from the view regarding connection info
+     *
+     * @param ip   ip provided by the user
+     * @param port port number provided by the user
+     */
     @Override
     public void updateConnection(String ip, int port) {
         if (client.connect(ip, port)) {
@@ -67,6 +74,11 @@ public class ClientController implements ClientObserver {
         }
     }
 
+    /**
+     * Receive update from the view regarding the chosen nickname
+     *
+     * @param nickname the chosen nickname
+     */
     @Override
     public void updateNickname(String nickname) {
         this.nickname = nickname;
@@ -75,6 +87,12 @@ public class ClientController implements ClientObserver {
         client.sendMessage(login);
     }
 
+    /**
+     * Receive update from the view regarding the chosen game mode and number of player
+     *
+     * @param mode        the chosen game mode ("Simple"/"Expert")
+     * @param numOfPlayer the chosen number of player (2 or 3)
+     */
     @Override
     public void updateGameModeNumPlayer(String mode, int numOfPlayer) {
         boolean isExpert = mode.equalsIgnoreCase("Expert");
@@ -83,6 +101,12 @@ public class ClientController implements ClientObserver {
         client.sendMessage(chooseGameMode);
     }
 
+    /**
+     * Receive update from the view regarding the chosen wizard and tower color
+     *
+     * @param wizard     the chosen {@link Wizard}
+     * @param towerColor the chosen {@link TowerColor}
+     */
     @Override
     public void updateWizardAndColor(Wizard wizard, TowerColor towerColor) {
         Notification chooseWizAndTower = new ChooseWizAndTowerColorNotification(wizard, towerColor);
@@ -90,6 +114,11 @@ public class ClientController implements ClientObserver {
         client.sendMessage(chooseWizAndTower);
     }
 
+    /**
+     * Receive update from the view regarding the chosen assistant
+     *
+     * @param assistant the chose {@link Assistant}
+     */
     @Override
     public void updateAssistant(Assistant assistant) {
         Notification chooseAssistantNotification = new ChooseAssistantNotification(assistant);
@@ -97,6 +126,11 @@ public class ClientController implements ClientObserver {
         client.sendMessage(chooseAssistantNotification);
     }
 
+    /**
+     * Receive update from the view regarding the chosen cloud.
+     *
+     * @param cloud the chosen cloud id
+     */
     @Override
     public void updateCloud(int cloud) {
         Notification chooseCloudNotification = new ChooseCloudNotification(cloud);
@@ -104,6 +138,11 @@ public class ClientController implements ClientObserver {
         client.sendMessage(chooseCloudNotification);
     }
 
+    /**
+     * Receive update from the view regarding the number of steps that mother nature must perform
+     *
+     * @param steps the chosen number of steps
+     */
     @Override
     public void updateStepsMN(int steps) {
         Notification moveMNNotification = new MoveMNNotification(steps);
@@ -111,6 +150,13 @@ public class ClientController implements ClientObserver {
         client.sendMessage(moveMNNotification);
     }
 
+    /**
+     * Receive update from the view regarding the move of a student
+     *
+     * @param color  the color of the moved student
+     * @param target the {@link Target}
+     * @param island the chosen island id. If {@link Target} is Hall this parameter is ignored.
+     */
     @Override
     public void updateMoveStudent(PawnColor color, Target target, int island) {
         Notification moveStudentNotification = new MoveStudentNotification(color, target, island);
@@ -118,6 +164,11 @@ public class ClientController implements ClientObserver {
         client.sendMessage(moveStudentNotification);
     }
 
+    /**
+     * Receive update from the view regarding the use of a {@link CharacterCard}
+     *
+     * @param id the chosen character id
+     */
     @Override
     public void updateUseCharacter(int id) {
         Notification useCharacterNotification = new CharacterNotification(id);
@@ -125,6 +176,11 @@ public class ClientController implements ClientObserver {
         client.sendMessage(useCharacterNotification);
     }
 
+    /**
+     * Receive update from the view regarding a chosen color. It is used when a {@link CharacterCard} needs a color as input.
+     *
+     * @param chosen the chosen color
+     */
     @Override
     public void updateColorAction(PawnColor chosen) {
         Notification colorNotification = new ColorNotification(chosen);
@@ -132,6 +188,11 @@ public class ClientController implements ClientObserver {
         client.sendMessage(colorNotification);
     }
 
+    /**
+     * Receive update from the view regarding a chosen island. It is used when a {@link CharacterCard} needs an island as input.
+     *
+     * @param island the chosen island id
+     */
     @Override
     public void updateIslandAction(int island) {
         Notification islandNotification = new IslandNotification(island);
@@ -139,6 +200,11 @@ public class ClientController implements ClientObserver {
         client.sendMessage(islandNotification);
     }
 
+    /**
+     * Receive update from the view regarding a chosen color swap. It is used when a {@link  CharacterCard} needs a color swap as input.
+     *
+     * @param swapColor the chosen pair of color to swap
+     */
     @Override
     public void updateSwapAction(List<PawnColor> swapColor) {
         Notification swapNotification = new SwapNotification(swapColor);
@@ -146,6 +212,9 @@ public class ClientController implements ClientObserver {
         client.sendMessage(swapNotification);
     }
 
+    /**
+     * This method is called when the connection with the server is closed due to error in networking.
+     */
     public void onDisconnection() {
         String s = "Connection closed with the server. Exiting...";
         view.showError(s);

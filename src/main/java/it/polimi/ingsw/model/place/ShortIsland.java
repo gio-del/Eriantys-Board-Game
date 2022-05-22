@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.player.TowerColor;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * This class represents a shorted version of the {@link Island} that can be sent to the clients via network.
+ */
 public class ShortIsland implements Serializable {
     @Serial
     private static final long serialVersionUID = -699231671818788011L;

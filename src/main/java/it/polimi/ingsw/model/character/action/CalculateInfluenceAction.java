@@ -6,6 +6,9 @@ import it.polimi.ingsw.model.player.Player;
 
 import java.util.List;
 
+/**
+ * This action is used to calculate the influence on a chosen island, when a character permits it.
+ */
 public class CalculateInfluenceAction implements Action {
     private final List<Player> players; //this comes from the controller
     private final Board board; //this comes from the controller

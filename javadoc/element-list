@@ -5,6 +5,7 @@ it.polimi.ingsw.controller.server
 it.polimi.ingsw.model
 it.polimi.ingsw.model.character
 it.polimi.ingsw.model.character.action
+it.polimi.ingsw.model.character.actiondata
 it.polimi.ingsw.model.clouds
 it.polimi.ingsw.model.influencecalculator
 it.polimi.ingsw.model.pawns
@@ -21,3 +22,6 @@ it.polimi.ingsw.utility.character
 it.polimi.ingsw.utility.gamelimit
 it.polimi.ingsw.view
 it.polimi.ingsw.view.cli
+it.polimi.ingsw.view.gui
+it.polimi.ingsw.view.gui.boardcomponent
+it.polimi.ingsw.view.gui.scene

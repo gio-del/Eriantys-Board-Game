@@ -5,6 +5,9 @@ import it.polimi.ingsw.model.pawns.ShortPawns;
 import java.io.Serial;
 import java.io.Serializable;
 
+/**
+ * This class represents a shorted version of a character that can be sent to the clients via network.
+ */
 public class ShortCharacter implements Serializable {
     @Serial
     private static final long serialVersionUID = -6984393839083135025L;

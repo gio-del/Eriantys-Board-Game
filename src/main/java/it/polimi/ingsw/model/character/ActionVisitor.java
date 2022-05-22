@@ -8,7 +8,7 @@ import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
 
 /**
- * This class is used to access characters data in order to execute their action.
+ * This class is used to access characters data in order to build and execute their action.
  */
 public class ActionVisitor {
     private final TurnManager turn;
@@ -32,18 +32,18 @@ public class ActionVisitor {
         validateAction(action);
     }
 
-    public void visit(CalculateInfluenceData data) {
+    public void visit(CalculateInfluenceData ignoredData) {
         Action action = new CalculateInfluenceAction(game.getPlayers(), game.getBoard(), chosen.getChosenIsland());
         validateAction(action);
     }
 
-    public void visit(SetInfluenceStrategyData data) {
+    public void visit(SetInfluenceStrategyData ignoredData) {
         Player player = game.getPlayerByName(turn.getRequestName());
         Action action = new SetInfluenceStrategyAction(chosen, game.getBoard(), player);
         validateAction(action);
     }
 
-    public void visit(SetProfStrategyData data) {
+    public void visit(SetProfStrategyData ignoredData) {
         Player player = game.getPlayerByName(turn.getRequestName());
         Action action = new SetProfStrategyAction(chosen.getName(), game.getProfessorAssignor(), player);
         validateAction(action);
@@ -70,11 +70,16 @@ public class ActionVisitor {
         validateAction(action);
     }
 
-    public void visit(BanData data) {
+    public void visit(BanData ignoredData) {
         Action action = new BanAction(chosen);
         validateAction(action);
     }
 
+    /**
+     * Validate the action and notifies the turn manager.
+     *
+     * @param action the action to be validated
+     */
     private void validateAction(Action action) {
         if (action != null && action.apply()) {
             turn.onActionCompleted();

@@ -2,6 +2,9 @@ package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.character.CharacterCard;
 
+/**
+ * The ban action is used to ban an island.
+ */
 public class BanAction implements Action {
     private final CharacterCard characterCard;
 
