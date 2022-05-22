@@ -9,7 +9,7 @@ public class ShortCloud implements Serializable {
     @Serial
     private static final long serialVersionUID = -7296350543381614786L;
 
-    ShortPawns students;
+    private final ShortPawns students;
 
     public ShortCloud(Cloud cloud) {
         this.students = new ShortPawns(cloud.getStudents());

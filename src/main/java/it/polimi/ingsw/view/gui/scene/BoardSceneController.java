@@ -2,10 +2,11 @@ package it.polimi.ingsw.view.gui.scene;
 
 import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.ShortModel;
+import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.ShortPlayer;
-import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.observer.ClientObservable;
+import it.polimi.ingsw.view.gui.boardcomponent.CloudGui;
 import it.polimi.ingsw.view.gui.boardcomponent.IslandGui;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -34,11 +36,28 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     @FXML
     private ImageView characterDeck;
     @FXML
+    private Label owner;
+    @FXML
     private GridPane islandGrid;
     @FXML
     private ImageView school;
     @FXML
     private HBox cloudBox;
+    @FXML
+    private HBox greenHall;
+    @FXML
+    private HBox yellowHall;
+    @FXML
+    private HBox pinkHall;
+    @FXML
+    private HBox blueHall;
+    @FXML
+    private HBox redHall;
+    @FXML
+    private GridPane profTable;
+    @FXML
+    private GridPane towerGrid;
+
     @FXML
     private ImageView assistantDeck;
     private Set<Assistant> playableAssistant;
@@ -51,11 +70,14 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     @FXML
     private void initialize() {
-        Wizard myWizard = resource.getSchoolMap().keySet().stream().filter(player -> player.name().equals(nickname)).map(ShortPlayer::wizard).findFirst().orElse(null);
-        assistantDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wizards/" + Objects.requireNonNull(myWizard).name().toLowerCase() + "_deck.png"))));
+        ShortPlayer myself = resource.getSchoolMap().keySet().stream().filter(player -> player.name().equals(nickname)).findFirst().orElse(null);
+        assert myself != null;
+        owner.setText(myself.name());
+        assistantDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wizards/" + myself.wizard().name().toLowerCase() + "_deck.png"))));
         if (resource.getCharacters() != null)
             characterDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
         printIslands();
+        printClouds();
     }
 
     @FXML
@@ -90,8 +112,19 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         assistantDeck.setCursor(Cursor.HAND);
     }
 
+    private void printSchools() {
+        //TODO
+    }
+
+    private void printClouds() {
+        for (ShortCloud shortCloud : resource.getClouds()) {
+            cloudBox.getChildren().add(new CloudGui(shortCloud));
+        }
+
+    }
+
     private void printIslands() {
-        int k = 0;
+        int k = 0; //todo: check if islands are less than 12
         ShortBoard board = resource.getBoard();
         for (int i = 0; i < 4; i++) {
             IslandGui islandGui = new IslandGui(board.getIslands().get(k), board.getMotherNaturePos() == k++);

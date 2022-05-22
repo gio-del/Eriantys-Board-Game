@@ -24,7 +24,7 @@ public class ServerThread implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Socket socket = serverSocket.accept();
-                socket.setSoTimeout(3000);
+                socket.setSoTimeout(6000);
 
                 SocketConnection socketConnection = new SocketConnection(this, socket);
                 new Thread(socketConnection).start();
