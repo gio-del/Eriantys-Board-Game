@@ -42,7 +42,7 @@ public class CloudGui extends Pane {
 
     private List<ImageView> cloudFourStudents() {
         List<PawnColor> pawnColorList = cloud.getStudents().toList();
-        if(!cloud.isEmpty()) {
+        if (!cloud.isEmpty()) {
             //FIRST STUDENT
             ImageView firstStudent = buildImageView(pawnColorList.get(0));
             firstStudent.setLayoutX(this.getLayoutX() + 28);
@@ -63,10 +63,10 @@ public class CloudGui extends Pane {
             fourthStudent.setLayoutX(this.getLayoutX() + 65);
             fourthStudent.setLayoutY(this.getLayoutY() + 41);
 
-            this.studentsOn = List.of(firstStudent,secondStudent,thirdStudent,fourthStudent);
+            this.studentsOn = List.of(firstStudent, secondStudent, thirdStudent, fourthStudent);
             return studentsOn;
         }
-        for (ImageView student: studentsOn) {
+        for (ImageView student : studentsOn) {
             student.setImage(null);
         }
         return List.of();
@@ -74,7 +74,7 @@ public class CloudGui extends Pane {
 
     private List<ImageView> cloudThreeStudent() {
         List<PawnColor> pawnColorList = cloud.getStudents().toList();
-        if(!cloud.isEmpty()) {
+        if (!cloud.isEmpty()) {
             //FIRST STUDENT
             ImageView firstStudent = buildImageView(pawnColorList.get(0));
             firstStudent.setLayoutX(this.getLayoutX() + 44);
@@ -93,7 +93,7 @@ public class CloudGui extends Pane {
             this.studentsOn = List.of(firstStudent, secondStudent, thirdStudent);
             return studentsOn;
         }
-        for (ImageView student: studentsOn) {
+        for (ImageView student : studentsOn) {
             student.setImage(null);
         }
         return List.of();
@@ -106,11 +106,11 @@ public class CloudGui extends Pane {
     public void setAs(ShortCloud cloud) {
         this.cloud = cloud;
         List<PawnColor> colorsOn = cloud.getStudents().toList();
-        if(colorsOn.isEmpty()) {
+        if (colorsOn.isEmpty()) {
             studentsOn.forEach(student -> student.setImage(null));
             return;
         }
-        for(int i=0;i<colorsOn.size();i++) {
+        for (int i = 0; i < colorsOn.size(); i++) {
             studentsOn.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/students/" + colorsOn.get(i).name().toLowerCase() + "_student.png"))));
         }
     }

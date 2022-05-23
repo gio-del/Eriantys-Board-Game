@@ -62,17 +62,17 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void chooseCloud(List<ShortCloud> clouds) {
-        //TODO
+        Platform.runLater(() -> getBoardController().setSelectableClouds());
     }
 
     @Override
     public void moveStudent(List<PawnColor> movableColor) {
-        Platform.runLater(() -> getBoardController().setMovableStudents(movableColor));
+        Platform.runLater(() -> getBoardController().setMovableStudents());
     }
 
     @Override
     public void moveMNature(int maximumSteps) {
-        //TODO
+        Platform.runLater(() -> getBoardController().setMotherNatureMaximumSteps(maximumSteps));
     }
 
     @Override

@@ -35,7 +35,9 @@ public class IslandGui extends Pane {
         }
     }
 
-    public void refresh(ShortIsland shortIsland, boolean motherNatureOn){
+    public void refresh(ShortIsland shortIsland, boolean motherNatureOn) {
+
+        getChildren().clear();
 
         //Island picture
         ImageView island = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/islands/island1.png"))));

@@ -16,9 +16,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class TestingGUI extends Application {
     Game game;
@@ -36,18 +33,19 @@ public class TestingGUI extends Application {
         game.addPlayer("Giovanni", Wizard.SORCERER, TowerColor.WHITE);
         game.startGame(true);
         game.fillClouds();
-        game.getPlayerByName("Giovanni").getSchool().getHall().addPawns(new Pawns(1,2,9,1,5));
-        game.getPlayerByName("Marco").getSchool().getHall().addPawns(new Pawns(2,1,4,9,10));
-        game.getPlayerByName("Marco").getSchool().getProfessorTable().addPawns(new Pawns(1,1,0,0,0));
-        game.getPlayerByName("Giovanni").getSchool().getProfessorTable().addPawns(new Pawns(0,0,1,1,1));
+        game.getPlayerByName("Giovanni").getSchool().getHall().addPawns(new Pawns(1, 2, 9, 1, 5));
+        game.getPlayerByName("Marco").getSchool().getHall().addPawns(new Pawns(2, 1, 4, 9, 10));
+        game.getPlayerByName("Marco").getSchool().getProfessorTable().addPawns(new Pawns(1, 1, 0, 0, 0));
+        game.getPlayerByName("Giovanni").getSchool().getProfessorTable().addPawns(new Pawns(0, 0, 1, 1, 1));
         game.getBoard().getIslands().get(0).add(new Pawns(1, 0, 0, 1, 0));
-        game.getBoard().getIslands().get(0).upgradeDimension(2);
         game.getBoard().getIslands().get(0).addTower(TowerColor.WHITE);
 
+
         game.getBoard().getIslands().get(1).add(new Pawns(0, 1, 1, 0, 1));
-        game.getBoard().getIslands().get(1).addTower(TowerColor.GREY);
+        game.getBoard().getIslands().get(1).addTower(TowerColor.WHITE);
         game.getBoard().getIslands().get(1).upgradeBanTiles(1);
         game.getBoard().moveMotherNature(1);
+        game.getBoard().adjacencyUpdate();
         game.getBoard().getIslands().get(2).add(new Pawns(1, 1, 1, 1, 1));
         resource = new ShortModel(game, true);
 
