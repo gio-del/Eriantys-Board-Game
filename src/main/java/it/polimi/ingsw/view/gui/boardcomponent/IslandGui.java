@@ -43,7 +43,7 @@ public class IslandGui extends Pane {
         if (motherNatureOn) {
             ImageView motherNature = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/mother_nature.png"))));
             motherNature.setPreserveRatio(true);
-            motherNature.setFitHeight(50);
+            motherNature.setFitHeight(65);
             motherNature.setLayoutX(island.getLayoutX() + 80);
             motherNature.setLayoutY(island.getLayoutY() + 35);
             getChildren().add(motherNature);

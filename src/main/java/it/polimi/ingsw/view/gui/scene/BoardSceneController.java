@@ -3,11 +3,14 @@ package it.polimi.ingsw.view.gui.scene;
 import it.polimi.ingsw.model.ShortBoard;
 import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.model.clouds.ShortCloud;
+import it.polimi.ingsw.model.pawns.PawnColor;
+import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.ShortPlayer;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.gui.boardcomponent.CloudGui;
 import it.polimi.ingsw.view.gui.boardcomponent.IslandGui;
+import it.polimi.ingsw.view.gui.boardcomponent.SchoolGui;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -15,18 +18,19 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 import static java.lang.System.exit;
 
@@ -36,13 +40,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     @FXML
     private ImageView characterDeck;
     @FXML
-    private Label owner;
-    @FXML
     private GridPane islandGrid;
     @FXML
-    private ImageView school;
-    @FXML
     private HBox cloudBox;
+    @FXML
+    private Label schoolOwner;
+    @FXML
+    private ImageView school;
     @FXML
     private HBox greenHall;
     @FXML
@@ -57,27 +61,45 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private GridPane profTable;
     @FXML
     private GridPane towerGrid;
-
+    @FXML
+    private GridPane entranceGrid;
     @FXML
     private ImageView assistantDeck;
+
     private Set<Assistant> playableAssistant;
+    private final Map<String,SchoolGui> schoolGuiMap;
+    private final Map<PawnColor,HBox> hallMap;
 
     public BoardSceneController(ShortModel resource, String nickname) {
         this.resource = resource;
         this.nickname = nickname;
-
+        this.schoolGuiMap = new HashMap<>();
+        this.hallMap = new EnumMap<>(PawnColor.class);
     }
 
     @FXML
     private void initialize() {
         ShortPlayer myself = resource.getSchoolMap().keySet().stream().filter(player -> player.name().equals(nickname)).findFirst().orElse(null);
         assert myself != null;
-        owner.setText(myself.name());
+        schoolOwner.setText(myself.name());
+
+        //ASSISTANTS
         assistantDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wizards/" + myself.wizard().name().toLowerCase() + "_deck.png"))));
+
+        //CHARACTERS
         if (resource.getCharacters() != null)
             characterDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
-        printIslands();
-        printClouds();
+
+        //CLOUDS
+        for (ShortCloud shortCloud : resource.getClouds()) {
+            cloudBox.getChildren().add(new CloudGui(shortCloud));
+        }
+
+        //SCHOOLS
+        hallMap.putAll(Map.of(PawnColor.GREEN,greenHall,PawnColor.BLUE,blueHall,PawnColor.YELLOW,yellowHall,PawnColor.PINK,pinkHall,PawnColor.RED,redHall));
+        resource.getSchoolMap().forEach((key, value) -> schoolGuiMap.put(key.name(), new SchoolGui(key, value)));
+
+        refresh();
     }
 
     @FXML
@@ -103,24 +125,62 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.showAndWait();
 
         assistantDeck.setOnMouseClicked(null);
+        assistantDeck.setEffect(null);
         assistantDeck.setCursor(Cursor.DEFAULT);
     }
 
     public void setPlayableAssistant(Set<Assistant> playableAssistant) {
         this.playableAssistant = playableAssistant;
         assistantDeck.setOnMouseClicked(this::useAssistant);
+        assistantDeck.setEffect(new DropShadow(40, Color.YELLOW));
         assistantDeck.setCursor(Cursor.HAND);
     }
 
-    private void printSchools() {
-        //TODO
+    private void printSchool() {
+        for(Map.Entry<ShortPlayer, ShortSchool> entry: resource.getSchoolMap().entrySet()) {
+            schoolGuiMap.get(entry.getKey().name()).refresh(entry.getKey(),entry.getValue());
+        }
+        SchoolGui mine = schoolGuiMap.get(nickname);
+
+        //HALL
+        for(PawnColor pawnColor: PawnColor.values()) {
+            this.hallMap.get(pawnColor).getChildren().addAll(mine.getHallViewsMap().get(pawnColor));
+        }
+
+        //ENTRANCE
+        List<ImageView> entranceViews = mine.getEntranceViews();
+        int index = 0;
+        for(int row=0;row<5 && index<entranceViews.size();row++){
+            for(int col=0;col<2;col++){
+                if(!(row==0 && col==0)) {
+                    entranceGrid.add(entranceViews.get(index),col,row);
+                    index++;
+                }
+            }
+        }
+
+        //TOWER
+        List<ImageView> towerViews = mine.getTowerViews();
+        index = 0;
+        for(int row=0;row<4 && index<towerViews.size();row++){
+            for(int col=0;col<2;col++){
+                towerGrid.add(towerViews.get(index),col,row);
+                index++;
+            }
+        }
+
+        //PROF TABLE
+        Map<PawnColor,ImageView> profImageMap = mine.getProfessorsViews();
+        for(PawnColor pawnColor: PawnColor.values()) {
+            profTable.add(profImageMap.get(pawnColor),0,pawnColor.ordinal());
+        }
+
     }
 
     private void printClouds() {
-        for (ShortCloud shortCloud : resource.getClouds()) {
-            cloudBox.getChildren().add(new CloudGui(shortCloud));
+        for(int i =0 ;i<resource.getClouds().size();i++) {
+            ((CloudGui)cloudBox.getChildren().get(i)).setAs(resource.getClouds().get(i));
         }
-
     }
 
     private void printIslands() {
@@ -170,5 +230,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     public void refresh() {
         printIslands();
+        printClouds();
+        printSchool();
     }
 }

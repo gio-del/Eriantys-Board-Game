@@ -36,6 +36,8 @@ public class TestingGUI extends Application {
         game.addPlayer("Giovanni", Wizard.SORCERER, TowerColor.WHITE);
         game.startGame(true);
         game.fillClouds();
+        game.getPlayerByName("Giovanni").getSchool().getHall().addPawns(new Pawns(1,2,9,1,5));
+        game.getPlayerByName("Giovanni").getSchool().getProfessorTable().addPawns(new Pawns(0,0,1,1,1));
         game.getBoard().getIslands().get(0).add(new Pawns(1, 0, 0, 1, 0));
         game.getBoard().getIslands().get(0).upgradeDimension(2);
         game.getBoard().getIslands().get(0).addTower(TowerColor.WHITE);
@@ -91,5 +93,10 @@ public class TestingGUI extends Application {
             }
             stage.setScene(new Scene(Objects.requireNonNull(root)));
         });
+    }
+
+    @Override
+    public void stop() {
+        System.exit(0);
     }
 }
