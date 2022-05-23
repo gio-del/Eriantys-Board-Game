@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -125,7 +126,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
         refresh();
     }
-    
+
     public void setPlayableAssistant(Set<Assistant> playableAssistant) {
         infoLabel.setText("Select your assistant deck to choose one!");
         this.playableAssistant = playableAssistant;
@@ -133,7 +134,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         assistantDeck.setEffect(new DropShadow(40, Color.YELLOW));
         assistantDeck.setCursor(Cursor.HAND);
     }
-    
+
     @FXML
     private void useAssistant(MouseEvent mouseEvent) {
         Stage stage = new Stage();
@@ -162,7 +163,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         assistantDeck.setCursor(Cursor.DEFAULT);
         infoLabel.setText("");
     }
-    
+
     private void printSchool() {
 
         //OWNER
@@ -369,19 +370,18 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     public void setMotherNatureMaximumSteps(int maximumSteps) {
-        infoLabel.setText("Choose an island to move mother nature to. [Max steps: " + maximumSteps +"]");
+        infoLabel.setText("Choose an island to move mother nature to. [Max steps: " + maximumSteps + "]");
         ShortBoard board = resource.getBoard();
         int index = board.getMotherNaturePos();
-        for(int i=0;i<maximumSteps;i++) {
+        for (int i = 0; i < maximumSteps; i++) {
             if (index == board.getIslands().size() - 1) {
-                index=0;
-            }
-            else{
+                index = 0;
+            } else {
                 index++;
             }
             islandGuiList.get(index).setCursor(Cursor.HAND);
             int finalI = i;
-            islandGuiList.get(index).setOnMouseClicked(evt -> motherNatureSteps(finalI +1));
+            islandGuiList.get(index).setOnMouseClicked(evt -> motherNatureSteps(finalI + 1));
         }
     }
 
@@ -400,12 +400,14 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     public void setSelectableClouds() {
         infoLabel.setText("Choose a cloud to pick students from!");
-        for(int i=0;i<cloudBox.getChildren().size();i++){
+        for (int i = 0; i < cloudBox.getChildren().size(); i++) {
+            Node node = cloudBox.getChildren().get(i);
             int finalI = i;
-            cloudBox.getChildren().get(i).setOnMouseClicked(evt -> chooseCloud(finalI));
-            cloudBox.getChildren().get(i).setCursor(Cursor.HAND);
+            if (!((CloudGui) node).getCloud().isEmpty()) {
+                node.setOnMouseClicked(evt -> chooseCloud(finalI));
+                node.setCursor(Cursor.HAND);
+            }
         }
-
     }
 
     private void chooseCloud(int i) {

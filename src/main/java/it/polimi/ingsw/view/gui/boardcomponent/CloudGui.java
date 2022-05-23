@@ -114,4 +114,8 @@ public class CloudGui extends Pane {
             studentsOn.get(i).setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/students/" + colorsOn.get(i).name().toLowerCase() + "_student.png"))));
         }
     }
+
+    public ShortCloud getCloud() {
+        return cloud;
+    }
 }
