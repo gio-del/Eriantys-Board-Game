@@ -15,13 +15,30 @@ import javafx.scene.text.Font;
 import java.util.Objects;
 
 public class IslandGui extends Pane {
-    private final ImageView island;
-    private final HBox hBox;
+    private HBox hBox;
 
     public IslandGui(ShortIsland shortIsland, boolean motherNatureOn) {
+        refresh(shortIsland, motherNatureOn);
+    }
+
+    private void drawStudents(PawnColor color, int numOfStudents) {
+        if (numOfStudents > 0) {
+            ImageView imageColor = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/students/" + color.name().toLowerCase() + "_student.png"))));
+            imageColor.setPreserveRatio(true);
+            imageColor.setFitHeight(20);
+            Label numOf = new Label(numOfStudents == 1 ? "" : String.valueOf(numOfStudents));
+            numOf.setFont(new Font(12));
+            VBox vBox = new VBox();
+            vBox.setAlignment(Pos.CENTER);
+            vBox.getChildren().addAll(imageColor, numOf);
+            hBox.getChildren().add(vBox);
+        }
+    }
+
+    public void refresh(ShortIsland shortIsland, boolean motherNatureOn){
 
         //Island picture
-        island = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/islands/island1.png"))));
+        ImageView island = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/islands/island1.png"))));
         island.setFitWidth(150);
         island.setFitHeight(150);
         getChildren().add(island);
@@ -77,19 +94,5 @@ public class IslandGui extends Pane {
         drawStudents(PawnColor.PINK, shortPawns.getFromColor(PawnColor.PINK));
         drawStudents(PawnColor.BLUE, shortPawns.getFromColor(PawnColor.BLUE));
         getChildren().add(hBox);
-    }
-
-    private void drawStudents(PawnColor color, int numOfStudents) {
-        if (numOfStudents > 0) {
-            ImageView imageColor = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/students/" + color.name().toLowerCase() + "_student.png"))));
-            imageColor.setPreserveRatio(true);
-            imageColor.setFitHeight(20);
-            Label numOf = new Label(numOfStudents == 1 ? "" : String.valueOf(numOfStudents));
-            numOf.setFont(new Font(12));
-            VBox vBox = new VBox();
-            vBox.setAlignment(Pos.CENTER);
-            vBox.getChildren().addAll(imageColor, numOf);
-            hBox.getChildren().add(vBox);
-        }
     }
 }

@@ -67,7 +67,7 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void moveStudent(List<PawnColor> movableColor) {
-        //TODO
+        Platform.runLater(() -> getBoardController().setMovableStudents(movableColor));
     }
 
     @Override

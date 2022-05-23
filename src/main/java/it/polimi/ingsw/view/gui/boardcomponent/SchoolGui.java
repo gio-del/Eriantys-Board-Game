@@ -13,7 +13,7 @@ public class SchoolGui {
     private ShortPlayer owner;
     private final List<ImageView> towerViews;
     private final Map<PawnColor,List<ImageView>> hallViewsMap;
-    private final List<ImageView> entranceViews;
+    private final Map<PawnColor,List<ImageView>> entranceViews;
     private final Map<PawnColor,ImageView> professorsViews;
 
     public SchoolGui(ShortPlayer owner,ShortSchool school) {
@@ -21,7 +21,7 @@ public class SchoolGui {
         this.owner = owner;
         this.towerViews = new ArrayList<>();
         this.hallViewsMap = new EnumMap<>(PawnColor.class);
-        this.entranceViews = new ArrayList<>();
+        this.entranceViews = new EnumMap<>(PawnColor.class);
         this.professorsViews = new EnumMap<>(PawnColor.class);
         refresh(owner,school);
     }
@@ -55,12 +55,15 @@ public class SchoolGui {
     private void initializeEntrance() {
         entranceViews.clear();
         List<PawnColor> colorsInEntrance = school.getEntrance().toList();
+        for(PawnColor pawnColor: PawnColor.values()) {
+            entranceViews.computeIfAbsent(pawnColor,color -> entranceViews.put(color,new ArrayList<>()));
+        }
         for(PawnColor pawnColor: colorsInEntrance) {
             Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/students/" + pawnColor.name().toLowerCase() + "_student.png")));
             ImageView colorView = new ImageView(image);
             colorView.setPreserveRatio(true);
             colorView.setFitHeight(20);
-            entranceViews.add(colorView);
+            entranceViews.get(pawnColor).add(colorView);
         }
     }
 
@@ -96,7 +99,7 @@ public class SchoolGui {
         return hallViewsMap;
     }
 
-    public List<ImageView> getEntranceViews() {
+    public Map<PawnColor,List<ImageView>> getEntranceViews() {
         return entranceViews;
     }
 

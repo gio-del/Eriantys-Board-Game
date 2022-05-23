@@ -7,6 +7,7 @@ import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.ShortPlayer;
+import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.gui.boardcomponent.CloudGui;
 import it.polimi.ingsw.view.gui.boardcomponent.IslandGui;
@@ -70,11 +71,15 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private Button nextSchoolBtn;
     @FXML
     private Button prevSchoolBtn;
+    @FXML
+    private Label infoLabel;
     private Set<Assistant> playableAssistant;
     private final Map<String,SchoolGui> schoolGuiMap;
     private SchoolGui actualSchool;
+    private final List<IslandGui> islandGuiList;
     private final List<String> names;
     private final Map<PawnColor,HBox> hallMap;
+    private PawnColor selectedColor;
 
     public BoardSceneController(ShortModel resource, String nickname) {
         this.resource = resource;
@@ -82,6 +87,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         this.schoolGuiMap = new HashMap<>();
         this.hallMap = new EnumMap<>(PawnColor.class);
         this.names = new ArrayList<>();
+        this.islandGuiList = new ArrayList<>();
     }
 
     @FXML
@@ -107,6 +113,11 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         actualSchool = schoolGuiMap.get(nickname);
         names.add(nickname);
         schoolGuiMap.keySet().stream().filter(name -> !name.equals(nickname)).forEach(names::add);
+
+        //ISLANDS
+        for(int i=0;i<resource.getBoard().getIslands().size();i++) {
+            islandGuiList.add(new IslandGui(resource.getBoard().getIslands().get(i),resource.getBoard().getMotherNaturePos()==i));
+        }
 
         //nextSchoolBtn and prevSchoolBtn
         nextSchoolBtn.setOnAction(event -> this.nextSchool());
@@ -161,11 +172,14 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
 
         //ENTRANCE
-        List<ImageView> entranceViews = actualSchool.getEntranceViews();
+        List<ImageView> entranceViews = new ArrayList<>();
+        for(PawnColor pawnColor: PawnColor.values()) {
+            entranceViews.addAll(actualSchool.getEntranceViews().get(pawnColor));
+        }
         entranceGrid.getChildren().clear();
         int index = 0;
-        for(int row=0;row<5 && index<entranceViews.size();row++){
-            for(int col=0;col<2;col++){
+        for(int row=0;row<5;row++){
+            for(int col=0;col<2 && index<entranceViews.size();col++){
                 if(!(row==0 && col==0)) {
                     entranceGrid.add(entranceViews.get(index),col,row);
                     index++;
@@ -177,10 +191,12 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         List<ImageView> towerViews = actualSchool.getTowerViews();
         towerGrid.getChildren().clear();
         index = 0;
-        for(int row=0;row<4 && index<towerViews.size();row++){
-            for(int col=0;col<2;col++){
+        for(int row=0;row<4;row++){
+            int col=0;
+            while (col<2 && index<towerViews.size()) {
                 towerGrid.add(towerViews.get(index),col,row);
                 index++;
+                col++;
             }
         }
 
@@ -200,10 +216,10 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     private void printIslands() {
-        int k = 0; //todo: check if islands are less than 12
+        int index = 0;
         ShortBoard board = resource.getBoard();
         for (int i = 0; i < 4; i++) {
-            IslandGui islandGui = new IslandGui(board.getIslands().get(k), board.getMotherNaturePos() == k++);
+            IslandGui islandGui = new IslandGui(board.getIslands().get(index), board.getMotherNaturePos() == index++);
             HBox hBox = new HBox(islandGui);
             hBox.setAlignment(Pos.CENTER);
             VBox vBox = new VBox(hBox);
@@ -213,7 +229,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             islandGrid.add(vBox, i, 0);
         }
         for (int i = 1; i < 4; i++) {
-            IslandGui islandGui = new IslandGui(board.getIslands().get(k), board.getMotherNaturePos() == k++);
+            IslandGui islandGui = new IslandGui(board.getIslands().get(index), board.getMotherNaturePos() == index++);
             HBox hBox = new HBox(islandGui);
             hBox.setAlignment(Pos.CENTER);
             VBox vBox = new VBox(hBox);
@@ -223,7 +239,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             islandGrid.add(vBox, 3, i);
         }
         for (int i = 2; i >= 0; i--) {
-            IslandGui islandGui = new IslandGui(board.getIslands().get(k), board.getMotherNaturePos() == k++);
+            IslandGui islandGui = new IslandGui(board.getIslands().get(index), board.getMotherNaturePos() == index++);
             HBox hBox = new HBox(islandGui);
             hBox.setAlignment(Pos.CENTER);
             VBox vBox = new VBox(hBox);
@@ -233,7 +249,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             islandGrid.add(vBox, i, 3);
         }
         for (int i = 2; i >= 1; i--) {
-            IslandGui islandGui = new IslandGui(board.getIslands().get(k), board.getMotherNaturePos() == k++);
+            IslandGui islandGui = new IslandGui(board.getIslands().get(index), board.getMotherNaturePos() == index++);
             HBox hBox = new HBox(islandGui);
             hBox.setAlignment(Pos.CENTER);
             VBox vBox = new VBox(hBox);
@@ -279,5 +295,46 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         printIslands();
         printClouds();
         printSchool();
+    }
+
+    public void setMovableStudents(List<PawnColor> movableColor) {
+        infoLabel.setText("Choose a student to move from your entrance and then an island or your hall!");
+        schoolGuiMap.get(nickname).getEntranceViews().forEach(((pawnColor, imageViews) -> imageViews.forEach(img -> {
+            img.setOnMouseClicked(evt -> chooseMoveColor(pawnColor, img));
+            img.setCursor(Cursor.HAND);
+        })));
+        }
+
+    private void chooseMoveColor(PawnColor pawnColor, ImageView pawn) {
+        schoolGuiMap.get(nickname).getEntranceViews().forEach((color, imageViews) -> imageViews.forEach(img -> img.setEffect(null)));
+        pawn.setEffect(new DropShadow(50,Color.DARKGRAY));
+        this.selectedColor = pawnColor;
+        setSelectableMoveTarget();
+    }
+
+    private void setSelectableMoveTarget() {
+        for(PawnColor pawnColor: PawnColor.values()) {
+            hallMap.get(pawnColor).setCursor(Cursor.HAND);
+            hallMap.get(pawnColor).setOnMouseClicked(evt -> moveToHall(pawnColor));
+        }
+        //TODO: island selectable
+    }
+
+    private void moveToHall(PawnColor color) {
+        consumeEventMove();
+        notifyObserver(obs -> obs.updateMoveStudent(selectedColor, Target.HALL, 0));
+    }
+
+    private void consumeEventMove() {
+        schoolGuiMap.get(nickname).getEntranceViews().forEach((color, imageViews) -> imageViews.forEach(img -> {
+            img.setEffect(null);
+            img.setOnMouseClicked(null);
+            img.setCursor(Cursor.DEFAULT);
+        }));
+        for(PawnColor pawnColor: PawnColor.values()) {
+            hallMap.get(pawnColor).setCursor(Cursor.DEFAULT);
+            hallMap.get(pawnColor).setOnMouseClicked(null);
+        }
+        //TODO: clear island selectable
     }
 }
