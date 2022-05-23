@@ -103,4 +103,8 @@ public class SchoolGui {
     public Map<PawnColor, ImageView> getProfessorsViews() {
         return professorsViews;
     }
+
+    public String getOwner() {
+        return owner.name();
+    }
 }

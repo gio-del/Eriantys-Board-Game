@@ -37,6 +37,8 @@ public class TestingGUI extends Application {
         game.startGame(true);
         game.fillClouds();
         game.getPlayerByName("Giovanni").getSchool().getHall().addPawns(new Pawns(1,2,9,1,5));
+        game.getPlayerByName("Marco").getSchool().getHall().addPawns(new Pawns(2,1,4,9,10));
+        game.getPlayerByName("Marco").getSchool().getProfessorTable().addPawns(new Pawns(1,1,0,0,0));
         game.getPlayerByName("Giovanni").getSchool().getProfessorTable().addPawns(new Pawns(0,0,1,1,1));
         game.getBoard().getIslands().get(0).add(new Pawns(1, 0, 0, 1, 0));
         game.getBoard().getIslands().get(0).upgradeDimension(2);
@@ -67,14 +69,14 @@ public class TestingGUI extends Application {
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/home.jpg"))));
         stage.setTitle("Testing GUI");
         stage.show();
-        ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1);
-        scheduler.scheduleAtFixedRate(() -> {
-            try {
-                method();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }, 0, 3000, TimeUnit.MILLISECONDS);
+//        ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1);
+//        scheduler.scheduleAtFixedRate(() -> {
+//            try {
+//                method();
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }, 0, 3000, TimeUnit.MILLISECONDS);
     }
 
     private void method() {

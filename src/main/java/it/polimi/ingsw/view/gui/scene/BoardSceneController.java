@@ -17,6 +17,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -65,9 +66,14 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private GridPane entranceGrid;
     @FXML
     private ImageView assistantDeck;
-
+    @FXML
+    private Button nextSchoolBtn;
+    @FXML
+    private Button prevSchoolBtn;
     private Set<Assistant> playableAssistant;
     private final Map<String,SchoolGui> schoolGuiMap;
+    private SchoolGui actualSchool;
+    private final List<String> names;
     private final Map<PawnColor,HBox> hallMap;
 
     public BoardSceneController(ShortModel resource, String nickname) {
@@ -75,13 +81,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         this.nickname = nickname;
         this.schoolGuiMap = new HashMap<>();
         this.hallMap = new EnumMap<>(PawnColor.class);
+        this.names = new ArrayList<>();
     }
 
     @FXML
     private void initialize() {
         ShortPlayer myself = resource.getSchoolMap().keySet().stream().filter(player -> player.name().equals(nickname)).findFirst().orElse(null);
         assert myself != null;
-        schoolOwner.setText(myself.name());
 
         //ASSISTANTS
         assistantDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wizards/" + myself.wizard().name().toLowerCase() + "_deck.png"))));
@@ -98,6 +104,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         //SCHOOLS
         hallMap.putAll(Map.of(PawnColor.GREEN,greenHall,PawnColor.BLUE,blueHall,PawnColor.YELLOW,yellowHall,PawnColor.PINK,pinkHall,PawnColor.RED,redHall));
         resource.getSchoolMap().forEach((key, value) -> schoolGuiMap.put(key.name(), new SchoolGui(key, value)));
+        actualSchool = schoolGuiMap.get(nickname);
+        names.add(nickname);
+        schoolGuiMap.keySet().stream().filter(name -> !name.equals(nickname)).forEach(names::add);
+
+        //nextSchoolBtn and prevSchoolBtn
+        nextSchoolBtn.setOnAction(event -> this.nextSchool());
+        prevSchoolBtn.setDisable(true);
 
         refresh();
     }
@@ -137,18 +150,19 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     private void printSchool() {
-        for(Map.Entry<ShortPlayer, ShortSchool> entry: resource.getSchoolMap().entrySet()) {
-            schoolGuiMap.get(entry.getKey().name()).refresh(entry.getKey(),entry.getValue());
-        }
-        SchoolGui mine = schoolGuiMap.get(nickname);
+
+        //OWNER
+        schoolOwner.setText(actualSchool.getOwner());
 
         //HALL
         for(PawnColor pawnColor: PawnColor.values()) {
-            this.hallMap.get(pawnColor).getChildren().addAll(mine.getHallViewsMap().get(pawnColor));
+            this.hallMap.get(pawnColor).getChildren().clear();
+            this.hallMap.get(pawnColor).getChildren().addAll(actualSchool.getHallViewsMap().get(pawnColor));
         }
 
         //ENTRANCE
-        List<ImageView> entranceViews = mine.getEntranceViews();
+        List<ImageView> entranceViews = actualSchool.getEntranceViews();
+        entranceGrid.getChildren().clear();
         int index = 0;
         for(int row=0;row<5 && index<entranceViews.size();row++){
             for(int col=0;col<2;col++){
@@ -160,7 +174,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
 
         //TOWER
-        List<ImageView> towerViews = mine.getTowerViews();
+        List<ImageView> towerViews = actualSchool.getTowerViews();
+        towerGrid.getChildren().clear();
         index = 0;
         for(int row=0;row<4 && index<towerViews.size();row++){
             for(int col=0;col<2;col++){
@@ -170,7 +185,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
 
         //PROF TABLE
-        Map<PawnColor,ImageView> profImageMap = mine.getProfessorsViews();
+        profTable.getChildren().clear();
+        Map<PawnColor,ImageView> profImageMap = actualSchool.getProfessorsViews();
         for(PawnColor pawnColor: PawnColor.values()) {
             profTable.add(profImageMap.get(pawnColor),0,pawnColor.ordinal());
         }
@@ -228,7 +244,38 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
     }
 
+    private void nextSchool() {
+        int index = names.indexOf(actualSchool.getOwner());
+        if(index == names.size()-2) {
+            nextSchoolBtn.setDisable(true);
+            nextSchoolBtn.setOnAction(null);
+        }
+        if(index == 0) {
+            prevSchoolBtn.setDisable(false);
+            prevSchoolBtn.setOnAction(event -> this.prevSchool());
+        }
+        actualSchool = schoolGuiMap.get(names.get(index+1));
+        printSchool();
+    }
+
+    private void prevSchool() {
+        int index = names.indexOf(actualSchool.getOwner());
+        if(index == 1) {
+            prevSchoolBtn.setDisable(true);
+            prevSchoolBtn.setOnAction(null);
+        }
+        if(index == names.size() - 1 ) {
+            nextSchoolBtn.setDisable(false);
+            nextSchoolBtn.setOnAction(event -> this.nextSchool());
+        }
+        actualSchool = schoolGuiMap.get(names.get(index-1));
+        printSchool();
+    }
+
     public void refresh() {
+        for(Map.Entry<ShortPlayer, ShortSchool> entry: resource.getSchoolMap().entrySet()) {
+            schoolGuiMap.get(entry.getKey().name()).refresh(entry.getKey(),entry.getValue());
+        }
         printIslands();
         printClouds();
         printSchool();

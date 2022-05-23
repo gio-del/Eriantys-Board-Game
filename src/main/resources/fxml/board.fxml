@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -26,6 +28,11 @@
         </rowConstraints>
 
         <AnchorPane prefHeight="325.0" prefWidth="751.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+         <Button fx:id="nextSchoolBtn" contentDisplay="CENTER" layoutX="471.0" layoutY="47.0" mnemonicParsing="false" text="Next School">
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+         </Button>
             <ImageView fx:id="school" fitHeight="196.0" fitWidth="508.0" layoutX="99.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
                 <Image url="@../images/school.png" />
             </ImageView>
@@ -89,7 +96,7 @@
                     <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES" />
                 </rowConstraints>
             </GridPane>
-         <GridPane fx:id="entranceGrid" layoutX="107.0" layoutY="92.0" prefHeight="160.0" prefWidth="58.0">
+         <GridPane fx:id="entranceGrid" alignment="CENTER" layoutX="107.0" layoutY="92.0" prefHeight="160.0" prefWidth="58.0">
            <columnConstraints>
              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -105,6 +112,7 @@
                <Insets left="2.0" />
             </padding>
          </GridPane>
+         <Button fx:id="prevSchoolBtn" layoutX="389.0" layoutY="47.0" mnemonicParsing="false" text="Prev School" />
         </AnchorPane>
     </GridPane>
 </AnchorPane>
