@@ -13,6 +13,7 @@ public class SchoolGui {
     private final Map<PawnColor, List<ImageView>> hallViewsMap;
     private final Map<PawnColor, List<ImageView>> entranceViews;
     private final Map<PawnColor, ImageView> professorsViews;
+    private final ImageView wizard;
     private ShortSchool school;
     private ShortPlayer owner;
 
@@ -23,6 +24,9 @@ public class SchoolGui {
         this.hallViewsMap = new EnumMap<>(PawnColor.class);
         this.entranceViews = new EnumMap<>(PawnColor.class);
         this.professorsViews = new EnumMap<>(PawnColor.class);
+        this.wizard = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wizards/" + owner.wizard().name().toLowerCase() + "_deck.png"))));
+        wizard.setPreserveRatio(true);
+        wizard.setFitHeight(150);
         refresh(owner, school);
     }
 
@@ -109,5 +113,9 @@ public class SchoolGui {
 
     public String getOwner() {
         return owner.name();
+    }
+
+    public ImageView getWizard() {
+        return wizard;
     }
 }

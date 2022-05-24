@@ -25,6 +25,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -71,7 +72,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     @FXML
     private GridPane entranceGrid;
     @FXML
-    private ImageView assistantDeck;
+    private BorderPane assistantDeck;
     @FXML
     private Button nextSchoolBtn;
     @FXML
@@ -95,9 +96,6 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private void initialize() {
         ShortPlayer myself = resource.getSchoolMap().keySet().stream().filter(player -> player.name().equals(nickname)).findFirst().orElse(null);
         assert myself != null;
-
-        //ASSISTANTS
-        assistantDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wizards/" + myself.wizard().name().toLowerCase() + "_deck.png"))));
 
         //CHARACTERS
         if (resource.getCharacters() != null)
@@ -130,9 +128,10 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     public void setPlayableAssistant(Set<Assistant> playableAssistant) {
         infoLabel.setText("Select your assistant deck to choose one!");
         this.playableAssistant = playableAssistant;
-        assistantDeck.setOnMouseClicked(this::useAssistant);
-        assistantDeck.setEffect(new DropShadow(40, Color.YELLOW));
-        assistantDeck.setCursor(Cursor.HAND);
+        ImageView myWizard = schoolGuiMap.get(nickname).getWizard();
+        myWizard.setOnMouseClicked(this::useAssistant);
+        myWizard.setEffect(new DropShadow(40, Color.YELLOW));
+        myWizard.setCursor(Cursor.HAND);
     }
 
     @FXML
@@ -158,9 +157,10 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.setTitle("Choose an assistant from the available ones");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.showAndWait();
-        assistantDeck.setOnMouseClicked(null);
-        assistantDeck.setEffect(null);
-        assistantDeck.setCursor(Cursor.DEFAULT);
+        ImageView myWizard = schoolGuiMap.get(nickname).getWizard();
+        myWizard.setOnMouseClicked(null);
+        myWizard.setEffect(null);
+        myWizard.setCursor(Cursor.DEFAULT);
         infoLabel.setText("");
     }
 
@@ -168,6 +168,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
         //OWNER
         schoolOwner.setText(actualSchool.getOwner());
+
+        //ASSISTANT DECK
+        assistantDeck.setCenter(actualSchool.getWizard());
 
         //HALL
         for (PawnColor pawnColor : PawnColor.values()) {
@@ -270,9 +273,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             islandGrid.getChildren().removeIf(node -> GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == finalRow);
             islandGrid.add(vBox, 0, i);
         }
-        for (; index < boardSize; index++) {
+        for (; index < islandGuiList.size(); index++) {
+            islandGuiList.get(index).delete();
             islandGuiList.remove(index);
-
         }
     }
 

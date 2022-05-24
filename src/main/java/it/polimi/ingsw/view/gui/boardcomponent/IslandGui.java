@@ -97,4 +97,8 @@ public class IslandGui extends Pane {
         drawStudents(PawnColor.BLUE, shortPawns.getFromColor(PawnColor.BLUE));
         getChildren().add(hBox);
     }
+
+    public void delete() {
+        getChildren().clear();
+    }
 }
