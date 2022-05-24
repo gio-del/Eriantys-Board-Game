@@ -7,8 +7,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 
 public class ConnectionSceneController extends ClientObservable implements BasicSceneController {
     @FXML
@@ -17,15 +15,6 @@ public class ConnectionSceneController extends ClientObservable implements Basic
     private Button button;
     @FXML
     private TextField ipField;
-
-    @FXML
-    private void initialize() {
-        button.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
-            if (keyEvent.getCode().equals(KeyCode.ENTER)) {
-                confirm();
-            }
-        });
-    }
 
     @FXML
     private void confirm() {

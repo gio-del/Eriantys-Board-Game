@@ -12,12 +12,31 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class IslandGui extends Pane {
-    private HBox hBox;
+    private final HBox studentsBox;
+    private final ImageView island;
+    private final List<ImageView> contentOnIsland;
 
     public IslandGui(ShortIsland shortIsland, boolean motherNatureOn) {
+        this.contentOnIsland = new ArrayList<>();
+
+        //Island picture
+        this.island = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/islands/island1.png"))));
+        island.setFitWidth(150);
+        island.setFitHeight(150);
+        getChildren().add(island);
+
+        this.studentsBox = new HBox();
+        studentsBox.setAlignment(Pos.CENTER);
+        studentsBox.setPrefWidth(island.getFitWidth());
+        studentsBox.setSpacing(10);
+        studentsBox.setLayoutY(130);
+        studentsBox.setLayoutX(island.getLayoutX());
+
         refresh(shortIsland, motherNatureOn);
     }
 
@@ -31,23 +50,22 @@ public class IslandGui extends Pane {
             VBox vBox = new VBox();
             vBox.setAlignment(Pos.CENTER);
             vBox.getChildren().addAll(imageColor, numOf);
-            hBox.getChildren().add(vBox);
+            studentsBox.getChildren().add(vBox);
         }
     }
 
     public void refresh(ShortIsland shortIsland, boolean motherNatureOn) {
 
         getChildren().clear();
-
-        //Island picture
-        ImageView island = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/islands/island1.png"))));
-        island.setFitWidth(150);
-        island.setFitHeight(150);
+        contentOnIsland.clear();
+        contentOnIsland.add(island);
         getChildren().add(island);
+        studentsBox.getChildren().clear();
+        getChildren().add(studentsBox);
 
         //TOWER
         if (shortIsland.getTower() != null) {
-            ImageView tower = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/tower/" + shortIsland.getTower().toString().toLowerCase() + "_island_tower.png"))));
+            ImageView tower = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/tower/" + shortIsland.getTower().toString().toLowerCase() + "Tower.png"))));
             tower.setPreserveRatio(true);
             tower.setFitHeight(30);
             tower.setLayoutX(island.getLayoutX() + 40);
@@ -56,6 +74,7 @@ public class IslandGui extends Pane {
             towerNum.setFont(new Font(15));
             towerNum.setLayoutX(island.getLayoutX() + 50);
             towerNum.setLayoutY(island.getLayoutY() + 65);
+            contentOnIsland.add(tower);
             getChildren().addAll(tower, towerNum);
         }
         //MOTHER NATURE
@@ -65,6 +84,7 @@ public class IslandGui extends Pane {
             motherNature.setFitHeight(65);
             motherNature.setLayoutX(island.getLayoutX() + 80);
             motherNature.setLayoutY(island.getLayoutY() + 35);
+            contentOnIsland.add(motherNature);
             getChildren().add(motherNature);
         }
 
@@ -79,26 +99,27 @@ public class IslandGui extends Pane {
             banNum.setFont(new Font(15));
             banNum.setLayoutX(island.getLayoutX() + 67);
             banNum.setLayoutY(island.getLayoutY() + 100);
+            contentOnIsland.add(banTile);
             getChildren().addAll(banTile, banNum);
         }
 
         //STUDENTS
-        hBox = new HBox();
-        hBox.setAlignment(Pos.CENTER);
-        hBox.setPrefWidth(island.getFitWidth());
-        hBox.setSpacing(10);
-        hBox.setLayoutY(130);
-        hBox.setLayoutX(island.getLayoutX());
+
         ShortPawns shortPawns = shortIsland.getStudents();
-        drawStudents(PawnColor.GREEN, shortPawns.getFromColor(PawnColor.GREEN));
-        drawStudents(PawnColor.RED, shortPawns.getFromColor(PawnColor.RED));
-        drawStudents(PawnColor.YELLOW, shortPawns.getFromColor(PawnColor.YELLOW));
-        drawStudents(PawnColor.PINK, shortPawns.getFromColor(PawnColor.PINK));
-        drawStudents(PawnColor.BLUE, shortPawns.getFromColor(PawnColor.BLUE));
-        getChildren().add(hBox);
+        for (PawnColor pawnColor : PawnColor.values()) {
+            drawStudents(pawnColor, shortPawns.getFromColor(pawnColor));
+        }
     }
 
     public void delete() {
         getChildren().clear();
+    }
+
+    public ImageView getIsland() {
+        return island;
+    }
+
+    public List<ImageView> getContentOnIsland() {
+        return contentOnIsland;
     }
 }

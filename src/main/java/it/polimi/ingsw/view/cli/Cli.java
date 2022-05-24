@@ -155,7 +155,7 @@ public class Cli extends ClientObservable implements View {
         System.out.print("] Choose an available TowerColor [");
         colorsAvailable.forEach(o -> System.out.print(o + " "));
         System.out.print("]");
-        System.out.println("");
+        System.out.println();
         scanListener.setRequest(Request.WIZARD_COLOR);
     }
 
@@ -489,8 +489,6 @@ public class Cli extends ClientObservable implements View {
         scanListener.stopListening();
         System.exit(0);
     }
-
-    public void characterAskColor(){}
 
     @Override
     public void showMessage(String msg) {

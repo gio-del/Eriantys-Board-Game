@@ -16,19 +16,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -130,7 +127,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         this.playableAssistant = playableAssistant;
         ImageView myWizard = schoolGuiMap.get(nickname).getWizard();
         myWizard.setOnMouseClicked(this::useAssistant);
-        myWizard.setEffect(new DropShadow(40, Color.YELLOW));
+        myWizard.setEffect(new DropShadow(50, Color.YELLOW));
         myWizard.setCursor(Cursor.HAND);
     }
 
@@ -326,7 +323,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     private void chooseMoveColor(PawnColor pawnColor, ImageView pawn) {
         schoolGuiMap.get(nickname).getEntranceViews().forEach((color, imageViews) -> imageViews.forEach(img -> img.setEffect(null)));
-        pawn.setEffect(new DropShadow(50, Color.YELLOW));
+        pawn.setEffect(new Bloom());
         this.selectedColor = pawnColor;
         setSelectableMoveTarget();
     }
@@ -335,11 +332,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         for (PawnColor pawnColor : PawnColor.values()) {
             hallMap.get(pawnColor).setCursor(Cursor.HAND);
             hallMap.get(pawnColor).setOnMouseClicked(evt -> moveToHall());
+            hallMap.get(pawnColor).setBorder(Border.stroke(Color.YELLOW));
         }
         for (int i = 0; i < islandGuiList.size(); i++) {
             int finalI = i;
-            islandGuiList.get(i).setOnMouseClicked(evt -> moveToIsland(finalI));
-            islandGuiList.get(i).setCursor(Cursor.HAND);
+            islandGuiList.get(i).getContentOnIsland().forEach(content -> content.setOnMouseClicked(evt -> moveToIsland(finalI)));
+            islandGuiList.get(i).getContentOnIsland().forEach(content -> content.setCursor(Cursor.HAND));
+            islandGuiList.get(i).getIsland().setEffect(new DropShadow(50, Color.YELLOW));
         }
     }
 
@@ -363,11 +362,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         for (PawnColor pawnColor : PawnColor.values()) {
             hallMap.get(pawnColor).setOnMouseClicked(null);
             hallMap.get(pawnColor).setCursor(Cursor.DEFAULT);
+            hallMap.get(pawnColor).setBorder(null);
         }
 
         for (IslandGui islandGui : islandGuiList) {
-            islandGui.setOnMouseClicked(null);
-            islandGui.setCursor(Cursor.DEFAULT);
+            islandGui.getContentOnIsland().forEach(content -> content.setOnMouseClicked(null));
+            islandGui.getContentOnIsland().forEach(content -> content.setCursor(Cursor.DEFAULT));
+            islandGui.getIsland().setEffect(null);
         }
         infoLabel.setText("");
     }
@@ -382,9 +383,10 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             } else {
                 index++;
             }
-            islandGuiList.get(index).setCursor(Cursor.HAND);
+            islandGuiList.get(index).getContentOnIsland().forEach(content -> content.setCursor(Cursor.HAND));
+            islandGuiList.get(index).getIsland().setEffect(new DropShadow(50, Color.YELLOW));
             int finalI = i;
-            islandGuiList.get(index).setOnMouseClicked(evt -> motherNatureSteps(finalI + 1));
+            islandGuiList.get(index).getContentOnIsland().forEach(content -> content.setOnMouseClicked(evt -> motherNatureSteps(finalI + 1)));
         }
     }
 
@@ -395,8 +397,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     private void consumeEventMoveMotherNature() {
         for (IslandGui islandGui : islandGuiList) {
-            islandGui.setOnMouseClicked(null);
-            islandGui.setCursor(Cursor.DEFAULT);
+            islandGui.getContentOnIsland().forEach(content -> content.setOnMouseClicked(null));
+            islandGui.getContentOnIsland().forEach(content -> content.setCursor(Cursor.DEFAULT));
+            islandGui.getIsland().setEffect(null);
         }
         infoLabel.setText("");
     }
@@ -404,11 +407,12 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     public void setSelectableClouds() {
         infoLabel.setText("Choose a cloud to pick students from!");
         for (int i = 0; i < cloudBox.getChildren().size(); i++) {
-            Node node = cloudBox.getChildren().get(i);
+            CloudGui node = (CloudGui) cloudBox.getChildren().get(i);
             int finalI = i;
-            if (!((CloudGui) node).getCloud().isEmpty()) {
-                node.setOnMouseClicked(evt -> chooseCloud(finalI));
-                node.setCursor(Cursor.HAND);
+            if (!node.getCloud().isEmpty()) {
+                node.getCloudView().setEffect(new DropShadow(50, Color.YELLOW));
+                node.getContentView().forEach(content -> content.setOnMouseClicked(evt -> chooseCloud(finalI)));
+                node.getContentView().forEach(content -> content.setCursor(Cursor.HAND));
             }
         }
     }
@@ -419,9 +423,10 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     private void consumeEventChooseCloud() {
-        cloudBox.getChildren().forEach(cloud -> {
-            cloud.setCursor(Cursor.DEFAULT);
-            cloud.setOnMouseClicked(null);
+        cloudBox.getChildren().stream().map(CloudGui.class::cast).forEach(cloud -> {
+            cloud.getCloudView().setEffect(null);
+            cloud.getContentView().forEach(content -> content.setOnMouseClicked(null));
+            cloud.getContentView().forEach(content -> content.setCursor(Cursor.DEFAULT));
         });
         infoLabel.setText("");
     }

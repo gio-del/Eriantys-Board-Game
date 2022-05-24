@@ -57,6 +57,7 @@ public class Gui extends ClientObservable implements View {
         Platform.runLater(() -> {
             getBoardController().setPlayableAssistant(playableAssistant);
             ((Stage) SceneManager.getActualScene().getWindow()).setMaximized(true);
+            ((Stage) SceneManager.getActualScene().getWindow()).setResizable(true);
         });
     }
 

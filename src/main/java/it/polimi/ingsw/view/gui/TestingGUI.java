@@ -16,9 +16,6 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 public class TestingGUI extends Application {
     Game game;
@@ -33,7 +30,8 @@ public class TestingGUI extends Application {
 
         game = new Game();
         game.addPlayer("Marco", Wizard.KING, TowerColor.BLACK);
-        game.addPlayer("Giovanni", Wizard.SORCERER, TowerColor.WHITE);
+        game.addPlayer("Giovanni", Wizard.SORCERER, TowerColor.GREY);
+        game.addPlayer("Gianfranmarcangeloanatomico", Wizard.WITCH, TowerColor.WHITE);
         game.startGame(true);
         game.fillClouds();
         game.getPlayerByName("Giovanni").getSchool().getHall().addPawns(new Pawns(1, 2, 9, 1, 5));
@@ -41,7 +39,7 @@ public class TestingGUI extends Application {
         game.getPlayerByName("Marco").getSchool().getProfessorTable().addPawns(new Pawns(1, 1, 0, 0, 0));
         game.getPlayerByName("Giovanni").getSchool().getProfessorTable().addPawns(new Pawns(0, 0, 1, 1, 1));
         game.getBoard().getIslands().get(0).add(new Pawns(1, 0, 0, 1, 0));
-        game.getBoard().getIslands().get(3).addTower(TowerColor.WHITE);
+        game.getBoard().getIslands().get(1).addTower(TowerColor.WHITE);
         game.getBoard().getIslands().get(4).addTower(TowerColor.WHITE);
 
         game.getBoard().getIslands().get(1).add(new Pawns(0, 1, 1, 0, 1));
@@ -65,10 +63,11 @@ public class TestingGUI extends Application {
         stage.setScene(scene);
         stage.setResizable(true);
         stage.setMaximized(true);
-        stage.setFullScreen(true);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/home.jpg"))));
         stage.setTitle("Testing GUI");
         stage.show();
+        stage.setFullScreen(true);
+        boardSceneController.setMovableStudents();
 //        ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1);
 //        scheduler.scheduleAtFixedRate(() -> {
 //            try {

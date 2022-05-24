@@ -13,6 +13,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
@@ -24,7 +25,7 @@ import java.util.Set;
 public class ChooseWizardAndTCController extends ClientObservable implements BasicSceneController {
     private final Set<Wizard> wizardsAvailable;
     private final Set<TowerColor> colorsAvailable;
-    private final Map<TowerColor, ImageView> towerColorMapImage = new EnumMap<>(TowerColor.class);
+    private final Map<TowerColor, BorderPane> towerColorMapImage = new EnumMap<>(TowerColor.class);
     private final Map<Wizard, ImageView> wizardMapImage = new EnumMap<>(Wizard.class);
     private Wizard selectedWizard;
     private TowerColor selectedColor;
@@ -37,11 +38,11 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     @FXML
     private ImageView witch;
     @FXML
-    private ImageView blackTower;
+    private BorderPane blackTower;
     @FXML
-    private ImageView whiteTower;
+    private BorderPane whiteTower;
     @FXML
-    private ImageView greyTower;
+    private BorderPane greyTower;
     @FXML
     private Button okButton;
 
@@ -66,7 +67,7 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
                 disable(color);
             } else {
                 towerColorMapImage.get(color).setCursor(Cursor.HAND);
-                towerColorMapImage.get(color).addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> selectTower(color));
+                towerColorMapImage.get(color).setOnMouseClicked(evt -> selectTower(color));
             }
         }
 
@@ -75,7 +76,7 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
                 disable(wizard);
             } else {
                 wizardMapImage.get(wizard).setCursor(Cursor.HAND);
-                wizardMapImage.get(wizard).addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> selectWizard(wizard));
+                wizardMapImage.get(wizard).setOnMouseClicked(evt -> selectWizard(wizard));
             }
         }
 
@@ -84,14 +85,15 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     }
 
     private void disable(TowerColor color) {
-        ImageView imageView = towerColorMapImage.get(color);
-        Line line1 = new Line(imageView.getLayoutX(), imageView.getLayoutY(), imageView.getLayoutX() + imageView.getFitWidth(), imageView.getLayoutY() + imageView.getFitHeight());
-        Line line2 = new Line(imageView.getLayoutX() + imageView.getFitWidth(), imageView.getLayoutY(), imageView.getLayoutX(), imageView.getLayoutY() + imageView.getFitHeight());
+        BorderPane pane = towerColorMapImage.get(color);
+        ImageView imageView = (ImageView) pane.getCenter();
+        Line line1 = new Line(pane.getLayoutX(), pane.getLayoutY(), pane.getLayoutX() + pane.getPrefWidth(), pane.getLayoutY() + pane.getPrefHeight());
+        Line line2 = new Line(pane.getLayoutX() + pane.getPrefWidth(), pane.getLayoutY(), pane.getLayoutX(), pane.getLayoutY() + pane.getPrefHeight());
         Arrays.stream(new Line[]{line1, line2}).forEach(line -> {
             line.setStroke(Color.RED);
             line.setStrokeWidth(2);
         });
-        ((AnchorPane) imageView.getParent()).getChildren().addAll(line1, line2);
+        ((AnchorPane) pane.getParent()).getChildren().addAll(line1, line2);
         disableImage(imageView);
     }
 
@@ -110,8 +112,8 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
         for (ImageView imageView : wizardMapImage.values()) {
             imageView.setDisable(true);
         }
-        for (ImageView imageView : towerColorMapImage.values()) {
-            imageView.setDisable(true);
+        for (BorderPane pane : towerColorMapImage.values()) {
+            pane.setDisable(true);
         }
         okButton.setDisable(true);
     }

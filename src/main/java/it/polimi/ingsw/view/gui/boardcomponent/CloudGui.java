@@ -12,6 +12,7 @@ import java.util.Objects;
 
 public class CloudGui extends Pane {
 
+    ImageView cloudView;
     private ShortCloud cloud;
     private List<ImageView> studentsOn;
 
@@ -27,7 +28,7 @@ public class CloudGui extends Pane {
             image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/clouds/cloud_3_player.png")));
             imageViewList = cloudFourStudents();
         }
-        ImageView cloudView = new ImageView(image);
+        cloudView = new ImageView(image);
         cloudView.setPreserveRatio(true);
         cloudView.fitHeightProperty().bind(this.heightProperty());
         cloudView.fitWidthProperty().bind(this.widthProperty());
@@ -117,5 +118,15 @@ public class CloudGui extends Pane {
 
     public ShortCloud getCloud() {
         return cloud;
+    }
+
+    public ImageView getCloudView() {
+        return cloudView;
+    }
+
+    public List<ImageView> getContentView() {
+        List<ImageView> list = new ArrayList<>(List.of(cloudView));
+        list.addAll(studentsOn);
+        return list;
     }
 }
