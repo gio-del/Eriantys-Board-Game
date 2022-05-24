@@ -63,8 +63,9 @@ public class TestingGUI extends Application {
         this.stage = stage;
         scene = new Scene(Objects.requireNonNull(root));
         stage.setScene(scene);
-        stage.setResizable(false);
+        stage.setResizable(true);
         stage.setMaximized(true);
+        stage.setFullScreen(true);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/home.jpg"))));
         stage.setTitle("Testing GUI");
         stage.show();

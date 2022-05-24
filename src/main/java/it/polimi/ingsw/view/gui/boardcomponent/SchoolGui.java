@@ -32,11 +32,11 @@ public class SchoolGui {
 
     private void initializeTowerColor() {
         towerViews.clear();
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/tower/" + owner.color().name().toLowerCase() + "_tower.png")));
+        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/tower/" + owner.color().name().toLowerCase() + "Tower.png")));
         for (int i = 0; i < school.getNumTower(); i++) {
             ImageView towerView = new ImageView(image);
             towerView.setPreserveRatio(true);
-            towerView.setFitHeight(25);
+            towerView.setFitHeight(35);
             towerViews.add(towerView);
         }
     }

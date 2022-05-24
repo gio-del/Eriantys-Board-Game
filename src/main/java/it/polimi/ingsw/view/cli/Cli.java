@@ -150,10 +150,12 @@ public class Cli extends ClientObservable implements View {
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
         resource.setWizardsAvailable(wizardsAvailable);
         resource.setColorsAvailable(colorsAvailable);
-        System.out.println("Choose an available wizard");
-        wizardsAvailable.forEach(System.out::println);
-        System.out.println("Choose an available TowerColor");
-        colorsAvailable.forEach(System.out::println);
+        System.out.print("Choose an available wizard [");
+        wizardsAvailable.forEach(o -> System.out.print(o + " "));
+        System.out.print("] Choose an available TowerColor [");
+        colorsAvailable.forEach(o -> System.out.print(o + " "));
+        System.out.print("]");
+        System.out.println("");
         scanListener.setRequest(Request.WIZARD_COLOR);
     }
 
@@ -253,7 +255,7 @@ public class Cli extends ClientObservable implements View {
     @Override
     public void moveStudent(List<PawnColor> movableColor) {
         resource.setPawnsAvailable(movableColor);
-        System.out.println("What color do you want to move?");
+        System.out.println("What color do you want to move? or choose a character");
         scanListener.setRequest(Request.STUDENT);
     }
 
@@ -449,7 +451,7 @@ public class Cli extends ClientObservable implements View {
             for (PawnColor pawnColor : PawnColor.values()) {
                 int num = pawns.getFromColor(pawnColor);
                 if (num != 0) {
-                    builder.append(num).append("x").append(CLIColor.valueOf(pawnColor.name())).append(CLISymbol.FULL_CIRCLE).append(CLIColor.RESET).append(" ");
+                    builder.append(num).append(" x ").append(CLIColor.valueOf(pawnColor.name())).append(CLISymbol.FULL_CIRCLE).append(CLIColor.RESET).append(" ");
                 }
             }
         }
@@ -487,6 +489,8 @@ public class Cli extends ClientObservable implements View {
         scanListener.stopListening();
         System.exit(0);
     }
+
+    public void characterAskColor(){}
 
     @Override
     public void showMessage(String msg) {
