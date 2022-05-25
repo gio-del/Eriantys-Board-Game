@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -45,6 +46,18 @@ public class CharacterSceneController extends ClientObservable implements BasicS
     private Label secondCharacterDescription;
     @FXML
     private Label thirdCharacterDescription;
+    @FXML
+    private GridPane firstComponentsOn;
+    @FXML
+    private GridPane secondComponentsOn;
+    @FXML
+    private GridPane thirdComponentsOn;
+    @FXML
+    private ImageView firstCoinOn;
+    @FXML
+    private ImageView secondCoinOn;
+    @FXML
+    private ImageView thirdCoinOn;
 
     private int selectedCharacter = -1;
     private List<ShortCharacter> characters;
@@ -60,9 +73,9 @@ public class CharacterSceneController extends ClientObservable implements BasicS
 
     @FXML
     private void initialize() {
-        characterComponents.add(new CharacterGui(firstCharacterImg,firstCharacterName,firstCharacterDescription,firstCharacterCost));
-        characterComponents.add(new CharacterGui(secondCharacterImg,secondCharacterName,secondCharacterDescription,secondCharacterCost));
-        characterComponents.add(new CharacterGui(thirdCharacterImg,thirdCharacterName,thirdCharacterDescription,thirdCharacterCost));
+        characterComponents.add(new CharacterGui(firstCharacterImg,firstCharacterName,firstCharacterDescription,firstCharacterCost,firstComponentsOn,firstCoinOn));
+        characterComponents.add(new CharacterGui(secondCharacterImg,secondCharacterName,secondCharacterDescription,secondCharacterCost,secondComponentsOn,secondCoinOn));
+        characterComponents.add(new CharacterGui(thirdCharacterImg,thirdCharacterName,thirdCharacterDescription,thirdCharacterCost,thirdComponentsOn,thirdCoinOn));
 
         for(int i=0;i<characters.size();i++){
             ShortCharacter character = characters.get(i);
@@ -74,6 +87,9 @@ public class CharacterSceneController extends ClientObservable implements BasicS
             component.setCharacterCost(character.getCost());
             component.setCharacterDescription(character.getDescription());
             component.setCharacterName(character.getName());
+            component.setPawnsOn(character.getStudentsOn().toList());
+            component.setBansOn(character.getBanTiles());
+            component.setCoinOn(character.hasCoinOn());
         }
 
         okButton.setOnMouseClicked(evt -> chooseCharacter());

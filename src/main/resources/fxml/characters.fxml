@@ -6,6 +6,9 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <ImageView fitHeight="449.0" fitWidth="600.0">
@@ -30,4 +33,49 @@
     <Label fx:id="firstCharacterDescription" alignment="CENTER" contentDisplay="TOP" layoutX="69.0" layoutY="235.0" prefHeight="159.0" prefWidth="149.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" wrapText="true" />
     <Label fx:id="secondCharacterDescription" alignment="CENTER" layoutX="219.0" layoutY="235.0" prefHeight="159.0" prefWidth="163.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" textAlignment="CENTER" wrapText="true" />
     <Label fx:id="thirdCharacterDescription" alignment="CENTER" layoutX="384.0" layoutY="235.0" prefHeight="159.0" prefWidth="149.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" textAlignment="CENTER" wrapText="true" />
+   <GridPane fx:id="firstComponentsOn" layoutX="100.0" layoutY="121.0" prefHeight="86.0" prefWidth="85.0">
+     <columnConstraints>
+       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+       <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+     </columnConstraints>
+     <rowConstraints>
+       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+       <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+     </rowConstraints>
+   </GridPane>
+   <GridPane fx:id="secondComponentsOn" layoutX="258.0" layoutY="121.0" prefHeight="86.0" prefWidth="85.0">
+      <columnConstraints>
+         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+      </rowConstraints>
+   </GridPane>
+   <GridPane fx:id="thirdComponentsOn" layoutX="416.0" layoutY="121.0" prefHeight="86.0" prefWidth="85.0">
+      <columnConstraints>
+         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+      </rowConstraints>
+   </GridPane>
+    <ImageView fx:id="firstCoinOn" fitHeight="38.0" fitWidth="39.0" layoutX="92.0" layoutY="91.0" pickOnBounds="true"
+               preserveRatio="true" visible="false">
+        <Image url="@../images/various/coin.png"/>
+    </ImageView>
+    <ImageView fx:id="thirdCoinOn" fitHeight="38.0" fitWidth="39.0" layoutX="407.0" layoutY="91.0" pickOnBounds="true"
+               preserveRatio="true" visible="false">
+        <Image url="@../images/various/coin.png"/>
+    </ImageView>
+    <ImageView fx:id="secondCoinOn" fitHeight="38.0" fitWidth="39.0" layoutX="249.0" layoutY="91.0" pickOnBounds="true"
+               preserveRatio="true" visible="false">
+        <Image url="@../images/various/coin.png"/>
+    </ImageView>
 </AnchorPane>

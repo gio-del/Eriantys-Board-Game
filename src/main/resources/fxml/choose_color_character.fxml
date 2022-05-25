@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -10,18 +11,33 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="553.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.ColorCharacterSceneController">
     <ImageView fx:id="red" fitHeight="75.0" fitWidth="75.0" layoutX="76.0" layoutY="137.0" onMouseClicked="#redClick" pickOnBounds="true" preserveRatio="true">
         <Image url="@../images/pawns/students/red_student.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </ImageView>
     <ImageView fx:id="yellow" fitHeight="75.0" fitWidth="75.0" layoutX="158.0" layoutY="137.0" onMouseClicked="#yellowClick" pickOnBounds="true" preserveRatio="true">
         <Image url="@../images/pawns/students/yellow_student.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </ImageView>
     <ImageView fx:id="blue" fitHeight="75.0" fitWidth="75.0" layoutX="240.0" layoutY="137.0" onMouseClicked="#blueClick" pickOnBounds="true" preserveRatio="true">
         <Image url="@../images/pawns/students/blue_student.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </ImageView>
     <ImageView fx:id="pink" fitHeight="75.0" fitWidth="75.0" layoutX="404.0" layoutY="137.0" onMouseClicked="#pinkClick" pickOnBounds="true" preserveRatio="true">
         <Image url="@../images/pawns/students/pink_student.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </ImageView>
     <ImageView fx:id="green" fitHeight="75.0" fitWidth="75.0" layoutX="322.0" layoutY="137.0" onMouseClicked="#greenClick" pickOnBounds="true" preserveRatio="true">
         <Image url="@../images/pawns/students/green_student.png" />
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
     </ImageView>
     <Label layoutX="116.0" layoutY="48.0" text="Choose a color for the chosen character">
         <font>

@@ -83,12 +83,12 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void askIsland() {
-        //TODO
+        Platform.runLater(() -> getBoardController().askIsland());
     }
 
     @Override
     public void askSwapList(int swap) {
-        //TODO
+        Platform.runLater(() -> getBoardController().askSwap(swap));
     }
 
     @Override

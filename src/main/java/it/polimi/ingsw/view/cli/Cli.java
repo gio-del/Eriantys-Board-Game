@@ -336,6 +336,7 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void askSwapList(int swap) {
+        //TODO: save swap and check that it's maximum that swaps!
         System.out.println("Insert a pair of color to swap! You have " + swap + " swap. Syntax [FROM TO]");
         scanListener.setRequest(Request.COLOR_SWAP);
     }

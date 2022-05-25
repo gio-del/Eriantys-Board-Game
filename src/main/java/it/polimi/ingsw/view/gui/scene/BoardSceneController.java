@@ -129,6 +129,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     public void setPlayableAssistant(Set<Assistant> playableAssistant) {
+        consumeEventChooseCloud();
+        consumeEventMoveMotherNature();
+        consumeEventMoveStudent();
         this.canPlayCharacter = false;
         infoLabel.setText("Select your assistant deck to choose one!");
         this.playableAssistant = playableAssistant;
@@ -174,10 +177,6 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             return;
         }
 
-        consumeEventChooseCloud();
-        consumeEventMoveMotherNature();
-        consumeEventMoveStudent();
-
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/characters.fxml"));
@@ -196,9 +195,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.setScene(new Scene(root));
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
         stage.setTitle("Choose a character to play!");
-        stage.initStyle(StageStyle.UNDECORATED);
+        stage.initStyle(StageStyle.UTILITY);
         stage.showAndWait();
-        //TODO
     }
 
     private void printSchool() {
@@ -357,6 +355,10 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     public void setMovableStudents() {
+        consumeEventChooseCloud();
+        consumeEventMoveMotherNature();
+        consumeEventMoveStudent();
+
         this.canPlayCharacter = true;
         infoLabel.setText("Choose a student to move from your entrance!");
         schoolGuiMap.get(nickname).getEntranceViews().forEach(((pawnColor, imageViews) -> imageViews.forEach(img -> {
@@ -387,13 +389,14 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     private void moveToHall() {
-        //TODO: optional, handle color if not equals to selectedColor
         consumeEventMoveStudent();
+        infoLabel.setText("");
         new Thread(() -> notifyObserver(obs -> obs.updateMoveStudent(selectedColor, Target.HALL, 0))).start();
     }
 
     private void moveToIsland(int id) {
         consumeEventMoveStudent();
+        infoLabel.setText("");
         new Thread(() -> notifyObserver(obs -> obs.updateMoveStudent(selectedColor, Target.ISLAND, id))).start();
     }
 
@@ -414,10 +417,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             islandGui.getContentOnIsland().forEach(content -> content.setCursor(Cursor.DEFAULT));
             islandGui.getIsland().setEffect(null);
         }
-        infoLabel.setText("");
     }
 
     public void setMotherNatureMaximumSteps(int maximumSteps) {
+        consumeEventChooseCloud();
+        consumeEventMoveMotherNature();
+        consumeEventMoveStudent();
+
         infoLabel.setText("Choose an island to move mother nature to. [Max steps: " + maximumSteps + "]");
         ShortBoard board = resource.getBoard();
         int index = board.getMotherNaturePos();
@@ -436,6 +442,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     private void motherNatureSteps(int steps) {
         consumeEventMoveMotherNature();
+        infoLabel.setText("");
         new Thread(() -> notifyObserver(obs -> obs.updateStepsMN(steps))).start();
     }
 
@@ -445,10 +452,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             islandGui.getContentOnIsland().forEach(content -> content.setCursor(Cursor.DEFAULT));
             islandGui.getIsland().setEffect(null);
         }
-        infoLabel.setText("");
     }
 
     public void setSelectableClouds() {
+        consumeEventChooseCloud();
+        consumeEventMoveMotherNature();
+        consumeEventMoveStudent();
+
         infoLabel.setText("Choose a cloud to pick students from!");
         for (int i = 0; i < cloudBox.getChildren().size(); i++) {
             CloudGui node = (CloudGui) cloudBox.getChildren().get(i);
@@ -463,6 +473,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     private void chooseCloud(int i) {
         consumeEventChooseCloud();
+        infoLabel.setText("Wait for the other players' turn!");
         this.canPlayCharacter = false;
         new Thread(() -> notifyObserver(obs -> obs.updateCloud(i))).start();
     }
@@ -473,7 +484,6 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             cloud.getContentView().forEach(content -> content.setOnMouseClicked(null));
             cloud.getContentView().forEach(content -> content.setCursor(Cursor.DEFAULT));
         });
-        infoLabel.setText("Wait for the other players' turn!");
     }
 
     public void askColor() {
@@ -496,5 +506,45 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.setTitle("Choose a color for the chosen character!");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.showAndWait();
+    }
+
+    public void askSwap(int swap) {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choose_swap_character.fxml"));
+
+        Parent root = null;
+        try {
+            root = loader.load();
+            SwapCharacterSceneController controller = loader.getController();
+            controller.setMaxSwaps(swap);
+            observers.forEach(controller::addObserver);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            exit(1);
+        }
+        stage.setScene(new Scene(root));
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
+        stage.setTitle("Swap!");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.showAndWait();
+    }
+
+    public void askIsland() {
+        infoLabel.setText("Choose an island for the chosen character");
+        for (int i = 0; i < islandGuiList.size(); i++) {
+            int finalI = i;
+            islandGuiList.get(i).getContentOnIsland().forEach(content -> content.setOnMouseClicked(evt -> chooseIsland(finalI)));
+            islandGuiList.get(i).getContentOnIsland().forEach(content -> content.setCursor(Cursor.HAND));
+            islandGuiList.get(i).getIsland().setEffect(new DropShadow(50, Color.YELLOW));
+        }
+    }
+
+    private void chooseIsland(int islandID) {
+        consumeEventMoveMotherNature();
+        infoLabel.setText("");
+        new Thread(() -> notifyObserver(obs -> obs.updateIslandAction(islandID))).start();
+
     }
 }
