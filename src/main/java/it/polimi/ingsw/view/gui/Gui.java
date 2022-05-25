@@ -78,7 +78,7 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void askColor() {
-        //TODO
+        Platform.runLater(() -> getBoardController().askColor());
     }
 
     @Override

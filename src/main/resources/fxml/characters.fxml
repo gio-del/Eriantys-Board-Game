@@ -1,52 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18">
-    <ImageView fitHeight="400.0" fitWidth="600.0">
-        <Image url="@../images/background.png"/>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="449.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
+    <ImageView fitHeight="449.0" fitWidth="600.0">
+        <Image url="@../images/background.png" />
     </ImageView>
-    <ImageView fitHeight="171.0" fitWidth="107.0" layoutX="90.0" layoutY="35.0">
-        <Image url="@../images/characters/grandmother_of_herbs.jpg"/>
-    </ImageView>
-    <Button fx:id="okButton" layoutX="274.0" layoutY="362.0" mnemonicParsing="false" text="Confirm"/>
-    <ImageView fitHeight="171.0" fitWidth="107.0" layoutX="247.0" layoutY="35.0">
-        <Image url="@../images/characters/grandmother_of_herbs.jpg"/>
-    </ImageView>
-    <ImageView fitHeight="171.0" fitWidth="107.0" layoutX="405.0" layoutY="35.0">
-        <Image url="@../images/characters/grandmother_of_herbs.jpg"/>
-    </ImageView>
-    <Label alignment="CENTER" layoutX="249.0" layoutY="10.0" prefHeight="17.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Name" textAlignment="CENTER" wrapText="true"/>
-    <Label alignment="CENTER" layoutX="92.0" layoutY="10.0" prefHeight="17.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Name" textAlignment="CENTER" wrapText="true"/>
-    <Label alignment="CENTER" layoutX="407.0" layoutY="10.0" prefHeight="17.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Name" textAlignment="CENTER" wrapText="true"/>
-    <Label alignment="CENTER" layoutX="92.0" layoutY="210.0" prefHeight="17.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Cost" textAlignment="CENTER" wrapText="true"/>
-    <Label alignment="CENTER" layoutX="407.0" layoutY="210.0" prefHeight="17.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Cost" textAlignment="CENTER" wrapText="true"/>
-    <Label alignment="CENTER" layoutX="249.0" layoutY="210.0" prefHeight="17.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Cost" textAlignment="CENTER" wrapText="true"/>
     <ImageView fitHeight="355.0" fitWidth="600.0">
-        <Image url="@../images/characters/layout_character.png"/>
+        <Image url="@../images/characters/layout_character.png" />
     </ImageView>
-    <Label alignment="CENTER" layoutX="92.0" layoutY="235.0" prefHeight="116.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Description" textAlignment="CENTER" wrapText="true"/>
-    <Label alignment="CENTER" layoutX="249.0" layoutY="235.0" prefHeight="116.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Description" textAlignment="CENTER" wrapText="true"/>
-    <Label alignment="CENTER" layoutX="407.0" layoutY="235.0" prefHeight="116.0" prefWidth="103.0"
-           style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;"
-           text="Description" textAlignment="CENTER" wrapText="true"/>
+    <ImageView fx:id="firstCharacterImg" fitHeight="171.0" fitWidth="107.0" layoutX="90.0" layoutY="35.0" />
+    <Button fx:id="okButton" layoutX="271.0" layoutY="409.0" mnemonicParsing="false" text="Confirm">
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor></Button>
+    <ImageView fx:id="secondCharacterImg" fitHeight="171.0" fitWidth="103.0" layoutX="249.0" layoutY="35.0" />
+    <ImageView fx:id="thirdCharacterImg" fitHeight="171.0" fitWidth="103.0" layoutX="407.0" layoutY="35.0" />
+    <Label fx:id="secondCharacterName" alignment="CENTER" layoutX="236.0" layoutY="10.0" prefHeight="21.0" prefWidth="129.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" textAlignment="CENTER" wrapText="true" />
+    <Label fx:id="firstCharacterName" alignment="CENTER" layoutX="79.0" layoutY="10.0" prefHeight="21.0" prefWidth="129.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" textAlignment="CENTER" wrapText="true" />
+    <Label fx:id="thirdCharacterName" alignment="CENTER" layoutX="394.0" layoutY="10.0" prefHeight="21.0" prefWidth="129.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" textAlignment="CENTER" wrapText="true" />
+    <Label fx:id="firstCharacterCost" alignment="CENTER" layoutX="92.0" layoutY="210.0" prefHeight="17.0" prefWidth="103.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" text="Cost:" textAlignment="CENTER" wrapText="true" />
+    <Label fx:id="thirdCharacterCost" alignment="CENTER" layoutX="407.0" layoutY="210.0" prefHeight="17.0" prefWidth="103.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" text="Cost:" textAlignment="CENTER" wrapText="true" />
+    <Label fx:id="secondCharacterCost" alignment="CENTER" layoutX="249.0" layoutY="210.0" prefHeight="17.0" prefWidth="103.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" text="Cost:" textAlignment="CENTER" wrapText="true" />
+    <Label fx:id="firstCharacterDescription" alignment="CENTER" contentDisplay="TOP" layoutX="69.0" layoutY="235.0" prefHeight="159.0" prefWidth="149.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" wrapText="true" />
+    <Label fx:id="secondCharacterDescription" alignment="CENTER" layoutX="219.0" layoutY="235.0" prefHeight="159.0" prefWidth="163.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" textAlignment="CENTER" wrapText="true" />
+    <Label fx:id="thirdCharacterDescription" alignment="CENTER" layoutX="384.0" layoutY="235.0" prefHeight="159.0" prefWidth="149.0" style="-fx-background-color: white; -fx-background-radius: 10; -fx-background-insets: 4; -fx-border-color: BLACK; -fx-border-radius: 10; -fx-border-insets: 1;" textAlignment="CENTER" wrapText="true" />
 </AnchorPane>

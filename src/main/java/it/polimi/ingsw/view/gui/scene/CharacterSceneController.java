@@ -1,0 +1,94 @@
+package it.polimi.ingsw.view.gui.scene;
+
+import it.polimi.ingsw.model.character.ShortCharacter;
+import it.polimi.ingsw.observer.ClientObservable;
+import it.polimi.ingsw.view.gui.boardcomponent.CharacterGui;
+import javafx.fxml.FXML;
+import javafx.scene.Cursor;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.stage.Stage;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
+
+public class CharacterSceneController extends ClientObservable implements BasicSceneController {
+    @FXML
+    private Button okButton;
+    @FXML
+    private ImageView firstCharacterImg;
+    @FXML
+    private ImageView secondCharacterImg;
+    @FXML
+    private ImageView thirdCharacterImg;
+    @FXML
+    private Label firstCharacterName;
+    @FXML
+    private Label secondCharacterName;
+    @FXML
+    private Label thirdCharacterName;
+    @FXML
+    private Label firstCharacterCost;
+    @FXML
+    private Label secondCharacterCost;
+    @FXML
+    private Label thirdCharacterCost;
+    @FXML
+    private Label firstCharacterDescription;
+    @FXML
+    private Label secondCharacterDescription;
+    @FXML
+    private Label thirdCharacterDescription;
+
+    private int selectedCharacter = -1;
+    private List<ShortCharacter> characters;
+    private final List<CharacterGui> characterComponents;
+
+    public CharacterSceneController() {
+        characterComponents = new ArrayList<>();
+    }
+
+    public void setCharactersInUse(List<ShortCharacter> characters) {
+        this.characters = characters;
+    }
+
+    @FXML
+    private void initialize() {
+        characterComponents.add(new CharacterGui(firstCharacterImg,firstCharacterName,firstCharacterDescription,firstCharacterCost));
+        characterComponents.add(new CharacterGui(secondCharacterImg,secondCharacterName,secondCharacterDescription,secondCharacterCost));
+        characterComponents.add(new CharacterGui(thirdCharacterImg,thirdCharacterName,thirdCharacterDescription,thirdCharacterCost));
+
+        for(int i=0;i<characters.size();i++){
+            ShortCharacter character = characters.get(i);
+            CharacterGui component = characterComponents.get(i);
+            component.characterImg().setCursor(Cursor.HAND);
+            int finalI = i;
+            component.characterImg().setOnMouseClicked(evt -> selectCharacter(finalI));
+            component.setCharacterImg(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/" + character.getName().replace(" ","_").toLowerCase() + ".jpg"))));
+            component.setCharacterCost(character.getCost());
+            component.setCharacterDescription(character.getDescription());
+            component.setCharacterName(character.getName());
+        }
+
+        okButton.setOnMouseClicked(evt -> chooseCharacter());
+    }
+
+    private void selectCharacter(int characterID) {
+        for(CharacterGui characterGui: characterComponents) {
+            characterGui.characterImg().setEffect(null);
+        }
+        characterComponents.get(characterID).characterImg().setEffect(new DropShadow(50, Color.GREEN));
+        selectedCharacter = characterID;
+    }
+
+    private void chooseCharacter() {
+        new Thread(() -> notifyObserver(obs -> obs.updateUseCharacter(selectedCharacter))).start();
+        ((Stage) okButton.getScene().getWindow()).close();
+    }
+}

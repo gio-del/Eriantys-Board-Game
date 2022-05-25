@@ -1,148 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #69bbea;"
-            xmlns="http://javafx.com/javafx/18">
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #69bbea;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
     <GridPane fx:id="islandGrid" alignment="CENTER" prefHeight="720.0" prefWidth="1280.0">
         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="635.3333129882812" minWidth="10.0"
-                               prefWidth="320.0"/>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="635.3333129882812" minWidth="10.0"
-                               prefWidth="320.0"/>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="653.6667073567709" minWidth="10.0"
-                               prefWidth="320.0"/>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="947.9999694824219" minWidth="10.0"
-                               prefWidth="320.0"/>
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="635.3333129882812" minWidth="10.0" prefWidth="320.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="635.3333129882812" minWidth="10.0" prefWidth="320.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="653.6667073567709" minWidth="10.0" prefWidth="320.0" />
+            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="947.9999694824219" minWidth="10.0" prefWidth="320.0" />
         </columnConstraints>
         <rowConstraints>
-            <RowConstraints maxHeight="256.6666717529297" minHeight="10.0" prefHeight="180.0" valignment="CENTER"
-                            vgrow="SOMETIMES"/>
-            <RowConstraints maxHeight="303.3333333333333" minHeight="10.0" prefHeight="180.0" valignment="CENTER"
-                            vgrow="SOMETIMES"/>
-            <RowConstraints maxHeight="335.33332824707026" minHeight="10.0" prefHeight="180.0" valignment="CENTER"
-                            vgrow="SOMETIMES"/>
-            <RowConstraints maxHeight="251.33335367838538" minHeight="10.0" prefHeight="180.0" valignment="CENTER"
-                            vgrow="SOMETIMES"/>
+            <RowConstraints maxHeight="256.6666717529297" minHeight="10.0" prefHeight="180.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="303.3333333333333" minHeight="10.0" prefHeight="180.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="335.33332824707026" minHeight="10.0" prefHeight="180.0" valignment="CENTER" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="251.33335367838538" minHeight="10.0" prefHeight="180.0" valignment="CENTER" vgrow="SOMETIMES" />
         </rowConstraints>
 
-        <AnchorPane prefHeight="325.0" prefWidth="751.0" GridPane.columnIndex="1" GridPane.columnSpan="2"
-                    GridPane.rowIndex="1" GridPane.rowSpan="2">
-            <Button fx:id="nextSchoolBtn" contentDisplay="CENTER" layoutX="471.0" layoutY="47.0" mnemonicParsing="false"
-                    text="Next School">
+        <AnchorPane prefHeight="325.0" prefWidth="751.0" GridPane.columnIndex="1" GridPane.columnSpan="2" GridPane.rowIndex="1" GridPane.rowSpan="2">
+            <Button fx:id="nextSchoolBtn" contentDisplay="CENTER" layoutX="471.0" layoutY="47.0" mnemonicParsing="false" text="Next School">
                 <cursor>
-                    <Cursor fx:constant="HAND"/>
+                    <Cursor fx:constant="HAND" />
                 </cursor>
             </Button>
-            <ImageView fx:id="school" fitHeight="196.0" fitWidth="508.0" layoutX="99.0" layoutY="74.0"
-                       pickOnBounds="true" preserveRatio="true">
-                <Image url="@../images/school.png"/>
+            <ImageView fx:id="school" fitHeight="196.0" fitWidth="508.0" layoutX="99.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true">
+                <Image url="@../images/school.png" />
             </ImageView>
-            <ImageView fx:id="characterDeck" fitHeight="150.0" fitWidth="200.0" layoutX="-2.0" layoutY="97.0"
-                       pickOnBounds="true" preserveRatio="true"/>
-            <HBox fx:id="cloudBox" alignment="CENTER" layoutX="99.0" layoutY="270.0" maxHeight="-Infinity"
-                  maxWidth="-Infinity" prefHeight="100.0" prefWidth="452.0" spacing="45.0"/>
-            <Label fx:id="schoolOwner" layoutX="99.0" layoutY="56.0"/>
+            <ImageView fx:id="characterDeck" fitHeight="150.0" fitWidth="200.0" layoutX="-2.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" />
+            <HBox fx:id="cloudBox" alignment="CENTER" layoutX="99.0" layoutY="270.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="100.0" prefWidth="452.0" spacing="45.0" />
+            <Label fx:id="schoolOwner" layoutX="99.0" layoutY="56.0" />
             <HBox fx:id="redHall" layoutX="176.0" layoutY="123.0" prefHeight="32.0" prefWidth="225.0" spacing="1.5">
                 <padding>
-                    <Insets left="5.0" top="7.0"/>
+                    <Insets left="5.0" top="7.0" />
                 </padding>
             </HBox>
             <HBox fx:id="yellowHall" layoutX="176.0" layoutY="156.0" prefHeight="32.0" prefWidth="225.0" spacing="1.5">
                 <padding>
-                    <Insets left="5.0" top="7.0"/>
+                    <Insets left="5.0" top="7.0" />
                 </padding>
             </HBox>
             <HBox fx:id="greenHall" layoutX="176.0" layoutY="91.0" prefHeight="32.0" prefWidth="225.0" spacing="1.5">
                 <padding>
-                    <Insets left="5.0" top="7.0"/>
+                    <Insets left="5.0" top="7.0" />
                 </padding>
             </HBox>
             <HBox fx:id="pinkHall" layoutX="176.0" layoutY="188.0" prefHeight="32.0" prefWidth="225.0" spacing="1.5">
                 <padding>
-                    <Insets left="5.0" top="7.0"/>
+                    <Insets left="5.0" top="7.0" />
                 </padding>
             </HBox>
             <HBox fx:id="blueHall" layoutX="176.0" layoutY="220.0" prefHeight="32.0" prefWidth="225.0" spacing="1.5">
                 <opaqueInsets>
-                    <Insets/>
+                    <Insets />
                 </opaqueInsets>
                 <padding>
-                    <Insets left="5.0" top="7.0"/>
+                    <Insets left="5.0" top="7.0" />
                 </padding>
             </HBox>
-            <GridPane fx:id="towerGrid" alignment="CENTER" layoutX="458.0" layoutY="108.0" prefHeight="127.0"
-                      prefWidth="76.0">
+            <GridPane fx:id="towerGrid" alignment="CENTER" layoutX="458.0" layoutY="97.0" prefHeight="127.0" prefWidth="76.0">
                 <columnConstraints>
-                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="57.0" minWidth="10.0"
-                                       prefWidth="37.0"/>
-                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="41.0" minWidth="10.0"
-                                       prefWidth="37.0"/>
+                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="57.0" minWidth="10.0" prefWidth="37.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="41.0" minWidth="10.0" prefWidth="37.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints maxHeight="62.333343505859375" minHeight="10.0" prefHeight="34.0"
-                                    valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints maxHeight="68.66666666666666" minHeight="10.0" prefHeight="34.0" valignment="CENTER"
-                                    vgrow="SOMETIMES"/>
-                    <RowConstraints maxHeight="44.666656494140625" minHeight="10.0" prefHeight="34.0"
-                                    valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints maxHeight="38.666687011718736" minHeight="10.0" prefHeight="34.0"
-                                    valignment="CENTER" vgrow="SOMETIMES"/>
+                    <RowConstraints maxHeight="62.333343505859375" minHeight="10.0" prefHeight="34.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="68.66666666666666" minHeight="10.0" prefHeight="34.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="44.666656494140625" minHeight="10.0" prefHeight="34.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints maxHeight="38.666687011718736" minHeight="10.0" prefHeight="34.0" valignment="CENTER" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <padding>
-                    <Insets left="2.5" right="2.5"/>
+                    <Insets left="2.5" right="2.5" />
                 </padding>
             </GridPane>
-            <GridPane fx:id="profTable" alignment="CENTER" layoutX="418.0" layoutY="94.0" prefHeight="156.0"
-                      prefWidth="19.0">
+            <GridPane fx:id="profTable" alignment="CENTER" layoutX="418.0" layoutY="94.0" prefHeight="156.0" prefWidth="19.0">
                 <columnConstraints>
-                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="39.0" valignment="CENTER" vgrow="SOMETIMES" />
                 </rowConstraints>
             </GridPane>
-            <GridPane fx:id="entranceGrid" alignment="CENTER" layoutX="107.0" layoutY="92.0" prefHeight="160.0"
-                      prefWidth="58.0">
+            <GridPane fx:id="entranceGrid" alignment="CENTER" layoutX="107.0" layoutY="92.0" prefHeight="160.0" prefWidth="58.0">
                 <columnConstraints>
-                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
-                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 </columnConstraints>
                 <rowConstraints>
-                    <RowConstraints minHeight="10.0" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="8.66668701171875" prefHeight="32.0" valignment="CENTER"
-                                    vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES"/>
-                    <RowConstraints minHeight="10.0" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES"/>
+                    <RowConstraints minHeight="10.0" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="8.66668701171875" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="32.0" valignment="CENTER" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <padding>
-                    <Insets left="2.0"/>
+                    <Insets left="2.0" />
                 </padding>
             </GridPane>
-            <Button fx:id="prevSchoolBtn" layoutX="389.0" layoutY="47.0" mnemonicParsing="false" text="Prev School"/>
-            <BorderPane fx:id="assistantDeck" layoutX="517.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity"
-                        prefHeight="200.0" prefWidth="168.0"/>
-            <Label fx:id="infoLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefHeight="30.0"
-                   prefWidth="685.0" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="prevSchoolBtn" layoutX="389.0" layoutY="47.0" mnemonicParsing="false" text="Prev School" />
+            <BorderPane fx:id="assistantDeck" layoutX="517.0" layoutY="72.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="200.0" prefWidth="168.0" />
+            <Label fx:id="infoLabel" alignment="CENTER" contentDisplay="CENTER" layoutY="14.0" prefHeight="30.0" prefWidth="685.0" textAlignment="CENTER" wrapText="true">
                 <font>
-                    <Font name="Berlin Sans FB" size="20.0"/>
+                    <Font name="Berlin Sans FB" size="20.0" />
                 </font>
             </Label>
+            <ImageView fitHeight="41.0" fitWidth="58.0" layoutX="28.0" layoutY="49.0" pickOnBounds="true"
+                       preserveRatio="true">
+                <Image url="@../images/various/coin.png"/>
+            </ImageView>
+         <Label fx:id="coin" layoutX="70.0" layoutY="61.0" prefHeight="17.0" prefWidth="19.0" />
         </AnchorPane>
         <padding>
-            <Insets bottom="20.0"/>
+            <Insets bottom="20.0" />
         </padding>
     </GridPane>
 </AnchorPane>

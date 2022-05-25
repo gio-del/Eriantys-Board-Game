@@ -38,6 +38,7 @@ public class Game extends Observable {
     private Player currentPlayer;
     private GameLimitData gameLimitData;
     private boolean expertMode;
+    private boolean alreadyPlayedACharacter;
     private int stepsIncrement;
 
     /**
@@ -154,6 +155,7 @@ public class Game extends Observable {
      * @param character the chosen character
      */
     public void useCharacter(CharacterCard character) {
+        alreadyPlayedACharacter = true;
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
         bank.pay(currentPlayer, cost);
         if (!character.hasCoinOn()) character.setCoinOn(true);
@@ -166,9 +168,8 @@ public class Game extends Observable {
      * @return true if the character can be played by the current player, otherwise false
      */
     public boolean canUseCharacter(CharacterCard character) {
-        //todo:  check if is expert mode and if current player has already played a character
         int cost = character.getCost() + (character.hasCoinOn() ? 1 : 0);
-        return bank.canPay(currentPlayer, cost);
+        return expertMode && !alreadyPlayedACharacter && bank.canPay(currentPlayer, cost);
     }
 
     /**
@@ -179,7 +180,6 @@ public class Game extends Observable {
      * @return true and perform the movement, false if not possible
      */
     public boolean moveMotherNature(int steps, Player player) {
-        // TODO: remove player and substitute with current player.
         int maxMove = player.getLastPlayedAssistant().movement() + stepsIncrement;
         if (steps <= maxMove && steps > 0) {
             board.moveMotherNature(steps);
@@ -297,6 +297,7 @@ public class Game extends Observable {
      * Before the beginning of the turn of each player, the strategies in use are reset to the default ones.
      */
     public void prepareNextTurn() {
+        this.alreadyPlayedACharacter = false;
         this.stepsIncrement = 0;
         resetStrategies();
     }
@@ -337,7 +338,6 @@ public class Game extends Observable {
     }
 
     public void setCurrentPlayer(String player) {
-        this.stepsIncrement = 0;
         currentPlayer = getPlayerByName(player);
     }
 

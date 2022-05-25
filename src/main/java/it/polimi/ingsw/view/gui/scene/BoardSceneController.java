@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.ShortPlayer;
 import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.observer.ClientObservable;
+import it.polimi.ingsw.view.gui.SceneManager;
 import it.polimi.ingsw.view.gui.boardcomponent.CloudGui;
 import it.polimi.ingsw.view.gui.boardcomponent.IslandGui;
 import it.polimi.ingsw.view.gui.boardcomponent.SchoolGui;
@@ -18,8 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -52,6 +52,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     @FXML
     private Label schoolOwner;
     @FXML
+    private Label coin;
+    @FXML
     private HBox greenHall;
     @FXML
     private HBox yellowHall;
@@ -78,6 +80,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private Set<Assistant> playableAssistant;
     private SchoolGui actualSchool;
     private PawnColor selectedColor;
+    private boolean canPlayCharacter;
 
     public BoardSceneController(ShortModel resource, String nickname) {
         this.resource = resource;
@@ -94,8 +97,12 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         assert myself != null;
 
         //CHARACTERS
-        if (resource.getCharacters() != null)
+        if (resource.getCharacters() != null) {
+            canPlayCharacter = false;
             characterDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
+            characterDeck.setOnMouseClicked(evt -> useCharacter());
+            characterDeck.setCursor(Cursor.HAND);
+        }
 
         //CLOUDS
         for (ShortCloud shortCloud : resource.getClouds()) {
@@ -122,6 +129,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     public void setPlayableAssistant(Set<Assistant> playableAssistant) {
+        this.canPlayCharacter = false;
         infoLabel.setText("Select your assistant deck to choose one!");
         this.playableAssistant = playableAssistant;
         ImageView myWizard = schoolGuiMap.get(nickname).getWizard();
@@ -159,10 +167,47 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         infoLabel.setText("Wait for all players to choose their assistant!");
     }
 
+    private void useCharacter() {
+
+        if(!canPlayCharacter) {
+            SceneManager.showAlert(Alert.AlertType.WARNING,"Wait your action turn to play a character card!");
+            return;
+        }
+
+        consumeEventChooseCloud();
+        consumeEventMoveMotherNature();
+        consumeEventMoveStudent();
+
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/characters.fxml"));
+        CharacterSceneController controller = new CharacterSceneController();
+        controller.setCharactersInUse(resource.getCharacters());
+        observers.forEach(controller::addObserver);
+        loader.setController(controller);
+        Parent root = null;
+        try {
+            root = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            exit(1);
+        }
+        stage.setScene(new Scene(root));
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
+        stage.setTitle("Choose a character to play!");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.showAndWait();
+        //TODO
+    }
+
     private void printSchool() {
 
         //OWNER
         schoolOwner.setText(actualSchool.getOwner());
+
+        //COIN
+        coin.setText("x"+ resource.getMoneyMap().get(actualSchool.getOwner()));
 
         //ASSISTANT DECK
         assistantDeck.setCenter(actualSchool.getWizard());
@@ -312,6 +357,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     public void setMovableStudents() {
+        this.canPlayCharacter = true;
         infoLabel.setText("Choose a student to move from your entrance!");
         schoolGuiMap.get(nickname).getEntranceViews().forEach(((pawnColor, imageViews) -> imageViews.forEach(img -> {
             img.setOnMouseClicked(evt -> chooseMoveColor(pawnColor, img));
@@ -417,6 +463,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     private void chooseCloud(int i) {
         consumeEventChooseCloud();
+        this.canPlayCharacter = false;
         new Thread(() -> notifyObserver(obs -> obs.updateCloud(i))).start();
     }
 
@@ -427,5 +474,27 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             cloud.getContentView().forEach(content -> content.setCursor(Cursor.DEFAULT));
         });
         infoLabel.setText("Wait for the other players' turn!");
+    }
+
+    public void askColor() {
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choose_color_character.fxml"));
+
+        Parent root = null;
+        try {
+            root = loader.load();
+            ColorCharacterSceneController controller = loader.getController();
+            observers.forEach(controller::addObserver);
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+            exit(1);
+        }
+        stage.setScene(new Scene(root));
+        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
+        stage.setTitle("Choose a color for the chosen character!");
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.showAndWait();
     }
 }
