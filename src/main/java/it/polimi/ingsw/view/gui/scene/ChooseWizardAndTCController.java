@@ -6,6 +6,7 @@ import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.gui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
@@ -45,6 +46,12 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     private BorderPane greyTower;
     @FXML
     private Button okButton;
+    @FXML
+    private Group groupOfWizard;
+    @FXML
+    private ImageView loading;
+    @FXML
+    private ImageView background;
 
 
     public ChooseWizardAndTCController(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
@@ -111,11 +118,20 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     private void disableAll() {
         for (ImageView imageView : wizardMapImage.values()) {
             imageView.setDisable(true);
+            imageView.setVisible(false);
         }
         for (BorderPane pane : towerColorMapImage.values()) {
             pane.setDisable(true);
+            pane.setVisible(false);
         }
         okButton.setDisable(true);
+        okButton.setVisible(false);
+        AnchorPane pane = (AnchorPane) okButton.getParent();
+        pane.getChildren().clear();
+        pane.getChildren().addAll(loading, background, groupOfWizard);
+        loading.setVisible(true);
+        background.setVisible(true);
+        groupOfWizard.setVisible(true);
     }
 
     private void confirm() {

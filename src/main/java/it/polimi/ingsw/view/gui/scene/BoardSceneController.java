@@ -24,7 +24,6 @@ import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -126,13 +125,12 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         infoLabel.setText("Select your assistant deck to choose one!");
         this.playableAssistant = playableAssistant;
         ImageView myWizard = schoolGuiMap.get(nickname).getWizard();
-        myWizard.setOnMouseClicked(this::useAssistant);
+        myWizard.setOnMouseClicked(evt -> useAssistant());
         myWizard.setEffect(new DropShadow(50, Color.YELLOW));
         myWizard.setCursor(Cursor.HAND);
     }
 
-    @FXML
-    private void useAssistant(MouseEvent mouseEvent) {
+    private void useAssistant() {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/play_assistant.fxml"));
@@ -158,7 +156,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         myWizard.setOnMouseClicked(null);
         myWizard.setEffect(null);
         myWizard.setCursor(Cursor.DEFAULT);
-        infoLabel.setText("");
+        infoLabel.setText("Wait for all players to choose their assistant!");
     }
 
     private void printSchool() {
@@ -314,7 +312,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     public void setMovableStudents() {
-        infoLabel.setText("Choose a student to move from your entrance and then an island or your hall!");
+        infoLabel.setText("Choose a student to move from your entrance!");
         schoolGuiMap.get(nickname).getEntranceViews().forEach(((pawnColor, imageViews) -> imageViews.forEach(img -> {
             img.setOnMouseClicked(evt -> chooseMoveColor(pawnColor, img));
             img.setCursor(Cursor.HAND);
@@ -428,6 +426,6 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             cloud.getContentView().forEach(content -> content.setOnMouseClicked(null));
             cloud.getContentView().forEach(content -> content.setCursor(Cursor.DEFAULT));
         });
-        infoLabel.setText("");
+        infoLabel.setText("Wait for the other players' turn!");
     }
 }

@@ -4,9 +4,11 @@ import it.polimi.ingsw.observer.ClientObservable;
 import it.polimi.ingsw.view.gui.Gui;
 import it.polimi.ingsw.view.gui.SceneManager;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +23,10 @@ public class LoginSceneController extends ClientObservable implements BasicScene
     private TextField nicknameTextField;
     @FXML
     private Button confirmNicknameButton;
+    @FXML
+    private Group groupOfWizard;
+    @FXML
+    private ImageView loading;
 
     public LoginSceneController(Gui gui) {
         this.gui = gui;
@@ -45,6 +51,8 @@ public class LoginSceneController extends ClientObservable implements BasicScene
             SceneManager.showAlert(Alert.AlertType.WARNING, "You must chose a nickname");
             return;
         }
+        groupOfWizard.setVisible(true);
+        loading.setVisible(true);
         nicknameTextField.setDisable(true);
         confirmNicknameButton.setDisable(true);
 
