@@ -58,9 +58,10 @@ public class ActionVisitor {
         Player player = game.getPlayerByName(turn.getRequestName());
         Action action = switch (data.getFrom()) {
             case ENTRANCE, ISLAND -> null;
-            case SELF -> new SwapAction(chosen, player.getSchool().getEntranceAsPlace(), chosen.getChosenSwap());
+            case SELF ->
+                    new SwapAction(chosen, player.getSchool().getEntranceAsPlace(), chosen.getChosenSwap(), data.getMaxSwaps());
             case HALL ->
-                    new SwapAction(player.getSchool().getHallAsPlace(), player.getSchool().getEntranceAsPlace(), chosen.getChosenSwap());
+                    new SwapAction(player.getSchool().getHallAsPlace(), player.getSchool().getEntranceAsPlace(), chosen.getChosenSwap(), data.getMaxSwaps());
         };
         validateAction(action);
     }

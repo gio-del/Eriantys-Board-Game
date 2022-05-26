@@ -47,7 +47,7 @@ class SwapActionTest {
         //EXPECTED AFTER SWAP
         // FROM: 0 0 2 1 2
         // TO: 3 3 1 2 1
-        assertTrue(new SwapAction(from, to, swapList).apply());
+        assertTrue(new SwapAction(from, to, swapList, 2).apply());
         assertEquals(new Pawns(0, 0, 2, 1, 2), fromEntrance);
         assertEquals(new Pawns(3, 3, 1, 2, 1), toHall);
     }
@@ -61,7 +61,7 @@ class SwapActionTest {
         //EXPECTED AFTER SWAP
         // FROM: 1 0 1 1 2
         // TO: 2 3 2 2 1
-        assertTrue(new SwapAction(from, to, swapList).apply());
+        assertTrue(new SwapAction(from, to, swapList, 1).apply());
         assertEquals(new Pawns(1, 0, 1, 1, 2), fromEntrance);
         assertEquals(new Pawns(2, 3, 2, 2, 1), toHall);
     }
@@ -70,9 +70,9 @@ class SwapActionTest {
      * Swap fails because pawns has different sizes
      */
     @Test
-    void moveActionKO_1() {
+    void swapActionKO_1() {
         List<PawnColor> swapList = List.of(PawnColor.RED, PawnColor.BLUE, PawnColor.YELLOW);
-        assertFalse(new SwapAction(from, to, swapList).apply());
+        assertFalse(new SwapAction(from, to, swapList, 2).apply());
         //check that nothing is changed
         assertEquals(new Pawns(1, 1, 1, 1, 1), fromEntrance);
         assertEquals(new Pawns(2, 2, 2, 2, 2), toHall);
@@ -82,9 +82,9 @@ class SwapActionTest {
      * Swap fails because pawns has same size but pawns from "From" is not contained in "From"
      */
     @Test
-    void moveActionKO_2() {
+    void swapActionKO_2() {
         List<PawnColor> swapList = List.of(PawnColor.RED, PawnColor.BLUE, PawnColor.RED, PawnColor.GREEN);
-        assertFalse(new SwapAction(from, to, swapList).apply());
+        assertFalse(new SwapAction(from, to, swapList, 2).apply());
         //check that nothing is changed
         assertEquals(new Pawns(1, 1, 1, 1, 1), fromEntrance);
         assertEquals(new Pawns(2, 2, 2, 2, 2), toHall);
@@ -94,9 +94,22 @@ class SwapActionTest {
      * Swap fails because pawns has same size but pawns from "To" is not contained in "To"
      */
     @Test
-    void moveActionKO_3() {
+    void swapActionKO_3() {
         List<PawnColor> swapList = List.of(PawnColor.GREEN, PawnColor.RED, PawnColor.BLUE, PawnColor.RED, PawnColor.YELLOW, PawnColor.RED);
-        assertFalse(new SwapAction(from, to, swapList).apply());
+        assertFalse(new SwapAction(from, to, swapList, 3).apply());
+        //check that nothing is changed
+        assertEquals(new Pawns(1, 1, 1, 1, 1), fromEntrance);
+        assertEquals(new Pawns(2, 2, 2, 2, 2), toHall);
+    }
+
+    /**
+     * Swap fails because swapLists exceed the limit of the character
+     */
+    @Test
+    void swapActionKO_4() {
+        List<PawnColor> swapList = List.of(PawnColor.RED, PawnColor.BLUE, PawnColor.GREEN, PawnColor.YELLOW);
+
+        assertFalse(new SwapAction(from, to, swapList, 1).apply());
         //check that nothing is changed
         assertEquals(new Pawns(1, 1, 1, 1, 1), fromEntrance);
         assertEquals(new Pawns(2, 2, 2, 2, 2), toHall);

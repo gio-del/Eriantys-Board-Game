@@ -7,7 +7,8 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity"
+            minHeight="-Infinity"
             minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0"
             xmlns="http://javafx.com/javafx/18">
     <ImageView fitHeight="400.0" fitWidth="600.0">

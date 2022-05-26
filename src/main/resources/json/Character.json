@@ -83,7 +83,8 @@
     "action": {
       "actionType": "SWAP",
       "from": "SELF",
-      "to": "ENTRANCE"
+      "to": "ENTRANCE",
+      "maxSwaps": 3
     },
     "numberOfStudentsOn": 6
   },
@@ -120,7 +121,8 @@
     "action": {
       "actionType": "SWAP",
       "from": "HALL",
-      "to": "ENTRANCE"
+      "to": "ENTRANCE",
+      "maxSwaps": 2
     }
   },
   {

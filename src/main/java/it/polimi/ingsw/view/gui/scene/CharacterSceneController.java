@@ -20,6 +20,7 @@ import java.util.Objects;
 
 
 public class CharacterSceneController extends ClientObservable implements BasicSceneController {
+    private final List<CharacterGui> characterComponents;
     @FXML
     private Button okButton;
     @FXML
@@ -58,10 +59,8 @@ public class CharacterSceneController extends ClientObservable implements BasicS
     private ImageView secondCoinOn;
     @FXML
     private ImageView thirdCoinOn;
-
     private int selectedCharacter = -1;
     private List<ShortCharacter> characters;
-    private final List<CharacterGui> characterComponents;
 
     public CharacterSceneController() {
         characterComponents = new ArrayList<>();
@@ -73,17 +72,17 @@ public class CharacterSceneController extends ClientObservable implements BasicS
 
     @FXML
     private void initialize() {
-        characterComponents.add(new CharacterGui(firstCharacterImg,firstCharacterName,firstCharacterDescription,firstCharacterCost,firstComponentsOn,firstCoinOn));
-        characterComponents.add(new CharacterGui(secondCharacterImg,secondCharacterName,secondCharacterDescription,secondCharacterCost,secondComponentsOn,secondCoinOn));
-        characterComponents.add(new CharacterGui(thirdCharacterImg,thirdCharacterName,thirdCharacterDescription,thirdCharacterCost,thirdComponentsOn,thirdCoinOn));
+        characterComponents.add(new CharacterGui(firstCharacterImg, firstCharacterName, firstCharacterDescription, firstCharacterCost, firstComponentsOn, firstCoinOn));
+        characterComponents.add(new CharacterGui(secondCharacterImg, secondCharacterName, secondCharacterDescription, secondCharacterCost, secondComponentsOn, secondCoinOn));
+        characterComponents.add(new CharacterGui(thirdCharacterImg, thirdCharacterName, thirdCharacterDescription, thirdCharacterCost, thirdComponentsOn, thirdCoinOn));
 
-        for(int i=0;i<characters.size();i++){
+        for (int i = 0; i < characters.size(); i++) {
             ShortCharacter character = characters.get(i);
             CharacterGui component = characterComponents.get(i);
             component.characterImg().setCursor(Cursor.HAND);
             int finalI = i;
             component.characterImg().setOnMouseClicked(evt -> selectCharacter(finalI));
-            component.setCharacterImg(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/" + character.getName().replace(" ","_").toLowerCase() + ".jpg"))));
+            component.setCharacterImg(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/" + character.getName().replace(" ", "_").toLowerCase() + ".jpg"))));
             component.setCharacterCost(character.getCost());
             component.setCharacterDescription(character.getDescription());
             component.setCharacterName(character.getName());
@@ -96,7 +95,7 @@ public class CharacterSceneController extends ClientObservable implements BasicS
     }
 
     private void selectCharacter(int characterID) {
-        for(CharacterGui characterGui: characterComponents) {
+        for (CharacterGui characterGui : characterComponents) {
             characterGui.characterImg().setEffect(null);
         }
         characterComponents.get(characterID).characterImg().setEffect(new DropShadow(50, Color.GREEN));

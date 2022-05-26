@@ -19,7 +19,9 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -172,8 +174,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     private void useCharacter() {
 
-        if(!canPlayCharacter) {
-            SceneManager.showAlert(Alert.AlertType.WARNING,"Wait your action turn to play a character card!");
+        if (!canPlayCharacter) {
+            SceneManager.showAlert(Alert.AlertType.WARNING, "Wait your action turn to play a character card!");
             return;
         }
 
@@ -205,7 +207,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         schoolOwner.setText(actualSchool.getOwner());
 
         //COIN
-        coin.setText("x"+ resource.getMoneyMap().get(actualSchool.getOwner()));
+        coin.setText("x" + resource.getMoneyMap().get(actualSchool.getOwner()));
 
         //ASSISTANT DECK
         assistantDeck.setCenter(actualSchool.getWizard());

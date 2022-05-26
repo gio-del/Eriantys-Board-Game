@@ -13,11 +13,13 @@ public class SwapAction implements Action {
     private final Place from;
     private final Place to;
     private final List<PawnColor> swapList;
+    private final int maxSwaps;
 
-    public SwapAction(Place from, Place to, List<PawnColor> swapList) {
+    public SwapAction(Place from, Place to, List<PawnColor> swapList, int maxSwaps) {
         this.from = from;
         this.to = to;
         this.swapList = swapList;
+        this.maxSwaps = maxSwaps;
     }
 
     @Override
@@ -25,7 +27,7 @@ public class SwapAction implements Action {
         int i = 0;
         Pawns toBeRemovedFrom = new Pawns();
         Pawns toBeRemovedTo = new Pawns();
-        if (swapList.size() % 2 != 0) return false; //todo: add control on number of swaps!
+        if (swapList.isEmpty() || swapList.size() % 2 != 0 || (swapList.size() / 2) > maxSwaps) return false;
         while (i < swapList.size()) {
             toBeRemovedFrom.addColor(swapList.get(i));
             toBeRemovedTo.addColor(swapList.get(i + 1));

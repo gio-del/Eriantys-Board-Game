@@ -33,11 +33,11 @@ public class ColorCharacterSceneController extends ClientObservable implements B
 
     @FXML
     private void initialize() {
-        colors = List.of(red,pink,yellow,blue,green);
+        colors = List.of(red, pink, yellow, blue, green);
     }
 
     public void redClick() {
-        for(ImageView color: colors) {
+        for (ImageView color : colors) {
             color.setEffect(null);
         }
         red.setEffect(new DropShadow(40, Color.YELLOW));
@@ -45,7 +45,7 @@ public class ColorCharacterSceneController extends ClientObservable implements B
     }
 
     public void yellowClick() {
-        for(ImageView color: colors) {
+        for (ImageView color : colors) {
             color.setEffect(null);
         }
         yellow.setEffect(new DropShadow(40, Color.YELLOW));
@@ -53,7 +53,7 @@ public class ColorCharacterSceneController extends ClientObservable implements B
     }
 
     public void blueClick() {
-        for(ImageView color: colors) {
+        for (ImageView color : colors) {
             color.setEffect(null);
         }
         blue.setEffect(new DropShadow(40, Color.YELLOW));
@@ -61,7 +61,7 @@ public class ColorCharacterSceneController extends ClientObservable implements B
     }
 
     public void pinkClick() {
-        for(ImageView color: colors) {
+        for (ImageView color : colors) {
             color.setEffect(null);
         }
         pink.setEffect(new DropShadow(40, Color.YELLOW));
@@ -69,7 +69,7 @@ public class ColorCharacterSceneController extends ClientObservable implements B
     }
 
     public void greenClick() {
-        for(ImageView color: colors) {
+        for (ImageView color : colors) {
             color.setEffect(null);
         }
         green.setEffect(new DropShadow(40, Color.YELLOW));
@@ -77,8 +77,8 @@ public class ColorCharacterSceneController extends ClientObservable implements B
     }
 
     public void choose() {
-        if(selected==null) {
-            SceneManager.showAlert(Alert.AlertType.WARNING,"You must select a color");
+        if (selected == null) {
+            SceneManager.showAlert(Alert.AlertType.WARNING, "You must select a color");
             return;
         }
         new Thread(() -> notifyObserver(obs -> obs.updateColorAction(selected))).start();

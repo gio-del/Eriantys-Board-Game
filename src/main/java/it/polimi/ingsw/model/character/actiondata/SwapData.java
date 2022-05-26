@@ -7,7 +7,7 @@ import it.polimi.ingsw.model.character.ActionVisitor;
 public class SwapData implements ActionData {
     private PlaceData from;
     private PlaceData to;
-    private int numbOfMaxSwap;
+    private int maxSwaps;
 
     @Override
     public void accept(ActionVisitor visitor) {
@@ -22,7 +22,7 @@ public class SwapData implements ActionData {
         return to;
     }
 
-    public int getNumbOfMaxSwap() {
-        return numbOfMaxSwap;
+    public int getMaxSwaps() {
+        return maxSwaps;
     }
 }
