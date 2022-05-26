@@ -31,7 +31,7 @@ public class TestingGUI extends Application {
         game = new Game();
         game.addPlayer("Marco", Wizard.KING, TowerColor.BLACK);
         game.addPlayer("Giovanni", Wizard.SORCERER, TowerColor.GREY);
-        game.startGame(true);
+        game.startGame(false);
         game.fillClouds();
         game.getPlayerByName("Giovanni").getSchool().getHall().addPawns(new Pawns(1, 2, 9, 1, 5));
         game.getPlayerByName("Marco").getSchool().getHall().addPawns(new Pawns(2, 1, 4, 9, 10));
@@ -45,7 +45,7 @@ public class TestingGUI extends Application {
         game.getBoard().getIslands().get(1).upgradeBanTiles(1);
         game.getBoard().moveMotherNature(1);
         game.getBoard().getIslands().get(2).add(new Pawns(1, 1, 1, 1, 1));
-        resource = new ShortModel(game, true);
+        resource = new ShortModel(game, false);
 
         boardSceneController = new BoardSceneController(resource, "Giovanni");
         root = null;

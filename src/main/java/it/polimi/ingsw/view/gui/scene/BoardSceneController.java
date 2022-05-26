@@ -56,6 +56,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     @FXML
     private Label coin;
     @FXML
+    private ImageView coinImg;
+    @FXML
     private HBox greenHall;
     @FXML
     private HBox yellowHall;
@@ -84,6 +86,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private PawnColor selectedColor;
     private boolean canPlayCharacter;
 
+
     public BoardSceneController(ShortModel resource, String nickname) {
         this.resource = resource;
         this.nickname = nickname;
@@ -106,6 +109,11 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             characterDeck.setCursor(Cursor.HAND);
         }
 
+        //COIN
+        if (resource.getMoneyMap() != null) {
+            coinImg.setVisible(true);
+        }
+
         //CLOUDS
         for (ShortCloud shortCloud : resource.getClouds()) {
             cloudBox.getChildren().add(new CloudGui(shortCloud));
@@ -125,6 +133,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
         //nextSchoolBtn and prevSchoolBtn
         nextSchoolBtn.setOnAction(event -> this.nextSchool());
+        nextSchoolBtn.setCursor(Cursor.HAND);
         prevSchoolBtn.setDisable(true);
 
         refresh();
@@ -203,11 +212,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     private void printSchool() {
 
+
         //OWNER
         schoolOwner.setText(actualSchool.getOwner());
 
         //COIN
-        coin.setText("x" + resource.getMoneyMap().get(actualSchool.getOwner()));
+        if (coinImg.isVisible())
+            coin.setText("x" + resource.getMoneyMap().get(actualSchool.getOwner()));
 
         //ASSISTANT DECK
         assistantDeck.setCenter(actualSchool.getWizard());
@@ -327,6 +338,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
         if (index == 0) {
             prevSchoolBtn.setDisable(false);
+            prevSchoolBtn.setCursor(Cursor.HAND);
             prevSchoolBtn.setOnAction(event -> this.prevSchool());
         }
         actualSchool = schoolGuiMap.get(names.get(index + 1));
@@ -341,6 +353,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
         if (index == names.size() - 1) {
             nextSchoolBtn.setDisable(false);
+            nextSchoolBtn.setCursor(Cursor.HAND);
             nextSchoolBtn.setOnAction(event -> this.nextSchool());
         }
         actualSchool = schoolGuiMap.get(names.get(index - 1));

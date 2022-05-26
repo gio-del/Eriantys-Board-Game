@@ -4,7 +4,8 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
             prefHeight="449.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18">
     <ImageView fitHeight="449.0" fitWidth="600.0">
         <Image url="@../images/background.png"/>

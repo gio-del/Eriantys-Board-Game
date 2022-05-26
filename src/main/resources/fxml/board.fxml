@@ -138,8 +138,8 @@
                     <Font name="Berlin Sans FB" size="20.0"/>
                 </font>
             </Label>
-            <ImageView fitHeight="41.0" fitWidth="58.0" layoutX="28.0" layoutY="49.0" pickOnBounds="true"
-                       preserveRatio="true">
+            <ImageView fx:id="coinImg" fitHeight="41.0" fitWidth="58.0" layoutX="28.0" layoutY="49.0"
+                       pickOnBounds="true" preserveRatio="true" visible="false">
                 <Image url="@../images/various/coin.png"/>
             </ImageView>
             <Label fx:id="coin" layoutX="70.0" layoutY="61.0" prefHeight="17.0" prefWidth="19.0"/>

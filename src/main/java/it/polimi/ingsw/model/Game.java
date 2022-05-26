@@ -302,6 +302,7 @@ public class Game extends Observable {
         resetStrategies();
     }
 
+
     /**
      * @return list of players in the game
      */

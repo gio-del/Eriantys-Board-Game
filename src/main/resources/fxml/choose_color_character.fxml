@@ -6,7 +6,8 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity"
             prefHeight="298.0" prefWidth="553.0" style="-fx-background-color: beige;"
             xmlns="http://javafx.com/javafx/18"
             fx:controller="it.polimi.ingsw.view.gui.scene.ColorCharacterSceneController">
