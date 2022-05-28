@@ -27,6 +27,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(WinNotification msg) {
+        view.updateScreen();
         view.win(msg.getName(), msg.isWin());
     }
 

@@ -15,6 +15,7 @@ public class EriantysClient {
                 view.init();
             } else Application.launch(RunnableGui.class);
         } else {
+            //System.setProperty("prism.allowhidpi", "false");
             Application.launch(RunnableGui.class);
         }
     }

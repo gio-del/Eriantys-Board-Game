@@ -12,6 +12,7 @@ import it.polimi.ingsw.model.player.TowerColor;
 import it.polimi.ingsw.model.player.Wizard;
 import it.polimi.ingsw.utility.Pair;
 import it.polimi.ingsw.utility.gamelimit.GameLimit;
+import it.polimi.ingsw.view.View;
 
 import java.util.*;
 
@@ -107,32 +108,20 @@ public class TurnManager {
      * Switch to the next turn, following game logic
      */
     private void turn() {
+        requestName = playersOrder.get(request);
+        game.setCurrentPlayer(requestName);
+        View vv = controller.getVirtualView(requestName);
+        if (checkGameEnd(vv)) return;
         switch (gameState) {
             case PLANNING_ADD_TO_CLOUD -> {
                 game.fillClouds();
                 gameState = GameState.PLANNING_ASSISTANT;
                 turn();
             }
-            case PLANNING_ASSISTANT -> {
-                requestName = playersOrder.get(request);
-                game.setCurrentPlayer(requestName);
-                controller.getVirtualView(requestName).chooseAssistant(game.getPlayableAssistant());
-            }
-            case ACTION_MOVE -> {
-                requestName = playersOrder.get(request);
-                game.setCurrentPlayer(requestName);
-                controller.getVirtualView(requestName).moveStudent(game.getPlayerByName(requestName).getSchool().getEntrance().toList());
-            }
-            case ACTION_MN -> {
-                requestName = playersOrder.get(request);
-                game.setCurrentPlayer(requestName);
-                controller.getVirtualView(requestName).moveMNature(game.getMotherNatureSteps(requestName));
-            }
-            case ACTION_CHOOSE_CLOUD -> {
-                requestName = playersOrder.get(request);
-                game.setCurrentPlayer(requestName);
-                controller.getVirtualView(requestName).chooseCloud(game.getClouds().stream().map(ShortCloud::new).toList());
-            }
+            case PLANNING_ASSISTANT -> vv.chooseAssistant(game.getPlayableAssistant());
+            case ACTION_MOVE -> vv.moveStudent(game.getPlayerByName(requestName).getSchool().getEntrance().toList());
+            case ACTION_MN -> vv.moveMNature(game.getMotherNatureSteps(requestName));
+            case ACTION_CHOOSE_CLOUD -> vv.chooseCloud(game.getClouds().stream().map(ShortCloud::new).toList());
             case USE_CHARACTER -> {
                 if (characterRequest < chosenCard.getRequires().size())
                     askRequirements(chosenCard.getRequires().get(characterRequest));
@@ -246,7 +235,6 @@ public class TurnManager {
      * @param character the chosen card
      */
     public void onChosenCharacter(CharacterCard character) {
-        //todo: add control on name of the user of this character, it must be the only character played by him/her
         callbackState = gameState;
         gameState = GameState.USE_CHARACTER;
         if (character != null && game.canUseCharacter(character)) {
@@ -368,6 +356,10 @@ public class TurnManager {
      */
     public void setLastTurn(boolean lastTurn) {
         isLastTurn = lastTurn;
+    }
+
+    private boolean checkGameEnd(View vv) {
+        return vv == null;
     }
 
     public enum GameState {PLANNING_ADD_TO_CLOUD, PLANNING_ASSISTANT, ACTION_MOVE, ACTION_MN, ACTION_CHOOSE_CLOUD, USE_CHARACTER}

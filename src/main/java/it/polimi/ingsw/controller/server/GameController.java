@@ -30,7 +30,7 @@ public class GameController {
     public GameController() {
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.connectionMap = Collections.synchronizedMap(new HashMap<>());
-        this.names = new ArrayList<>();
+        this.names = Collections.synchronizedList(new ArrayList<>());
         this.game = new Game();
         this.turnManager = new TurnManager(game, this);
         this.visitor = new ServerSideVisitor(game, turnManager);
@@ -84,9 +84,6 @@ public class GameController {
         if (connectionMap.isEmpty())
             return; //in case of "multiple win condition" (e.g. a player finishes all his towers and the island are less than 3) the client are notified one time
         notifyWinner(name);
-        connectionMap.clear();
-        virtualViewMap.clear();
-
     }
 
     /**
@@ -94,11 +91,20 @@ public class GameController {
      *
      * @param winner the nickname of the winner
      */
-    private void notifyWinner(String winner) {
+    private synchronized void notifyWinner(String winner) {
         virtualViewMap.get(winner).win(winner, true);
+        removeClient(winner);
+        names.remove(winner);
         for (String name : names) {
             virtualViewMap.get(name).win(winner, false);
+            removeClient(name);
         }
+        names.clear();
+    }
+
+    private void removeClient(String nickname) {
+        connectionMap.remove(nickname);
+        virtualViewMap.remove(nickname);
     }
 
     /**
@@ -106,7 +112,7 @@ public class GameController {
      *
      * @param nickname the nickname of the disconnected client
      */
-    public void handleDisconnection(String nickname) {
+    public synchronized void handleDisconnection(String nickname) {
         connectionMap.remove(nickname);
         virtualViewMap.remove(nickname);
         Notification disconnection = new ErrorNotification(nickname + " has left the match! GAME ENDED.");
