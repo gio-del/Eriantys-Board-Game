@@ -106,7 +106,10 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void win(String winner, boolean win) {
-        //TODO
+            Platform.runLater(() -> {
+                SceneManager.showAlert(Alert.AlertType.INFORMATION, win ? "YOU WON! Closing the game..." : winner + " won this game! Closing the game...");
+                System.exit(0);
+            });
     }
 
     @Override

@@ -1,9 +1,11 @@
 package it.polimi.ingsw.controller.server;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.ShortModel;
 import it.polimi.ingsw.network.communication.NotificationVisitor;
 import it.polimi.ingsw.network.communication.notification.ErrorNotification;
 import it.polimi.ingsw.network.communication.notification.GameStartedNotification;
+import it.polimi.ingsw.network.communication.notification.ModelUpdateNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.server.Connection;
 import it.polimi.ingsw.network.server.Server;
@@ -25,7 +27,7 @@ public class GameController {
     private final Game game;
     private final TurnManager turnManager;
     private final WinHandler winHandler;
-    private boolean isExpertMode;
+    private boolean expertMode;
 
     public GameController() {
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
@@ -58,8 +60,8 @@ public class GameController {
         msg.accept(visitor);
     }
 
-    public void init(boolean isExpertMode) {
-        this.isExpertMode = isExpertMode;
+    public void init(boolean expertMode) {
+        this.expertMode = expertMode;
         virtualViewMap.values().forEach(game::addObserver);
         broadcast(new GameStartedNotification());
         turnManager.setFirstOrder(names);
@@ -83,6 +85,7 @@ public class GameController {
     public void handleWin(String name) {
         if (connectionMap.isEmpty())
             return; //in case of "multiple win condition" (e.g. a player finishes all his towers and the island are less than 3) the client are notified one time
+        game.notifyObserver(new ModelUpdateNotification(new ShortModel(game, expertMode))); //final update
         notifyWinner(name);
     }
 
@@ -190,7 +193,7 @@ public class GameController {
      * @return true if the game mode is set, false otherwise.
      */
     public boolean isExpertMode() {
-        return isExpertMode;
+        return expertMode;
     }
 
     /**
