@@ -76,6 +76,10 @@ public class Sack extends WinObservable {
         return sackPawns.totalElements();
     }
 
+    public boolean isEmpty() {
+        return sackPawns.totalElements() == 0;
+    }
+
     @Override
     public String toString() {
         return sackPawns.toString();

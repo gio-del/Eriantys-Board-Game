@@ -156,8 +156,7 @@ public class CharacterCard implements Place {
     }
 
     public void fill(Sack sack) {
-        for (int i = students.totalElements(); i < numberOfStudentsOn; i++) {
-            students.addColor(sack.extract());
-        }
+        if(sack.isEmpty()) return;
+        students.addPawns(sack.extractListOfPawns(numberOfStudentsOn-students.totalElements()));
     }
 }
