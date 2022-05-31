@@ -8,11 +8,8 @@ import it.polimi.ingsw.network.communication.notification.*;
  * that updates view or model.
  */
 public interface NotificationVisitor {
-    void visit(LoginNotification msg);
 
     void visit(WinNotification msg);
-
-    void visit(CloudsNotification msg);
 
     void visit(MoveStudentNotification msg);
 
@@ -23,17 +20,13 @@ public interface NotificationVisitor {
     void visit(ChooseGameModeNotification msg);
 
 
-    void visit(ErrorNotification msg);
+    void visit(ErrorMessageNotification msg);
 
     void visit(ChooseWizAndTowerColorNotification msg);
 
     void visit(ChooseAssistantNotification msg);
 
     void visit(NicknameErrorNotification msg);
-
-    void visit(EventNotification msg);
-
-    void visit(GameStartedNotification msg);
 
     void visit(GenericMessageNotification msg);
 

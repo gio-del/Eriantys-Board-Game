@@ -64,6 +64,6 @@ public record CharacterGui(ImageView characterImg, Label characterName, Label ch
     }
 
     public List<Node> contentsOn() {
-        return List.of(characterImg,componentsOn,coinOn);
+        return List.of(characterImg, componentsOn, coinOn);
     }
 }

@@ -425,6 +425,9 @@ public class Cli extends ClientObservable implements View {
             System.out.println("BOARD:");
             showBoard(resource.getBoard());
         }
+
+        System.out.println("Remaining students in the sack: " + resource.getStudentsInSack());
+
         if (resource.getClouds() != null) {
             showClouds(resource.getClouds());
         }

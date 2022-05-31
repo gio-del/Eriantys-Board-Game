@@ -32,12 +32,6 @@ public class ClientSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(CloudsNotification msg) {
-        shortModel.updateClouds(msg.getCloudList());
-        view.updateScreen();
-    }
-
-    @Override
     public void visit(MoveStudentNotification msg) {
         view.updateScreen();
         view.moveStudent(msg.getMovableColor());
@@ -68,8 +62,8 @@ public class ClientSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(ErrorNotification msg) {
-        view.showError(msg.getNickname());
+    public void visit(ErrorMessageNotification msg) {
+        view.showError(msg.getErrorMessage());
     }
 
     @Override
@@ -92,8 +86,7 @@ public class ClientSideVisitor implements NotificationVisitor {
 
     @Override
     public void visit(CharacterNotification msg) {
-        shortModel.updateCharacters(msg.getCharacterInUse());
-        view.updateScreen();
+        //do nothing
     }
 
     @Override
@@ -112,22 +105,8 @@ public class ClientSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(EventNotification msg) {
-        view.showMessage(msg.getMessage());
-    }
-
-    @Override
-    public void visit(GameStartedNotification msg) {
-        view.showMessage(msg.getMessage());
-    }
-
-    @Override
     public void visit(GenericMessageNotification msg) {
         view.showMessage(msg.getMessage());
     }
 
-    @Override
-    public void visit(LoginNotification msg) {
-        //do nothing
-    }
 }

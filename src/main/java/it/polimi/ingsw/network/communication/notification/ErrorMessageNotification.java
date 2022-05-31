@@ -8,13 +8,13 @@ import java.io.Serial;
  * This notification is used by the server to tell all the clients in a specific game that
  * a client disconnected and so the game is terminated
  */
-public class ErrorNotification extends Notification {
+public class ErrorMessageNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 464475177645496215L;
-    private final String nickname;
+    private final String errorMessage;
 
-    public ErrorNotification(String nickname) {
-        this.nickname = nickname;
+    public ErrorMessageNotification(String nickname) {
+        this.errorMessage = nickname;
     }
 
     @Override
@@ -22,7 +22,7 @@ public class ErrorNotification extends Notification {
         visitor.visit(this);
     }
 
-    public String getNickname() {
-        return nickname;
+    public String getErrorMessage() {
+        return errorMessage;
     }
 }

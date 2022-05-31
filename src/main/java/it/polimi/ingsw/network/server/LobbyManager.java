@@ -65,7 +65,7 @@ public class LobbyManager {
     }
 
     public synchronized void handleDisconnection(String nickname) {
-        if(!players.contains(nickname)) return;
+        if (!players.contains(nickname)) return;
         removePlayerFromLobby(nickname);
         if (firstInLine.equals(nickname) && !players.isEmpty()) {
             vvMap.get(players.peek()).chooseGameMode();

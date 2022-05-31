@@ -113,22 +113,7 @@ public class ServerSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(EventNotification msg) {
-        //do nothing
-    }
-
-    @Override
-    public void visit(GameStartedNotification msg) {
-        //do nothing
-    }
-
-    @Override
     public void visit(GenericMessageNotification msg) {
-        //do nothing
-    }
-
-    @Override
-    public void visit(LoginNotification msg) {
         //do nothing
     }
 
@@ -138,17 +123,12 @@ public class ServerSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(CloudsNotification msg) {
-        //do nothing
-    }
-
-    @Override
     public void visit(BoardNotification msg) {
         //do nothing
     }
 
     @Override
-    public void visit(ErrorNotification msg) {
+    public void visit(ErrorMessageNotification msg) {
         //do nothing
     }
 

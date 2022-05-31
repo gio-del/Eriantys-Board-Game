@@ -1,7 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.client.ClientController;
-import it.polimi.ingsw.network.communication.notification.ErrorNotification;
+import it.polimi.ingsw.network.communication.notification.ErrorMessageNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.communication.notification.PingNotification;
 
@@ -68,14 +68,14 @@ public class Client extends Thread {
         } catch (IOException e) {
             logger.severe("Server not reachable!");
             disconnect();
-            clientController.receiveMessage(new ErrorNotification("Your connection is off, closing the game.."));
+            clientController.receiveMessage(new ErrorMessageNotification("Your connection is off, closing the game.."));
         }
     }
 
     public void disconnect() {
         try {
             if (!socket.isClosed()) {
-                running=false;
+                running = false;
                 ping.shutdown();
                 socket.close();
             }

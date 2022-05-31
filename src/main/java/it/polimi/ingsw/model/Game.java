@@ -3,13 +3,11 @@ package it.polimi.ingsw.model;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.model.clouds.Cloud;
 import it.polimi.ingsw.model.clouds.CloudManager;
-import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.place.HallManager;
 import it.polimi.ingsw.model.player.*;
 import it.polimi.ingsw.model.profassignment.ProfessorAssignor;
-import it.polimi.ingsw.network.communication.notification.CloudsNotification;
 import it.polimi.ingsw.network.communication.notification.ModelUpdateNotification;
 import it.polimi.ingsw.observer.Observable;
 import it.polimi.ingsw.utility.Pair;
@@ -214,8 +212,8 @@ public class Game extends Observable {
      */
     public void fillClouds() {
         clouds.fillClouds(sack);
-        List<ShortCloud> update = clouds.getClouds().stream().map(ShortCloud::new).toList();
-        notifyObserver(new CloudsNotification(update));
+
+        notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
     }
 
     /**

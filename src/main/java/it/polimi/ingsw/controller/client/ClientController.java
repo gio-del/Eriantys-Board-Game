@@ -26,17 +26,15 @@ import java.util.List;
 public class ClientController implements ClientObserver {
     private final ClientSideVisitor visitor;
     private final View view;
-    private final ShortModel shortModel;
     private final Client client;
     private String nickname;
 
     public ClientController(View view) {
         this.view = view;
         client = new Client(this);
-        shortModel = new ShortModel();
+        ShortModel shortModel = new ShortModel();
         visitor = new ClientSideVisitor(view, shortModel);
         view.injectResource(shortModel);
-
     }
 
     public static boolean isValidIp(String ip) {

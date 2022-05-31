@@ -46,6 +46,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private final List<String> names;
     private final Map<PawnColor, HBox> hallMap;
     @FXML
+    private Label studentsInSack;
+    @FXML
     private ImageView characterDeck;
     @FXML
     private GridPane islandGrid;
@@ -214,7 +216,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
         //OWNER
         String toShow = actualSchool.getOwner();
-        if(toShow.equals(nickname)) toShow = toShow + " [YOU]";
+        if (toShow.equals(nickname)) toShow = toShow + " [YOU]";
         schoolOwner.setText(toShow);
 
         //COIN
@@ -365,6 +367,10 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         for (Map.Entry<ShortPlayer, ShortSchool> entry : resource.getSchoolMap().entrySet()) {
             schoolGuiMap.get(entry.getKey().name()).refresh(entry.getKey(), entry.getValue());
         }
+
+        //SACK
+        this.studentsInSack.setText(String.valueOf(resource.getStudentsInSack()));
+
         refreshIslands();
         printClouds();
         printSchool();

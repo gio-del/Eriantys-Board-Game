@@ -41,11 +41,9 @@ public class SocketConnection implements Connection {
                 Notification notification = (Notification) in.readObject();
                 if (notification instanceof LoginNotification loginNotification) {
                     server.addClient(loginNotification.getNickname(), this);
-                }
-                else if ((notification instanceof PingNotification)) {
+                } else if ((notification instanceof PingNotification)) {
                     out.writeObject(new PingNotification()); //pong
-                }
-                else {
+                } else {
                     Server.LOGGER.info(() -> "Message received from: " + notification.getSenderID() + ". Type: " + notification.getClass().getName());
                     server.receiveMessage(notification);
                 }

@@ -19,7 +19,7 @@ public class LoginNotification extends Notification {
 
     @Override
     public void accept(NotificationVisitor visitor) {
-        visitor.visit(this);
+        //login notification doesn't need to be accepted
     }
 
     public String getNickname() {

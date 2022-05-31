@@ -31,6 +31,7 @@ public class TestingGUI extends Application {
         game = new Game();
         game.addPlayer("Marco", Wizard.KING, TowerColor.BLACK);
         game.addPlayer("Giovanni", Wizard.SORCERER, TowerColor.GREY);
+        game.addPlayer("Prova", Wizard.WITCH, TowerColor.WHITE);
         game.startGame(false);
         game.fillClouds();
         game.getPlayerByName("Giovanni").getSchool().getHall().addPawns(new Pawns(1, 2, 9, 1, 5));

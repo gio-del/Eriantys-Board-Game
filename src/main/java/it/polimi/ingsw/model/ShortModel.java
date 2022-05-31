@@ -32,12 +32,14 @@ public class ShortModel implements Serializable {
     private Set<Assistant> playableAssistant;
     private List<PawnColor> pawnsAvailable;
     private List<ShortCharacter> characters;
+    private int studentsInSack;
 
     public ShortModel(Game game, boolean expertMode) {
         this.clouds = game.getClouds().stream().map(ShortCloud::new).toList();
         this.schoolMap = new HashMap<>();
         game.getPlayers().forEach(p -> schoolMap.put(new ShortPlayer(p), new ShortSchool(p.getSchool())));
         this.board = new ShortBoard(game.getBoard());
+        this.studentsInSack = game.getSack().getNumberOfPawns();
         if (expertMode) {
             this.characters = game.getCharacterInUse().stream().map(ShortCharacter::new).toList();
             this.moneyMap = new HashMap<>();
@@ -97,12 +99,12 @@ public class ShortModel implements Serializable {
         return characters;
     }
 
-    public Map<String, Integer> getMoneyMap() {
-        return moneyMap;
+    public int getStudentsInSack() {
+        return studentsInSack;
     }
 
-    public void updateCharacters(List<ShortCharacter> characters) {
-        this.characters = characters;
+    public Map<String, Integer> getMoneyMap() {
+        return moneyMap;
     }
 
     public void updateClouds(List<ShortCloud> clouds) {
@@ -119,5 +121,6 @@ public class ShortModel implements Serializable {
         this.schoolMap = model.schoolMap;
         this.clouds = model.clouds;
         this.moneyMap = model.moneyMap;
+        this.studentsInSack = model.studentsInSack;
     }
 }

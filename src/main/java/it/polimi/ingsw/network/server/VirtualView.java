@@ -81,7 +81,7 @@ public class VirtualView implements View, Observer {
 
     @Override
     public void showError(String msg) {
-        connection.sendMessage(new ErrorNotification(msg));
+        connection.sendMessage(new ErrorMessageNotification(msg));
     }
 
     @Override

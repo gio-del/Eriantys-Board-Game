@@ -53,9 +53,9 @@ public class CloudManager {
      * @param sack the sack of the game
      */
     public void fillClouds(Sack sack) {
-        if(sack.isEmpty()) return;
+        if (sack.isEmpty()) return;
         for (Cloud cloud : clouds) {
-                cloud.fill(sack.extractListOfPawns(this.studentsOnClouds));
+            cloud.fill(sack.extractListOfPawns(this.studentsOnClouds));
         }
     }
 }
