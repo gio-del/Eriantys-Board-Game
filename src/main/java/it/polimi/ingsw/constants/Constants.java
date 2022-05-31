@@ -8,7 +8,7 @@ import java.util.List;
 public class Constants {
     public static final String CHARACTER_JSON_PATH = "/json/Character.json";
     public static final String GAME_LIMIT_MAP_PATH = "/json/GameLimit.json";
-    public static final List<Integer> NUM_PLAYER_AVAILABLE = List.of(2, 3, 4);
+    public static final List<Integer> NUM_PLAYER_AVAILABLE = List.of(2, 3);
     public static final List<String> GAME_MODE_AVAILABLE = List.of("Simple", "Expert");
     public static final int CHARACTER_IN_USE = 3;
     public static final int STUDENTS_OF_EACH_COLOR = 24;
