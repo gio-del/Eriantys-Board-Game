@@ -1,5 +1,6 @@
 package it.polimi.ingsw.view.gui.scene;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.observer.ClientObservable;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -27,8 +28,8 @@ public class GameModeSceneController extends ClientObservable implements BasicSc
 
     @FXML
     private void initialize() {
+        numOfPlayerChoiceBox.setItems(FXCollections.observableArrayList(Constants.NUM_PLAYER_AVAILABLE.stream().map(String::valueOf).toList()));
         numOfPlayerChoiceBox.setValue("2");
-        numOfPlayerChoiceBox.setItems(FXCollections.observableArrayList("2", "3"));
         confirmGameModeButton.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
             if (keyEvent.getCode().equals(KeyCode.ENTER)) {
                 confirm();

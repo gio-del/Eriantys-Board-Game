@@ -24,7 +24,6 @@ public class SocketConnection implements Connection {
         this.server = server;
         this.client = client;
         this.running = true;
-        //TODO: add a timer to each request: there must be also a stopTimer() method to be called each time a response arrives.
         try {
             this.out = new ObjectOutputStream(client.getOutputStream());
             this.in = new ObjectInputStream(client.getInputStream());
@@ -42,7 +41,11 @@ public class SocketConnection implements Connection {
                 Notification notification = (Notification) in.readObject();
                 if (notification instanceof LoginNotification loginNotification) {
                     server.addClient(loginNotification.getNickname(), this);
-                } else if (!(notification instanceof PingNotification)) {
+                }
+                else if ((notification instanceof PingNotification)) {
+                    out.writeObject(new PingNotification()); //pong
+                }
+                else {
                     Server.LOGGER.info(() -> "Message received from: " + notification.getSenderID() + ". Type: " + notification.getClass().getName());
                     server.receiveMessage(notification);
                 }

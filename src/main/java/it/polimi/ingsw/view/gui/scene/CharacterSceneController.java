@@ -79,9 +79,9 @@ public class CharacterSceneController extends ClientObservable implements BasicS
         for (int i = 0; i < characters.size(); i++) {
             ShortCharacter character = characters.get(i);
             CharacterGui component = characterComponents.get(i);
-            component.characterImg().setCursor(Cursor.HAND);
+            component.contentsOn().forEach(content -> content.setCursor(Cursor.HAND));
             int finalI = i;
-            component.characterImg().setOnMouseClicked(evt -> selectCharacter(finalI));
+            component.contentsOn().forEach(content -> content.setOnMouseClicked(evt -> selectCharacter(finalI)));
             component.setCharacterImg(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/" + character.getName().replace(" ", "_").toLowerCase() + ".jpg"))));
             component.setCharacterCost(character.getCost());
             component.setCharacterDescription(character.getDescription());

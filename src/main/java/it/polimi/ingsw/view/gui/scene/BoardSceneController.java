@@ -212,9 +212,10 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     private void printSchool() {
 
-
         //OWNER
-        schoolOwner.setText(actualSchool.getOwner());
+        String toShow = actualSchool.getOwner();
+        if(toShow.equals(nickname)) toShow = toShow + " [YOU]";
+        schoolOwner.setText(toShow);
 
         //COIN
         if (coinImg.isVisible())

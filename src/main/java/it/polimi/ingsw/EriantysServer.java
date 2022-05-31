@@ -13,7 +13,7 @@ public class EriantysServer {
                         server = new Server(Integer.parseInt(args[i + 1]));
                         server.start();
                         return;
-                    } catch (NumberFormatException e) {
+                    } catch (IllegalArgumentException e) {
                         Server.LOGGER.severe(() -> "Port format not valid, starting server with default port: " + Constants.DEFAULT_PORT);
                         server = new Server(Constants.DEFAULT_PORT);
                         server.start();

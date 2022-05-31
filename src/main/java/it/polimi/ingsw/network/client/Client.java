@@ -1,6 +1,7 @@
 package it.polimi.ingsw.network.client;
 
 import it.polimi.ingsw.controller.client.ClientController;
+import it.polimi.ingsw.network.communication.notification.ErrorNotification;
 import it.polimi.ingsw.network.communication.notification.Notification;
 import it.polimi.ingsw.network.communication.notification.PingNotification;
 
@@ -23,7 +24,7 @@ public class Client extends Thread {
     private static final Logger logger = Logger.getLogger(Client.class.getSimpleName());
     private final ClientController clientController;
     private final ScheduledExecutorService ping;
-    private final boolean running = true;
+    private boolean running = true;
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
@@ -37,6 +38,7 @@ public class Client extends Thread {
     public boolean connect(String address, int port) {
         try {
             socket = new Socket(address, port);
+            socket.setSoTimeout(6000);
             out = new ObjectOutputStream(socket.getOutputStream());
             in = new ObjectInputStream(socket.getInputStream());
             runPing();
@@ -54,6 +56,7 @@ public class Client extends Thread {
                 clientController.receiveMessage(msg);
             }
         } catch (IOException | ClassNotFoundException e) {
+            disconnect();
             clientController.onDisconnection();
         }
     }
@@ -61,10 +64,23 @@ public class Client extends Thread {
     public void sendMessage(Notification msg) {
         try {
             out.writeObject(msg);
-            out.reset();
+            out.flush();
         } catch (IOException e) {
-            logger.info("Server not reachable!");
-            //todo: what happens then?
+            logger.severe("Server not reachable!");
+            disconnect();
+            clientController.receiveMessage(new ErrorNotification("Your connection is off, closing the game.."));
+        }
+    }
+
+    public void disconnect() {
+        try {
+            if (!socket.isClosed()) {
+                running=false;
+                ping.shutdown();
+                socket.close();
+            }
+        } catch (IOException e) {
+            logger.severe("Cannot disconnect!");
         }
     }
 
