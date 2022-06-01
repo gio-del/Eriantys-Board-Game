@@ -114,7 +114,10 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void showMessage(String msg) {
-        Platform.runLater(() -> SceneManager.showAlert(Alert.AlertType.INFORMATION, msg));
+        if(!isInBoardScene())
+            Platform.runLater(() -> SceneManager.showAlert(Alert.AlertType.INFORMATION, msg));
+        else
+            Platform.runLater(() -> ((BoardSceneController)SceneManager.getActualController()).setInfoLabel(msg));
     }
 
     @Override
@@ -133,6 +136,10 @@ public class Gui extends ClientObservable implements View {
             SceneManager.changeScene(controller, "board.fxml");
         }
         return controller;
+    }
+
+    private boolean isInBoardScene() {
+        return SceneManager.getActualController() instanceof BoardSceneController;
     }
 
     public void setNickname(String nickname) {

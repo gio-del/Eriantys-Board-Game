@@ -28,6 +28,7 @@ public class Client extends Thread {
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
+    private final Object outLock = new Object();
 
     public Client(ClientController clientController) {
         this.clientController = clientController;
@@ -62,13 +63,15 @@ public class Client extends Thread {
     }
 
     public void sendMessage(Notification msg) {
-        try {
-            out.writeObject(msg);
-            out.flush();
-        } catch (IOException e) {
-            logger.severe("Server not reachable!");
-            disconnect();
-            clientController.receiveMessage(new ErrorMessageNotification("Your connection is off, closing the game.."));
+        synchronized (outLock) {
+            try {
+                out.writeObject(msg);
+                out.flush();
+            } catch (IOException e) {
+                logger.severe("Server not reachable!");
+                disconnect();
+                clientController.receiveMessage(new ErrorMessageNotification("Your connection is off, closing the game.."));
+            }
         }
     }
 

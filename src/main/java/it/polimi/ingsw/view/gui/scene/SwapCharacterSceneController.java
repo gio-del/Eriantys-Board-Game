@@ -10,6 +10,7 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -58,8 +59,15 @@ public class SwapCharacterSceneController extends ClientObservable implements Ba
     }
 
     public void setMaxSwaps(int maxSwaps) {
-        infoLabel.setText(MESSAGE + " [Remaining: " + (maxSwaps - swapList.size() / 2) + "]");
+        infoLabel.setText(MESSAGE + " [Maximum swaps: " + (maxSwaps - swapList.size() / 2) + "]");
         this.maxSwaps = maxSwaps;
+
+        AnchorPane ap = (AnchorPane)infoLabel.getParent();
+        Stage primaryStage = (Stage)infoLabel.getScene().getWindow();
+        ap.setOnMousePressed(pressEvent -> ap.setOnMouseDragged(dragEvent -> {
+            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+        }));
     }
 
     @FXML

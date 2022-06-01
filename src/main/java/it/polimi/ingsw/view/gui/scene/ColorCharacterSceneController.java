@@ -8,6 +8,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -83,5 +84,14 @@ public class ColorCharacterSceneController extends ClientObservable implements B
         }
         new Thread(() -> notifyObserver(obs -> obs.updateColorAction(selected))).start();
         ((Stage) chooseBtn.getScene().getWindow()).close();
+    }
+
+    public void init() {
+        AnchorPane ap = (AnchorPane)chooseBtn.getParent();
+        Stage primaryStage = (Stage)chooseBtn.getScene().getWindow();
+        ap.setOnMousePressed(pressEvent -> ap.setOnMouseDragged(dragEvent -> {
+            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+        }));
     }
 }

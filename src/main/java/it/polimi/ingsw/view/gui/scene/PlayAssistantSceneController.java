@@ -11,6 +11,7 @@ import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -106,5 +107,14 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
         disableAll();
         new Thread(() -> notifyObserver(obs -> obs.updateAssistant(selectedAssistant))).start();
         ((Stage) okButton.getScene().getWindow()).close();
+    }
+
+    public void init() {
+        AnchorPane ap = (AnchorPane)okButton.getParent();
+        Stage primaryStage = (Stage)okButton.getScene().getWindow();
+        ap.setOnMousePressed(pressEvent -> ap.setOnMouseDragged(dragEvent -> {
+            primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
+            primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());
+        }));
     }
 }

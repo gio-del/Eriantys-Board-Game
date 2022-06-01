@@ -118,10 +118,10 @@ public class TurnManager {
                 gameState = GameState.PLANNING_ASSISTANT;
                 turn();
             }
-            case PLANNING_ASSISTANT -> vv.chooseAssistant(game.getPlayableAssistant());
-            case ACTION_MOVE -> vv.moveStudent(game.getPlayerByName(requestName).getSchool().getEntrance().toList());
-            case ACTION_MN -> vv.moveMNature(game.getMotherNatureSteps(requestName));
-            case ACTION_CHOOSE_CLOUD -> vv.chooseCloud(game.getClouds().stream().map(ShortCloud::new).toList());
+            case PLANNING_ASSISTANT -> chooseAssistant();
+            case ACTION_MOVE -> moveStudent();
+            case ACTION_MN -> moveMotherNature();
+            case ACTION_CHOOSE_CLOUD -> chooseCloud();
             case USE_CHARACTER -> {
                 if (characterRequest < chosenCard.getRequires().size())
                     askRequirements(chosenCard.getRequires().get(characterRequest));
@@ -132,12 +132,70 @@ public class TurnManager {
     }
 
     /**
+     * Assistant choosing phase, show other players the name of the current player
+     */
+    private void chooseAssistant() {
+        for(String name: playersOrder) {
+            if(name.equals(requestName))
+                controller.getVirtualView(name).chooseAssistant(game.getPlayableAssistant());
+            else
+                controller.getVirtualView(name).showMessage(requestName + " is choosing an assistant");
+        }
+    }
+
+    /**
+     * Students moving phase, show other players the name of the current player
+     */
+    private void moveStudent() {
+        for(String name: playersOrder) {
+            if(name.equals(requestName))
+                controller.getVirtualView(name).moveStudent(game.getPlayerByName(requestName).getSchool().getEntrance().toList());
+            else
+                controller.getVirtualView(name).showMessage(requestName + " is moving a student");
+        }
+    }
+
+    /**
+     * Mother nature moving phase, show other players the name of the current player
+     */
+    private void moveMotherNature() {
+        for(String name: playersOrder) {
+            if(name.equals(requestName))
+                controller.getVirtualView(name).moveMNature(game.getMotherNatureSteps(requestName));
+            else
+                controller.getVirtualView(name).showMessage(requestName + " is moving mother nature");
+        }
+
+    }
+
+    /**
+     * Cloud choosing phase, show other players the name of the current player
+     */
+    private void chooseCloud() {
+        for(String name: playersOrder) {
+            if(name.equals(requestName))
+                controller.getVirtualView(name).chooseCloud(game.getClouds().stream().map(ShortCloud::new).toList());
+            else
+                controller.getVirtualView(name).showMessage(requestName + " is choosing a cloud");
+        }
+    }
+
+    /**
      * Receive update when controller is initialized, so wait for user to send wizard and tower color.
      */
     public void onInit() {
         availableTowerColor.addAll(GameLimit.getLimit(playersOrder.size()).getTowerColors());
         requestName = playersOrder.get(request);
-        controller.getVirtualView(requestName).chooseWizardAndTowerColor(availableWizard, availableTowerColor);
+        chooseWizardAndTowerColor();
+    }
+
+    private void chooseWizardAndTowerColor() {
+        for(String name: playersOrder) {
+            if(name.equals(requestName))
+                controller.getVirtualView(name).chooseWizardAndTowerColor(availableWizard, availableTowerColor);
+            else
+                controller.getVirtualView(name).showMessage(requestName + " is choosing wizard and tower color.");
+        }
     }
 
     /**
@@ -239,6 +297,10 @@ public class TurnManager {
         gameState = GameState.USE_CHARACTER;
         if (character != null && game.canUseCharacter(character)) {
             this.chosenCard = character;
+            for(String name: playersOrder) {
+                if(!name.equals(requestName))
+                    controller.getVirtualView(name).showMessage(requestName + " is playing the " + character.getName() + " character card");
+            }
             turn();
         } else {
             onActionFailed();
@@ -319,7 +381,7 @@ public class TurnManager {
      */
     public void onActionFailed() {
         characterRequest = 0;
-        controller.getVirtualView(requestName).showMessage("Not enough money to play this character or incorrect input has been provided.");
+        controller.getVirtualView(requestName).showMessage("Not enough money to play this character or incorrect input.");
         gameState = callbackState;
         turn();
     }

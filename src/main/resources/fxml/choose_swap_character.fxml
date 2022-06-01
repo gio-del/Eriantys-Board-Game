@@ -1,98 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.*?>
-<?import javafx.scene.image.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-            minWidth="-Infinity"
-            prefHeight="298.0" prefWidth="553.0" style="-fx-background-color: beige;"
-            xmlns="http://javafx.com/javafx/18"
-            fx:controller="it.polimi.ingsw.view.gui.scene.SwapCharacterSceneController">
-    <HBox layoutX="121.0" layoutY="162.0" prefHeight="54.0" prefWidth="222.0" spacing="10.0">
-        <ImageView fx:id="green2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose"
-                   pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/pawns/students/green_student.png"/>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="298.0" prefWidth="553.0" style="-fx-background-color: beige;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.view.gui.scene.SwapCharacterSceneController">
+    <HBox layoutX="121.0" layoutY="144.0" prefHeight="54.0" prefWidth="222.0" spacing="10.0">
+        <ImageView fx:id="green2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/green_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="red2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose" pickOnBounds="true"
-                   preserveRatio="true">
-            <Image url="@../images/pawns/students/red_student.png"/>
+        <ImageView fx:id="red2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/red_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="yellow2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose"
-                   pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/pawns/students/yellow_student.png"/>
+        <ImageView fx:id="yellow2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/yellow_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="blue2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose"
-                   pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/pawns/students/blue_student.png"/>
+        <ImageView fx:id="blue2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/blue_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="pink2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose"
-                   pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/pawns/students/pink_student.png"/>
+        <ImageView fx:id="pink2" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#secondColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/pink_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
     </HBox>
-    <Label fx:id="infoLabel" layoutX="141.0" layoutY="23.0">
+    <Label fx:id="infoLabel" alignment="CENTER" layoutX="31.0" layoutY="23.0" prefHeight="22.0" prefWidth="489.0">
         <font>
-            <Font name="Berlin Sans FB" size="20.0"/>
+            <Font name="Berlin Sans FB" size="16.0" />
         </font>
     </Label>
-    <Button fx:id="stopBtn" layoutX="312.0" layoutY="258.0" mnemonicParsing="false" onMouseClicked="#stopSwapping"
-            text="Stop swapping"/>
-    <Button layoutX="114.0" layoutY="258.0" mnemonicParsing="false" onMouseClicked="#continueSwapping"
-            text="Continue swapping"/>
-    <HBox layoutX="121.0" layoutY="70.0" prefHeight="54.0" prefWidth="222.0" spacing="10.0">
-        <ImageView fx:id="green1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose"
-                   pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/pawns/students/green_student.png"/>
+    <Button fx:id="stopBtn" layoutX="312.0" layoutY="258.0" mnemonicParsing="false" onMouseClicked="#stopSwapping" text="Stop swapping" />
+    <Button layoutX="114.0" layoutY="258.0" mnemonicParsing="false" onMouseClicked="#continueSwapping" text="Continue swapping" />
+    <HBox layoutX="121.0" layoutY="66.0" prefHeight="54.0" prefWidth="222.0" spacing="10.0">
+        <ImageView fx:id="green1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/green_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="red1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose" pickOnBounds="true"
-                   preserveRatio="true">
-            <Image url="@../images/pawns/students/red_student.png"/>
+        <ImageView fx:id="red1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/red_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="yellow1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose"
-                   pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/pawns/students/yellow_student.png"/>
+        <ImageView fx:id="yellow1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/yellow_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="blue1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose" pickOnBounds="true"
-                   preserveRatio="true">
-            <Image url="@../images/pawns/students/blue_student.png"/>
+        <ImageView fx:id="blue1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/blue_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
-        <ImageView fx:id="pink1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose" pickOnBounds="true"
-                   preserveRatio="true">
-            <Image url="@../images/pawns/students/pink_student.png"/>
+        <ImageView fx:id="pink1" fitHeight="62.0" fitWidth="54.0" onMouseClicked="#firstColorChoose" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/pawns/students/pink_student.png" />
             <cursor>
-                <Cursor fx:constant="HAND"/>
+                <Cursor fx:constant="HAND" />
             </cursor>
         </ImageView>
     </HBox>
+   <Text layoutX="52.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Press continue swapping to confirm the selected swap. When the swap that you want to perform is completed click stop swapping." textAlignment="CENTER" wrappingWidth="447.9472961425781">
+      <font>
+         <Font size="10.0" />
+      </font>
+   </Text>
+   <Text layoutX="60.0" layoutY="98.0" strokeType="OUTSIDE" strokeWidth="0.0" text="FROM:" />
+   <Text layoutX="78.0" layoutY="175.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TO:" />
 </AnchorPane>

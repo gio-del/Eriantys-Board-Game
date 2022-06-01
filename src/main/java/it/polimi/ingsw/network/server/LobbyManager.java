@@ -67,8 +67,11 @@ public class LobbyManager {
     public synchronized void handleDisconnection(String nickname) {
         if (!players.contains(nickname)) return;
         removePlayerFromLobby(nickname);
-        if (firstInLine.equals(nickname) && !players.isEmpty()) {
+        if (firstInLine.equals(nickname) && !players.isEmpty()) { //the first in line was not the only player in the lobby
             vvMap.get(players.peek()).chooseGameMode();
+        }
+        else if(firstInLine.equals(nickname)) { //the first in line was the only player in the lobby
+            ready = false;
         }
         broadcast(nickname + " left the lobby.");
     }

@@ -46,6 +46,7 @@ public class Cli extends ClientObservable implements View {
     }
 
     public void askConnectionInfo() {
+        clearScreen();
         System.out.println("Welcome, to start or participate in a game, insert Server ip and port (ip port):");
         setIp();
     }
@@ -137,13 +138,19 @@ public class Cli extends ClientObservable implements View {
             scanListener.setRequest(Request.GAME_MODE);
             return;
         }
-        int numOfPlayer = Integer.parseInt(gameMode.substring(pos + 1));
-        if (Constants.NUM_PLAYER_AVAILABLE.stream().noneMatch(i -> i.equals(numOfPlayer))) {
+        int numOfPlayer;
+        try {
+            numOfPlayer = Integer.parseInt(gameMode.substring(pos + 1));
+        } catch (NumberFormatException e) {
+            numOfPlayer = 0;
+        }
+        int finalNumOfPlayer = numOfPlayer;
+        if (Constants.NUM_PLAYER_AVAILABLE.stream().noneMatch(i -> i.equals(finalNumOfPlayer))) {
             System.out.println("ERROR - Insert a valid number of player!, retry");
             scanListener.setRequest(Request.GAME_MODE);
             return;
         }
-        notifyObserver(observer -> observer.updateGameModeNumPlayer(mode, numOfPlayer));
+        notifyObserver(observer -> observer.updateGameModeNumPlayer(mode, finalNumOfPlayer));
     }
 
     @Override
@@ -255,7 +262,7 @@ public class Cli extends ClientObservable implements View {
     @Override
     public void moveStudent(List<PawnColor> movableColor) {
         resource.setPawnsAvailable(movableColor);
-        System.out.println("What color do you want to move? or choose a character");
+        System.out.println("What color do you want to move?");
         scanListener.setRequest(Request.STUDENT);
     }
 
@@ -438,6 +445,7 @@ public class Cli extends ClientObservable implements View {
     }
 
     private void showCharacter(List<ShortCharacter> characters) {
+        System.out.println("Characters in use list. To use one of them just type \"use [id]\" during your action turn (e.g. \"use 0\" to use the first character)");
         for (int i = 0; i < characters.size(); i++) {
             ShortCharacter character = characters.get(i);
             System.out.print(CLIColor.RED + "Name[ID]: " + CLIColor.RESET + character.getName() + "[" + i + "] " + CLIColor.RESET);
@@ -496,6 +504,7 @@ public class Cli extends ClientObservable implements View {
 
     @Override
     public void showMessage(String msg) {
+        System.out.print(CLIColor.YELLOW_BG + ">Server:" + CLIColor.RESET + " ");
         System.out.println(msg);
     }
 

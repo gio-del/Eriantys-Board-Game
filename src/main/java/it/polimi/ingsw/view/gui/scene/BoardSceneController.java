@@ -162,16 +162,18 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         controller.setPlayableAssistant(playableAssistant);
         observers.forEach(controller::addObserver);
         loader.setController(controller);
-        Parent root = null;
+
+        Parent root;
 
         try {
             root = loader.load();
+            stage.setScene(new Scene(root));
+            controller.init();
         } catch (IOException e) {
             System.out.println(e.getMessage());
             exit(1);
         }
 
-        stage.setScene(new Scene(root));
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/various/king_nobg.png"))));
         stage.setTitle("Choose an assistant from the available ones");
         stage.initStyle(StageStyle.UNDECORATED);
@@ -513,17 +515,19 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choose_color_character.fxml"));
 
-        Parent root = null;
+        Parent root;
         try {
             root = loader.load();
+            stage.setScene(new Scene(root));
             ColorCharacterSceneController controller = loader.getController();
+            controller.init();
             observers.forEach(controller::addObserver);
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());
             exit(1);
         }
-        stage.setScene(new Scene(root));
+
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
         stage.setTitle("Choose a color for the chosen character!");
         stage.initStyle(StageStyle.UNDECORATED);
@@ -535,9 +539,11 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.initModality(Modality.APPLICATION_MODAL);
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/choose_swap_character.fxml"));
 
-        Parent root = null;
+        Parent root;
+
         try {
             root = loader.load();
+            stage.setScene(new Scene(root));
             SwapCharacterSceneController controller = loader.getController();
             controller.setMaxSwaps(swap);
             observers.forEach(controller::addObserver);
@@ -546,7 +552,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             System.out.println(e.getMessage());
             exit(1);
         }
-        stage.setScene(new Scene(root));
+
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
         stage.setTitle("Swap!");
         stage.initStyle(StageStyle.UNDECORATED);
@@ -568,5 +574,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         infoLabel.setText("");
         new Thread(() -> notifyObserver(obs -> obs.updateIslandAction(islandID))).start();
 
+    }
+    public void setInfoLabel(String msg) {
+        infoLabel.setText(msg);
     }
 }
