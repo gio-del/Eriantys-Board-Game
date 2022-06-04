@@ -1,11 +1,11 @@
 package it.polimi.ingsw.view.cli;
 
 public enum CLISymbol {
-    EMPTY_CIRCLE("_"),
-    FULL_CIRCLE("@"),
-    EMPTY_PROFESSOR("."),
-    FULL_PROFESSOR("+"),
-    TOWER("#"),
+    EMPTY_CIRCLE("\u25CC"),
+    FULL_CIRCLE("\u25cf"),
+    EMPTY_PROFESSOR("\u2b21"),
+    FULL_PROFESSOR("\u2b22"),
+    TOWER("\u25B3"),
     GREEN("GREEN  |"),
     RED("RED    |"),
     YELLOW("YELLOW |"),

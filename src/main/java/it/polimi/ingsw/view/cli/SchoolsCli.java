@@ -45,4 +45,19 @@ public class SchoolsCli {
         upperHalf.forEach(System.out::println);
     }
 
+    public static int towerBuilder(StringBuilder builder, int numTower) {
+        int size = builder.length();
+        for (int i = 0; i < numTower; i++) {
+            if (i != numTower - 1) {
+                builder.append(CLISymbol.TOWER).append(" ");
+                size+=2;
+            }
+            else {
+                builder.append(CLISymbol.TOWER);
+                size++;
+            }
+        }
+        return size;
+    }
+
 }

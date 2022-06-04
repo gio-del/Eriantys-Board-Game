@@ -32,7 +32,7 @@ public class IslandCli {
         if (numColor == 0) {
             string.append("     ");
         } else {
-            string.append(numColor).append(" x ").append("@");
+            string.append(numColor).append(" x ").append(CLISymbol.FULL_CIRCLE);
         }
         string.append(empties(CLISymbol.REPETITION));
         string.append(end);
@@ -83,11 +83,11 @@ public class IslandCli {
     private String colorTower(ShortIsland island) {
         StringBuilder string = new StringBuilder();
         if (island.getTower() != null && island.getTower().name().equals("WHITE")) {
-            string.append("_#").append("WHITE(").append(island.getDimension()).append(")");
+            string.append("_").append(CLISymbol.TOWER).append("WHITE(").append(island.getDimension()).append(")");
         } else if (island.getTower() != null && island.getTower().name().equals("BLACK")) {
-            string.append("_#").append("BLACK(").append(island.getDimension()).append(")");
+            string.append("_").append(CLISymbol.TOWER).append("BLACK(").append(island.getDimension()).append(")");
         } else {
-            string.append("_#").append("GRAY(").append(island.getDimension()).append(")").append("_");
+            string.append("_").append(CLISymbol.TOWER).append("GRAY(").append(island.getDimension()).append(")").append("_");
         }
         return string.toString();
     }

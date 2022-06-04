@@ -19,12 +19,12 @@ public class SchoolSmall {
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(CLIColor.valueOf(pawnColor.name()));
             if (school.getEntrance().getFromColor(pawnColor) != 0) {
-                stringBuilder.append(school.getEntrance().getFromColor(pawnColor)).append(" x ").append("@ | ");
+                stringBuilder.append(school.getEntrance().getFromColor(pawnColor)).append(" x ").append(CLISymbol.FULL_CIRCLE).append(" | ");
             } else {
                 stringBuilder.append("      | ");
             }
             if (school.getHall().getFromColor(pawnColor) != 0) {
-                stringBuilder.append(school.getHall().getFromColor(pawnColor)).append(" x ").append("@ |  ");
+                stringBuilder.append(school.getHall().getFromColor(pawnColor)).append(" x ").append(CLISymbol.FULL_CIRCLE).append(" |  ");
             } else {
                 stringBuilder.append("      |  ");
             }
@@ -57,15 +57,9 @@ public class SchoolSmall {
     }
 
     private String bottomBuilder(int numTower) {
-        int i;
         StringBuilder stringBuilder = new StringBuilder("TOW: ");
-        for (i = 0; i < numTower; i++) {
-            if (i != numTower - 1)
-                stringBuilder.append(CLISymbol.TOWER).append(" ");
-            else
-                stringBuilder.append(CLISymbol.TOWER);
-        }
-        stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - stringBuilder.length()));
+        int size = SchoolsCli.towerBuilder(stringBuilder,numTower);
+        stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - size));
         return stringBuilder.toString();
     }
 

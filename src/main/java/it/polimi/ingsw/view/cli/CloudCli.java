@@ -23,21 +23,21 @@ public class CloudCli {
     private String stringRow(int numColor, String start, String end) {
 
         StringBuilder string = new StringBuilder();
-        string.append(start).append(empties(CLISymbol.CLOUD_REPETITION));
+        string.append(start).append(empties());
         if (numColor == 0) {
             string.append("     ");
         } else {
-            string.append(numColor).append(" x ").append("@");
+            string.append(numColor).append(" x ").append(CLISymbol.FULL_CIRCLE);
         }
-        string.append(empties(CLISymbol.CLOUD_REPETITION));
+        string.append(empties());
         string.append(end);
         return string.toString();
     }
 
-    private String empties(int rep) {
+    private String empties() {
         int i;
         StringBuilder string = new StringBuilder();
-        for (i = 0; i < rep; i++) {
+        for (i = 0; i < CLISymbol.CLOUD_REPETITION; i++) {
             string.append(" ");
         }
         return string.toString();

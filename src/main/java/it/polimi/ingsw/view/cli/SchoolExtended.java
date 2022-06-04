@@ -64,15 +64,9 @@ public class SchoolExtended {
     }
 
     private String bottomBuilder(int numTower) {
-        int i;
         StringBuilder stringBuilder = new StringBuilder("TOWER TO BE PLACED: ");
-        for (i = 0; i < numTower; i++) {
-            if (i != numTower - 1)
-                stringBuilder.append(CLISymbol.TOWER).append(" ");
-            else
-                stringBuilder.append(CLISymbol.TOWER);
-        }
-        stringBuilder.append(empties(Constants.SCHOOL_WIDTH - stringBuilder.length()));
+        int size = SchoolsCli.towerBuilder(stringBuilder,numTower);
+        stringBuilder.append(empties(Constants.SCHOOL_WIDTH - size));
         return stringBuilder.toString();
     }
 
