@@ -87,8 +87,8 @@ public class ColorCharacterSceneController extends ClientObservable implements B
     }
 
     public void init() {
-        AnchorPane ap = (AnchorPane)chooseBtn.getParent();
-        Stage primaryStage = (Stage)chooseBtn.getScene().getWindow();
+        AnchorPane ap = (AnchorPane) chooseBtn.getParent();
+        Stage primaryStage = (Stage) chooseBtn.getScene().getWindow();
         ap.setOnMousePressed(pressEvent -> ap.setOnMouseDragged(dragEvent -> {
             primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
             primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());

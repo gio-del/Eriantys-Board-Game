@@ -41,12 +41,12 @@ public class Cli extends ClientObservable implements View {
     }
 
     public void init() {
+        clearScreen();
         printWelcome();
         askConnectionInfo();
     }
 
     public void askConnectionInfo() {
-        clearScreen();
         System.out.println("Welcome, to start or participate in a game, insert Server ip and port (ip port):");
         setIp();
     }

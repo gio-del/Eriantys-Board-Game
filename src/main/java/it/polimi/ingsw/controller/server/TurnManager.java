@@ -135,8 +135,8 @@ public class TurnManager {
      * Assistant choosing phase, show other players the name of the current player
      */
     private void chooseAssistant() {
-        for(String name: playersOrder) {
-            if(name.equals(requestName))
+        for (String name : playersOrder) {
+            if (name.equals(requestName))
                 controller.getVirtualView(name).chooseAssistant(game.getPlayableAssistant());
             else
                 controller.getVirtualView(name).showMessage(requestName + " is choosing an assistant");
@@ -147,8 +147,8 @@ public class TurnManager {
      * Students moving phase, show other players the name of the current player
      */
     private void moveStudent() {
-        for(String name: playersOrder) {
-            if(name.equals(requestName))
+        for (String name : playersOrder) {
+            if (name.equals(requestName))
                 controller.getVirtualView(name).moveStudent(game.getPlayerByName(requestName).getSchool().getEntrance().toList());
             else
                 controller.getVirtualView(name).showMessage(requestName + " is moving a student");
@@ -159,8 +159,8 @@ public class TurnManager {
      * Mother nature moving phase, show other players the name of the current player
      */
     private void moveMotherNature() {
-        for(String name: playersOrder) {
-            if(name.equals(requestName))
+        for (String name : playersOrder) {
+            if (name.equals(requestName))
                 controller.getVirtualView(name).moveMNature(game.getMotherNatureSteps(requestName));
             else
                 controller.getVirtualView(name).showMessage(requestName + " is moving mother nature");
@@ -172,8 +172,8 @@ public class TurnManager {
      * Cloud choosing phase, show other players the name of the current player
      */
     private void chooseCloud() {
-        for(String name: playersOrder) {
-            if(name.equals(requestName))
+        for (String name : playersOrder) {
+            if (name.equals(requestName))
                 controller.getVirtualView(name).chooseCloud(game.getClouds().stream().map(ShortCloud::new).toList());
             else
                 controller.getVirtualView(name).showMessage(requestName + " is choosing a cloud");
@@ -190,8 +190,8 @@ public class TurnManager {
     }
 
     private void chooseWizardAndTowerColor() {
-        for(String name: playersOrder) {
-            if(name.equals(requestName))
+        for (String name : playersOrder) {
+            if (name.equals(requestName))
                 controller.getVirtualView(name).chooseWizardAndTowerColor(availableWizard, availableTowerColor);
             else
                 controller.getVirtualView(name).showMessage(requestName + " is choosing wizard and tower color.");
@@ -297,8 +297,8 @@ public class TurnManager {
         gameState = GameState.USE_CHARACTER;
         if (character != null && game.canUseCharacter(character)) {
             this.chosenCard = character;
-            for(String name: playersOrder) {
-                if(!name.equals(requestName))
+            for (String name : playersOrder) {
+                if (!name.equals(requestName))
                     controller.getVirtualView(name).showMessage(requestName + " is playing the " + character.getName() + " character card");
             }
             turn();

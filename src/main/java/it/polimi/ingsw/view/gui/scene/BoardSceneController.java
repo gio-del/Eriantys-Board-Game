@@ -9,6 +9,7 @@ import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.ShortPlayer;
 import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.observer.ClientObservable;
+import it.polimi.ingsw.view.gui.GuiResources;
 import it.polimi.ingsw.view.gui.SceneManager;
 import it.polimi.ingsw.view.gui.boardcomponent.CloudGui;
 import it.polimi.ingsw.view.gui.boardcomponent.IslandGui;
@@ -106,7 +107,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         //CHARACTERS
         if (resource.getCharacters() != null) {
             canPlayCharacter = false;
-            characterDeck.setImage(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
+            characterDeck.setImage(GuiResources.characterBack);
             characterDeck.setOnMouseClicked(evt -> useCharacter());
             characterDeck.setCursor(Cursor.HAND);
         }
@@ -208,7 +209,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             exit(1);
         }
         stage.setScene(new Scene(root));
-        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
+        stage.getIcons().add(GuiResources.characterBack);
         stage.setTitle("Choose a character to play!");
         stage.initStyle(StageStyle.UTILITY);
         stage.showAndWait();
@@ -276,58 +277,57 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         IntStream.range(0, resource.getClouds().size()).forEach(i -> ((CloudGui) cloudBox.getChildren().get(i)).setAs(resource.getClouds().get(i)));
     }
 
+    private VBox buildIsland(ShortBoard board, int index) {
+        IslandGui islandGui = islandGuiList.get(index);
+        islandGui.refresh(board.getIslands().get(index), board.getMotherNaturePos() == index);
+        HBox hBox = new HBox(islandGui);
+        hBox.setAlignment(Pos.CENTER);
+        VBox vBox = new VBox(hBox);
+        vBox.setAlignment(Pos.CENTER);
+        return vBox;
+    }
+
     private void refreshIslands() {
         int index = 0;
         ShortBoard board = resource.getBoard();
         int boardSize = board.getIslands().size();
+        int i;
 
-        for (int i = 0; i < 4 && index < boardSize; i++) {
-            IslandGui islandGui = islandGuiList.get(index);
-            islandGui.refresh(board.getIslands().get(index), board.getMotherNaturePos() == index);
+        i = 0;
+        while (i < 4 && index < boardSize) {
+            VBox vBox = buildIsland(board, index);
             index++;
-            HBox hBox = new HBox(islandGui);
-            hBox.setAlignment(Pos.CENTER);
-            VBox vBox = new VBox(hBox);
-            vBox.setAlignment(Pos.TOP_CENTER);
             int finalCol = i;
             islandGrid.getChildren().removeIf(node -> GridPane.getColumnIndex(node) == finalCol && GridPane.getRowIndex(node) == 0);
             islandGrid.add(vBox, i, 0);
+            i++;
         }
-        for (int i = 1; i < 4 && index < boardSize; i++) {
-            IslandGui islandGui = islandGuiList.get(index);
-            islandGui.refresh(board.getIslands().get(index), board.getMotherNaturePos() == index);
+        i = 1;
+        while (i < 4 && index < boardSize) {
+            VBox vBox = buildIsland(board, index);
             index++;
-            HBox hBox = new HBox(islandGui);
-            hBox.setAlignment(Pos.CENTER);
-            VBox vBox = new VBox(hBox);
-            vBox.setAlignment(Pos.TOP_CENTER);
             int finalRow = i;
             islandGrid.getChildren().removeIf(node -> GridPane.getColumnIndex(node) == 3 && GridPane.getRowIndex(node) == finalRow);
             islandGrid.add(vBox, 3, i);
+            i++;
         }
-        for (int i = 2; i >= 0 && index < boardSize; i--) {
-            IslandGui islandGui = islandGuiList.get(index);
-            islandGui.refresh(board.getIslands().get(index), board.getMotherNaturePos() == index);
+        i = 2;
+        while (i >= 0 && index < boardSize) {
+            VBox vBox = buildIsland(board, index);
             index++;
-            HBox hBox = new HBox(islandGui);
-            hBox.setAlignment(Pos.CENTER);
-            VBox vBox = new VBox(hBox);
-            vBox.setAlignment(Pos.TOP_CENTER);
             int finalCol = i;
             islandGrid.getChildren().removeIf(node -> GridPane.getColumnIndex(node) == finalCol && GridPane.getRowIndex(node) == 3);
             islandGrid.add(vBox, i, 3);
+            i--;
         }
-        for (int i = 2; i >= 1 && index < boardSize; i--) {
-            IslandGui islandGui = islandGuiList.get(index);
-            islandGui.refresh(board.getIslands().get(index), board.getMotherNaturePos() == index);
+        i = 2;
+        while (i >= 1 && index < boardSize) {
+            VBox vBox = buildIsland(board, index);
             index++;
-            HBox hBox = new HBox(islandGui);
-            hBox.setAlignment(Pos.CENTER);
-            VBox vBox = new VBox(hBox);
-            vBox.setAlignment(Pos.TOP_CENTER);
             int finalRow = i;
             islandGrid.getChildren().removeIf(node -> GridPane.getColumnIndex(node) == 0 && GridPane.getRowIndex(node) == finalRow);
             islandGrid.add(vBox, 0, i);
+            i--;
         }
         for (; index < islandGuiList.size(); index++) {
             islandGuiList.get(index).delete();
@@ -528,7 +528,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             exit(1);
         }
 
-        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
+        stage.getIcons().add(GuiResources.characterBack);
         stage.setTitle("Choose a color for the chosen character!");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.showAndWait();
@@ -553,7 +553,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             exit(1);
         }
 
-        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/characters/CharacterBack.png"))));
+        stage.getIcons().add(GuiResources.characterBack);
         stage.setTitle("Swap!");
         stage.initStyle(StageStyle.UNDECORATED);
         stage.showAndWait();
@@ -575,6 +575,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         new Thread(() -> notifyObserver(obs -> obs.updateIslandAction(islandID))).start();
 
     }
+
     public void setInfoLabel(String msg) {
         infoLabel.setText(msg);
     }

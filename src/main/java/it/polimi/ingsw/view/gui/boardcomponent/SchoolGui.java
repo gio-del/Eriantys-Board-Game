@@ -3,10 +3,13 @@ package it.polimi.ingsw.view.gui.boardcomponent;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
 import it.polimi.ingsw.model.player.ShortPlayer;
-import javafx.scene.image.Image;
+import it.polimi.ingsw.view.gui.GuiResources;
 import javafx.scene.image.ImageView;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
 
 public class SchoolGui {
     private final List<ImageView> towerViews;
@@ -24,7 +27,7 @@ public class SchoolGui {
         this.hallViewsMap = new EnumMap<>(PawnColor.class);
         this.entranceViews = new EnumMap<>(PawnColor.class);
         this.professorsViews = new EnumMap<>(PawnColor.class);
-        this.wizard = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/wizards/" + owner.wizard().name().toLowerCase() + "_deck.png"))));
+        this.wizard = new ImageView(GuiResources.getWizard(owner.wizard()));
         wizard.setPreserveRatio(true);
         wizard.setFitHeight(150);
         refresh(owner, school);
@@ -32,9 +35,8 @@ public class SchoolGui {
 
     private void initializeTowerColor() {
         towerViews.clear();
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/tower/" + owner.color().name().toLowerCase() + "Tower.png")));
         for (int i = 0; i < school.getNumTower(); i++) {
-            ImageView towerView = new ImageView(image);
+            ImageView towerView = new ImageView(GuiResources.getTowerSchool(owner.color()));
             towerView.setPreserveRatio(true);
             towerView.setFitHeight(35);
             towerViews.add(towerView);
@@ -48,8 +50,7 @@ public class SchoolGui {
         }
         List<PawnColor> colorsInHall = school.getHall().toList();
         for (PawnColor pawnColor : colorsInHall) {
-            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/students/" + pawnColor.name().toLowerCase() + "_student.png")));
-            ImageView colorView = new ImageView(image);
+            ImageView colorView = new ImageView(GuiResources.getStudent(pawnColor));
             colorView.setPreserveRatio(true);
             colorView.setFitHeight(20);
             hallViewsMap.get(pawnColor).add(colorView);
@@ -63,8 +64,7 @@ public class SchoolGui {
             entranceViews.computeIfAbsent(pawnColor, color -> entranceViews.put(color, new ArrayList<>()));
         }
         for (PawnColor pawnColor : colorsInEntrance) {
-            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/students/" + pawnColor.name().toLowerCase() + "_student.png")));
-            ImageView colorView = new ImageView(image);
+            ImageView colorView = new ImageView(GuiResources.getStudent(pawnColor));
             colorView.setPreserveRatio(true);
             colorView.setFitHeight(20);
             entranceViews.get(pawnColor).add(colorView);
@@ -78,8 +78,7 @@ public class SchoolGui {
             professorsViews.computeIfAbsent(pawnColor, color -> professorsViews.put(color, new ImageView()));
         }
         for (PawnColor pawnColor : professors) {
-            Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/pawns/professors/" + pawnColor.name().toLowerCase() + "_professor.png")));
-            ImageView colorView = new ImageView(image);
+            ImageView colorView = new ImageView(GuiResources.getProf(pawnColor));
             colorView.setPreserveRatio(true);
             colorView.setFitHeight(25);
             professorsViews.put(pawnColor, colorView);

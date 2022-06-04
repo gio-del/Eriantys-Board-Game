@@ -24,11 +24,11 @@ public class Client extends Thread {
     private static final Logger logger = Logger.getLogger(Client.class.getSimpleName());
     private final ClientController clientController;
     private final ScheduledExecutorService ping;
+    private final Object outLock = new Object();
     private boolean running = true;
     private Socket socket;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private final Object outLock = new Object();
 
     public Client(ClientController clientController) {
         this.clientController = clientController;

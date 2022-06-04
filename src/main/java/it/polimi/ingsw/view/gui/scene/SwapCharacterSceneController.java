@@ -62,8 +62,8 @@ public class SwapCharacterSceneController extends ClientObservable implements Ba
         infoLabel.setText(MESSAGE + " [Maximum swaps: " + (maxSwaps - swapList.size() / 2) + "]");
         this.maxSwaps = maxSwaps;
 
-        AnchorPane ap = (AnchorPane)infoLabel.getParent();
-        Stage primaryStage = (Stage)infoLabel.getScene().getWindow();
+        AnchorPane ap = (AnchorPane) infoLabel.getParent();
+        Stage primaryStage = (Stage) infoLabel.getScene().getWindow();
         ap.setOnMousePressed(pressEvent -> ap.setOnMouseDragged(dragEvent -> {
             primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
             primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());

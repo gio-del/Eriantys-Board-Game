@@ -114,10 +114,10 @@ public class Gui extends ClientObservable implements View {
 
     @Override
     public void showMessage(String msg) {
-        if(!isInBoardScene())
+        if (!isInBoardScene())
             Platform.runLater(() -> SceneManager.showAlert(Alert.AlertType.INFORMATION, msg));
         else
-            Platform.runLater(() -> ((BoardSceneController)SceneManager.getActualController()).setInfoLabel(msg));
+            Platform.runLater(() -> ((BoardSceneController) SceneManager.getActualController()).setInfoLabel(msg));
     }
 
     @Override

@@ -110,8 +110,8 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
     }
 
     public void init() {
-        AnchorPane ap = (AnchorPane)okButton.getParent();
-        Stage primaryStage = (Stage)okButton.getScene().getWindow();
+        AnchorPane ap = (AnchorPane) okButton.getParent();
+        Stage primaryStage = (Stage) okButton.getScene().getWindow();
         ap.setOnMousePressed(pressEvent -> ap.setOnMouseDragged(dragEvent -> {
             primaryStage.setX(dragEvent.getScreenX() - pressEvent.getSceneX());
             primaryStage.setY(dragEvent.getScreenY() - pressEvent.getSceneY());

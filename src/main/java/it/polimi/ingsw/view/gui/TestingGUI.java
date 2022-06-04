@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class TestingGUI extends Application {
     Game game;
@@ -31,8 +34,7 @@ public class TestingGUI extends Application {
         game = new Game();
         game.addPlayer("Marco", Wizard.KING, TowerColor.BLACK);
         game.addPlayer("Giovanni", Wizard.SORCERER, TowerColor.GREY);
-        game.addPlayer("Prova", Wizard.WITCH, TowerColor.WHITE);
-        game.startGame(false);
+        game.startGame(true);
         game.fillClouds();
         game.getPlayerByName("Giovanni").getSchool().getHall().addPawns(new Pawns(1, 2, 9, 1, 5));
         game.getPlayerByName("Marco").getSchool().getHall().addPawns(new Pawns(2, 1, 4, 9, 10));
@@ -46,7 +48,7 @@ public class TestingGUI extends Application {
         game.getBoard().getIslands().get(1).upgradeBanTiles(1);
         game.getBoard().moveMotherNature(1);
         game.getBoard().getIslands().get(2).add(new Pawns(1, 1, 1, 1, 1));
-        resource = new ShortModel(game, false);
+        resource = new ShortModel(game, true);
 
         boardSceneController = new BoardSceneController(resource, "Giovanni");
         root = null;
@@ -66,34 +68,20 @@ public class TestingGUI extends Application {
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/home.jpg"))));
         stage.setTitle("Testing GUI");
         stage.show();
-        stage.setFullScreen(true);
-        boardSceneController.setMovableStudents();
-//        ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1);
-//        scheduler.scheduleAtFixedRate(() -> {
-//            try {
-//                method();
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }, 0, 3000, TimeUnit.MILLISECONDS);
+        ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1);
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                method();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }, 0, 20, TimeUnit.MILLISECONDS);
     }
 
     private void method() {
         game.getBoard().moveMotherNature(1);
-        resource = new ShortModel(game, true);
-        Platform.runLater(() -> {
-            boardSceneController = new BoardSceneController(resource, "Giovanni");
-            root = null;
-            try {
-                FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource("/fxml/board.fxml"));
-                fxmlLoader.setController(boardSceneController);
-                root = fxmlLoader.load();
-            } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println(e.getMessage());
-            }
-            stage.setScene(new Scene(Objects.requireNonNull(root)));
-        });
+        resource.update(new ShortModel(game, true));
+        Platform.runLater(() -> boardSceneController.refresh());
     }
 
     @Override
