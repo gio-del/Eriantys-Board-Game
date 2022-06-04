@@ -19,6 +19,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class implements the controller of the swap scene
+ */
 public class SwapCharacterSceneController extends ClientObservable implements BasicSceneController {
     private static final String MESSAGE = "Choose a couple of color to swap";
     private final List<PawnColor> swapList;
@@ -70,6 +73,9 @@ public class SwapCharacterSceneController extends ClientObservable implements Ba
         }));
     }
 
+    /**
+     * Initialization of the controller
+     */
     @FXML
     private void initialize() {
         firstColors.put(blue1, PawnColor.BLUE);
@@ -85,6 +91,9 @@ public class SwapCharacterSceneController extends ClientObservable implements Ba
         secondColors.put(green2, PawnColor.GREEN);
     }
 
+    /**
+     * First swap
+     */
     public void firstColorChoose(MouseEvent mouseEvent) {
         ImageView selectedImage = (ImageView) mouseEvent.getSource();
 
@@ -94,6 +103,9 @@ public class SwapCharacterSceneController extends ClientObservable implements Ba
         selectedFirstColor = firstColors.get(selectedImage);
     }
 
+    /**
+     * Second swap
+     */
     public void secondColorChoose(MouseEvent mouseEvent) {
         ImageView selectedImage = (ImageView) mouseEvent.getSource();
 
@@ -103,6 +115,9 @@ public class SwapCharacterSceneController extends ClientObservable implements Ba
         selectedSecondColor = secondColors.get(selectedImage);
     }
 
+    /**
+     * Go straight on the swapping phase
+     */
     public void continueSwapping() {
         if (maxSwaps - swapList.size() / 2 == 0) {
             stopSwapping();
@@ -112,6 +127,9 @@ public class SwapCharacterSceneController extends ClientObservable implements Ba
         infoLabel.setText(MESSAGE + " [Remaining: " + (maxSwaps - swapList.size() / 2) + "]");
     }
 
+    /**
+     * Complete the swapping phase
+     */
     public void stopSwapping() {
         if (swapList.isEmpty()) {
             SceneManager.showAlert(Alert.AlertType.WARNING, "Perform almost one swap!");

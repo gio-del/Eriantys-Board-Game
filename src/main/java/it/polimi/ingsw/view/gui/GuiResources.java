@@ -8,6 +8,9 @@ import javafx.scene.image.Image;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Resources for the GUI
+ */
 public class GuiResources {
 
     public static final Image motherNature = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/pawns/mother_nature.png")));
@@ -47,22 +50,47 @@ public class GuiResources {
     private GuiResources() {
     }
 
+    /**
+     * Get a student
+     *
+     * @return Image of the student
+     */
     public static Image getStudent(PawnColor color) {
         return colorToImage.get(color);
     }
 
+    /**
+     * Get a wizard
+     *
+     * @return Image of the wizard
+     */
     public static Image getWizard(Wizard wizard) {
         return wizardToImage.get(wizard);
     }
 
+    /**
+     * Get a tower in school
+     *
+     * @return Image of the tower
+     */
     public static Image getTowerSchool(TowerColor color) {
         return towerColorToImage.get(color);
     }
 
+    /**
+     * Get a professor
+     *
+     * @return Image of the professor
+     */
     public static Image getProf(PawnColor color) {
         return colorToProfImage.get(color);
     }
 
+    /**
+     * Get a tower in island
+     *
+     * @return Image of the tower
+     */
     public static Image getTowerIsland(TowerColor color) {
         return towerColorToIslandImage.get(color);
     }

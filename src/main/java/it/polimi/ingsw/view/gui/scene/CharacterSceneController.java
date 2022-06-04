@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-
+/**
+ * This class implements the controller of the characters scene
+ */
 public class CharacterSceneController extends ClientObservable implements BasicSceneController {
     private final List<CharacterGui> characterComponents;
     @FXML
@@ -70,6 +72,9 @@ public class CharacterSceneController extends ClientObservable implements BasicS
         this.characters = characters;
     }
 
+    /**
+     * Initialization of the controller
+     */
     @FXML
     private void initialize() {
         characterComponents.add(new CharacterGui(firstCharacterImg, firstCharacterName, firstCharacterDescription, firstCharacterCost, firstComponentsOn, firstCoinOn));
@@ -102,6 +107,9 @@ public class CharacterSceneController extends ClientObservable implements BasicS
         selectedCharacter = characterID;
     }
 
+    /**
+     * Complete the character choose
+     */
     private void chooseCharacter() {
         new Thread(() -> notifyObserver(obs -> obs.updateUseCharacter(selectedCharacter))).start();
         ((Stage) okButton.getScene().getWindow()).close();

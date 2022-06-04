@@ -14,6 +14,9 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+/**
+ * This class implements the controller of the color choosing scene
+ */
 public class ColorCharacterSceneController extends ClientObservable implements BasicSceneController {
     @FXML
     private Button chooseBtn;
@@ -32,11 +35,17 @@ public class ColorCharacterSceneController extends ClientObservable implements B
 
     private List<ImageView> colors;
 
+    /**
+     * Initialization of the controller
+     */
     @FXML
     private void initialize() {
         colors = List.of(red, pink, yellow, blue, green);
     }
 
+    /**
+     * Select red color
+     */
     public void redClick() {
         for (ImageView color : colors) {
             color.setEffect(null);
@@ -45,6 +54,9 @@ public class ColorCharacterSceneController extends ClientObservable implements B
         this.selected = PawnColor.RED;
     }
 
+    /**
+     * Select yellow color
+     */
     public void yellowClick() {
         for (ImageView color : colors) {
             color.setEffect(null);
@@ -53,6 +65,9 @@ public class ColorCharacterSceneController extends ClientObservable implements B
         this.selected = PawnColor.YELLOW;
     }
 
+    /**
+     * Select blue color
+     */
     public void blueClick() {
         for (ImageView color : colors) {
             color.setEffect(null);
@@ -61,6 +76,9 @@ public class ColorCharacterSceneController extends ClientObservable implements B
         this.selected = PawnColor.BLUE;
     }
 
+    /**
+     * Select pink color
+     */
     public void pinkClick() {
         for (ImageView color : colors) {
             color.setEffect(null);
@@ -69,6 +87,9 @@ public class ColorCharacterSceneController extends ClientObservable implements B
         this.selected = PawnColor.PINK;
     }
 
+    /**
+     * Select green color
+     */
     public void greenClick() {
         for (ImageView color : colors) {
             color.setEffect(null);
@@ -77,6 +98,9 @@ public class ColorCharacterSceneController extends ClientObservable implements B
         this.selected = PawnColor.GREEN;
     }
 
+    /**
+     * Complete the color choose
+     */
     public void choose() {
         if (selected == null) {
             SceneManager.showAlert(Alert.AlertType.WARNING, "You must select a color");

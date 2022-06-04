@@ -12,6 +12,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
+/**
+ * This class implements the controller of the game mode choosing scene
+ */
 public class GameModeSceneController extends ClientObservable implements BasicSceneController {
 
 
@@ -26,6 +29,9 @@ public class GameModeSceneController extends ClientObservable implements BasicSc
     @FXML
     private CheckBox expertMode;
 
+    /**
+     * Initialization of the controller
+     */
     @FXML
     private void initialize() {
         numOfPlayerChoiceBox.setItems(FXCollections.observableArrayList(Constants.NUM_PLAYER_AVAILABLE.stream().map(String::valueOf).toList()));
@@ -37,6 +43,9 @@ public class GameModeSceneController extends ClientObservable implements BasicSc
         });
     }
 
+    /**
+     * Complete the game mode choose phase
+     */
     public void confirm() {
         expertMode.setDisable(true);
         expertMode.setVisible(false);
