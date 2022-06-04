@@ -23,6 +23,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class implements the controller of the wizard and tower color choosing scene
+ */
 public class ChooseWizardAndTCController extends ClientObservable implements BasicSceneController {
     private final Set<Wizard> wizardsAvailable;
     private final Set<TowerColor> colorsAvailable;
@@ -59,6 +62,9 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
         this.colorsAvailable = colorsAvailable;
     }
 
+    /**
+     * Initialization of the controller
+     */
     @FXML
     private void initialize() {
         towerColorMapImage.put(TowerColor.BLACK, blackTower);
@@ -134,6 +140,9 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
         groupOfWizard.setVisible(true);
     }
 
+    /**
+     * Complete the wizard and tower color choose phase
+     */
     private void confirm() {
         if (selectedWizard == null || selectedColor == null) {
             SceneManager.showAlert(Alert.AlertType.WARNING, "You must select Wizard and Tower Color!");
@@ -143,6 +152,9 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
         new Thread(() -> notifyObserver(obs -> obs.updateWizardAndColor(selectedWizard, selectedColor))).start();
     }
 
+    /**
+     * Complete the tower color choose
+     */
     private void selectTower(TowerColor color) {
         towerColorMapImage.get(color).setEffect(new DropShadow(50, Color.CORAL));
         for (TowerColor notSelected : TowerColor.values()) {
@@ -152,6 +164,9 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
         this.selectedColor = color;
     }
 
+    /**
+     * Complete the wizard choose
+     */
     private void selectWizard(Wizard wizard) {
         wizardMapImage.get(wizard).setEffect(new DropShadow(50, Color.GREEN));
         for (Wizard notSelected : Wizard.values()) {

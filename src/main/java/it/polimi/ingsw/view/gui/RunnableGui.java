@@ -14,6 +14,9 @@ import java.util.Objects;
 
 import static java.lang.System.exit;
 
+/**
+ * This class starts the main stage and scene
+ */
 public class RunnableGui extends Application {
 
     @Override

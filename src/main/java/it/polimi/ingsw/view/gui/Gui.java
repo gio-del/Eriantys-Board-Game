@@ -34,17 +34,26 @@ public class Gui extends ClientObservable implements View {
         Platform.runLater(() -> SceneManager.changeScene(observers, "connection.fxml"));
     }
 
+    /**
+     * To set the name of the player
+     */
     public void setNickname() {
         LoginSceneController controller = new LoginSceneController(this);
         observers.forEach(controller::addObserver);
         Platform.runLater(() -> SceneManager.changeScene(controller, "login.fxml"));
     }
 
+    /**
+     * To choose the game mode to be played
+     */
     @Override
     public void chooseGameMode() {
         Platform.runLater(() -> SceneManager.changeScene(observers, "game_mode.fxml"));
     }
 
+    /**
+     * To choose a {@link Wizard} and a {@link TowerColor} from the ones available
+     */
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
         ChooseWizardAndTCController controller = new ChooseWizardAndTCController(wizardsAvailable, colorsAvailable);
@@ -52,6 +61,10 @@ public class Gui extends ClientObservable implements View {
         Platform.runLater(() -> SceneManager.changeScene(controller, "choose_wizard.fxml"));
     }
 
+    /**
+     * PLANNING PHASE:
+     * To choose the assistant to play
+     */
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
         Platform.runLater(() -> {
@@ -61,41 +74,79 @@ public class Gui extends ClientObservable implements View {
         });
     }
 
+    /**
+     * ACTION PHASE:
+     * Move the students from the cloud to the hall
+     *
+     * @param clouds available to selected
+     */
     @Override
     public void chooseCloud(List<ShortCloud> clouds) {
         Platform.runLater(() -> getBoardController().setSelectableClouds());
     }
 
+    /**
+     * ACTION PHASE:
+     * Move the students from the entrance to the hall
+     *
+     * @param movableColor list of color that can be moved
+     */
     @Override
     public void moveStudent(List<PawnColor> movableColor) {
         Platform.runLater(() -> getBoardController().setMovableStudents());
     }
 
+    /**
+     * ACTION PHASE:
+     * Move mother nature from the origin island to a target island
+     * with a number of steps
+     *
+     * @param maximumSteps available for this turn for this player based on the assistant played
+     */
     @Override
     public void moveMNature(int maximumSteps) {
         Platform.runLater(() -> getBoardController().setMotherNatureMaximumSteps(maximumSteps));
     }
 
+    /**
+     * To ask a color to the player
+     */
     @Override
     public void askColor() {
         Platform.runLater(() -> getBoardController().askColor());
     }
 
+    /**
+     * To ask an island to the player
+     */
     @Override
     public void askIsland() {
         Platform.runLater(() -> getBoardController().askIsland());
     }
 
+    /**
+     * To ask the number of swaps to the player
+     *
+     * @param swap number of swaps
+     */
     @Override
     public void askSwapList(int swap) {
         Platform.runLater(() -> getBoardController().askSwap(swap));
     }
 
+    /**
+     * update of the view
+     */
     @Override
     public void updateScreen() {
         Platform.runLater(() -> getBoardController().refresh());
     }
 
+    /**
+     * In case of a disconnection, the players still connected will receive a msg
+     *
+     * @param msg content
+     */
     @Override
     public void showError(String msg) {
         Platform.runLater(() -> {
@@ -104,6 +155,9 @@ public class Gui extends ClientObservable implements View {
         });
     }
 
+    /**
+     * When win happens
+     */
     @Override
     public void win(String winner, boolean win) {
         Platform.runLater(() -> {
@@ -112,6 +166,11 @@ public class Gui extends ClientObservable implements View {
         });
     }
 
+    /**
+     * Show a generic message received from server
+     *
+     * @param msg to be displayed
+     */
     @Override
     public void showMessage(String msg) {
         if (!isInBoardScene())
@@ -120,11 +179,19 @@ public class Gui extends ClientObservable implements View {
             Platform.runLater(() -> ((BoardSceneController) SceneManager.getActualController()).setInfoLabel(msg));
     }
 
+    /**
+     * To get the short-model
+     */
     @Override
     public void injectResource(ShortModel resource) {
         this.resource = resource;
     }
 
+    /**
+     * Initialize the BoardController
+     *
+     * @return controller
+     */
     private BoardSceneController getBoardController() {
         BoardSceneController controller;
         try {
@@ -138,10 +205,17 @@ public class Gui extends ClientObservable implements View {
         return controller;
     }
 
+    /**
+     *
+     * @return true if is in BoardScene, false otherwise
+     */
     private boolean isInBoardScene() {
         return SceneManager.getActualController() instanceof BoardSceneController;
     }
 
+    /**
+     * To set the name of the player
+     */
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }

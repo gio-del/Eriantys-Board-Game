@@ -13,6 +13,9 @@ import javafx.scene.control.ButtonType;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * This class implements a generic scene controller
+ */
 public class SceneManager {
     private static Scene actualScene;
     private static BasicSceneController actualController;
@@ -20,6 +23,13 @@ public class SceneManager {
     private SceneManager() {
     }
 
+    /**
+     * This method changes the current scene
+     *
+     * @param observerList list of the observers
+     * @param newScene the new scene
+     * @param pathToFxml the fxml file's name of the new scene
+     */
     public static void changeScene(List<ClientObserver> observerList, Scene newScene, String pathToFxml) {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(SceneManager.class.getResource("/fxml/" + pathToFxml));
@@ -39,10 +49,22 @@ public class SceneManager {
         }
     }
 
+    /**
+     * This method changes the current scene
+     *
+     * @param observers list of the observers
+     * @param pathToFXML the fxml file's name of the new scene
+     */
     public static void changeScene(List<ClientObserver> observers, String pathToFXML) {
         changeScene(observers, actualScene, pathToFXML);
     }
 
+    /**
+     * This method changes the current scene
+     *
+     * @param controller new controller
+     * @param pathToFXML the fxml file's name of the new scene
+     */
     public static void changeScene(BasicSceneController controller, String pathToFXML) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource("/fxml/" + pathToFXML));
@@ -57,7 +79,12 @@ public class SceneManager {
         }
     }
 
-
+    /**
+     * This method shows a notification
+     *
+     * @param type of the notification
+     * @param message the text of the message
+     */
     public static void showAlert(Alert.AlertType type, String message) {
         Alert alert = new Alert(type, message, ButtonType.OK);
         alert.showAndWait();

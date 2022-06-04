@@ -20,6 +20,9 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * This class implements the controller of the assistants choose scene
+ */
 public class PlayAssistantSceneController extends ClientObservable implements BasicSceneController {
     private final Map<Assistant, ImageView> assistantMapImage = new EnumMap<>(Assistant.class);
     @FXML
@@ -47,6 +50,9 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
     private Set<Assistant> playableAssistant;
     private Assistant selectedAssistant;
 
+    /**
+     * Initialization of the controller
+     */
     @FXML
     private void initialize() {
         Arrays.stream(PlayAssistantSceneController.class.getDeclaredFields()).
@@ -99,6 +105,9 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
         this.selectedAssistant = assistant;
     }
 
+    /**
+     * Complete the assistants choose phase
+     */
     private void confirm() {
         if (selectedAssistant == null) {
             SceneManager.showAlert(Alert.AlertType.INFORMATION, "You must select an assistant!");

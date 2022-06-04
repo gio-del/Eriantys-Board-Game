@@ -8,6 +8,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 
+/**
+ * This class implements the controller of the connection scene
+ */
 public class ConnectionSceneController extends ClientObservable implements BasicSceneController {
     @FXML
     private TextField portField;
@@ -16,6 +19,9 @@ public class ConnectionSceneController extends ClientObservable implements Basic
     @FXML
     private TextField ipField;
 
+    /**
+     * Complete the server-client connection
+     */
     @FXML
     private void confirm() {
         String address = ipField.getText();

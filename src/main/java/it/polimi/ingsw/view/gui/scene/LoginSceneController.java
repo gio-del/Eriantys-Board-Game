@@ -14,6 +14,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 
+/**
+ * This class implements the controller of the login scene
+ */
 public class LoginSceneController extends ClientObservable implements BasicSceneController {
 
     private final Gui gui;
@@ -32,6 +35,9 @@ public class LoginSceneController extends ClientObservable implements BasicScene
         this.gui = gui;
     }
 
+    /**
+     * Initialization of the controller
+     */
     @FXML
     private void initialize() {
         anchorPane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseEvent -> {
@@ -45,6 +51,9 @@ public class LoginSceneController extends ClientObservable implements BasicScene
         });
     }
 
+    /**
+     * Complete the login phase
+     */
     public void confirm() {
         String nickname = nicknameTextField.getText();
         if (nickname.trim().equals("")) {

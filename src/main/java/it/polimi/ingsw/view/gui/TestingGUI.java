@@ -20,6 +20,9 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * This class is a test of the GUI
+ */
 public class TestingGUI extends Application {
     Game game;
     ShortModel resource;

@@ -39,6 +39,9 @@ import java.util.stream.IntStream;
 
 import static java.lang.System.exit;
 
+/**
+ * This class implements the controller of the board scene, the main of the game
+ */
 public class BoardSceneController extends ClientObservable implements BasicSceneController {
     private final ShortModel resource;
     private final String nickname;
@@ -99,6 +102,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         this.islandGuiList = new ArrayList<>();
     }
 
+    /**
+     * Initialization of the controller
+     */
     @FXML
     private void initialize() {
         ShortPlayer myself = resource.getSchoolMap().keySet().stream().filter(player -> player.name().equals(nickname)).findFirst().orElse(null);
@@ -142,6 +148,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         refresh();
     }
 
+    /**
+     * Set the list of playable assistants
+     */
     public void setPlayableAssistant(Set<Assistant> playableAssistant) {
         consumeEventChooseCloud();
         consumeEventMoveMotherNature();
@@ -155,6 +164,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         myWizard.setCursor(Cursor.HAND);
     }
 
+    /**
+     * To choose an assistant
+     */
     private void useAssistant() {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -186,6 +198,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         infoLabel.setText("Wait for all players to choose their assistant!");
     }
 
+    /**
+     * To use a character
+     */
     private void useCharacter() {
 
         if (!canPlayCharacter) {
@@ -215,6 +230,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.showAndWait();
     }
 
+    /**
+     * To update the school
+     */
     private void printSchool() {
 
         //OWNER
@@ -273,6 +291,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     }
 
+    /**
+     * To update the clouds
+     */
     private void printClouds() {
         IntStream.range(0, resource.getClouds().size()).forEach(i -> ((CloudGui) cloudBox.getChildren().get(i)).setAs(resource.getClouds().get(i)));
     }
@@ -287,6 +308,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         return vBox;
     }
 
+    /**
+     * To update the islands
+     */
     private void refreshIslands() {
         int index = 0;
         ShortBoard board = resource.getBoard();
@@ -335,6 +359,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
     }
 
+    /**
+     * Shows the next player's school
+     */
     private void nextSchool() {
         int index = names.indexOf(actualSchool.getOwner());
         if (index == names.size() - 2) {
@@ -350,6 +377,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         printSchool();
     }
 
+    /**
+     * Shows the previous player's school
+     */
     private void prevSchool() {
         int index = names.indexOf(actualSchool.getOwner());
         if (index == 1) {
@@ -365,6 +395,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         printSchool();
     }
 
+    /**
+     * To update the board
+     */
     public void refresh() {
         for (Map.Entry<ShortPlayer, ShortSchool> entry : resource.getSchoolMap().entrySet()) {
             schoolGuiMap.get(entry.getKey().name()).refresh(entry.getKey(), entry.getValue());
@@ -378,6 +411,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         printSchool();
     }
 
+    /**
+     * Set the movable students
+     */
     public void setMovableStudents() {
         consumeEventChooseCloud();
         consumeEventMoveMotherNature();
@@ -391,6 +427,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         })));
     }
 
+    /**
+     * Choose a color to move
+     */
     private void chooseMoveColor(PawnColor pawnColor, ImageView pawn) {
         schoolGuiMap.get(nickname).getEntranceViews().forEach((color, imageViews) -> imageViews.forEach(img -> img.setEffect(null)));
         pawn.setEffect(new Bloom());
@@ -398,6 +437,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         setSelectableMoveTarget();
     }
 
+    /**
+     * Set the selectable target
+     */
     private void setSelectableMoveTarget() {
         for (PawnColor pawnColor : PawnColor.values()) {
             hallMap.get(pawnColor).setCursor(Cursor.HAND);
@@ -412,12 +454,18 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
     }
 
+    /**
+     * To move a student to the hall
+     */
     private void moveToHall() {
         consumeEventMoveStudent();
         infoLabel.setText("");
         new Thread(() -> notifyObserver(obs -> obs.updateMoveStudent(selectedColor, Target.HALL, 0))).start();
     }
 
+    /**
+     * To move a student to an island
+     */
     private void moveToIsland(int id) {
         consumeEventMoveStudent();
         infoLabel.setText("");
@@ -443,6 +491,11 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
     }
 
+    /**
+     * To set the mother nature's movement
+     *
+     * @param maximumSteps that mother nature can do
+     */
     public void setMotherNatureMaximumSteps(int maximumSteps) {
         consumeEventChooseCloud();
         consumeEventMoveMotherNature();
@@ -478,6 +531,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
     }
 
+    /**
+     * Set selectable clouds
+     */
     public void setSelectableClouds() {
         consumeEventChooseCloud();
         consumeEventMoveMotherNature();
@@ -495,6 +551,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
     }
 
+    /**
+     * To choose a cloud
+     */
     private void chooseCloud(int i) {
         consumeEventChooseCloud();
         infoLabel.setText("Wait for the other players' turn!");
@@ -510,6 +569,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         });
     }
 
+    /**
+     * To ask a color to the player (by effect of a character)
+     */
     public void askColor() {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -534,6 +596,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.showAndWait();
     }
 
+    /**
+     * To ask a swap to the player (by effect of a character)
+     */
     public void askSwap(int swap) {
         Stage stage = new Stage();
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -559,6 +624,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.showAndWait();
     }
 
+    /**
+     * To ask an island to the player (by effect of a character)
+     */
     public void askIsland() {
         infoLabel.setText("Choose an island for the chosen character");
         for (int i = 0; i < islandGuiList.size(); i++) {
@@ -569,6 +637,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         }
     }
 
+    /**
+     * To choose an island
+     */
     private void chooseIsland(int islandID) {
         consumeEventMoveMotherNature();
         infoLabel.setText("");
@@ -576,6 +647,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
     }
 
+    /**
+     * Set the labels
+     */
     public void setInfoLabel(String msg) {
         infoLabel.setText(msg);
     }
