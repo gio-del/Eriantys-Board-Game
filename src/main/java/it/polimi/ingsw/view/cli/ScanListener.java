@@ -2,6 +2,12 @@ package it.polimi.ingsw.view.cli;
 
 import java.util.Scanner;
 
+/**
+ * This class is used to scan the input from the user.
+ * The listener has different request options to wait for
+ * and has a default ignore request that ignores every single
+ * type of input of the user when not requested
+ */
 public class ScanListener extends Thread {
     private final Cli cli;
     private final Scanner scanner;
@@ -13,6 +19,9 @@ public class ScanListener extends Thread {
         scanner = new Scanner(System.in);
     }
 
+    /**
+     * waiting for inputs form the user
+     */
     @Override
     public void run() {
         while (running) {
@@ -94,6 +103,10 @@ public class ScanListener extends Thread {
         }
     }
 
+    /**
+     * set the request status of the listener
+     * @param request
+     */
     public void setRequest(Request request) {
         this.request = request;
     }
@@ -114,6 +127,11 @@ public class ScanListener extends Thread {
         }
     }
 
+    /**
+     * filters if is asked to use a character
+     * @param input string to check if is ask to use a character
+     * @return -1 if is not asked, id of the character to use if valid ask method
+     */
     private int filter(String input) {
         int pos = cli.getSpacePos(input);
         String cmd = input.substring(0, pos);

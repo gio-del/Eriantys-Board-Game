@@ -7,6 +7,11 @@ import it.polimi.ingsw.model.place.ShortIsland;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used to build the cli interface of the board
+ * with the islands. It changes dynamically dimension
+ * based on the number of islands
+ */
 public class BoardCli {
     private final ShortBoard board;
     private final List<IslandCli> islandsCli;
@@ -16,6 +21,9 @@ public class BoardCli {
         this.islandsCli = new ArrayList<>();
     }
 
+    /**
+     * Use all the information of the board to print the board
+     */
     public void printBoard() {
         int i;
         int j;
@@ -70,6 +78,9 @@ public class BoardCli {
         row1.forEach(System.out::println);
     }
 
+    /**
+     * prints header if present with the blocked island
+     */
     private void printBlockIslandHeader() {
         StringBuilder blockedIsland = new StringBuilder("Blocked island: ");
         boolean check = false;
@@ -83,6 +94,11 @@ public class BoardCli {
     }
 
 
+    /**
+     * create a string of underscores needed
+     * @param rep number of underscores
+     * @return the string of underscores
+     */
     private String underScores(int rep) {
         int i;
         StringBuilder string = new StringBuilder();
@@ -92,6 +108,11 @@ public class BoardCli {
         return string.toString();
     }
 
+    /**
+     * create a string of blank spaces needed
+     * @param rep number of blank spaces
+     * @return the string of blank spaces
+     */
     private String empties(int rep) {
         int i;
         StringBuilder string = new StringBuilder();
