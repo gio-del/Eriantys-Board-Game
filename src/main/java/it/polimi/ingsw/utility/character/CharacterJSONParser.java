@@ -1,10 +1,7 @@
 package it.polimi.ingsw.utility.character;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.character.CharacterCard;
-import it.polimi.ingsw.model.character.actiondata.SetInfluenceStrategyData;
-import it.polimi.ingsw.network.server.Server;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -17,17 +14,13 @@ public class CharacterJSONParser {
     /**
      * @return a list with all the {@link CharacterCard} if it parsed correctly, an empty list otherwise
      */
-    public List<CharacterCard> parseCharacters() {
+    public List<CharacterCard> parseCharacters(String pathToJSON) {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.registerSubtypes(SetInfluenceStrategyData.class);
         try {
-            BufferedReader buffer = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(Constants.CHARACTER_JSON_PATH))));
+            BufferedReader buffer = new BufferedReader(new InputStreamReader(Objects.requireNonNull(getClass().getResourceAsStream(pathToJSON))));
             return Arrays.stream(mapper.readValue(buffer, CharacterCard[].class)).toList();
         } catch (NullPointerException | IOException e) {
-            Server.LOGGER.severe(e.getMessage());
-            Server.LOGGER.severe(() -> "Server couldn't start. Failed to read character json file.");
-            System.exit(1);
+            return List.of();
         }
-        return List.of();
     }
 }

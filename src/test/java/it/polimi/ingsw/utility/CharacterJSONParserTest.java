@@ -1,5 +1,6 @@
 package it.polimi.ingsw.utility;
 
+import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.character.CharacterCard;
 import it.polimi.ingsw.utility.character.CharacterJSONParser;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +15,7 @@ class CharacterJSONParserTest {
 
     @BeforeEach
     void setUp() {
-        characterCardList = new CharacterJSONParser().parseCharacters();
+        characterCardList = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
     }
 
     @Test
@@ -22,4 +23,8 @@ class CharacterJSONParserTest {
         assertTrue(characterCardList.size() > 0);
     }
 
+    @Test
+    void missingCharactersFileTest() {
+        assertTrue(new CharacterJSONParser().parseCharacters("wrongPath").isEmpty());
+    }
 }
