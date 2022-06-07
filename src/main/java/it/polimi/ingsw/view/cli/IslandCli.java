@@ -6,10 +6,18 @@ import it.polimi.ingsw.model.place.ShortIsland;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * Class used to create a single island
+ */
 public class IslandCli {
     private final List<String> lines = new ArrayList<>();
 
+    /**
+     * creates a list of lines creating the island
+     * @param island content
+     * @param number of the island
+     * @param mn if mother nature is present
+     */
     public IslandCli(ShortIsland island, int number, int mn) {
         boolean motherNature = number == mn;
         lines.add(headerBuilder(number, motherNature));
@@ -21,6 +29,13 @@ public class IslandCli {
         lines.add(bottomBuilder(island));
     }
 
+    /**
+     * creates a single color row
+     * @param numColor number of pawns of the color
+     * @param start static part of the island
+     * @param end static part of the island
+     * @return the single string
+     */
     private String stringRow(int numColor, String start, String end) {
 
         StringBuilder string = new StringBuilder();
@@ -40,6 +55,12 @@ public class IslandCli {
     }
 
 
+    /**
+     * Creates the line of the header, with number and possible crown
+     * @param number of the island
+     * @param motherNature if present creates a sort of crown
+     * @return the header line
+     */
     private String headerBuilder(int number, boolean motherNature) {
         StringBuilder string = new StringBuilder();
         if (motherNature) {
@@ -59,6 +80,12 @@ public class IslandCli {
         return string.toString();
     }
 
+    /**
+     * Creates the bottom line, with the color of the tower if present and
+     * the dimension of the island
+     * @param island content
+     * @return bottom string
+     */
     private String bottomBuilder(ShortIsland island) {
         StringBuilder bottom = new StringBuilder();
         if (island.getTower() != null) {
@@ -70,6 +97,11 @@ public class IslandCli {
         return bottom.toString();
     }
 
+    /**
+     * create a string of blank spaces needed
+     * @param rep number of blank spaces
+     * @return the string of blank spaces
+     */
     private String empties(int rep) {
         int i;
         StringBuilder string = new StringBuilder();
@@ -79,7 +111,11 @@ public class IslandCli {
         return string.toString();
     }
 
-
+    /**
+     * Creates a part of the bottom string with the name of the tower
+     * @param island content
+     * @return string to append
+     */
     private String colorTower(ShortIsland island) {
         StringBuilder string = new StringBuilder();
         if (island.getTower() != null && island.getTower().name().equals("WHITE")) {

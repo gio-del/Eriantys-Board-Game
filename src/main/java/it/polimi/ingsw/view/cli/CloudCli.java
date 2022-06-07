@@ -6,10 +6,18 @@ import it.polimi.ingsw.model.pawns.PawnColor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class used to create the cloud
+ */
 public class CloudCli {
 
     private final List<String> lines = new ArrayList<>();
 
+    /**
+     * create a list of lines creating the cloud
+     * @param shortCloud content
+     * @param number of cloud
+     */
     public CloudCli(ShortCloud shortCloud, int number) {
         lines.add(number + CLISymbol.CLOUD_HEAD_START + CLISymbol.CLOUD_HEAD);
         lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.GREEN), CLISymbol.CLOUD_GREEN_START, CLISymbol.CLOUD_GREEN_END));
@@ -20,6 +28,13 @@ public class CloudCli {
         lines.add(CLISymbol.CLOUD_BOTTOM);
     }
 
+    /**
+     * Creates each string of the cloud
+     * @param numColor numbers of pawns of the color
+     * @param start first static part of the cloud
+     * @param end ending static part of the cloud
+     * @return the strings of the cloud
+     */
     private String stringRow(int numColor, String start, String end) {
 
         StringBuilder string = new StringBuilder();
@@ -34,6 +49,10 @@ public class CloudCli {
         return string.toString();
     }
 
+    /**
+     * create a string of blank spaces needed
+     * @return the string of blank spaces
+     */
     private String empties() {
         int i;
         StringBuilder string = new StringBuilder();
@@ -43,6 +62,9 @@ public class CloudCli {
         return string.toString();
     }
 
+    /**
+     * @return the list of lines creating the cloud
+     */
     public List<String> getLines() {
         return lines;
     }

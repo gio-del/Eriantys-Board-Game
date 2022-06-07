@@ -35,29 +35,40 @@ public class Cli extends ClientObservable implements View {
     private String nickname;
 
 
+    /**
+     * Cli constructor, scanListener is created
+     */
     public Cli() {
         scanListener = new ScanListener(this);
         scanListener.start();
     }
 
+    /**
+     * Cli shows welcome script and asks for connection
+     */
     public void init() {
         clearScreen();
         printWelcome();
         askConnectionInfo();
     }
 
+    /**
+     * Ask ip and port connection and redirect to scanListener
+     */
     public void askConnectionInfo() {
         System.out.println("Welcome, to start or participate in a game, insert Server ip and port (ip port):");
         setIp();
     }
 
+    /**
+     * ready to read the ip-port input
+     */
     public void setIp() {
         scanListener.setRequest(Request.IP);
     }
 
     /**
      * Parsing of the IP
-     *
      * @param address from the input of the client
      */
     public void checkIP(String address) {
@@ -85,6 +96,11 @@ public class Cli extends ClientObservable implements View {
 
     }
 
+    /**
+     * get the length of the first word of a string in input
+     * @param string in input
+     * @return size of the first word
+     */
     protected int getSpacePos(String string) {
         int i;
         for (i = 0; i < string.length(); i++) {
@@ -106,7 +122,6 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Check if is a valid name
-     *
      * @param nickname from input
      */
     public void checkNickName(String nickname) {
@@ -119,12 +134,21 @@ public class Cli extends ClientObservable implements View {
         }
     }
 
+    /**
+     * Shows the different available game's mode
+     * and the number of players possibly playing
+     */
     @Override
     public void chooseGameMode() {
         System.out.println("Insert game mode " + Constants.GAME_MODE_AVAILABLE + " and number of player " + Constants.NUM_PLAYER_AVAILABLE + " (mode number of player): ");
         scanListener.setRequest(Request.GAME_MODE);
     }
 
+    /**
+     * Checks if the string of the game mode is valid,
+     * if not, set the listener to wait for a new string
+     * @param gameMode string in input
+     */
     public void checkGameMode(String gameMode) {
         int pos = getSpacePos(gameMode);
         if (pos >= gameMode.length()) {
@@ -153,6 +177,11 @@ public class Cli extends ClientObservable implements View {
         notifyObserver(observer -> observer.updateGameModeNumPlayer(mode, finalNumOfPlayer));
     }
 
+    /**
+     * Shows the different available wizards and tower colors
+     * @param wizardsAvailable not already chosen by other players
+     * @param colorsAvailable not already chosen by other players
+     */
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
         resource.setWizardsAvailable(wizardsAvailable);
@@ -166,6 +195,11 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.WIZARD_COLOR);
     }
 
+    /**
+     * Checks if the string of the wizard and tower color is valid,
+     * if not, set the listener to wait for a new string
+     * @param wizardAndTower in input
+     */
     public void checkWizardColor(String wizardAndTower) {
         int pos = getSpacePos(wizardAndTower);
         if (pos >= wizardAndTower.length()) {
@@ -190,7 +224,11 @@ public class Cli extends ClientObservable implements View {
         notifyObserver(observer -> observer.updateWizardAndColor(wizardChosen, towerColor));
     }
 
-
+    /**
+     * Shows the different available assistants
+     * @param playableAssistant assistant in the hand the player not
+     * already played by other in the same turn
+     */
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
         System.out.println("Choose an assistant from the available: ");
@@ -198,6 +236,11 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.ASSISTANT);
     }
 
+    /**
+     * Checks if the string of the assistant is valid,
+     * if not, set the listener to wait for a new string
+     * @param assistantName in input
+     */
     public void checkAssistant(String assistantName) {
         Assistant assistant = resource.getPlayableAssistant().stream().filter(o -> assistantName.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if (assistant == null) {
@@ -208,12 +251,22 @@ public class Cli extends ClientObservable implements View {
         notifyObserver(observer -> observer.updateAssistant(assistant));
     }
 
+    /**
+     * Shows the clouds with the pawns
+     * @param clouds available to selected
+     */
     @Override
     public void chooseCloud(List<ShortCloud> clouds) {
         System.out.println("Select the number of the cloud you want to pick from: ");
         scanListener.setRequest(Request.CLOUD);
     }
 
+    /**
+     * Checks if the number of the cloud is valid,
+     * if not, set the listener to wait for a new string.
+     * Valid situation: number of an existing cloud that is not empty
+     * @param cloudNum in input
+     */
     public void checkCloud(int cloudNum) {
         if (cloudNum == -1) {
             System.out.println("ERROR - Cloud not a number, retry");
@@ -233,6 +286,10 @@ public class Cli extends ClientObservable implements View {
         notifyObserver(observer -> observer.updateCloud(cloudNum));
     }
 
+    /**
+     * Shows the instruction to move mother nature and the number of maximum steps
+     * @param maximumSteps available for this turn for this player based on the assistant played
+     */
     @Override
     public void moveMNature(int maximumSteps) {
         this.maxSteps = maximumSteps;
@@ -240,6 +297,11 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.MOTHER);
     }
 
+    /**
+     * Checks if the number of steps is valid,
+     * if not, set the listener to wait for a new string.
+     * @param steps in input
+     */
     public void checkStepsMN(int steps) {
         if (steps == -1) {
             System.out.println("ERROR - Steps not a number, retry");
@@ -259,6 +321,10 @@ public class Cli extends ClientObservable implements View {
         notifyObserver(observer -> observer.updateStepsMN(steps));
     }
 
+    /**
+     * Shows the instruction to move a student: first select the color
+     * @param movableColor list of color that can be moved
+     */
     @Override
     public void moveStudent(List<PawnColor> movableColor) {
         resource.setPawnsAvailable(movableColor);
@@ -266,6 +332,10 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.STUDENT);
     }
 
+    /**
+     * Checks if color is valid, shows how to move to island or hall
+     * @param color in input
+     */
     public void checkColor(String color) {
         chosenColor = resource.getPawnsAvailable().stream().filter(o -> color.equalsIgnoreCase(o.name())).findFirst().orElse(null);
         if (chosenColor == null) {
@@ -277,6 +347,11 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.MOVE);
     }
 
+    /**
+     * Checks id the target is valid,
+     * if not, set the listener to wait for a new string.
+     * @param destination in input
+     */
     public void moveToTarget(String destination) {
         int pos = getSpacePos(destination);
         int target = scanListener.converterToInt(destination.substring(0, pos));
@@ -306,16 +381,28 @@ public class Cli extends ClientObservable implements View {
         }
     }
 
+    /**
+     * notify observer of character to use
+     * @param id character
+     */
     public void useCharacter(int id) {
         notifyObserver(observer -> observer.updateUseCharacter(id));
     }
 
+    /**
+     * Shows how to select a color from the character selected
+     */
     @Override
     public void askColor() {
         System.out.println("Type a color to execute the action of the character you chose:");
         scanListener.setRequest(Request.COLOR_ACTION);
     }
 
+    /**
+     * Check if the color is available for the character used,
+     * if not, set the listener to wait for a new string.
+     * @param color in input
+     */
     public void checkColorAction(String color) {
         try {
             PawnColor chosen = PawnColor.valueOf(color.toUpperCase());
@@ -326,12 +413,20 @@ public class Cli extends ClientObservable implements View {
         }
     }
 
+    /**
+     * Shows how to select an island from the character selected
+     */
     @Override
     public void askIsland() {
         System.out.println("Type a number of island to execute the action of the character you chose: ");
         scanListener.setRequest(Request.ISLAND_ACTION);
     }
 
+    /**
+     * Check if the island is available for the character used,
+     * if not, set the listener to wait for a new string.
+     * @param island selected
+     */
     public void checkIslandAction(int island) {
         if (island == -1) {
             System.out.println("Not an island, retry");
@@ -341,6 +436,10 @@ public class Cli extends ClientObservable implements View {
         notifyObserver(observer -> observer.updateIslandAction(island));
     }
 
+    /**
+     * Shows how to start a swap between two colors
+     * @param swap number of swaps
+     */
     @Override
     public void askSwapList(int swap) {
         //TODO: save swap and check that it's maximum that swaps!
@@ -348,6 +447,11 @@ public class Cli extends ClientObservable implements View {
         scanListener.setRequest(Request.COLOR_SWAP);
     }
 
+    /**
+     * Checks if the swap is correctly requested,
+     * if not, set the listener to wait for a new string.
+     * @param input string of the swap
+     */
     public void checkSwapAction(String input) {
         int pos = getSpacePos(input);
         if (pos == input.length()) {
@@ -369,6 +473,10 @@ public class Cli extends ClientObservable implements View {
         }
     }
 
+    /**
+     * Checks if the player wants to swap again
+     * @param input response from the user
+     */
     public void checkContinueSwapping(String input) {
         if (input.equals("yes") || input.equals("y")) {
             System.out.println("Insert a pair of color to swap!");
@@ -381,18 +489,30 @@ public class Cli extends ClientObservable implements View {
         }
     }
 
+    /**
+     * Shows error message
+     * @param msg content
+     */
     @Override
     public void showError(String msg) {
         System.out.println(msg);
         System.exit(0);
     }
 
+    /**
+     * Shows the board with the islands
+     * @param board
+     */
     private void showBoard(ShortBoard board) {
         BoardCli boardCli = new BoardCli(board);
         boardCli.printBoard();
         System.out.println();
     }
 
+    /**
+     * Shows the clouds above the board
+     * @param clouds during the game
+     */
     public void showClouds(List<ShortCloud> clouds) {
         List<StringBuilder> lines = new ArrayList<>();
         List<CloudCli> cloudsCli = new ArrayList<>();
@@ -411,6 +531,9 @@ public class Cli extends ClientObservable implements View {
         lines.forEach(System.out::println);
     }
 
+    /**
+     * Used to refresh the information on the display
+     */
     @Override
     public void updateScreen() {
         Map<ShortPlayer, ShortSchool> otherSchools = new HashMap<>();
@@ -444,6 +567,11 @@ public class Cli extends ClientObservable implements View {
 
     }
 
+    /**
+     * Shows the list of the character available to be used,
+     * the description of the action associated and the cost
+     * @param characters available
+     */
     private void showCharacter(List<ShortCharacter> characters) {
         System.out.println("Characters in use list. To use one of them just type \"use [id]\" during your action turn (e.g. \"use 0\" to use the first character)");
         for (int i = 0; i < characters.size(); i++) {
@@ -457,6 +585,10 @@ public class Cli extends ClientObservable implements View {
         }
     }
 
+    /**
+     * Prints the pawns available in the card of the character
+     * @param pawns associated with the character
+     */
     private void printPawns(ShortPawns pawns) {
         StringBuilder builder = new StringBuilder();
         if (pawns != null) {
@@ -470,6 +602,10 @@ public class Cli extends ClientObservable implements View {
         System.out.print(builder);
     }
 
+    /**
+     * Prints the number of bans available for grandma
+     * @param banTiles
+     */
     private void printBanTile(int banTiles) {
         if (banTiles > 0) {
             System.out.print("Remaining ban tiles: " + banTiles);
@@ -477,6 +613,9 @@ public class Cli extends ClientObservable implements View {
         System.out.println();
     }
 
+    /**
+     * clears the screen
+     */
     private void clearScreen() {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
@@ -490,6 +629,11 @@ public class Cli extends ClientObservable implements View {
         System.out.flush();
     }
 
+    /**
+     * shows win screen
+     * @param winner of the game
+     * @param win if is the player that wins
+     */
     @Override
     public void win(String winner, boolean win) {
         if (win) {
@@ -502,6 +646,10 @@ public class Cli extends ClientObservable implements View {
         System.exit(0);
     }
 
+    /**
+     * Shows general message
+     * @param msg to be displayed
+     */
     @Override
     public void showMessage(String msg) {
         System.out.print(CLIColor.YELLOW_BG + ">Server:" + CLIColor.RESET + " ");
@@ -513,6 +661,9 @@ public class Cli extends ClientObservable implements View {
         this.resource = resource;
     }
 
+    /**
+     * Prints the welcome logo
+     */
     public void printWelcome() {
         System.out.println(CLIColor.GREEN);
         System.out.println("""
