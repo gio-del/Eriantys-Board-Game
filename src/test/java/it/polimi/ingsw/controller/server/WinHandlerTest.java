@@ -22,7 +22,7 @@ class WinHandlerTest {
     @BeforeEach
     void setUp() {
 
-        Connection connection = new Connection() {
+        Connection connection = new Connection() { //connection stub
 
             @Override
             public void sendMessage(Notification msg) {

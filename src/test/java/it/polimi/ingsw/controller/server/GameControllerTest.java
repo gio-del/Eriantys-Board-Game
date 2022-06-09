@@ -11,23 +11,23 @@ import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.network.communication.notification.*;
 import it.polimi.ingsw.network.server.Connection;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.RepeatedTest;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 class GameControllerTest {
-    private GameController controller;
     private TurnManager turnManager;
     private Game game;
     private NotificationVisitor visitor;
 
     @BeforeEach
     void setUp() {
-        controller = new GameController();
-        Connection connection = new Connection() {
+        GameController controller = new GameController();
+        Connection connection = new Connection() { //connection stub
             @Override
             public void sendMessage(Notification msg) {
 
@@ -52,7 +52,8 @@ class GameControllerTest {
         controller.init(true);
     }
 
-    @Test
+    @RepeatedTest(15)
+        //to deal with the randomness of character in use
     void MatchTest() {
         List<String> playersOrder = turnManager.getPlayersOrder();
 
@@ -68,6 +69,9 @@ class GameControllerTest {
 
         assertNotNull(game.getPlayerByName("Luca"));
         assertNotNull(game.getPlayerByName("Marco"));
+
+        IntStream.range(0, 5).forEach(i -> game.getBank().reward(game.getPlayerByName("Luca")));
+        IntStream.range(0, 5).forEach(i -> game.getBank().reward(game.getPlayerByName("Marco")));
 
         //first player choice assistant
         msg = new ChooseAssistantNotification(Assistant.LION); //lion.value = 10, this player plays second
@@ -87,6 +91,7 @@ class GameControllerTest {
 
         //first player has to move 3 students
         String playing = playersOrder.get(0);
+        int oldHallSize = game.getPlayerByName(playing).getSchool().getHall().totalElements();
         msg = new MoveStudentNotification(findFirstNotZeroStudentInEntrance(playing), Target.HALL, 0); //first student
         msg.setClientId(playing);
         msg.accept(visitor);
@@ -97,8 +102,17 @@ class GameControllerTest {
         msg.setClientId(playing);
         msg.accept(visitor);
 
+        assertEquals(oldHallSize + 3, game.getPlayerByName(playing).getSchool().getHall().totalElements());
+
+        msg = new CharacterNotification(0);
+        msg.setClientId(playing);
+        msg.accept(visitor);
+
+        satisfyRequires(playing, 0);
+
         int old = game.getBoard().getMotherNaturePos();
         int steps = 1;
+
         //first player has to move MN
         msg = new MoveMNNotification(steps); //one step is always ok :)
         msg.setClientId(playing);
@@ -115,6 +129,7 @@ class GameControllerTest {
 
         //second player has to move 3 students
         playing = playersOrder.get(1);
+        oldHallSize = game.getPlayerByName(playing).getSchool().getHall().totalElements();
         msg = new MoveStudentNotification(findFirstNotZeroStudentInEntrance(playing), Target.HALL, 0); //first student
         msg.setClientId(playing);
         msg.accept(visitor);
@@ -124,6 +139,12 @@ class GameControllerTest {
         msg = new MoveStudentNotification(findFirstNotZeroStudentInEntrance(playing), Target.HALL, 0);//third student
         msg.setClientId(playing);
         msg.accept(visitor);
+        assertEquals(oldHallSize + 3, game.getPlayerByName(playing).getSchool().getHall().totalElements());
+
+        msg = new CharacterNotification(1);
+        msg.setClientId(playing);
+        msg.accept(visitor);
+        satisfyRequires(playing, 1);
 
         old = game.getBoard().getMotherNaturePos();
         //second player has to move MN
@@ -140,6 +161,33 @@ class GameControllerTest {
         msg = new ChooseCloudNotification(0); //choose the cloud with cloudID = 1
         msg.setClientId(playing);
         msg.accept(visitor);
+    }
+
+    /**
+     * This private method is used to deal with randomness of the character in use.
+     *
+     * @param playing the name of the player
+     */
+    private void satisfyRequires(String playing, int characterID) {
+        for (String require : game.getCharacterInUse().get(characterID).getRequires()) {
+            switch (require) {
+                case "island" -> {
+                    Notification msg = new IslandNotification(0);
+                    msg.setClientId(playing);
+                    msg.accept(visitor);
+                }
+                case "color" -> {
+                    Notification msg = new ColorNotification(PawnColor.RED);
+                    msg.setClientId(playing);
+                    msg.accept(visitor);
+                }
+                case "swap" -> {
+                    Notification msg = new SwapNotification(List.of(PawnColor.RED, PawnColor.BLUE));
+                    msg.setClientId(playing);
+                    msg.accept(visitor);
+                }
+            }
+        }
     }
 
     /**

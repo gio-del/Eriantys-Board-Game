@@ -10,16 +10,7 @@ import it.polimi.ingsw.model.player.Player;
 /**
  * This class is used to access characters data in order to build and execute their action.
  */
-public class ActionVisitor {
-    private final TurnManager turn;
-    private final Game game;
-    private final CharacterCard chosen;
-
-    public ActionVisitor(TurnManager turn, Game game, CharacterCard chosen) {
-        this.turn = turn;
-        this.game = game;
-        this.chosen = chosen;
-    }
+public record ActionVisitor(TurnManager turn, Game game, CharacterCard chosen) {
 
     public void visit(MoveData data) {
         Player player = game.getPlayerByName(turn.getRequestName());
