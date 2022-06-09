@@ -15,8 +15,9 @@ public class CloudCli {
 
     /**
      * create a list of lines creating the cloud
+     *
      * @param shortCloud content
-     * @param number of cloud
+     * @param number     of cloud
      */
     public CloudCli(ShortCloud shortCloud, int number) {
         lines.add(number + CLISymbol.CLOUD_HEAD_START + CLISymbol.CLOUD_HEAD);
@@ -30,9 +31,10 @@ public class CloudCli {
 
     /**
      * Creates each string of the cloud
+     *
      * @param numColor numbers of pawns of the color
-     * @param start first static part of the cloud
-     * @param end ending static part of the cloud
+     * @param start    first static part of the cloud
+     * @param end      ending static part of the cloud
      * @return the strings of the cloud
      */
     private String stringRow(int numColor, String start, String end) {
@@ -51,6 +53,7 @@ public class CloudCli {
 
     /**
      * create a string of blank spaces needed
+     *
      * @return the string of blank spaces
      */
     private String empties() {

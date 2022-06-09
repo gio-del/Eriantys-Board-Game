@@ -25,6 +25,7 @@ public class ShortModel implements Serializable {
 
     private Map<ShortPlayer, ShortSchool> schoolMap;
     private Map<String, Integer> moneyMap;
+    private Map<String, Assistant> lastPlayedAssistantMap;
     private List<ShortCloud> clouds;
     private ShortBoard board;
     private Set<Wizard> wizardsAvailable;
@@ -37,9 +38,13 @@ public class ShortModel implements Serializable {
     public ShortModel(Game game, boolean expertMode) {
         this.clouds = game.getClouds().stream().map(ShortCloud::new).toList();
         this.schoolMap = new HashMap<>();
+        this.lastPlayedAssistantMap = game.assistantMap();
+
         game.getPlayers().forEach(p -> schoolMap.put(new ShortPlayer(p), new ShortSchool(p.getSchool())));
+
         this.board = new ShortBoard(game.getBoard());
         this.studentsInSack = game.getSack().getNumberOfPawns();
+
         if (expertMode) {
             this.characters = game.getCharacterInUse().stream().map(ShortCharacter::new).toList();
             this.moneyMap = new HashMap<>();
@@ -107,12 +112,16 @@ public class ShortModel implements Serializable {
         return moneyMap;
     }
 
-    public void updateClouds(List<ShortCloud> clouds) {
-        this.clouds = clouds;
+    public Assistant getLastPlayedAssistant(String player) {
+        return lastPlayedAssistantMap.get(player);
     }
 
-    public void updateBoard(ShortBoard board) {
-        this.board = board;
+    public Map<String, Assistant> getAssistantMap() {
+        return this.lastPlayedAssistantMap;
+    }
+
+    public void updateClouds(List<ShortCloud> clouds) {
+        this.clouds = clouds;
     }
 
     public void update(ShortModel model) {
@@ -122,5 +131,6 @@ public class ShortModel implements Serializable {
         this.clouds = model.clouds;
         this.moneyMap = model.moneyMap;
         this.studentsInSack = model.studentsInSack;
+        this.lastPlayedAssistantMap = model.lastPlayedAssistantMap;
     }
 }

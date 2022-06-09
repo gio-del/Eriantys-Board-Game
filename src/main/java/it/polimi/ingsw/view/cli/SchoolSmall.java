@@ -3,6 +3,7 @@ package it.polimi.ingsw.view.cli;
 import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.place.ShortSchool;
+import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.ShortPlayer;
 
 import java.util.ArrayList;
@@ -17,11 +18,12 @@ public class SchoolSmall {
 
     /**
      * Creates the list of lines from the school of the player
+     *
      * @param school content
      * @param player owner of the school
-     * @param coin of the player
+     * @param coin   of the player
      */
-    public SchoolSmall(ShortSchool school, ShortPlayer player, int coin) {
+    public SchoolSmall(ShortSchool school, ShortPlayer player, int coin, Assistant playedAssistant) {
         lines.add(nameBuilder(player));
         lines.add(CLISymbol.SHORT_HEADER);
         int max;
@@ -48,11 +50,27 @@ public class SchoolSmall {
             lines.add(stringBuilder.toString());
         }
         lines.add(CLIColor.RESET + coinBuilder(coin));
+        lines.add(CLIColor.RESET + assistantBuilder(playedAssistant));
         lines.add(CLIColor.RESET + bottomBuilder(school.getNumTower()));
     }
 
     /**
+     * Creates the string with the last played assistant information
+     *
+     * @param playedAssistant the last played assistant
+     * @return string
+     */
+    private String assistantBuilder(Assistant playedAssistant) {
+        if (playedAssistant == null) return empties(Constants.SCHOOL_SHORT_WIDTH);
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Assistant: ").append(playedAssistant.name());
+        stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - stringBuilder.length()));
+        return stringBuilder.toString();
+    }
+
+    /**
      * creates the string with the coins information
+     *
      * @param coin number
      * @return string
      */
@@ -67,6 +85,7 @@ public class SchoolSmall {
 
     /**
      * creates the string with the player infos
+     *
      * @param player owner of the school
      * @return string
      */
@@ -78,18 +97,20 @@ public class SchoolSmall {
 
     /**
      * creates the string with the towers infos
+     *
      * @param numTower number of towers
      * @return string
      */
     private String bottomBuilder(int numTower) {
         StringBuilder stringBuilder = new StringBuilder("TOW: ");
-        int size = SchoolsCli.towerBuilder(stringBuilder,numTower);
+        int size = SchoolsCli.towerBuilder(stringBuilder, numTower);
         stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - size));
         return stringBuilder.toString();
     }
 
     /**
      * create a string of blank spaces needed
+     *
      * @param rep number of blank spaces
      * @return the string of blank spaces
      */

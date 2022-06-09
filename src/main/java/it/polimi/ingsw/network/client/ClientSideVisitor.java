@@ -56,12 +56,6 @@ public class ClientSideVisitor implements NotificationVisitor {
     }
 
     @Override
-    public void visit(BoardNotification msg) {
-        shortModel.updateBoard(msg.getBoard());
-        view.updateScreen();
-    }
-
-    @Override
     public void visit(ErrorMessageNotification msg) {
         view.showError(msg.getErrorMessage());
     }

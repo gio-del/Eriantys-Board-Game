@@ -14,9 +14,10 @@ public class IslandCli {
 
     /**
      * creates a list of lines creating the island
+     *
      * @param island content
      * @param number of the island
-     * @param mn if mother nature is present
+     * @param mn     if mother nature is present
      */
     public IslandCli(ShortIsland island, int number, int mn) {
         boolean motherNature = number == mn;
@@ -31,9 +32,10 @@ public class IslandCli {
 
     /**
      * creates a single color row
+     *
      * @param numColor number of pawns of the color
-     * @param start static part of the island
-     * @param end static part of the island
+     * @param start    static part of the island
+     * @param end      static part of the island
      * @return the single string
      */
     private String stringRow(int numColor, String start, String end) {
@@ -57,7 +59,8 @@ public class IslandCli {
 
     /**
      * Creates the line of the header, with number and possible crown
-     * @param number of the island
+     *
+     * @param number       of the island
      * @param motherNature if present creates a sort of crown
      * @return the header line
      */
@@ -83,6 +86,7 @@ public class IslandCli {
     /**
      * Creates the bottom line, with the color of the tower if present and
      * the dimension of the island
+     *
      * @param island content
      * @return bottom string
      */
@@ -99,6 +103,7 @@ public class IslandCli {
 
     /**
      * create a string of blank spaces needed
+     *
      * @param rep number of blank spaces
      * @return the string of blank spaces
      */
@@ -113,6 +118,7 @@ public class IslandCli {
 
     /**
      * Creates a part of the bottom string with the name of the tower
+     *
      * @param island content
      * @return string to append
      */

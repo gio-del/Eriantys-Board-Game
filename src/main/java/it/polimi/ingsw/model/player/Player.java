@@ -95,13 +95,11 @@ public class Player {
     /**
      * This method permit to play one of the {@link Assistant} cards in player's hand.
      *
-     * @param assistant Assistant played.
-     * @return the played Assistant' value.
+     * @param assistant Assistant played
      */
-    public int playAssistant(Assistant assistant) {
+    public void playAssistant(Assistant assistant) {
         lastPlayedAssistant = assistant;
         hand.remove(assistant);
-        return lastPlayedAssistant.value();
     }
 
     /**
@@ -132,8 +130,8 @@ public class Player {
         return school.moveStudentToHall(pawns);
     }
 
-    public boolean moveFromEntranceToHall(PawnColor pawnColor) {
-        return moveFromEntranceToHall(new Pawns(pawnColor));
+    public void moveFromEntranceToHall(PawnColor pawnColor) {
+        moveFromEntranceToHall(new Pawns(pawnColor));
     }
 
     /**

@@ -206,7 +206,6 @@ public class Gui extends ClientObservable implements View {
     }
 
     /**
-     *
      * @return true if is in BoardScene, false otherwise
      */
     private boolean isInBoardScene() {

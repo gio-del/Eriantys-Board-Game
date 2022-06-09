@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Test;
 
 import static it.polimi.ingsw.model.pawns.PawnColor.BLUE;
 import static it.polimi.ingsw.model.pawns.PawnColor.GREEN;
-import static it.polimi.ingsw.model.player.Assistant.LION;
 import static it.polimi.ingsw.model.player.TowerColor.BLACK;
 import static it.polimi.ingsw.model.player.TowerColor.WHITE;
 import static it.polimi.ingsw.model.player.Wizard.KING;
@@ -68,19 +67,6 @@ class PlayerTest {
     void wizardTest() {
         assertEquals(KING, player1.getWizard());
         assertEquals(SORCERER, player2.getWizard());
-    }
-
-    /**
-     * This method tests getHand and playAssistant.
-     */
-    @Test
-    void playAssistantTest() {
-        int valueTest;
-        int initialHandSize = player1.getHand().size();
-        valueTest = player1.playAssistant(LION);
-        assertEquals(10, valueTest);
-        assertEquals(LION, player1.getLastPlayedAssistant());
-        assertEquals(initialHandSize, player1.getHand().size() + 1);
     }
 
     /**

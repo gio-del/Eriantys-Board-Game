@@ -1,7 +1,7 @@
 package it.polimi.ingsw.view.cli;
 
-import it.polimi.ingsw.constants.Constants;
 import it.polimi.ingsw.model.place.ShortSchool;
+import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.ShortPlayer;
 
 import java.util.ArrayList;
@@ -19,23 +19,45 @@ public class SchoolsCli {
 
     /**
      * Creates the lines for the schools
+     *
      * @param otherSchools of the other players
-     * @param ownerSchool of the player
-     * @param moneyMap map of the money for each player
+     * @param ownerSchool  of the player
+     * @param moneyMap     map of the money for each player
      */
-    public SchoolsCli(Map<ShortPlayer, ShortSchool> otherSchools, Map<ShortPlayer, ShortSchool> ownerSchool, Map<String, Integer> moneyMap) {
+    public SchoolsCli(Map<ShortPlayer, ShortSchool> otherSchools, Map<ShortPlayer, ShortSchool> ownerSchool, Map<String, Integer> moneyMap, Map<String, Assistant> assistantMap) {
         for (Map.Entry<ShortPlayer, ShortSchool> entry : otherSchools.entrySet()) {
             int coin = 0;
             if (moneyMap != null) coin = moneyMap.get(entry.getKey().name());
-            SchoolSmall schoolSmall = new SchoolSmall(entry.getValue(), entry.getKey(), coin);
+            SchoolSmall schoolSmall = new SchoolSmall(entry.getValue(), entry.getKey(), coin, assistantMap.get(entry.getKey().name()));
             this.otherSchools.add(schoolSmall);
         }
         for (Map.Entry<ShortPlayer, ShortSchool> entry : ownerSchool.entrySet()) {
             int coin = 0;
             if (moneyMap != null) coin = moneyMap.get(entry.getKey().name());
-            schoolExtended = new SchoolExtended(entry.getValue(), entry.getKey(), coin);
+            schoolExtended = new SchoolExtended(entry.getValue(), entry.getKey(), coin, assistantMap.get(entry.getKey().name()));
         }
         generateParts();
+    }
+
+    /**
+     * information for the towers
+     *
+     * @param builder  string
+     * @param numTower number of towers
+     * @return number
+     */
+    public static int towerBuilder(StringBuilder builder, int numTower) {
+        int size = builder.length();
+        for (int i = 0; i < numTower; i++) {
+            if (i != numTower - 1) {
+                builder.append(CLISymbol.TOWER).append(" ");
+                size += 2;
+            } else {
+                builder.append(CLISymbol.TOWER);
+                size++;
+            }
+        }
+        return size;
     }
 
     /**
@@ -43,7 +65,7 @@ public class SchoolsCli {
      */
     private void generateParts() {
         upperHalf = new ArrayList<>();
-        for (int i = 0; i < Constants.SCHOOL_HIGH; i++) {
+        for (int i = 0; i < schoolExtended.getLines().size(); i++) {
             StringBuilder up = new StringBuilder();
             up.append(schoolExtended.getLines().get(i)).append("      ");
             for (SchoolSmall schoolSmall : otherSchools) {
@@ -58,27 +80,6 @@ public class SchoolsCli {
      */
     public void printSchools() {
         upperHalf.forEach(System.out::println);
-    }
-
-    /**
-     * information for the towers
-     * @param builder string
-     * @param numTower number of towers
-     * @return number
-     */
-    public static int towerBuilder(StringBuilder builder, int numTower) {
-        int size = builder.length();
-        for (int i = 0; i < numTower; i++) {
-            if (i != numTower - 1) {
-                builder.append(CLISymbol.TOWER).append(" ");
-                size+=2;
-            }
-            else {
-                builder.append(CLISymbol.TOWER);
-                size++;
-            }
-        }
-        return size;
     }
 
 }

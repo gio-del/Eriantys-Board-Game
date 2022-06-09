@@ -146,18 +146,18 @@
                 <Image url="@../images/various/coin.png"/>
             </ImageView>
             <Label fx:id="coin" layoutX="70.0" layoutY="61.0" prefHeight="17.0" prefWidth="19.0"/>
-            <ImageView fitHeight="87.0" fitWidth="70.0" layoutX="566.0" layoutY="270.0" pickOnBounds="true"
+            <ImageView fitHeight="87.0" fitWidth="70.0" layoutX="14.0" layoutY="270.0" pickOnBounds="true"
                        preserveRatio="true">
-                <image>
-                    <Image url="@../images/various/sack.png"/>
-                </image>
+                <Image url="@../images/various/sack.png"/>
             </ImageView>
-            <Label fx:id="studentsInSack" alignment="CENTER" layoutX="575.0" layoutY="313.0" prefHeight="30.0"
+            <Label fx:id="studentsInSack" alignment="CENTER" layoutX="23.0" layoutY="313.0" prefHeight="30.0"
                    prefWidth="52.0" text="120">
                 <font>
                     <Font size="20.0"/>
                 </font>
             </Label>
+            <ImageView fx:id="lastPlayedAssistant" fitHeight="114.0" fitWidth="98.0" layoutX="562.0" layoutY="256.0"
+                       pickOnBounds="true" preserveRatio="true"/>
         </AnchorPane>
         <padding>
             <Insets bottom="20.0"/>

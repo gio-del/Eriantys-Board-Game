@@ -15,10 +15,7 @@ import it.polimi.ingsw.utility.character.CharactersDeck;
 import it.polimi.ingsw.utility.gamelimit.GameLimit;
 import it.polimi.ingsw.utility.gamelimit.GameLimitData;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * This class represents Eriantys game
@@ -222,6 +219,7 @@ public class Game extends Observable {
     public void playAssistant(Assistant assistant) {
         currentPlayer.playAssistant(assistant);
         playedAssistantMap.add(new Pair<>(currentPlayer.getPlayerName(), assistant));
+        notifyObserver(new ModelUpdateNotification(new ShortModel(this, expertMode)));
     }
 
     /**
@@ -268,12 +266,20 @@ public class Game extends Observable {
      * @return the {@link Assistant} played by the requested player if present, otherwise {@code null}
      */
     public Assistant getPlayedAssistantByName(String nickname) {
-        for (Pair<String, Assistant> assistantMap : playedAssistantMap) {
-            if (assistantMap.first().equals(nickname)) {
-                return assistantMap.second();
+        for (Pair<String, Assistant> assistantPair : playedAssistantMap) {
+            if (assistantPair.first().equals(nickname)) {
+                return assistantPair.second();
             }
         }
         return null;
+    }
+
+    public Map<String, Assistant> assistantMap() {
+        Map<String, Assistant> map = new HashMap<>();
+        for (Pair<String, Assistant> assistantPair : playedAssistantMap) {
+            map.put(assistantPair.first(), assistantPair.second());
+        }
+        return map;
     }
 
     /**

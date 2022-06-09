@@ -30,8 +30,6 @@ public interface NotificationVisitor {
 
     void visit(GenericMessageNotification msg);
 
-    void visit(BoardNotification msg);
-
     void visit(CharacterNotification msg);
 
     void visit(ColorNotification msg);

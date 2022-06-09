@@ -18,6 +18,7 @@ public class CharactersDeck {
 
     /**
      * This function is called by the games, and return a random list of 3 character that can be used during a match
+     *
      * @return a list of 3 character
      */
     public static List<CharacterCard> extractCharacterInUse() {
@@ -31,7 +32,7 @@ public class CharactersDeck {
      * Called during server booting phase, if the character list is empty (meaning that there was an error or the JSON file is missing) the server cannot start.
      */
     public static void start() {
-        if(characterCards.isEmpty()) {
+        if (characterCards.isEmpty()) {
             Server.LOGGER.severe(() -> "Server couldn't start. Failed to read character json file.");
             System.exit(1);
         }

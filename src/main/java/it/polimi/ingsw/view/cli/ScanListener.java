@@ -105,7 +105,8 @@ public class ScanListener extends Thread {
 
     /**
      * set the request status of the listener
-     * @param request
+     *
+     * @param request the request to set
      */
     public void setRequest(Request request) {
         this.request = request;
@@ -129,6 +130,7 @@ public class ScanListener extends Thread {
 
     /**
      * filters if is asked to use a character
+     *
      * @param input string to check if is ask to use a character
      * @return -1 if is not asked, id of the character to use if valid ask method
      */

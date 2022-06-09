@@ -2,7 +2,6 @@ package it.polimi.ingsw.view.gui.boardcomponent;
 
 import it.polimi.ingsw.model.clouds.ShortCloud;
 import it.polimi.ingsw.model.pawns.PawnColor;
-import it.polimi.ingsw.view.gui.GuiResources;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;

@@ -4,7 +4,6 @@ import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.ShortPawns;
 import it.polimi.ingsw.model.place.ShortIsland;
 import it.polimi.ingsw.utility.Pair;
-import it.polimi.ingsw.view.gui.GuiResources;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;

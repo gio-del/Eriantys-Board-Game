@@ -210,7 +210,7 @@ public class TurnManager {
             availableTowerColor.remove(towerColor);
             request++;
             requestName = playersOrder.get(request);
-            controller.getVirtualView(requestName).chooseWizardAndTowerColor(availableWizard, availableTowerColor);
+            chooseWizardAndTowerColor();
         } else {
             game.startGame(controller.isExpertMode());
             controller.startMatch();

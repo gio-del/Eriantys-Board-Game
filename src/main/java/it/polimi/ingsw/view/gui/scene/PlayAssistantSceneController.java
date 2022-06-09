@@ -97,6 +97,10 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
     }
 
     private void selectAssistant(Assistant assistant) {
+        if (assistant.equals(selectedAssistant)) {
+            assistantMapImage.get(selectedAssistant).setEffect(null);
+            selectedAssistant = null;
+        }
         assistantMapImage.get(assistant).setEffect(new DropShadow(50, Color.GREEN));
         for (Assistant notSelected : Assistant.values()) {
             if (!notSelected.equals(assistant) && playableAssistant.contains(notSelected))

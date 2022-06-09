@@ -9,9 +9,9 @@ import it.polimi.ingsw.model.player.Assistant;
 import it.polimi.ingsw.model.player.ShortPlayer;
 import it.polimi.ingsw.network.communication.Target;
 import it.polimi.ingsw.observer.ClientObservable;
-import it.polimi.ingsw.view.gui.GuiResources;
 import it.polimi.ingsw.view.gui.SceneManager;
 import it.polimi.ingsw.view.gui.boardcomponent.CloudGui;
+import it.polimi.ingsw.view.gui.boardcomponent.GuiResources;
 import it.polimi.ingsw.view.gui.boardcomponent.IslandGui;
 import it.polimi.ingsw.view.gui.boardcomponent.SchoolGui;
 import javafx.fxml.FXML;
@@ -53,6 +53,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private Label studentsInSack;
     @FXML
     private ImageView characterDeck;
+    @FXML
+    private ImageView lastPlayedAssistant;
     @FXML
     private GridPane islandGrid;
     @FXML
@@ -236,9 +238,15 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private void printSchool() {
 
         //OWNER
-        String toShow = actualSchool.getOwner();
-        if (toShow.equals(nickname)) toShow = toShow + " [YOU]";
-        schoolOwner.setText(toShow);
+        String owner = actualSchool.getOwner();
+        if (owner.equals(nickname)) owner = owner + " [YOU]";
+        schoolOwner.setText(owner);
+
+        //LAST PLAYED ASSISTANT
+        Assistant assistant = resource.getLastPlayedAssistant(actualSchool.getOwner());
+        if (assistant == null) {
+            lastPlayedAssistant.setImage(null);
+        } else lastPlayedAssistant.setImage(GuiResources.getAssistant(assistant));
 
         //COIN
         if (coinImg.isVisible())

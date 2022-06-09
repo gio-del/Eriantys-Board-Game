@@ -69,6 +69,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Parsing of the IP
+     *
      * @param address from the input of the client
      */
     public void checkIP(String address) {
@@ -98,6 +99,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * get the length of the first word of a string in input
+     *
      * @param string in input
      * @return size of the first word
      */
@@ -122,6 +124,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Check if is a valid name
+     *
      * @param nickname from input
      */
     public void checkNickName(String nickname) {
@@ -147,6 +150,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Checks if the string of the game mode is valid,
      * if not, set the listener to wait for a new string
+     *
      * @param gameMode string in input
      */
     public void checkGameMode(String gameMode) {
@@ -179,8 +183,9 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows the different available wizards and tower colors
+     *
      * @param wizardsAvailable not already chosen by other players
-     * @param colorsAvailable not already chosen by other players
+     * @param colorsAvailable  not already chosen by other players
      */
     @Override
     public void chooseWizardAndTowerColor(Set<Wizard> wizardsAvailable, Set<TowerColor> colorsAvailable) {
@@ -198,6 +203,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Checks if the string of the wizard and tower color is valid,
      * if not, set the listener to wait for a new string
+     *
      * @param wizardAndTower in input
      */
     public void checkWizardColor(String wizardAndTower) {
@@ -226,8 +232,9 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows the different available assistants
+     *
      * @param playableAssistant assistant in the hand the player not
-     * already played by other in the same turn
+     *                          already played by other in the same turn
      */
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
@@ -239,6 +246,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Checks if the string of the assistant is valid,
      * if not, set the listener to wait for a new string
+     *
      * @param assistantName in input
      */
     public void checkAssistant(String assistantName) {
@@ -253,6 +261,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows the clouds with the pawns
+     *
      * @param clouds available to selected
      */
     @Override
@@ -265,6 +274,7 @@ public class Cli extends ClientObservable implements View {
      * Checks if the number of the cloud is valid,
      * if not, set the listener to wait for a new string.
      * Valid situation: number of an existing cloud that is not empty
+     *
      * @param cloudNum in input
      */
     public void checkCloud(int cloudNum) {
@@ -288,6 +298,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows the instruction to move mother nature and the number of maximum steps
+     *
      * @param maximumSteps available for this turn for this player based on the assistant played
      */
     @Override
@@ -300,6 +311,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Checks if the number of steps is valid,
      * if not, set the listener to wait for a new string.
+     *
      * @param steps in input
      */
     public void checkStepsMN(int steps) {
@@ -323,6 +335,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows the instruction to move a student: first select the color
+     *
      * @param movableColor list of color that can be moved
      */
     @Override
@@ -334,6 +347,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Checks if color is valid, shows how to move to island or hall
+     *
      * @param color in input
      */
     public void checkColor(String color) {
@@ -350,6 +364,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Checks id the target is valid,
      * if not, set the listener to wait for a new string.
+     *
      * @param destination in input
      */
     public void moveToTarget(String destination) {
@@ -383,6 +398,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * notify observer of character to use
+     *
      * @param id character
      */
     public void useCharacter(int id) {
@@ -401,6 +417,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Check if the color is available for the character used,
      * if not, set the listener to wait for a new string.
+     *
      * @param color in input
      */
     public void checkColorAction(String color) {
@@ -425,6 +442,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Check if the island is available for the character used,
      * if not, set the listener to wait for a new string.
+     *
      * @param island selected
      */
     public void checkIslandAction(int island) {
@@ -438,6 +456,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows how to start a swap between two colors
+     *
      * @param swap number of swaps
      */
     @Override
@@ -450,6 +469,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Checks if the swap is correctly requested,
      * if not, set the listener to wait for a new string.
+     *
      * @param input string of the swap
      */
     public void checkSwapAction(String input) {
@@ -475,6 +495,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Checks if the player wants to swap again
+     *
      * @param input response from the user
      */
     public void checkContinueSwapping(String input) {
@@ -491,6 +512,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows error message
+     *
      * @param msg content
      */
     @Override
@@ -501,7 +523,8 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows the board with the islands
-     * @param board
+     *
+     * @param board the board to show
      */
     private void showBoard(ShortBoard board) {
         BoardCli boardCli = new BoardCli(board);
@@ -511,6 +534,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows the clouds above the board
+     *
      * @param clouds during the game
      */
     public void showClouds(List<ShortCloud> clouds) {
@@ -547,7 +571,7 @@ public class Cli extends ClientObservable implements View {
             }
         }
         if (!ownerSchool.isEmpty()) {
-            SchoolsCli schoolsCli = new SchoolsCli(otherSchools, ownerSchool, resource.getMoneyMap());
+            SchoolsCli schoolsCli = new SchoolsCli(otherSchools, ownerSchool, resource.getMoneyMap(), resource.getAssistantMap());
             schoolsCli.printSchools();
             System.out.println(" ");
         }
@@ -570,6 +594,7 @@ public class Cli extends ClientObservable implements View {
     /**
      * Shows the list of the character available to be used,
      * the description of the action associated and the cost
+     *
      * @param characters available
      */
     private void showCharacter(List<ShortCharacter> characters) {
@@ -587,6 +612,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Prints the pawns available in the card of the character
+     *
      * @param pawns associated with the character
      */
     private void printPawns(ShortPawns pawns) {
@@ -604,7 +630,8 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Prints the number of bans available for grandma
-     * @param banTiles
+     *
+     * @param banTiles the number of bain tiles on the card
      */
     private void printBanTile(int banTiles) {
         if (banTiles > 0) {
@@ -631,8 +658,9 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * shows win screen
+     *
      * @param winner of the game
-     * @param win if is the player that wins
+     * @param win    if is the player that wins
      */
     @Override
     public void win(String winner, boolean win) {
@@ -648,6 +676,7 @@ public class Cli extends ClientObservable implements View {
 
     /**
      * Shows general message
+     *
      * @param msg to be displayed
      */
     @Override

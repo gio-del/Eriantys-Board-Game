@@ -27,8 +27,8 @@ public class SceneManager {
      * This method changes the current scene
      *
      * @param observerList list of the observers
-     * @param newScene the new scene
-     * @param pathToFxml the fxml file's name of the new scene
+     * @param newScene     the new scene
+     * @param pathToFxml   the fxml file's name of the new scene
      */
     public static void changeScene(List<ClientObserver> observerList, Scene newScene, String pathToFxml) {
         FXMLLoader loader = new FXMLLoader();
@@ -52,7 +52,7 @@ public class SceneManager {
     /**
      * This method changes the current scene
      *
-     * @param observers list of the observers
+     * @param observers  list of the observers
      * @param pathToFXML the fxml file's name of the new scene
      */
     public static void changeScene(List<ClientObserver> observers, String pathToFXML) {
@@ -82,7 +82,7 @@ public class SceneManager {
     /**
      * This method shows a notification
      *
-     * @param type of the notification
+     * @param type    of the notification
      * @param message the text of the message
      */
     public static void showAlert(Alert.AlertType type, String message) {

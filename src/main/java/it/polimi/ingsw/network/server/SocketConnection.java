@@ -16,6 +16,7 @@ import java.net.Socket;
 public class SocketConnection implements Connection {
     private final ServerThread server;
     private final Socket client;
+    private final Object outLock = new Object();
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private boolean running;
@@ -42,7 +43,7 @@ public class SocketConnection implements Connection {
                 if (notification instanceof LoginNotification loginNotification) {
                     server.addClient(loginNotification.getNickname(), this);
                 } else if ((notification instanceof PingNotification)) {
-                    out.writeObject(new PingNotification()); //pong
+                    sendMessage(new PingNotification()); //pong
                 } else {
                     Server.LOGGER.info(() -> "Message received from: " + notification.getSenderID() + ". Type: " + notification.getClass().getName());
                     server.receiveMessage(notification);
@@ -62,11 +63,13 @@ public class SocketConnection implements Connection {
      */
     @Override
     public void sendMessage(Notification msg) {
-        try {
-            out.writeObject(msg);
-        } catch (IOException e) {
-            Server.LOGGER.info(() -> "Couldn't send message to a client, closing connection.");
-            disconnect();
+        synchronized (outLock) {
+            try {
+                out.writeObject(msg);
+            } catch (IOException e) {
+                Server.LOGGER.info(() -> "Couldn't send message to a client, closing connection.");
+                disconnect();
+            }
         }
     }
 

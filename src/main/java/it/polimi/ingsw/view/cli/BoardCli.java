@@ -86,7 +86,7 @@ public class BoardCli {
         boolean check = false;
         for (int k = 0; k < board.getIslands().size(); k++) {
             if (board.getIslands().get(k).getBanTiles() > 0) {
-                blockedIsland.append("[id: " + k + ", num of tiles: " + board.getIslands().get(k).getBanTiles() + "]");
+                blockedIsland.append("[id: ").append(k).append(", num of tiles: ").append(board.getIslands().get(k).getBanTiles()).append("]");
                 check = true;
             }
         }
@@ -96,6 +96,7 @@ public class BoardCli {
 
     /**
      * create a string of underscores needed
+     *
      * @param rep number of underscores
      * @return the string of underscores
      */
@@ -110,6 +111,7 @@ public class BoardCli {
 
     /**
      * create a string of blank spaces needed
+     *
      * @param rep number of blank spaces
      * @return the string of blank spaces
      */
