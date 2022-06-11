@@ -7,7 +7,9 @@ import it.polimi.ingsw.network.communication.Target;
 import java.io.Serial;
 import java.util.List;
 
-
+/**
+ * This method is used by both client and server to communicate during the move student phase
+ */
 public class MoveStudentNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -2243164347217805315L;

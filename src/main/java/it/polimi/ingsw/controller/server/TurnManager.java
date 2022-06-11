@@ -189,6 +189,9 @@ public class TurnManager {
         chooseWizardAndTowerColor();
     }
 
+    /**
+     * Choose wizard and tower color phase (initial phase of the game), show other player who is choosing.
+     */
     private void chooseWizardAndTowerColor() {
         for (String name : playersOrder) {
             if (name.equals(requestName))
@@ -424,5 +427,8 @@ public class TurnManager {
         return vv == null;
     }
 
+    /**
+     * The different state of the game
+     */
     public enum GameState {PLANNING_ADD_TO_CLOUD, PLANNING_ASSISTANT, ACTION_MOVE, ACTION_MN, ACTION_CHOOSE_CLOUD, USE_CHARACTER}
 }

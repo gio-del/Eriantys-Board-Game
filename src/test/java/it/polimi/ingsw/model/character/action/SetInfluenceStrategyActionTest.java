@@ -25,6 +25,10 @@ class SetInfluenceStrategyActionTest {
         player = new Player("Alice", Wizard.KING, TowerColor.BLACK, GameLimit.getLimit(2), new HallManager(new Bank()));
     }
 
+    /**
+     * Test the cards that change the strategy of influence calc.
+     * @param arg the name of the card used.
+     */
     @ParameterizedTest
     @ValueSource(strings = {"Centaur", "Knight", "Mushroom Seller"})
     void SetStrategyTest(String arg) {

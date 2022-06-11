@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * This class is used to parse the list of characters present in a JSON configuration file
+ */
 public class CharacterJSONParser {
     /**
      * @return a list with all the {@link CharacterCard} if it parsed correctly, an empty list otherwise

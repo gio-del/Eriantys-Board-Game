@@ -6,6 +6,9 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 import java.io.Serial;
 import java.util.List;
 
+/**
+ * With this notification the server tell to the client that the chosen character needs a swap list to be used, and the client provides it.
+ */
 public class SwapNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 7965323394394654499L;

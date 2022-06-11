@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
+/**
+ * This class represents the deck of characters.
+ */
 public class CharactersDeck {
     private static final List<CharacterCard> characterCards = new CharacterJSONParser().parseCharacters(Constants.CHARACTER_JSON_PATH);
 

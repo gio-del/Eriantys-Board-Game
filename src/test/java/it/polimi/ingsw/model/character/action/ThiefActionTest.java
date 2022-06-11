@@ -42,6 +42,9 @@ class ThiefActionTest {
 
     }
 
+    /**
+     * Test thief action card.
+     */
     @Test
     void thiefTest() {
         Action action = new ThiefAction(PawnColor.GREEN, players, 3);

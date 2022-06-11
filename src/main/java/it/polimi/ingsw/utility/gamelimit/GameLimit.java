@@ -2,6 +2,9 @@ package it.polimi.ingsw.utility.gamelimit;
 
 import java.util.Map;
 
+/**
+ * This is a configuration data class. It is used to manage the different composition of the game according to the number of player.
+ */
 public class GameLimit {
     private static final Map<Integer, GameLimitData> gameLimitMap = new GameLimitParser().parseLimit();
 

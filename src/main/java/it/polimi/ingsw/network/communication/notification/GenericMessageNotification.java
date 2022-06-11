@@ -4,6 +4,9 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;
 
+/**
+ * A Notification with a generic message sent by the server. It should contain a generic info about the ongoing game.
+ */
 public class GenericMessageNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -4559827066327199790L;

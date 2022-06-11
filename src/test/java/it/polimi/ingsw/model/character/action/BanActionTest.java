@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class BanActionTest {
 
+    /**
+     * Test the ban action card
+     */
     @Test
     void banActionTest() {
         CharacterCard character = new CharacterCard();

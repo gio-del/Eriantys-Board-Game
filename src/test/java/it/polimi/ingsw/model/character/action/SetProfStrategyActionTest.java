@@ -23,6 +23,9 @@ class SetProfStrategyActionTest {
         professorAssignor = new ProfessorAssignor();
     }
 
+    /**
+     * Test the method that set a new Strategy to the assignment of professors.
+     */
     @Test
     void settingFarmerStrategyTest() {
         Action setProfStrategyAction = new SetProfStrategyAction("Farmer", professorAssignor, player);

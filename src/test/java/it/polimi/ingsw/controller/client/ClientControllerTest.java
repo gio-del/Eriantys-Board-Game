@@ -6,6 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class ClientControllerTest {
+    /**
+     * Test if the IP is valid
+     */
     @Test
     void validIpTest() {
         assertTrue(ClientController.isValidIp("localhost"));
@@ -15,6 +18,9 @@ class ClientControllerTest {
         assertTrue(ClientController.isValidIp("127.0.0.1"));
     }
 
+    /**
+     * Test if the port number is valid
+     */
     @Test
     void validPortTest() {
         assertTrue(ClientController.isValidPort(1234));

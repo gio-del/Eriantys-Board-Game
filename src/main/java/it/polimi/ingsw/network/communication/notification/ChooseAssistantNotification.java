@@ -6,6 +6,9 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 import java.io.Serial;
 import java.util.Set;
 
+/**
+ * Both client and server use this notification to communicate during the assistant choosing phase
+ */
 public class ChooseAssistantNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -4567987615843138209L;

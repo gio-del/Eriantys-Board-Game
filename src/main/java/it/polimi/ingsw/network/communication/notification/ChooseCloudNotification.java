@@ -6,6 +6,9 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 import java.io.Serial;
 import java.util.List;
 
+/**
+ * Both client and server use this notification to communicate during the cloud choosing phase.
+ */
 public class ChooseCloudNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 5288677777694463225L;

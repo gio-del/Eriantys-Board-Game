@@ -36,6 +36,12 @@ public class Client extends Thread {
         ping = new ScheduledThreadPoolExecutor(1);
     }
 
+    /**
+     * Try to establish a connection with the server
+     * @param address the ip of the server
+     * @param port the port of the server
+     * @return {@code true} if the connection was correctly established, {@code false} otherwise
+     */
     public boolean connect(String address, int port) {
         try {
             socket = new Socket(address, port);
@@ -49,6 +55,9 @@ public class Client extends Thread {
         }
     }
 
+    /**
+     * During all the lifecycle of the {@link Client} entity, it is listening to {@link Notification} from the server.
+     */
     @Override
     public void run() {
         try {
@@ -62,6 +71,10 @@ public class Client extends Thread {
         }
     }
 
+    /**
+     * Send a {@link Notification} to the server
+     * @param msg the notification to send
+     */
     public void sendMessage(Notification msg) {
         synchronized (outLock) {
             try {
@@ -75,6 +88,9 @@ public class Client extends Thread {
         }
     }
 
+    /**
+     * Close the connection with the server in case of error
+     */
     public void disconnect() {
         try {
             if (!socket.isClosed()) {

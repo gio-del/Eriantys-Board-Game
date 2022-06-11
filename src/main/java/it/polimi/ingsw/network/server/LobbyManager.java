@@ -29,6 +29,13 @@ public class LobbyManager {
         this.players = new PriorityBlockingQueue<>();
     }
 
+    /**
+     * Add a client to the queue in the lobby, and broadcast to the other that this client has been added.
+     * If the new client in lobby is the first in line, it's asked about the desired game mode and number of player.
+     * When a client is added it is checked if the desires of the first client in line are satisfied.
+     * @param nickname the nickname of the new client in line.
+     * @param socketConnection the entity that represents the connection.
+     */
     public synchronized void addClient(String nickname, SocketConnection socketConnection) {
         broadcast(nickname + " joined the lobby!", nickname);
         View vv = new VirtualView(socketConnection);
@@ -42,6 +49,9 @@ public class LobbyManager {
         checkReadyToStart();
     }
 
+    /**
+     * Check if the desires of the first player are satisfied, in this case a game begin and if there's still players in the queue the first is asked the game mode and number of players.
+     */
     public void checkReadyToStart() {
         if (ready && players.size() >= nPlayers) {
             startMatch();
@@ -57,6 +67,10 @@ public class LobbyManager {
         vvMap.remove(name);
     }
 
+    /**
+     * Receive an update with the chosen game mode and number of player, now the game can start if the desires are satisfied.
+     * @param chooseGameModeMsg the notification with the chosen game mode and number of player
+     */
     public void onUpdateGameMode(ChooseGameModeNotification chooseGameModeMsg) {
         this.isExpertMode = chooseGameModeMsg.isExpertGame();
         this.nPlayers = chooseGameModeMsg.getNPlayers();
@@ -64,6 +78,11 @@ public class LobbyManager {
         checkReadyToStart();
     }
 
+    /**
+     * Handle the case of a disconnection when a player is in the lobby. The disconnected player is removed from the lobby. If it is
+     * the first in line, and it was asked about the game mode, a new player (the new first in line) is asked to provide them.
+     * @param nickname the nickname of the disconnected client
+     */
     public synchronized void handleDisconnection(String nickname) {
         if (!players.contains(nickname)) return;
         removePlayerFromLobby(nickname);
@@ -75,6 +94,10 @@ public class LobbyManager {
         broadcast(nickname + " left the lobby.");
     }
 
+    /**
+     * Start a match when the desires of the first player in line are satisfied. A new {@link GameController} is created and the player in game are removed from the lobby.
+     * After this the lobby is capable of creating a new match.
+     */
     private void startMatch() {
         GameController controller = new GameController();
         List<String> names = new ArrayList<>();
@@ -89,10 +112,19 @@ public class LobbyManager {
         ready = false;
     }
 
+    /**
+     * Broadcast a message to all clients in lobby
+     * @param message the notification to broadcast
+     */
     private void broadcast(String message) {
         connectionMap.values().forEach(connection -> connection.sendMessage(new GenericMessageNotification(message)));
     }
 
+    /**
+     * Broadcast a message to all clients in lobby except the exclusion provided.
+     * @param message the notification to broadcast
+     * @param exclusion the nick of the client to not sent the notification to
+     */
     private void broadcast(String message, String exclusion) {
         connectionMap.keySet().stream()
                 .filter(name -> !name.equals(exclusion))

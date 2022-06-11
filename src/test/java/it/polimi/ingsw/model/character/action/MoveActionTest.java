@@ -23,12 +23,18 @@ class MoveActionTest {
 
     }
 
+    /**
+     * Test the move action card when the action is ok
+     */
     @Test
     void moveActionIfOk() {
         Pawns pawnsToBeMoved = new Pawns(1, 1, 0, 0, 0);
         assertTrue(new MoveAction(from, to, pawnsToBeMoved).apply());
     }
 
+    /**
+     * Test the move action card when the action is not ok
+     */
     @Test
     void moveActionIfNotOk() {
         Pawns pawnsToBeMoved = new Pawns(1, 2, 0, 0, 0);

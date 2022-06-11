@@ -7,6 +7,9 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 import java.io.Serial;
 import java.util.Set;
 
+/**
+ * This notification is used by client and server to communicate during the initial phase of the game
+ */
 public class ChooseWizAndTowerColorNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 7508488393596408467L;

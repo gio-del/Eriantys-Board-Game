@@ -5,6 +5,9 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;
 
+/**
+ * With this notification the server tell to the client that the chosen character needs a color to be used, and the client provides it.
+ */
 public class ColorNotification extends Notification {
     @Serial
     private static final long serialVersionUID = -2636121419519499237L;

@@ -34,6 +34,12 @@ public class SocketConnection implements Connection {
         }
     }
 
+    /**
+     * During the lifetime of the connection it waits for the client to send a message. When this happens the message is handled.
+     * If it is a login notification (nickname provided by a client) the client is added to the server list of clients.
+     * If it is a {@link PingNotification} a {@link PingNotification} in response is sent.
+     * Otherwise, the server has to handle it.
+     */
     @Override
     public void run() {
         Server.LOGGER.info(() -> "Client connected from " + client.getInetAddress());
@@ -73,6 +79,9 @@ public class SocketConnection implements Connection {
         }
     }
 
+    /**
+     * Close the connection with the client
+     */
     @Override
     public void disconnect() {
         if (running) {

@@ -19,6 +19,9 @@ public class ServerThread implements Runnable {
         this.server = server;
     }
 
+    /**
+     * This thread during all his lifetime continuously wait for a client to join. When this happens a connection is established
+     */
     @Override
     public void run() {
         while (!Thread.currentThread().isInterrupted()) {
@@ -35,14 +38,27 @@ public class ServerThread implements Runnable {
         }
     }
 
+    /**
+     * When a client provide the nickname it is added to the server list of player
+     * @param nickname the nickname of the new client
+     * @param socketConnection the connection with the client
+     */
     public void addClient(String nickname, SocketConnection socketConnection) {
         server.addClient(nickname, socketConnection);
     }
 
+    /**
+     * Receive a message from a client. It is passed to the {@link Server}
+     * @param msg the notification to receive.
+     */
     public void receiveMessage(Notification msg) {
         server.receiveMessage(msg);
     }
 
+    /**
+     * Handle a disconnection from a client.
+     * @param client the disconnected client socket.
+     */
     public void handleDisconnection(Socket client) {
         server.handleDisconnection(client);
     }

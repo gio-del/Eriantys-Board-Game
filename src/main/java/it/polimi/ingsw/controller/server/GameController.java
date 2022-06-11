@@ -60,6 +60,10 @@ public class GameController {
         msg.accept(visitor);
     }
 
+    /**
+     * Initialize the controller with the correct game mode chosen by the client
+     * @param expertMode whether the game is expert mode or not
+     */
     public void init(boolean expertMode) {
         this.expertMode = expertMode;
         virtualViewMap.values().forEach(game::addObserver);
@@ -105,6 +109,10 @@ public class GameController {
         names.clear();
     }
 
+    /**
+     * Remove a client from the game after a disconnection
+     * @param nickname the client to remove
+     */
     private void removeClient(String nickname) {
         connectionMap.remove(nickname);
         virtualViewMap.remove(nickname);

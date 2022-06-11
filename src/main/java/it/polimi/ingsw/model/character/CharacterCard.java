@@ -130,7 +130,6 @@ public class CharacterCard implements Place {
         this.chosenSwap = chosenSwap;
     }
 
-
     public int getNumberOfStudentsOn() {
         return numberOfStudentsOn;
     }

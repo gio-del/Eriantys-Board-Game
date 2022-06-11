@@ -37,11 +37,21 @@ public class ClientController implements ClientObserver {
         view.injectResource(shortModel);
     }
 
+    /**
+     * IP validation function
+     * @param ip the ip provided by the user
+     * @return {@code true} if the IP is valid, {@code false} otherwise.
+     */
     public static boolean isValidIp(String ip) {
         String regex = "^(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(\\.(?!$)|$)){4}$)|^localhost$";
         return ip.matches(regex);
     }
 
+    /**
+     * Port number validation function
+     * @param port the port inserted by the user
+     * @return {@code true} if the port number is valid, {@code false} otherwise.
+     */
     public static boolean isValidPort(int port) {
         return port >= 1 && port <= 65535;
     }

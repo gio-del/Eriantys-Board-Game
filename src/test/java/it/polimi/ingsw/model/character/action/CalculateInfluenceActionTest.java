@@ -42,6 +42,9 @@ class CalculateInfluenceActionTest {
         island.addTower(WHITE);
     }
 
+    /**
+     * Test the card that calculate influence on a given island
+     */
     @Test
     void calculateInfluenceTest() {
         assertTrue(new CalculateInfluenceAction(players, board, island).apply());

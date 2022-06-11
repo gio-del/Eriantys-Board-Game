@@ -4,6 +4,9 @@ import it.polimi.ingsw.network.communication.NotificationVisitor;
 
 import java.io.Serial;
 
+/**
+ * This notification is used by the server to tell about the victory of a player.
+ */
 public class WinNotification extends Notification {
     @Serial
     private static final long serialVersionUID = 5495073501053260886L;

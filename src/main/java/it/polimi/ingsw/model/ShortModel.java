@@ -124,6 +124,10 @@ public class ShortModel implements Serializable {
         this.clouds = clouds;
     }
 
+    /**
+     * Update the short model with the given info
+     * @param model the delta shorted model
+     */
     public void update(ShortModel model) {
         this.characters = model.characters;
         this.board = model.board;
