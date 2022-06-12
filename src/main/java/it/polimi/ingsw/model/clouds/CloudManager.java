@@ -1,7 +1,6 @@
 package it.polimi.ingsw.model.clouds;
 
 import it.polimi.ingsw.model.Sack;
-import it.polimi.ingsw.model.pawns.Pawns;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,18 +17,6 @@ public class CloudManager {
         clouds = new ArrayList<>();
         IntStream.range(0, nPlayer).mapToObj(i -> new Cloud()).forEach(clouds::add);
         this.studentsOnClouds = studentsOnClouds;
-    }
-
-    /**
-     * Get and remove the students on this cloud
-     *
-     * @param cloud the id of the cloud to pick from
-     * @return the students on the cloud if present, null otherwise
-     */
-    public Pawns pickFromCloud(int cloud) {
-        Cloud cloudChosen = getSpecificCloud(cloud);
-        if (cloudChosen != null) return cloudChosen.getStudentsAndRemove();
-        return null;
     }
 
     /**

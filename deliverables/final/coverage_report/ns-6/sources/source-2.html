@@ -1,0 +1,266 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CharacterCard</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.character</a>
+</div>
+
+<h1>Coverage Summary for Class: CharacterCard (it.polimi.ingsw.model.character)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CharacterCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,9%
+  </span>
+  <span class="absValue">
+    (24/27)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    88,9%
+  </span>
+  <span class="absValue">
+    (40/45)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model.character;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import com.fasterxml.jackson.annotation.JsonIgnore;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.Sack;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.character.actiondata.ActionData;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.model.pawns.Pawns;
+<i class="no-highlight">8</i>&nbsp;import it.polimi.ingsw.model.place.Island;
+<i class="no-highlight">9</i>&nbsp;import it.polimi.ingsw.model.place.Place;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">12</i>&nbsp;import java.util.List;
+<i class="no-highlight">13</i>&nbsp;
+<i class="no-highlight">14</i>&nbsp;/**
+<i class="no-highlight">15</i>&nbsp; * This class represent a generic character.
+<i class="no-highlight">16</i>&nbsp; */
+<i class="no-highlight">17</i>&nbsp;public class CharacterCard implements Place {
+<b class="fc"><i class="no-highlight">18</i>&nbsp;    @JsonIgnore</b>
+<i class="no-highlight">19</i>&nbsp;    private final Pawns students = new Pawns();
+<i class="no-highlight">20</i>&nbsp;    private boolean banCard;
+<i class="no-highlight">21</i>&nbsp;    private String name;
+<i class="no-highlight">22</i>&nbsp;    private int cost;
+<i class="no-highlight">23</i>&nbsp;    private String description;
+<i class="no-highlight">24</i>&nbsp;    private ActionData action;
+<i class="no-highlight">25</i>&nbsp;    private List&lt;String&gt; requires;
+<b class="fc"><i class="no-highlight">26</i>&nbsp;    @JsonIgnore</b>
+<i class="no-highlight">27</i>&nbsp;    private boolean coinOn = false;
+<i class="no-highlight">28</i>&nbsp;    private int numberOfBanTiles;
+<i class="no-highlight">29</i>&nbsp;    private int numberOfStudentsOn;
+<i class="no-highlight">30</i>&nbsp;    @JsonIgnore
+<i class="no-highlight">31</i>&nbsp;    private PawnColor chosenColor;
+<i class="no-highlight">32</i>&nbsp;    private Island chosenIsland;
+<b class="fc"><i class="no-highlight">33</i>&nbsp;    private List&lt;PawnColor&gt; chosenSwap = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">34</i>&nbsp;
+<b class="fc"><i class="no-highlight">35</i>&nbsp;    public CharacterCard() {</b>
+<i class="no-highlight">36</i>&nbsp;    }
+<i class="no-highlight">37</i>&nbsp;
+<b class="fc"><i class="no-highlight">38</i>&nbsp;    public CharacterCard(CharacterCard copy) {</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;        this.name = copy.name;</b>
+<b class="fc"><i class="no-highlight">40</i>&nbsp;        this.cost = copy.cost;</b>
+<b class="fc"><i class="no-highlight">41</i>&nbsp;        this.description = copy.description;</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        this.action = copy.action;</b>
+<b class="fc"><i class="no-highlight">43</i>&nbsp;        this.requires = copy.requires;</b>
+<b class="fc"><i class="no-highlight">44</i>&nbsp;        this.numberOfStudentsOn = copy.numberOfStudentsOn;</b>
+<b class="fc"><i class="no-highlight">45</i>&nbsp;        this.numberOfBanTiles = copy.numberOfBanTiles;</b>
+<b class="fc"><i class="no-highlight">46</i>&nbsp;        this.banCard = copy.banCard;</b>
+<i class="no-highlight">47</i>&nbsp;    }
+<i class="no-highlight">48</i>&nbsp;
+<i class="no-highlight">49</i>&nbsp;    @Override
+<i class="no-highlight">50</i>&nbsp;    public boolean remove(Pawns pawns) {
+<b class="fc"><i class="no-highlight">51</i>&nbsp;        if (canBeRemoved(pawns)) {</b>
+<b class="fc"><i class="no-highlight">52</i>&nbsp;            students.removePawns(pawns);</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;            return true;</b>
+<i class="no-highlight">54</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">55</i>&nbsp;        return false;</b>
+<i class="no-highlight">56</i>&nbsp;    }
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;    @Override
+<i class="no-highlight">59</i>&nbsp;    public boolean add(Pawns pawns) {
+<b class="fc"><i class="no-highlight">60</i>&nbsp;        if (canBeAdded(pawns)) {</b>
+<b class="fc"><i class="no-highlight">61</i>&nbsp;            students.addPawns(pawns);</b>
+<b class="fc"><i class="no-highlight">62</i>&nbsp;            return true;</b>
+<i class="no-highlight">63</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">64</i>&nbsp;        return false;</b>
+<i class="no-highlight">65</i>&nbsp;    }
+<i class="no-highlight">66</i>&nbsp;
+<i class="no-highlight">67</i>&nbsp;    @Override
+<i class="no-highlight">68</i>&nbsp;    public boolean canBeAdded(Pawns pawns) {
+<b class="fc"><i class="no-highlight">69</i>&nbsp;        return numberOfStudentsOn &gt; 0 &amp;&amp; pawns.totalElements() + students.totalElements() &lt;= numberOfStudentsOn;</b>
+<i class="no-highlight">70</i>&nbsp;    }
+<i class="no-highlight">71</i>&nbsp;
+<i class="no-highlight">72</i>&nbsp;    @Override
+<i class="no-highlight">73</i>&nbsp;    public boolean canBeRemoved(Pawns pawns) {
+<b class="fc"><i class="no-highlight">74</i>&nbsp;        return numberOfStudentsOn &gt; 0 &amp;&amp; students.canBeRemoved(pawns);</b>
+<i class="no-highlight">75</i>&nbsp;    }
+<i class="no-highlight">76</i>&nbsp;
+<i class="no-highlight">77</i>&nbsp;    public boolean isBanCard() {
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        return banCard;</b>
+<i class="no-highlight">79</i>&nbsp;    }
+<i class="no-highlight">80</i>&nbsp;
+<i class="no-highlight">81</i>&nbsp;    public String getName() {
+<b class="fc"><i class="no-highlight">82</i>&nbsp;        return name;</b>
+<i class="no-highlight">83</i>&nbsp;    }
+<i class="no-highlight">84</i>&nbsp;
+<i class="no-highlight">85</i>&nbsp;    public void setName(String name) {
+<b class="fc"><i class="no-highlight">86</i>&nbsp;        this.name = name;</b>
+<i class="no-highlight">87</i>&nbsp;    }
+<i class="no-highlight">88</i>&nbsp;
+<i class="no-highlight">89</i>&nbsp;    public int getCost() {
+<b class="fc"><i class="no-highlight">90</i>&nbsp;        return cost;</b>
+<i class="no-highlight">91</i>&nbsp;    }
+<i class="no-highlight">92</i>&nbsp;
+<i class="no-highlight">93</i>&nbsp;    public String getDescription() {
+<b class="fc"><i class="no-highlight">94</i>&nbsp;        return description;</b>
+<i class="no-highlight">95</i>&nbsp;    }
+<i class="no-highlight">96</i>&nbsp;
+<i class="no-highlight">97</i>&nbsp;    public boolean hasCoinOn() {
+<b class="fc"><i class="no-highlight">98</i>&nbsp;        return coinOn;</b>
+<i class="no-highlight">99</i>&nbsp;    }
+<i class="no-highlight">100</i>&nbsp;
+<i class="no-highlight">101</i>&nbsp;    public void setCoinOn(boolean coinOn) {
+<b class="fc"><i class="no-highlight">102</i>&nbsp;        this.coinOn = coinOn;</b>
+<i class="no-highlight">103</i>&nbsp;    }
+<i class="no-highlight">104</i>&nbsp;
+<i class="no-highlight">105</i>&nbsp;    public ActionData getAction() {
+<b class="fc"><i class="no-highlight">106</i>&nbsp;        return action;</b>
+<i class="no-highlight">107</i>&nbsp;    }
+<i class="no-highlight">108</i>&nbsp;
+<i class="no-highlight">109</i>&nbsp;    public PawnColor getChosenColor() {
+<b class="fc"><i class="no-highlight">110</i>&nbsp;        return chosenColor;</b>
+<i class="no-highlight">111</i>&nbsp;    }
+<i class="no-highlight">112</i>&nbsp;
+<i class="no-highlight">113</i>&nbsp;    public void setChosenColor(PawnColor chosenColor) {
+<b class="fc"><i class="no-highlight">114</i>&nbsp;        this.chosenColor = chosenColor;</b>
+<i class="no-highlight">115</i>&nbsp;    }
+<i class="no-highlight">116</i>&nbsp;
+<i class="no-highlight">117</i>&nbsp;    public Island getChosenIsland() {
+<b class="fc"><i class="no-highlight">118</i>&nbsp;        return chosenIsland;</b>
+<i class="no-highlight">119</i>&nbsp;    }
+<i class="no-highlight">120</i>&nbsp;
+<i class="no-highlight">121</i>&nbsp;    public void setChosenIsland(Island chosenIsland) {
+<b class="fc"><i class="no-highlight">122</i>&nbsp;        this.chosenIsland = chosenIsland;</b>
+<i class="no-highlight">123</i>&nbsp;    }
+<i class="no-highlight">124</i>&nbsp;
+<i class="no-highlight">125</i>&nbsp;    public List&lt;PawnColor&gt; getChosenSwap() {
+<b class="fc"><i class="no-highlight">126</i>&nbsp;        return chosenSwap;</b>
+<i class="no-highlight">127</i>&nbsp;    }
+<i class="no-highlight">128</i>&nbsp;
+<i class="no-highlight">129</i>&nbsp;    public void setChosenSwap(List&lt;PawnColor&gt; chosenSwap) {
+<b class="fc"><i class="no-highlight">130</i>&nbsp;        this.chosenSwap = chosenSwap;</b>
+<i class="no-highlight">131</i>&nbsp;    }
+<i class="no-highlight">132</i>&nbsp;
+<i class="no-highlight">133</i>&nbsp;    public int getNumberOfStudentsOn() {
+<b class="nc"><i class="no-highlight">134</i>&nbsp;        return numberOfStudentsOn;</b>
+<i class="no-highlight">135</i>&nbsp;    }
+<i class="no-highlight">136</i>&nbsp;
+<i class="no-highlight">137</i>&nbsp;    public Pawns getStudents() {
+<b class="fc"><i class="no-highlight">138</i>&nbsp;        return students;</b>
+<i class="no-highlight">139</i>&nbsp;    }
+<i class="no-highlight">140</i>&nbsp;
+<i class="no-highlight">141</i>&nbsp;    public int getNumberOfBanTiles() {
+<b class="fc"><i class="no-highlight">142</i>&nbsp;        return numberOfBanTiles;</b>
+<i class="no-highlight">143</i>&nbsp;    }
+<i class="no-highlight">144</i>&nbsp;
+<i class="no-highlight">145</i>&nbsp;    public void setNumberOfBanTiles(int numberOfBanTiles) {
+<b class="fc"><i class="no-highlight">146</i>&nbsp;        this.numberOfBanTiles = numberOfBanTiles;</b>
+<i class="no-highlight">147</i>&nbsp;    }
+<i class="no-highlight">148</i>&nbsp;
+<i class="no-highlight">149</i>&nbsp;    public void addBanTiles() {
+<b class="nc"><i class="no-highlight">150</i>&nbsp;        this.numberOfBanTiles += 1;</b>
+<i class="no-highlight">151</i>&nbsp;    }
+<i class="no-highlight">152</i>&nbsp;
+<i class="no-highlight">153</i>&nbsp;    public List&lt;String&gt; getRequires() {
+<b class="fc"><i class="no-highlight">154</i>&nbsp;        return requires;</b>
+<i class="no-highlight">155</i>&nbsp;    }
+<i class="no-highlight">156</i>&nbsp;
+<i class="no-highlight">157</i>&nbsp;    public void fill(Sack sack) {
+<b class="fc"><i class="no-highlight">158</i>&nbsp;        if (sack.isEmpty()) return;</b>
+<b class="fc"><i class="no-highlight">159</i>&nbsp;        students.addPawns(sack.extractListOfPawns(numberOfStudentsOn - students.totalElements()));</b>
+<i class="no-highlight">160</i>&nbsp;    }
+<i class="no-highlight">161</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

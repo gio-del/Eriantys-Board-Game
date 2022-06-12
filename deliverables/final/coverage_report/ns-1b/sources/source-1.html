@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > View</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view</a>
+</div>
+
+<h1>Coverage Summary for Class: View (it.polimi.ingsw.view)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">View</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.ShortModel;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.clouds.ShortCloud;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.player.Assistant;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.model.player.TowerColor;
+<i class="no-highlight">8</i>&nbsp;import it.polimi.ingsw.model.player.Wizard;
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;import java.util.List;
+<i class="no-highlight">11</i>&nbsp;import java.util.Set;
+<i class="no-highlight">12</i>&nbsp;
+<i class="no-highlight">13</i>&nbsp;/**
+<i class="no-highlight">14</i>&nbsp; * View common interface, this can be implemented by various user interfaces (in our case GUI or CLI).
+<i class="no-highlight">15</i>&nbsp; */
+<i class="no-highlight">16</i>&nbsp;public interface View {
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;    /**
+<i class="no-highlight">19</i>&nbsp;     * To set the name of the player
+<i class="no-highlight">20</i>&nbsp;     */
+<i class="no-highlight">21</i>&nbsp;    void setNickname();
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;    /**
+<i class="no-highlight">24</i>&nbsp;     * To choose the game mode to be played
+<i class="no-highlight">25</i>&nbsp;     */
+<i class="no-highlight">26</i>&nbsp;    void chooseGameMode();
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    /**
+<i class="no-highlight">29</i>&nbsp;     * To choose a {@link Wizard} and a {@link TowerColor} from the ones available
+<i class="no-highlight">30</i>&nbsp;     */
+<i class="no-highlight">31</i>&nbsp;    void chooseWizardAndTowerColor(Set&lt;Wizard&gt; wizardsAvailable, Set&lt;TowerColor&gt; colorsAvailable);
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;    /**
+<i class="no-highlight">34</i>&nbsp;     * PLANNING PHASE:
+<i class="no-highlight">35</i>&nbsp;     * To choose the assistant to play
+<i class="no-highlight">36</i>&nbsp;     */
+<i class="no-highlight">37</i>&nbsp;    void chooseAssistant(Set&lt;Assistant&gt; playableAssistant);
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;    /**
+<i class="no-highlight">40</i>&nbsp;     * ACTION PHASE:
+<i class="no-highlight">41</i>&nbsp;     * Move the students from the cloud to the hall
+<i class="no-highlight">42</i>&nbsp;     *
+<i class="no-highlight">43</i>&nbsp;     * @param clouds available to selected
+<i class="no-highlight">44</i>&nbsp;     */
+<i class="no-highlight">45</i>&nbsp;    void chooseCloud(List&lt;ShortCloud&gt; clouds);
+<i class="no-highlight">46</i>&nbsp;
+<i class="no-highlight">47</i>&nbsp;    /**
+<i class="no-highlight">48</i>&nbsp;     * ACTION PHASE:
+<i class="no-highlight">49</i>&nbsp;     * Move the students from the entrance to the hall
+<i class="no-highlight">50</i>&nbsp;     *
+<i class="no-highlight">51</i>&nbsp;     * @param movableColor list of color that can be moved
+<i class="no-highlight">52</i>&nbsp;     */
+<i class="no-highlight">53</i>&nbsp;    void moveStudent(List&lt;PawnColor&gt; movableColor);
+<i class="no-highlight">54</i>&nbsp;
+<i class="no-highlight">55</i>&nbsp;    /**
+<i class="no-highlight">56</i>&nbsp;     * ACTION PHASE:
+<i class="no-highlight">57</i>&nbsp;     * Move mother nature from the origin island to a target island
+<i class="no-highlight">58</i>&nbsp;     * with a number of steps
+<i class="no-highlight">59</i>&nbsp;     *
+<i class="no-highlight">60</i>&nbsp;     * @param maximumSteps available for this turn for this player based on the assistant played
+<i class="no-highlight">61</i>&nbsp;     */
+<i class="no-highlight">62</i>&nbsp;    void moveMNature(int maximumSteps);
+<i class="no-highlight">63</i>&nbsp;
+<i class="no-highlight">64</i>&nbsp;    void askColor();
+<i class="no-highlight">65</i>&nbsp;
+<i class="no-highlight">66</i>&nbsp;    void askIsland();
+<i class="no-highlight">67</i>&nbsp;
+<i class="no-highlight">68</i>&nbsp;    /**
+<i class="no-highlight">69</i>&nbsp;     * update of the view
+<i class="no-highlight">70</i>&nbsp;     */
+<i class="no-highlight">71</i>&nbsp;    void updateScreen();
+<i class="no-highlight">72</i>&nbsp;
+<i class="no-highlight">73</i>&nbsp;    /**
+<i class="no-highlight">74</i>&nbsp;     * In case of a disconnection, the players still connected will receive a msg
+<i class="no-highlight">75</i>&nbsp;     *
+<i class="no-highlight">76</i>&nbsp;     * @param msg content
+<i class="no-highlight">77</i>&nbsp;     */
+<i class="no-highlight">78</i>&nbsp;    void showError(String msg);
+<i class="no-highlight">79</i>&nbsp;
+<i class="no-highlight">80</i>&nbsp;    /**
+<i class="no-highlight">81</i>&nbsp;     * When win happens
+<i class="no-highlight">82</i>&nbsp;     */
+<i class="no-highlight">83</i>&nbsp;    void win(String winner, boolean win);
+<i class="no-highlight">84</i>&nbsp;
+<i class="no-highlight">85</i>&nbsp;    /**
+<i class="no-highlight">86</i>&nbsp;     * Show a generic message received from server
+<i class="no-highlight">87</i>&nbsp;     *
+<i class="no-highlight">88</i>&nbsp;     * @param msg to be displayed
+<i class="no-highlight">89</i>&nbsp;     */
+<i class="no-highlight">90</i>&nbsp;    void showMessage(String msg);
+<i class="no-highlight">91</i>&nbsp;
+<i class="no-highlight">92</i>&nbsp;    void injectResource(ShortModel resource);
+<i class="no-highlight">93</i>&nbsp;
+<i class="no-highlight">94</i>&nbsp;    void askSwapList(int swap);
+<i class="no-highlight">95</i>&nbsp;
+<i class="no-highlight">96</i>&nbsp;    void askConnectionInfo();
+<i class="no-highlight">97</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

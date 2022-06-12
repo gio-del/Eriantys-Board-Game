@@ -1,0 +1,166 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CLISymbol</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.cli</a>
+</div>
+
+<h1>Coverage Summary for Class: CLISymbol (it.polimi.ingsw.view.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CLISymbol</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.cli;
+<i class="no-highlight">2</i>&nbsp;
+<b class="nc"><i class="no-highlight">3</i>&nbsp;public enum CLISymbol {</b>
+<b class="nc"><i class="no-highlight">4</i>&nbsp;    EMPTY_CIRCLE(&quot;\u25CC&quot;),</b>
+<b class="nc"><i class="no-highlight">5</i>&nbsp;    FULL_CIRCLE(&quot;\u25cf&quot;),</b>
+<b class="nc"><i class="no-highlight">6</i>&nbsp;    EMPTY_PROFESSOR(&quot;\u2b21&quot;),</b>
+<b class="nc"><i class="no-highlight">7</i>&nbsp;    FULL_PROFESSOR(&quot;\u2b22&quot;),</b>
+<b class="nc"><i class="no-highlight">8</i>&nbsp;    TOWER(&quot;\u25B3&quot;),</b>
+<b class="nc"><i class="no-highlight">9</i>&nbsp;    GREEN(&quot;GREEN  |&quot;),</b>
+<b class="nc"><i class="no-highlight">10</i>&nbsp;    RED(&quot;RED    |&quot;),</b>
+<b class="nc"><i class="no-highlight">11</i>&nbsp;    YELLOW(&quot;YELLOW |&quot;),</b>
+<b class="nc"><i class="no-highlight">12</i>&nbsp;    PINK(&quot;PINK   |&quot;),</b>
+<b class="nc"><i class="no-highlight">13</i>&nbsp;    BLUE(&quot;BLUE   |&quot;);</b>
+<i class="no-highlight">14</i>&nbsp;    public static final String SCHOOL_HEADER = &quot;     ENTRANCE     |        HALL         | PROF&quot;;
+<i class="no-highlight">15</i>&nbsp;    public static final String SHORT_HEADER = &quot;ENTRY | HALL  | PROF&quot;;
+<i class="no-highlight">16</i>&nbsp;    public static final String HEAD_START = &quot; &quot;;
+<i class="no-highlight">17</i>&nbsp;    public static final String HEAD = &quot;___________&quot;;
+<b class="nc"><i class="no-highlight">18</i>&nbsp;    public static final String HEAD_MN = CLIColor.GREEN + &quot;Å_Å_Å_Å_Å_Å&quot; + CLIColor.RESET;</b>
+<i class="no-highlight">19</i>&nbsp;    public static final String HEAD_END = &quot;   &quot;;
+<b class="nc"><i class="no-highlight">20</i>&nbsp;    public static final String GREEN_START = &quot;   /&quot; + CLIColor.GREEN;</b>
+<b class="nc"><i class="no-highlight">21</i>&nbsp;    public static final String RED_START = &quot;  / &quot; + CLIColor.RED;</b>
+<b class="nc"><i class="no-highlight">22</i>&nbsp;    public static final String YELLOW_START = &quot; /  &quot; + CLIColor.YELLOW;</b>
+<b class="nc"><i class="no-highlight">23</i>&nbsp;    public static final String PINK_START = &quot; \\  &quot; + CLIColor.PINK;</b>
+<b class="nc"><i class="no-highlight">24</i>&nbsp;    public static final String BLUE_START = &quot;  \\ &quot; + CLIColor.BLUE;</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;    public static final String GREEN_END = CLIColor.RESET + &quot;\\  &quot;;</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;    public static final String RED_END = CLIColor.RESET + &quot; \\ &quot;;</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;    public static final String YELLOW_END = CLIColor.RESET + &quot;  \\&quot;;</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;    public static final String PINK_END = CLIColor.RESET + &quot;  /&quot;;</b>
+<b class="nc"><i class="no-highlight">29</i>&nbsp;    public static final String BLUE_END = CLIColor.RESET + &quot; / &quot;;</b>
+<i class="no-highlight">30</i>&nbsp;    public static final String BOTTOM_START = &quot;   \\&quot;;
+<i class="no-highlight">31</i>&nbsp;    public static final String BOTTOM = &quot;__________&quot;;
+<i class="no-highlight">32</i>&nbsp;    public static final String BOTTOM_END = &quot;_/  &quot;;
+<i class="no-highlight">33</i>&nbsp;    public static final int REPETITION = 3;
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;    public static final int CLOUD_REPETITION = 2;
+<i class="no-highlight">36</i>&nbsp;
+<i class="no-highlight">37</i>&nbsp;
+<i class="no-highlight">38</i>&nbsp;    public static final String CLOUD_HEAD = &quot; _  _  _      &quot;;
+<i class="no-highlight">39</i>&nbsp;    public static final String CLOUD_HEAD_START = &quot;    &quot;;
+<b class="nc"><i class="no-highlight">40</i>&nbsp;    public static final String CLOUD_GREEN_START = &quot;   .(&quot; + CLIColor.GREEN;</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;    public static final String CLOUD_RED_START = &quot;   ((&quot; + CLIColor.RED;</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;    public static final String CLOUD_YELLOW_START = &quot; .+( &quot; + CLIColor.YELLOW;</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;    public static final String CLOUD_PINK_START = &quot; (  .&quot; + CLIColor.PINK;</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;    public static final String CLOUD_BLUE_START = &quot;(   (&quot; + CLIColor.BLUE;</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;    public static final String CLOUD_GREEN_END = CLIColor.RESET + &quot;)_   &quot;;</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;    public static final String CLOUD_RED_END = CLIColor.RESET + &quot;))   &quot;;</b>
+<b class="nc"><i class="no-highlight">47</i>&nbsp;    public static final String CLOUD_YELLOW_END = CLIColor.RESET + &quot;  )_ &quot;;</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;    public static final String CLOUD_PINK_END = CLIColor.RESET + &quot;    )&quot;;</b>
+<b class="nc"><i class="no-highlight">49</i>&nbsp;    public static final String CLOUD_BLUE_END = CLIColor.RESET + &quot;  ) )&quot;;</b>
+<i class="no-highlight">50</i>&nbsp;    public static final String CLOUD_BOTTOM = &quot; `-_____________.&#39; &quot;;
+<i class="no-highlight">51</i>&nbsp;    private final String symbol;
+<i class="no-highlight">52</i>&nbsp;
+<b class="nc"><i class="no-highlight">53</i>&nbsp;    CLISymbol(String symbol) {</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        this.symbol = symbol;</b>
+<i class="no-highlight">55</i>&nbsp;    }
+<i class="no-highlight">56</i>&nbsp;
+<i class="no-highlight">57</i>&nbsp;    @Override
+<i class="no-highlight">58</i>&nbsp;    public String toString() {
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        return symbol;</b>
+<i class="no-highlight">60</i>&nbsp;    }
+<i class="no-highlight">61</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

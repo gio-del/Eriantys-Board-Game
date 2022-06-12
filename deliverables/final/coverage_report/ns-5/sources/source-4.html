@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Sack</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model</a>
+</div>
+
+<h1>Coverage Summary for Class: Sack (it.polimi.ingsw.model)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Sack</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,5%
+  </span>
+  <span class="absValue">
+    (7/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,1%
+  </span>
+  <span class="absValue">
+    (16/17)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.constants.Constants;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.pawns.Pawns;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.place.Island;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.observer.WinObservable;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;import java.util.Random;
+<i class="no-highlight">10</i>&nbsp;import java.util.stream.IntStream;
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;/**
+<i class="no-highlight">13</i>&nbsp; * This class represents the Sack from where {@link Pawns} are extracted casually.
+<i class="no-highlight">14</i>&nbsp; */
+<i class="no-highlight">15</i>&nbsp;public class Sack extends WinObservable {
+<i class="no-highlight">16</i>&nbsp;    private final Pawns sackPawns;
+<i class="no-highlight">17</i>&nbsp;    private final Random random;
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;    /**
+<i class="no-highlight">20</i>&nbsp;     * Constructs a new Sack that has a {@link Pawns} of students, every {@link PawnColor} is initialized at {@code 0}.
+<i class="no-highlight">21</i>&nbsp;     */
+<b class="fc"><i class="no-highlight">22</i>&nbsp;    public Sack() {</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;        random = new Random();</b>
+<b class="fc"><i class="no-highlight">24</i>&nbsp;        this.sackPawns = new Pawns();</b>
+<i class="no-highlight">25</i>&nbsp;    }
+<i class="no-highlight">26</i>&nbsp;
+<i class="no-highlight">27</i>&nbsp;    /**
+<i class="no-highlight">28</i>&nbsp;     * This method fill the Sack with {@code 10} pawns of each {@link PawnColor}. Is used for the student&#39;s extraction on {@link Island} at the beginning of the game.
+<i class="no-highlight">29</i>&nbsp;     */
+<i class="no-highlight">30</i>&nbsp;    public void initialFill() {
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        for (PawnColor pawnColor : PawnColor.values()) {</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;            sackPawns.addColor(pawnColor, Constants.INIT_SACK_STUDENTS_PER_COLOR);</b>
+<i class="no-highlight">33</i>&nbsp;        }
+<i class="no-highlight">34</i>&nbsp;    }
+<i class="no-highlight">35</i>&nbsp;
+<i class="no-highlight">36</i>&nbsp;    /**
+<i class="no-highlight">37</i>&nbsp;     * This method fill the Sack with {@code 22} pawns of each {@link PawnColor}. This fill is meant to be done after
+<i class="no-highlight">38</i>&nbsp;     * the initialFill. These students will be extracted during the game.
+<i class="no-highlight">39</i>&nbsp;     */
+<i class="no-highlight">40</i>&nbsp;    public void fill() {
+<b class="fc"><i class="no-highlight">41</i>&nbsp;        for (PawnColor pawnColor : PawnColor.values()) {</b>
+<b class="fc"><i class="no-highlight">42</i>&nbsp;            sackPawns.addColor(pawnColor, Constants.STUDENTS_OF_EACH_COLOR - Constants.INIT_SACK_STUDENTS_PER_COLOR);</b>
+<i class="no-highlight">43</i>&nbsp;        }
+<i class="no-highlight">44</i>&nbsp;    }
+<i class="no-highlight">45</i>&nbsp;
+<i class="no-highlight">46</i>&nbsp;    /**
+<i class="no-highlight">47</i>&nbsp;     * This method extract casually {@code 1} pawn from Sack.
+<i class="no-highlight">48</i>&nbsp;     *
+<i class="no-highlight">49</i>&nbsp;     * @return {@code 1} pawn.
+<i class="no-highlight">50</i>&nbsp;     */
+<i class="no-highlight">51</i>&nbsp;    public PawnColor extract() {
+<b class="fc"><i class="no-highlight">52</i>&nbsp;        PawnColor extracted = sackPawns.getByIndex(random.nextInt(sackPawns.totalElements()));</b>
+<b class="fc"><i class="no-highlight">53</i>&nbsp;        sackPawns.removeColor(extracted);</b>
+<b class="fc"><i class="no-highlight">54</i>&nbsp;        notifyObserver(obs -&gt; obs.updateSackUsage(sackPawns.totalElements()));</b>
+<b class="fc"><i class="no-highlight">55</i>&nbsp;        return extracted;</b>
+<i class="no-highlight">56</i>&nbsp;    }
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;    /**
+<i class="no-highlight">59</i>&nbsp;     * This method extract casually a group of pawns from Sack.
+<i class="no-highlight">60</i>&nbsp;     *
+<i class="no-highlight">61</i>&nbsp;     * @param size number of pawns to extract.
+<i class="no-highlight">62</i>&nbsp;     * @return a group of pawns.
+<i class="no-highlight">63</i>&nbsp;     */
+<i class="no-highlight">64</i>&nbsp;    public Pawns extractListOfPawns(int size) {
+<b class="fc"><i class="no-highlight">65</i>&nbsp;        Pawns extracted = new Pawns();</b>
+<b class="fc"><i class="no-highlight">66</i>&nbsp;        IntStream.range(0, size).mapToObj(i -&gt; extract()).forEach(extracted::addColor);</b>
+<b class="fc"><i class="no-highlight">67</i>&nbsp;        return extracted;</b>
+<i class="no-highlight">68</i>&nbsp;    }
+<i class="no-highlight">69</i>&nbsp;
+<i class="no-highlight">70</i>&nbsp;    /**
+<i class="no-highlight">71</i>&nbsp;     * This method says how many pawns are in the Sack.
+<i class="no-highlight">72</i>&nbsp;     *
+<i class="no-highlight">73</i>&nbsp;     * @return number of pawns in sack.
+<i class="no-highlight">74</i>&nbsp;     */
+<i class="no-highlight">75</i>&nbsp;    public int getNumberOfPawns() {
+<b class="fc"><i class="no-highlight">76</i>&nbsp;        return sackPawns.totalElements();</b>
+<i class="no-highlight">77</i>&nbsp;    }
+<i class="no-highlight">78</i>&nbsp;
+<i class="no-highlight">79</i>&nbsp;    public boolean isEmpty() {
+<b class="fc"><i class="no-highlight">80</i>&nbsp;        return sackPawns.totalElements() == 0;</b>
+<i class="no-highlight">81</i>&nbsp;    }
+<i class="no-highlight">82</i>&nbsp;
+<i class="no-highlight">83</i>&nbsp;    @Override
+<i class="no-highlight">84</i>&nbsp;    public String toString() {
+<b class="nc"><i class="no-highlight">85</i>&nbsp;        return sackPawns.toString();</b>
+<i class="no-highlight">86</i>&nbsp;    }
+<i class="no-highlight">87</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

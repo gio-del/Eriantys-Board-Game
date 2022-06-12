@@ -1,0 +1,160 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ClientObserver</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.observer</a>
+</div>
+
+<h1>Coverage Summary for Class: ClientObserver (it.polimi.ingsw.observer)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">ClientObserver</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.observer;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.player.Assistant;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.player.TowerColor;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.player.Wizard;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.network.communication.Target;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;import java.util.List;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;/**
+<i class="no-highlight">12</i>&nbsp; * The client observer implements this interface.
+<i class="no-highlight">13</i>&nbsp; */
+<i class="no-highlight">14</i>&nbsp;public interface ClientObserver {
+<i class="no-highlight">15</i>&nbsp;    /**
+<i class="no-highlight">16</i>&nbsp;     * Receive an update by a client about the chosen ip address and port number.
+<i class="no-highlight">17</i>&nbsp;     * @param ip the chosen ip
+<i class="no-highlight">18</i>&nbsp;     * @param port the chosen port number
+<i class="no-highlight">19</i>&nbsp;     */
+<i class="no-highlight">20</i>&nbsp;    void updateConnection(String ip, int port);
+<i class="no-highlight">21</i>&nbsp;
+<i class="no-highlight">22</i>&nbsp;    /**
+<i class="no-highlight">23</i>&nbsp;     * Receive an update by a client about the chosen nickname.
+<i class="no-highlight">24</i>&nbsp;     * @param nickname the chosen nickname
+<i class="no-highlight">25</i>&nbsp;     */
+<i class="no-highlight">26</i>&nbsp;    void updateNickname(String nickname);
+<i class="no-highlight">27</i>&nbsp;
+<i class="no-highlight">28</i>&nbsp;    /**
+<i class="no-highlight">29</i>&nbsp;     * Receive an update by a client about the chosen game mode nad number of player
+<i class="no-highlight">30</i>&nbsp;     * @param mode the chosen game mode
+<i class="no-highlight">31</i>&nbsp;     * @param numOfPlayer the chosen number of player in the game
+<i class="no-highlight">32</i>&nbsp;     */
+<i class="no-highlight">33</i>&nbsp;    void updateGameModeNumPlayer(String mode, int numOfPlayer);
+<i class="no-highlight">34</i>&nbsp;
+<i class="no-highlight">35</i>&nbsp;    /**
+<i class="no-highlight">36</i>&nbsp;     * Receive an update by a client about the chosen wizard and tower color during the initial phase of the game.
+<i class="no-highlight">37</i>&nbsp;     * @param wizard the chosen wizard
+<i class="no-highlight">38</i>&nbsp;     * @param towerColor the chosen tower color
+<i class="no-highlight">39</i>&nbsp;     */
+<i class="no-highlight">40</i>&nbsp;    void updateWizardAndColor(Wizard wizard, TowerColor towerColor);
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;    /**
+<i class="no-highlight">43</i>&nbsp;     * Receive an update by a client about the chosen assistant to play.
+<i class="no-highlight">44</i>&nbsp;     * @param assistant the chosen assistant
+<i class="no-highlight">45</i>&nbsp;     */
+<i class="no-highlight">46</i>&nbsp;    void updateAssistant(Assistant assistant);
+<i class="no-highlight">47</i>&nbsp;
+<i class="no-highlight">48</i>&nbsp;    /**
+<i class="no-highlight">49</i>&nbsp;     * Receive an update by a client about the chosen cloud to pick students from.
+<i class="no-highlight">50</i>&nbsp;     * @param cloud the chosen cloud
+<i class="no-highlight">51</i>&nbsp;     */
+<i class="no-highlight">52</i>&nbsp;    void updateCloud(int cloud);
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;    /**
+<i class="no-highlight">55</i>&nbsp;     * Receive an update by a client about the num of steps that mother nature must perform.
+<i class="no-highlight">56</i>&nbsp;     * @param steps the number of step to perform
+<i class="no-highlight">57</i>&nbsp;     */
+<i class="no-highlight">58</i>&nbsp;    void updateStepsMN(int steps);
+<i class="no-highlight">59</i>&nbsp;
+<i class="no-highlight">60</i>&nbsp;    /**
+<i class="no-highlight">61</i>&nbsp;     * Receive an update by a client regarding what student and where it must move.
+<i class="no-highlight">62</i>&nbsp;     * @param color the color of the student to move
+<i class="no-highlight">63</i>&nbsp;     * @param target the destination of this student (HALL or ISLAND)
+<i class="no-highlight">64</i>&nbsp;     * @param island if the target is island this parameter is used to define what island to move the student to
+<i class="no-highlight">65</i>&nbsp;     */
+<i class="no-highlight">66</i>&nbsp;    void updateMoveStudent(PawnColor color, Target target, int island);
+<i class="no-highlight">67</i>&nbsp;
+<i class="no-highlight">68</i>&nbsp;    /**
+<i class="no-highlight">69</i>&nbsp;     * Receive an update by a client regarding what character he want to use.
+<i class="no-highlight">70</i>&nbsp;     * @param id the id of the chosen character.
+<i class="no-highlight">71</i>&nbsp;     */
+<i class="no-highlight">72</i>&nbsp;    void updateUseCharacter(int id);
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;    /**
+<i class="no-highlight">75</i>&nbsp;     * Receive an update by a client regarding the color provided to the action of a character.
+<i class="no-highlight">76</i>&nbsp;     * @param chosen the chosen color
+<i class="no-highlight">77</i>&nbsp;     */
+<i class="no-highlight">78</i>&nbsp;    void updateColorAction(PawnColor chosen);
+<i class="no-highlight">79</i>&nbsp;
+<i class="no-highlight">80</i>&nbsp;    /**
+<i class="no-highlight">81</i>&nbsp;     * Receive an update by a client regarding the island provided to the action of a character.
+<i class="no-highlight">82</i>&nbsp;     * @param island the chosen island
+<i class="no-highlight">83</i>&nbsp;     */
+<i class="no-highlight">84</i>&nbsp;    void updateIslandAction(int island);
+<i class="no-highlight">85</i>&nbsp;
+<i class="no-highlight">86</i>&nbsp;    /**
+<i class="no-highlight">87</i>&nbsp;     * Receive an update by a client regarding the swap list provided to the action of a character.
+<i class="no-highlight">88</i>&nbsp;     * @param swapColor the chosen swap list
+<i class="no-highlight">89</i>&nbsp;     */
+<i class="no-highlight">90</i>&nbsp;    void updateSwapAction(List&lt;PawnColor&gt; swapColor);
+<i class="no-highlight">91</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

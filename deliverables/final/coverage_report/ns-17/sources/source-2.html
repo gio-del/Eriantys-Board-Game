@@ -1,0 +1,139 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CLIColor</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.cli</a>
+</div>
+
+<h1>Coverage Summary for Class: CLIColor (it.polimi.ingsw.view.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CLIColor</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.cli;
+<i class="no-highlight">2</i>&nbsp;
+<b class="nc"><i class="no-highlight">3</i>&nbsp;public enum CLIColor {</b>
+<b class="nc"><i class="no-highlight">4</i>&nbsp;    BLACK(&quot;\u001B[30m&quot;),</b>
+<b class="nc"><i class="no-highlight">5</i>&nbsp;    BLACK_BG(&quot;\u001B[40m&quot;),</b>
+<b class="nc"><i class="no-highlight">6</i>&nbsp;    RED(&quot;\u001B[31m&quot;),</b>
+<b class="nc"><i class="no-highlight">7</i>&nbsp;    RED_BG(&quot;\u001B[41m&quot;),</b>
+<b class="nc"><i class="no-highlight">8</i>&nbsp;    GREEN(&quot;\u001B[32m&quot;),</b>
+<b class="nc"><i class="no-highlight">9</i>&nbsp;    GREEN_BG(&quot;\u001B[42m&quot;),</b>
+<b class="nc"><i class="no-highlight">10</i>&nbsp;    YELLOW(&quot;\u001B[33m&quot;),</b>
+<b class="nc"><i class="no-highlight">11</i>&nbsp;    YELLOW_BG(&quot;\u001B[43m&quot;),</b>
+<b class="nc"><i class="no-highlight">12</i>&nbsp;    BLUE(&quot;\u001B[34m&quot;),</b>
+<b class="nc"><i class="no-highlight">13</i>&nbsp;    BLUE_BG(&quot;\u001B[44m&quot;),</b>
+<b class="nc"><i class="no-highlight">14</i>&nbsp;    PINK(&quot;\u001B[35m&quot;),</b>
+<b class="nc"><i class="no-highlight">15</i>&nbsp;    PINK_BG(&quot;\u001B[45m&quot;),</b>
+<b class="nc"><i class="no-highlight">16</i>&nbsp;    CYAN(&quot;\u001B[36m&quot;),</b>
+<b class="nc"><i class="no-highlight">17</i>&nbsp;    CYAN_BG(&quot;\u001B[46m&quot;),</b>
+<b class="nc"><i class="no-highlight">18</i>&nbsp;    GRAY(&quot;\u001B[37m&quot;),</b>
+<b class="nc"><i class="no-highlight">19</i>&nbsp;    GRAY_BG(&quot;\u001B[47m&quot;),</b>
+<i class="no-highlight">20</i>&nbsp;
+<b class="nc"><i class="no-highlight">21</i>&nbsp;    RESET(&quot;\033[0m&quot;),</b>
+<b class="nc"><i class="no-highlight">22</i>&nbsp;    CLEAR(&quot;\033[H\033[2J&quot;);</b>
+<i class="no-highlight">23</i>&nbsp;
+<i class="no-highlight">24</i>&nbsp;    private final String ansiCode;
+<i class="no-highlight">25</i>&nbsp;
+<b class="nc"><i class="no-highlight">26</i>&nbsp;    CLIColor(String ansiCode) {</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        this.ansiCode = ansiCode;</b>
+<i class="no-highlight">28</i>&nbsp;    }
+<i class="no-highlight">29</i>&nbsp;
+<i class="no-highlight">30</i>&nbsp;    @Override
+<i class="no-highlight">31</i>&nbsp;    public String toString() {
+<b class="nc"><i class="no-highlight">32</i>&nbsp;        return ansiCode;</b>
+<i class="no-highlight">33</i>&nbsp;    }
+<i class="no-highlight">34</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

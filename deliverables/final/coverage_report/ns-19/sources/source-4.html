@@ -1,0 +1,264 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > IslandGui</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.gui.boardcomponent</a>
+</div>
+
+<h1>Coverage Summary for Class: IslandGui (it.polimi.ingsw.view.gui.boardcomponent)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">IslandGui</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/83)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.gui.boardcomponent;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.pawns.ShortPawns;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.place.ShortIsland;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.utility.Pair;
+<i class="no-highlight">7</i>&nbsp;import javafx.geometry.Pos;
+<i class="no-highlight">8</i>&nbsp;import javafx.scene.control.Label;
+<i class="no-highlight">9</i>&nbsp;import javafx.scene.image.Image;
+<i class="no-highlight">10</i>&nbsp;import javafx.scene.image.ImageView;
+<i class="no-highlight">11</i>&nbsp;import javafx.scene.layout.HBox;
+<i class="no-highlight">12</i>&nbsp;import javafx.scene.layout.Pane;
+<i class="no-highlight">13</i>&nbsp;import javafx.scene.layout.VBox;
+<i class="no-highlight">14</i>&nbsp;import javafx.scene.text.Font;
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;import java.util.*;
+<i class="no-highlight">17</i>&nbsp;
+<i class="no-highlight">18</i>&nbsp;public class IslandGui extends Pane {
+<i class="no-highlight">19</i>&nbsp;    private final HBox studentsBox;
+<i class="no-highlight">20</i>&nbsp;    private final ImageView island;
+<i class="no-highlight">21</i>&nbsp;    private final List&lt;ImageView&gt; contentOnIsland;
+<i class="no-highlight">22</i>&nbsp;    private final ImageView tower;
+<i class="no-highlight">23</i>&nbsp;    private final Label towerNum;
+<i class="no-highlight">24</i>&nbsp;    private final ImageView motherNature;
+<i class="no-highlight">25</i>&nbsp;    private final ImageView banTile;
+<i class="no-highlight">26</i>&nbsp;    private final Label banNum;
+<i class="no-highlight">27</i>&nbsp;    private final Map&lt;PawnColor, Pair&lt;ImageView, Label&gt;&gt; colorMapStudents;
+<i class="no-highlight">28</i>&nbsp;    private final Map&lt;PawnColor, VBox&gt; colorToContainer;
+<i class="no-highlight">29</i>&nbsp;
+<b class="nc"><i class="no-highlight">30</i>&nbsp;    public IslandGui(ShortIsland shortIsland, boolean motherNatureOn) {</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;        this.contentOnIsland = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">32</i>&nbsp;
+<i class="no-highlight">33</i>&nbsp;        //Island picture
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        this.island = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream(&quot;/images/islands/island1.png&quot;))));</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        island.setFitWidth(150);</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        island.setFitHeight(150);</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        getChildren().add(island);</b>
+<i class="no-highlight">38</i>&nbsp;
+<i class="no-highlight">39</i>&nbsp;        //students box
+<b class="nc"><i class="no-highlight">40</i>&nbsp;        this.studentsBox = new HBox();</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        studentsBox.setAlignment(Pos.CENTER);</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;        studentsBox.setPrefWidth(island.getFitWidth());</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        studentsBox.setSpacing(10);</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        studentsBox.setLayoutY(130);</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        studentsBox.setLayoutX(island.getLayoutX());</b>
+<i class="no-highlight">46</i>&nbsp;
+<i class="no-highlight">47</i>&nbsp;        //tower
+<b class="nc"><i class="no-highlight">48</i>&nbsp;        this.tower = new ImageView();</b>
+<b class="nc"><i class="no-highlight">49</i>&nbsp;        tower.setPreserveRatio(true);</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        tower.setFitHeight(30);</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;        tower.setLayoutX(island.getLayoutX() + 40);</b>
+<b class="nc"><i class="no-highlight">52</i>&nbsp;        tower.setLayoutY(island.getLayoutY() + 40);</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;        this.towerNum = new Label();</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        towerNum.setFont(new Font(15));</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;        towerNum.setLayoutX(island.getLayoutX() + 50);</b>
+<b class="nc"><i class="no-highlight">56</i>&nbsp;        towerNum.setLayoutY(island.getLayoutY() + 65);</b>
+<i class="no-highlight">57</i>&nbsp;
+<i class="no-highlight">58</i>&nbsp;        //MN
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        motherNature = new ImageView();</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;        motherNature.setPreserveRatio(true);</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        motherNature.setFitHeight(65);</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;        motherNature.setLayoutX(island.getLayoutX() + 80);</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;        motherNature.setLayoutY(island.getLayoutY() + 35);</b>
+<i class="no-highlight">64</i>&nbsp;
+<i class="no-highlight">65</i>&nbsp;        //ban tile
+<b class="nc"><i class="no-highlight">66</i>&nbsp;        banTile = new ImageView();</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;        banTile.setPreserveRatio(true);</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;        banTile.setFitHeight(30);</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        banTile.setLayoutX(island.getLayoutX() + 57);</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;        banTile.setLayoutY(island.getLayoutY() + 75);</b>
+<b class="nc"><i class="no-highlight">71</i>&nbsp;        banNum = new Label();</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;        banNum.setFont(new Font(15));</b>
+<b class="nc"><i class="no-highlight">73</i>&nbsp;        banNum.setLayoutX(island.getLayoutX() + 67);</b>
+<b class="nc"><i class="no-highlight">74</i>&nbsp;        banNum.setLayoutY(island.getLayoutY() + 100);</b>
+<i class="no-highlight">75</i>&nbsp;
+<b class="nc"><i class="no-highlight">76</i>&nbsp;        colorMapStudents = new EnumMap&lt;&gt;(PawnColor.class);</b>
+<b class="nc"><i class="no-highlight">77</i>&nbsp;        colorToContainer = new EnumMap&lt;&gt;(PawnColor.class);</b>
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        for (PawnColor pawnColor : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;            ImageView imageView = new ImageView();</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;            imageView.setPreserveRatio(true);</b>
+<b class="nc"><i class="no-highlight">81</i>&nbsp;            imageView.setFitHeight(20);</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;            Label label = new Label();</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;            label.setFont(new Font(12));</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;            colorMapStudents.put(pawnColor, new Pair&lt;&gt;(imageView, label));</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;            VBox vBox = new VBox();</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;            vBox.setAlignment(Pos.CENTER);</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;            colorToContainer.put(pawnColor, vBox);</b>
+<i class="no-highlight">88</i>&nbsp;        }
+<i class="no-highlight">89</i>&nbsp;
+<b class="nc"><i class="no-highlight">90</i>&nbsp;        refresh(shortIsland, motherNatureOn);</b>
+<i class="no-highlight">91</i>&nbsp;    }
+<i class="no-highlight">92</i>&nbsp;
+<i class="no-highlight">93</i>&nbsp;    public void refresh(ShortIsland shortIsland, boolean motherNatureOn) {
+<i class="no-highlight">94</i>&nbsp;
+<b class="nc"><i class="no-highlight">95</i>&nbsp;        getChildren().clear();</b>
+<b class="nc"><i class="no-highlight">96</i>&nbsp;        contentOnIsland.clear();</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;        contentOnIsland.add(island);</b>
+<i class="no-highlight">98</i>&nbsp;
+<b class="nc"><i class="no-highlight">99</i>&nbsp;        getChildren().add(island);</b>
+<i class="no-highlight">100</i>&nbsp;
+<b class="nc"><i class="no-highlight">101</i>&nbsp;        studentsBox.getChildren().clear();</b>
+<b class="nc"><i class="no-highlight">102</i>&nbsp;        getChildren().add(studentsBox);</b>
+<i class="no-highlight">103</i>&nbsp;
+<i class="no-highlight">104</i>&nbsp;        //TOWER
+<b class="nc"><i class="no-highlight">105</i>&nbsp;        if (shortIsland.getTower() != null) {</b>
+<b class="nc"><i class="no-highlight">106</i>&nbsp;            tower.setImage(GuiResources.getTowerIsland(shortIsland.getTower()));</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;            towerNum.setText(String.valueOf(shortIsland.getDimension()));</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;            contentOnIsland.add(tower);</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;            getChildren().addAll(tower, towerNum);</b>
+<i class="no-highlight">110</i>&nbsp;        }
+<i class="no-highlight">111</i>&nbsp;
+<i class="no-highlight">112</i>&nbsp;        //MOTHER NATURE
+<b class="nc"><i class="no-highlight">113</i>&nbsp;        if (motherNatureOn) {</b>
+<b class="nc"><i class="no-highlight">114</i>&nbsp;            motherNature.setImage(GuiResources.motherNature);</b>
+<b class="nc"><i class="no-highlight">115</i>&nbsp;            contentOnIsland.add(motherNature);</b>
+<b class="nc"><i class="no-highlight">116</i>&nbsp;            getChildren().add(motherNature);</b>
+<i class="no-highlight">117</i>&nbsp;        }
+<i class="no-highlight">118</i>&nbsp;
+<i class="no-highlight">119</i>&nbsp;        //BAN TILES
+<b class="nc"><i class="no-highlight">120</i>&nbsp;        if (shortIsland.getBanTiles() &gt; 0) {</b>
+<b class="nc"><i class="no-highlight">121</i>&nbsp;            banTile.setImage(GuiResources.ban);</b>
+<b class="nc"><i class="no-highlight">122</i>&nbsp;            banNum.setText(String.valueOf(shortIsland.getBanTiles()));</b>
+<b class="nc"><i class="no-highlight">123</i>&nbsp;            contentOnIsland.add(banTile);</b>
+<b class="nc"><i class="no-highlight">124</i>&nbsp;            getChildren().addAll(banTile, banNum);</b>
+<i class="no-highlight">125</i>&nbsp;        }
+<i class="no-highlight">126</i>&nbsp;
+<i class="no-highlight">127</i>&nbsp;        //STUDENTS
+<b class="nc"><i class="no-highlight">128</i>&nbsp;        ShortPawns shortPawns = shortIsland.getStudents();</b>
+<b class="nc"><i class="no-highlight">129</i>&nbsp;        for (PawnColor pawnColor : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">130</i>&nbsp;            drawStudents(pawnColor, shortPawns.getFromColor(pawnColor));</b>
+<i class="no-highlight">131</i>&nbsp;        }
+<i class="no-highlight">132</i>&nbsp;    }
+<i class="no-highlight">133</i>&nbsp;
+<i class="no-highlight">134</i>&nbsp;    private void drawStudents(PawnColor color, int numOfStudents) {
+<b class="nc"><i class="no-highlight">135</i>&nbsp;        if (numOfStudents &gt; 0) {</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;            ImageView imageColor = colorMapStudents.get(color).first();</b>
+<b class="nc"><i class="no-highlight">137</i>&nbsp;            imageColor.setImage(GuiResources.getStudent(color));</b>
+<b class="nc"><i class="no-highlight">138</i>&nbsp;            Label numOf = colorMapStudents.get(color).second();</b>
+<b class="nc"><i class="no-highlight">139</i>&nbsp;            numOf.setText(numOfStudents == 1 ? &quot;&quot; : String.valueOf(numOfStudents));</b>
+<i class="no-highlight">140</i>&nbsp;
+<b class="nc"><i class="no-highlight">141</i>&nbsp;            VBox vBox = colorToContainer.get(color);</b>
+<b class="nc"><i class="no-highlight">142</i>&nbsp;            vBox.getChildren().clear();</b>
+<b class="nc"><i class="no-highlight">143</i>&nbsp;            vBox.getChildren().addAll(imageColor, numOf);</b>
+<b class="nc"><i class="no-highlight">144</i>&nbsp;            studentsBox.getChildren().add(vBox);</b>
+<i class="no-highlight">145</i>&nbsp;        }
+<i class="no-highlight">146</i>&nbsp;    }
+<i class="no-highlight">147</i>&nbsp;
+<i class="no-highlight">148</i>&nbsp;    public void delete() {
+<b class="nc"><i class="no-highlight">149</i>&nbsp;        getChildren().clear();</b>
+<i class="no-highlight">150</i>&nbsp;    }
+<i class="no-highlight">151</i>&nbsp;
+<i class="no-highlight">152</i>&nbsp;    public ImageView getIsland() {
+<b class="nc"><i class="no-highlight">153</i>&nbsp;        return island;</b>
+<i class="no-highlight">154</i>&nbsp;    }
+<i class="no-highlight">155</i>&nbsp;
+<i class="no-highlight">156</i>&nbsp;    public List&lt;ImageView&gt; getContentOnIsland() {
+<b class="nc"><i class="no-highlight">157</i>&nbsp;        return contentOnIsland;</b>
+<i class="no-highlight">158</i>&nbsp;    }
+<i class="no-highlight">159</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

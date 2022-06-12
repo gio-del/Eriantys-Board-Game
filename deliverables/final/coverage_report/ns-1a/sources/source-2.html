@@ -1,0 +1,222 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CharacterSceneController</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.gui.scene</a>
+</div>
+
+<h1>Coverage Summary for Class: CharacterSceneController (it.polimi.ingsw.view.gui.scene)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CharacterSceneController</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.gui.scene;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.character.ShortCharacter;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.observer.ClientObservable;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.view.gui.boardcomponent.CharacterGui;
+<i class="no-highlight">6</i>&nbsp;import javafx.fxml.FXML;
+<i class="no-highlight">7</i>&nbsp;import javafx.scene.Cursor;
+<i class="no-highlight">8</i>&nbsp;import javafx.scene.control.Button;
+<i class="no-highlight">9</i>&nbsp;import javafx.scene.control.Label;
+<i class="no-highlight">10</i>&nbsp;import javafx.scene.effect.DropShadow;
+<i class="no-highlight">11</i>&nbsp;import javafx.scene.image.Image;
+<i class="no-highlight">12</i>&nbsp;import javafx.scene.image.ImageView;
+<i class="no-highlight">13</i>&nbsp;import javafx.scene.layout.GridPane;
+<i class="no-highlight">14</i>&nbsp;import javafx.scene.paint.Color;
+<i class="no-highlight">15</i>&nbsp;import javafx.stage.Stage;
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">18</i>&nbsp;import java.util.List;
+<i class="no-highlight">19</i>&nbsp;import java.util.Objects;
+<i class="no-highlight">20</i>&nbsp;
+<i class="no-highlight">21</i>&nbsp;/**
+<i class="no-highlight">22</i>&nbsp; * This class implements the controller of the characters scene
+<i class="no-highlight">23</i>&nbsp; */
+<i class="no-highlight">24</i>&nbsp;public class CharacterSceneController extends ClientObservable implements BasicSceneController {
+<i class="no-highlight">25</i>&nbsp;    private final List&lt;CharacterGui&gt; characterComponents;
+<i class="no-highlight">26</i>&nbsp;    @FXML
+<i class="no-highlight">27</i>&nbsp;    private Button okButton;
+<i class="no-highlight">28</i>&nbsp;    @FXML
+<i class="no-highlight">29</i>&nbsp;    private ImageView firstCharacterImg;
+<i class="no-highlight">30</i>&nbsp;    @FXML
+<i class="no-highlight">31</i>&nbsp;    private ImageView secondCharacterImg;
+<i class="no-highlight">32</i>&nbsp;    @FXML
+<i class="no-highlight">33</i>&nbsp;    private ImageView thirdCharacterImg;
+<i class="no-highlight">34</i>&nbsp;    @FXML
+<i class="no-highlight">35</i>&nbsp;    private Label firstCharacterName;
+<i class="no-highlight">36</i>&nbsp;    @FXML
+<i class="no-highlight">37</i>&nbsp;    private Label secondCharacterName;
+<i class="no-highlight">38</i>&nbsp;    @FXML
+<i class="no-highlight">39</i>&nbsp;    private Label thirdCharacterName;
+<i class="no-highlight">40</i>&nbsp;    @FXML
+<i class="no-highlight">41</i>&nbsp;    private Label firstCharacterCost;
+<i class="no-highlight">42</i>&nbsp;    @FXML
+<i class="no-highlight">43</i>&nbsp;    private Label secondCharacterCost;
+<i class="no-highlight">44</i>&nbsp;    @FXML
+<i class="no-highlight">45</i>&nbsp;    private Label thirdCharacterCost;
+<i class="no-highlight">46</i>&nbsp;    @FXML
+<i class="no-highlight">47</i>&nbsp;    private Label firstCharacterDescription;
+<i class="no-highlight">48</i>&nbsp;    @FXML
+<i class="no-highlight">49</i>&nbsp;    private Label secondCharacterDescription;
+<i class="no-highlight">50</i>&nbsp;    @FXML
+<i class="no-highlight">51</i>&nbsp;    private Label thirdCharacterDescription;
+<i class="no-highlight">52</i>&nbsp;    @FXML
+<i class="no-highlight">53</i>&nbsp;    private GridPane firstComponentsOn;
+<i class="no-highlight">54</i>&nbsp;    @FXML
+<i class="no-highlight">55</i>&nbsp;    private GridPane secondComponentsOn;
+<i class="no-highlight">56</i>&nbsp;    @FXML
+<i class="no-highlight">57</i>&nbsp;    private GridPane thirdComponentsOn;
+<i class="no-highlight">58</i>&nbsp;    @FXML
+<i class="no-highlight">59</i>&nbsp;    private ImageView firstCoinOn;
+<i class="no-highlight">60</i>&nbsp;    @FXML
+<i class="no-highlight">61</i>&nbsp;    private ImageView secondCoinOn;
+<i class="no-highlight">62</i>&nbsp;    @FXML
+<i class="no-highlight">63</i>&nbsp;    private ImageView thirdCoinOn;
+<b class="nc"><i class="no-highlight">64</i>&nbsp;    private int selectedCharacter = -1;</b>
+<i class="no-highlight">65</i>&nbsp;    private List&lt;ShortCharacter&gt; characters;
+<i class="no-highlight">66</i>&nbsp;
+<b class="nc"><i class="no-highlight">67</i>&nbsp;    public CharacterSceneController() {</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;        characterComponents = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">69</i>&nbsp;    }
+<i class="no-highlight">70</i>&nbsp;
+<i class="no-highlight">71</i>&nbsp;    public void setCharactersInUse(List&lt;ShortCharacter&gt; characters) {
+<b class="nc"><i class="no-highlight">72</i>&nbsp;        this.characters = characters;</b>
+<i class="no-highlight">73</i>&nbsp;    }
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;    /**
+<i class="no-highlight">76</i>&nbsp;     * Initialization of the controller
+<i class="no-highlight">77</i>&nbsp;     */
+<i class="no-highlight">78</i>&nbsp;    @FXML
+<i class="no-highlight">79</i>&nbsp;    private void initialize() {
+<b class="nc"><i class="no-highlight">80</i>&nbsp;        characterComponents.add(new CharacterGui(firstCharacterImg, firstCharacterName, firstCharacterDescription, firstCharacterCost, firstComponentsOn, firstCoinOn));</b>
+<b class="nc"><i class="no-highlight">81</i>&nbsp;        characterComponents.add(new CharacterGui(secondCharacterImg, secondCharacterName, secondCharacterDescription, secondCharacterCost, secondComponentsOn, secondCoinOn));</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;        characterComponents.add(new CharacterGui(thirdCharacterImg, thirdCharacterName, thirdCharacterDescription, thirdCharacterCost, thirdComponentsOn, thirdCoinOn));</b>
+<i class="no-highlight">83</i>&nbsp;
+<b class="nc"><i class="no-highlight">84</i>&nbsp;        for (int i = 0; i &lt; characters.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;            ShortCharacter character = characters.get(i);</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;            CharacterGui component = characterComponents.get(i);</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;            component.contentsOn().forEach(content -&gt; content.setCursor(Cursor.HAND));</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;            int finalI = i;</b>
+<b class="nc"><i class="no-highlight">89</i>&nbsp;            component.contentsOn().forEach(content -&gt; content.setOnMouseClicked(evt -&gt; selectCharacter(finalI)));</b>
+<b class="nc"><i class="no-highlight">90</i>&nbsp;            component.setCharacterImg(new Image(Objects.requireNonNull(getClass().getResourceAsStream(&quot;/images/characters/&quot; + character.getName().replace(&quot; &quot;, &quot;_&quot;).toLowerCase() + &quot;.jpg&quot;))));</b>
+<b class="nc"><i class="no-highlight">91</i>&nbsp;            component.setCharacterCost(character.getCost());</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;            component.setCharacterDescription(character.getDescription());</b>
+<b class="nc"><i class="no-highlight">93</i>&nbsp;            component.setCharacterName(character.getName());</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;            component.setPawnsOn(character.getStudentsOn().toList());</b>
+<b class="nc"><i class="no-highlight">95</i>&nbsp;            component.setBansOn(character.getBanTiles());</b>
+<b class="nc"><i class="no-highlight">96</i>&nbsp;            component.setCoinOn(character.hasCoinOn());</b>
+<i class="no-highlight">97</i>&nbsp;        }
+<i class="no-highlight">98</i>&nbsp;
+<b class="nc"><i class="no-highlight">99</i>&nbsp;        okButton.setOnMouseClicked(evt -&gt; chooseCharacter());</b>
+<i class="no-highlight">100</i>&nbsp;    }
+<i class="no-highlight">101</i>&nbsp;
+<i class="no-highlight">102</i>&nbsp;    private void selectCharacter(int characterID) {
+<b class="nc"><i class="no-highlight">103</i>&nbsp;        for (CharacterGui characterGui : characterComponents) {</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;            characterGui.characterImg().setEffect(null);</b>
+<b class="nc"><i class="no-highlight">105</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">106</i>&nbsp;        characterComponents.get(characterID).characterImg().setEffect(new DropShadow(50, Color.GREEN));</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;        selectedCharacter = characterID;</b>
+<i class="no-highlight">108</i>&nbsp;    }
+<i class="no-highlight">109</i>&nbsp;
+<i class="no-highlight">110</i>&nbsp;    /**
+<i class="no-highlight">111</i>&nbsp;     * Complete the character choose
+<i class="no-highlight">112</i>&nbsp;     */
+<i class="no-highlight">113</i>&nbsp;    private void chooseCharacter() {
+<b class="nc"><i class="no-highlight">114</i>&nbsp;        new Thread(() -&gt; notifyObserver(obs -&gt; obs.updateUseCharacter(selectedCharacter))).start();</b>
+<b class="nc"><i class="no-highlight">115</i>&nbsp;        ((Stage) okButton.getScene().getWindow()).close();</b>
+<i class="no-highlight">116</i>&nbsp;    }
+<i class="no-highlight">117</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

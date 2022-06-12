@@ -1,0 +1,149 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SwapAction</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.character.action</a>
+</div>
+
+<h1>Coverage Summary for Class: SwapAction (it.polimi.ingsw.model.character.action)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SwapAction</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/19)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model.character.action;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.pawns.Pawns;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.place.Place;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;import java.util.List;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;/**
+<i class="no-highlight">10</i>&nbsp; * This action is used to swap students when a character permits it.
+<i class="no-highlight">11</i>&nbsp; */
+<i class="no-highlight">12</i>&nbsp;public class SwapAction implements Action {
+<i class="no-highlight">13</i>&nbsp;    private final Place from;
+<i class="no-highlight">14</i>&nbsp;    private final Place to;
+<i class="no-highlight">15</i>&nbsp;    private final List&lt;PawnColor&gt; swapList;
+<i class="no-highlight">16</i>&nbsp;    private final int maxSwaps;
+<i class="no-highlight">17</i>&nbsp;
+<b class="fc"><i class="no-highlight">18</i>&nbsp;    public SwapAction(Place from, Place to, List&lt;PawnColor&gt; swapList, int maxSwaps) {</b>
+<b class="fc"><i class="no-highlight">19</i>&nbsp;        this.from = from;</b>
+<b class="fc"><i class="no-highlight">20</i>&nbsp;        this.to = to;</b>
+<b class="fc"><i class="no-highlight">21</i>&nbsp;        this.swapList = swapList;</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;        this.maxSwaps = maxSwaps;</b>
+<i class="no-highlight">23</i>&nbsp;    }
+<i class="no-highlight">24</i>&nbsp;
+<i class="no-highlight">25</i>&nbsp;    @Override
+<i class="no-highlight">26</i>&nbsp;    public boolean apply() {
+<b class="fc"><i class="no-highlight">27</i>&nbsp;        int i = 0;</b>
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        Pawns toBeRemovedFrom = new Pawns();</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        Pawns toBeRemovedTo = new Pawns();</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        if (swapList.isEmpty() || swapList.size() % 2 != 0 || (swapList.size() / 2) &gt; maxSwaps) return false;</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        while (i &lt; swapList.size()) {</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;            toBeRemovedFrom.addColor(swapList.get(i));</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;            toBeRemovedTo.addColor(swapList.get(i + 1));</b>
+<b class="fc"><i class="no-highlight">34</i>&nbsp;            i += 2;</b>
+<i class="no-highlight">35</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        if (from.canBeRemoved(toBeRemovedFrom) &amp;&amp; to.canBeRemoved(toBeRemovedTo)) {</b>
+<b class="fc"><i class="no-highlight">37</i>&nbsp;            return from.remove(toBeRemovedFrom) &amp;&amp;</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;                    from.add(toBeRemovedTo) &amp;&amp;</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;                    to.remove(toBeRemovedTo) &amp;&amp;</b>
+<b class="fc"><i class="no-highlight">40</i>&nbsp;                    to.add(toBeRemovedFrom);</b>
+<i class="no-highlight">41</i>&nbsp;        }
+<b class="fc"><i class="no-highlight">42</i>&nbsp;        return false;</b>
+<i class="no-highlight">43</i>&nbsp;    }
+<i class="no-highlight">44</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

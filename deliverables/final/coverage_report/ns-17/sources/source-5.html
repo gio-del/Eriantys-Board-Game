@@ -1,0 +1,179 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > CloudCli</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.cli</a>
+</div>
+
+<h1>Coverage Summary for Class: CloudCli (it.polimi.ingsw.view.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CloudCli</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.cli;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.clouds.ShortCloud;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">5</i>&nbsp;
+<i class="no-highlight">6</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">7</i>&nbsp;import java.util.List;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;/**
+<i class="no-highlight">10</i>&nbsp; * Class used to create the cloud
+<i class="no-highlight">11</i>&nbsp; */
+<i class="no-highlight">12</i>&nbsp;public class CloudCli {
+<i class="no-highlight">13</i>&nbsp;
+<b class="nc"><i class="no-highlight">14</i>&nbsp;    private final List&lt;String&gt; lines = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">15</i>&nbsp;
+<i class="no-highlight">16</i>&nbsp;    /**
+<i class="no-highlight">17</i>&nbsp;     * create a list of lines creating the cloud
+<i class="no-highlight">18</i>&nbsp;     *
+<i class="no-highlight">19</i>&nbsp;     * @param shortCloud content
+<i class="no-highlight">20</i>&nbsp;     * @param number     of cloud
+<i class="no-highlight">21</i>&nbsp;     */
+<b class="nc"><i class="no-highlight">22</i>&nbsp;    public CloudCli(ShortCloud shortCloud, int number) {</b>
+<b class="nc"><i class="no-highlight">23</i>&nbsp;        lines.add(number + CLISymbol.CLOUD_HEAD_START + CLISymbol.CLOUD_HEAD);</b>
+<b class="nc"><i class="no-highlight">24</i>&nbsp;        lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.GREEN), CLISymbol.CLOUD_GREEN_START, CLISymbol.CLOUD_GREEN_END));</b>
+<b class="nc"><i class="no-highlight">25</i>&nbsp;        lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.RED), CLISymbol.CLOUD_RED_START, CLISymbol.CLOUD_RED_END));</b>
+<b class="nc"><i class="no-highlight">26</i>&nbsp;        lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.YELLOW), CLISymbol.CLOUD_YELLOW_START, CLISymbol.CLOUD_YELLOW_END));</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.PINK), CLISymbol.CLOUD_PINK_START, CLISymbol.CLOUD_PINK_END));</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;        lines.add(stringRow(shortCloud.getStudents().getFromColor(PawnColor.BLUE), CLISymbol.CLOUD_BLUE_START, CLISymbol.CLOUD_BLUE_END));</b>
+<b class="nc"><i class="no-highlight">29</i>&nbsp;        lines.add(CLISymbol.CLOUD_BOTTOM);</b>
+<i class="no-highlight">30</i>&nbsp;    }
+<i class="no-highlight">31</i>&nbsp;
+<i class="no-highlight">32</i>&nbsp;    /**
+<i class="no-highlight">33</i>&nbsp;     * Creates each string of the cloud
+<i class="no-highlight">34</i>&nbsp;     *
+<i class="no-highlight">35</i>&nbsp;     * @param numColor numbers of pawns of the color
+<i class="no-highlight">36</i>&nbsp;     * @param start    first static part of the cloud
+<i class="no-highlight">37</i>&nbsp;     * @param end      ending static part of the cloud
+<i class="no-highlight">38</i>&nbsp;     * @return the strings of the cloud
+<i class="no-highlight">39</i>&nbsp;     */
+<i class="no-highlight">40</i>&nbsp;    private String stringRow(int numColor, String start, String end) {
+<i class="no-highlight">41</i>&nbsp;
+<b class="nc"><i class="no-highlight">42</i>&nbsp;        StringBuilder string = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        string.append(start).append(empties());</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        if (numColor == 0) {</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;            string.append(&quot;     &quot;);</b>
+<i class="no-highlight">46</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">47</i>&nbsp;            string.append(numColor).append(&quot; x &quot;).append(CLISymbol.FULL_CIRCLE);</b>
+<i class="no-highlight">48</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">49</i>&nbsp;        string.append(empties());</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        string.append(end);</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;        return string.toString();</b>
+<i class="no-highlight">52</i>&nbsp;    }
+<i class="no-highlight">53</i>&nbsp;
+<i class="no-highlight">54</i>&nbsp;    /**
+<i class="no-highlight">55</i>&nbsp;     * create a string of blank spaces needed
+<i class="no-highlight">56</i>&nbsp;     *
+<i class="no-highlight">57</i>&nbsp;     * @return the string of blank spaces
+<i class="no-highlight">58</i>&nbsp;     */
+<i class="no-highlight">59</i>&nbsp;    private String empties() {
+<i class="no-highlight">60</i>&nbsp;        int i;
+<b class="nc"><i class="no-highlight">61</i>&nbsp;        StringBuilder string = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;        for (i = 0; i &lt; CLISymbol.CLOUD_REPETITION; i++) {</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;            string.append(&quot; &quot;);</b>
+<i class="no-highlight">64</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">65</i>&nbsp;        return string.toString();</b>
+<i class="no-highlight">66</i>&nbsp;    }
+<i class="no-highlight">67</i>&nbsp;
+<i class="no-highlight">68</i>&nbsp;    /**
+<i class="no-highlight">69</i>&nbsp;     * @return the list of lines creating the cloud
+<i class="no-highlight">70</i>&nbsp;     */
+<i class="no-highlight">71</i>&nbsp;    public List&lt;String&gt; getLines() {
+<b class="nc"><i class="no-highlight">72</i>&nbsp;        return lines;</b>
+<i class="no-highlight">73</i>&nbsp;    }
+<i class="no-highlight">74</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,236 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > SchoolSmall</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.cli</a>
+</div>
+
+<h1>Coverage Summary for Class: SchoolSmall (it.polimi.ingsw.view.cli)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SchoolSmall</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.cli;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.constants.Constants;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.place.ShortSchool;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.player.Assistant;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.model.player.ShortPlayer;
+<i class="no-highlight">8</i>&nbsp;
+<i class="no-highlight">9</i>&nbsp;import java.util.ArrayList;
+<i class="no-highlight">10</i>&nbsp;import java.util.List;
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;/**
+<i class="no-highlight">13</i>&nbsp; * Class used to create the School of the others players,
+<i class="no-highlight">14</i>&nbsp; * a reduced and simpler school
+<i class="no-highlight">15</i>&nbsp; */
+<i class="no-highlight">16</i>&nbsp;public class SchoolSmall {
+<b class="nc"><i class="no-highlight">17</i>&nbsp;    private final List&lt;String&gt; lines = new ArrayList&lt;&gt;();</b>
+<i class="no-highlight">18</i>&nbsp;
+<i class="no-highlight">19</i>&nbsp;    /**
+<i class="no-highlight">20</i>&nbsp;     * Creates the list of lines from the school of the player
+<i class="no-highlight">21</i>&nbsp;     *
+<i class="no-highlight">22</i>&nbsp;     * @param school content
+<i class="no-highlight">23</i>&nbsp;     * @param player owner of the school
+<i class="no-highlight">24</i>&nbsp;     * @param coin   of the player
+<i class="no-highlight">25</i>&nbsp;     */
+<b class="nc"><i class="no-highlight">26</i>&nbsp;    public SchoolSmall(ShortSchool school, ShortPlayer player, int coin, Assistant playedAssistant) {</b>
+<b class="nc"><i class="no-highlight">27</i>&nbsp;        lines.add(nameBuilder(player));</b>
+<b class="nc"><i class="no-highlight">28</i>&nbsp;        lines.add(CLISymbol.SHORT_HEADER);</b>
+<i class="no-highlight">29</i>&nbsp;        int max;
+<b class="nc"><i class="no-highlight">30</i>&nbsp;        for (PawnColor pawnColor : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">31</i>&nbsp;            StringBuilder stringBuilder = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">32</i>&nbsp;            stringBuilder.append(CLIColor.valueOf(pawnColor.name()));</b>
+<b class="nc"><i class="no-highlight">33</i>&nbsp;            if (school.getEntrance().getFromColor(pawnColor) != 0) {</b>
+<b class="nc"><i class="no-highlight">34</i>&nbsp;                stringBuilder.append(school.getEntrance().getFromColor(pawnColor)).append(&quot; x &quot;).append(CLISymbol.FULL_CIRCLE).append(&quot; | &quot;);</b>
+<i class="no-highlight">35</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">36</i>&nbsp;                stringBuilder.append(&quot;      | &quot;);</b>
+<i class="no-highlight">37</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">38</i>&nbsp;            if (school.getHall().getFromColor(pawnColor) != 0) {</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;                stringBuilder.append(school.getHall().getFromColor(pawnColor)).append(&quot; x &quot;).append(CLISymbol.FULL_CIRCLE).append(&quot; |  &quot;);</b>
+<i class="no-highlight">40</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">41</i>&nbsp;                stringBuilder.append(&quot;      |  &quot;);</b>
+<i class="no-highlight">42</i>&nbsp;            }
+<i class="no-highlight">43</i>&nbsp;
+<b class="nc"><i class="no-highlight">44</i>&nbsp;            max = school.getProfTable().getFromColor(pawnColor);</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;            if (max == 1) {</b>
+<b class="nc"><i class="no-highlight">46</i>&nbsp;                stringBuilder.append(CLISymbol.FULL_PROFESSOR).append(&quot;  &quot;);</b>
+<i class="no-highlight">47</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">48</i>&nbsp;                stringBuilder.append(CLISymbol.EMPTY_PROFESSOR).append(&quot;  &quot;);</b>
+<i class="no-highlight">49</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">50</i>&nbsp;            lines.add(stringBuilder.toString());</b>
+<i class="no-highlight">51</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">52</i>&nbsp;        lines.add(CLIColor.RESET + coinBuilder(coin));</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;        lines.add(CLIColor.RESET + assistantBuilder(playedAssistant));</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        lines.add(CLIColor.RESET + bottomBuilder(school.getNumTower()));</b>
+<i class="no-highlight">55</i>&nbsp;    }
+<i class="no-highlight">56</i>&nbsp;
+<i class="no-highlight">57</i>&nbsp;    /**
+<i class="no-highlight">58</i>&nbsp;     * Creates the string with the last played assistant information
+<i class="no-highlight">59</i>&nbsp;     *
+<i class="no-highlight">60</i>&nbsp;     * @param playedAssistant the last played assistant
+<i class="no-highlight">61</i>&nbsp;     * @return string
+<i class="no-highlight">62</i>&nbsp;     */
+<i class="no-highlight">63</i>&nbsp;    private String assistantBuilder(Assistant playedAssistant) {
+<b class="nc"><i class="no-highlight">64</i>&nbsp;        if (playedAssistant == null) return empties(Constants.SCHOOL_SHORT_WIDTH);</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;        StringBuilder stringBuilder = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;        stringBuilder.append(&quot;Assistant: &quot;).append(playedAssistant.name());</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;        stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - stringBuilder.length()));</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;        return stringBuilder.toString();</b>
+<i class="no-highlight">69</i>&nbsp;    }
+<i class="no-highlight">70</i>&nbsp;
+<i class="no-highlight">71</i>&nbsp;    /**
+<i class="no-highlight">72</i>&nbsp;     * creates the string with the coins information
+<i class="no-highlight">73</i>&nbsp;     *
+<i class="no-highlight">74</i>&nbsp;     * @param coin number
+<i class="no-highlight">75</i>&nbsp;     * @return string
+<i class="no-highlight">76</i>&nbsp;     */
+<i class="no-highlight">77</i>&nbsp;    private String coinBuilder(int coin) {
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        StringBuilder stringBuilder = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;        String coinString = &quot;Coin: &quot; + coin;</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;        String color = CLIColor.YELLOW_BG.toString() + CLIColor.BLACK;</b>
+<b class="nc"><i class="no-highlight">81</i>&nbsp;        stringBuilder.append(color).append(coinString).append(CLIColor.RESET);</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;        stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - stringBuilder.length() + color.length() + CLIColor.RESET.toString().length()));</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;        return stringBuilder.toString();</b>
+<i class="no-highlight">84</i>&nbsp;    }
+<i class="no-highlight">85</i>&nbsp;
+<i class="no-highlight">86</i>&nbsp;    /**
+<i class="no-highlight">87</i>&nbsp;     * creates the string with the player infos
+<i class="no-highlight">88</i>&nbsp;     *
+<i class="no-highlight">89</i>&nbsp;     * @param player owner of the school
+<i class="no-highlight">90</i>&nbsp;     * @return string
+<i class="no-highlight">91</i>&nbsp;     */
+<i class="no-highlight">92</i>&nbsp;    private String nameBuilder(ShortPlayer player) {
+<b class="nc"><i class="no-highlight">93</i>&nbsp;        StringBuilder stringBuilder = new StringBuilder(player.name() + &quot;[&quot; + player.color() + &quot; &quot; + player.wizard() + &quot;]&quot;);</b>
+<b class="nc"><i class="no-highlight">94</i>&nbsp;        stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - stringBuilder.length()));</b>
+<b class="nc"><i class="no-highlight">95</i>&nbsp;        return stringBuilder.toString();</b>
+<i class="no-highlight">96</i>&nbsp;    }
+<i class="no-highlight">97</i>&nbsp;
+<i class="no-highlight">98</i>&nbsp;    /**
+<i class="no-highlight">99</i>&nbsp;     * creates the string with the towers infos
+<i class="no-highlight">100</i>&nbsp;     *
+<i class="no-highlight">101</i>&nbsp;     * @param numTower number of towers
+<i class="no-highlight">102</i>&nbsp;     * @return string
+<i class="no-highlight">103</i>&nbsp;     */
+<i class="no-highlight">104</i>&nbsp;    private String bottomBuilder(int numTower) {
+<b class="nc"><i class="no-highlight">105</i>&nbsp;        StringBuilder stringBuilder = new StringBuilder(&quot;TOW: &quot;);</b>
+<b class="nc"><i class="no-highlight">106</i>&nbsp;        int size = SchoolsCli.towerBuilder(stringBuilder, numTower);</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;        stringBuilder.append(empties(Constants.SCHOOL_SHORT_WIDTH - size));</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        return stringBuilder.toString();</b>
+<i class="no-highlight">109</i>&nbsp;    }
+<i class="no-highlight">110</i>&nbsp;
+<i class="no-highlight">111</i>&nbsp;    /**
+<i class="no-highlight">112</i>&nbsp;     * create a string of blank spaces needed
+<i class="no-highlight">113</i>&nbsp;     *
+<i class="no-highlight">114</i>&nbsp;     * @param rep number of blank spaces
+<i class="no-highlight">115</i>&nbsp;     * @return the string of blank spaces
+<i class="no-highlight">116</i>&nbsp;     */
+<i class="no-highlight">117</i>&nbsp;    private String empties(int rep) {
+<i class="no-highlight">118</i>&nbsp;        int i;
+<b class="nc"><i class="no-highlight">119</i>&nbsp;        StringBuilder string = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;        for (i = 0; i &lt; rep; i++) {</b>
+<b class="nc"><i class="no-highlight">121</i>&nbsp;            string.append(&quot; &quot;);</b>
+<i class="no-highlight">122</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">123</i>&nbsp;        return string.toString();</b>
+<i class="no-highlight">124</i>&nbsp;    }
+<i class="no-highlight">125</i>&nbsp;
+<i class="no-highlight">126</i>&nbsp;    public List&lt;String&gt; getLines() {
+<b class="nc"><i class="no-highlight">127</i>&nbsp;        return lines;</b>
+<i class="no-highlight">128</i>&nbsp;    }
+<i class="no-highlight">129</i>&nbsp;
+<i class="no-highlight">130</i>&nbsp;}
+<i class="no-highlight">131</i>&nbsp;
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > StandardStrategy</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.model.influencecalculator</a>
+</div>
+
+<h1>Coverage Summary for Class: StandardStrategy (it.polimi.ingsw.model.influencecalculator)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StandardStrategy</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (12/12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model.influencecalculator;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.place.Island;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.player.Player;
+<i class="no-highlight">6</i>&nbsp;
+<i class="no-highlight">7</i>&nbsp;import java.util.HashMap;
+<i class="no-highlight">8</i>&nbsp;import java.util.List;
+<i class="no-highlight">9</i>&nbsp;import java.util.Map;
+<i class="no-highlight">10</i>&nbsp;
+<i class="no-highlight">11</i>&nbsp;
+<i class="no-highlight">12</i>&nbsp;/**
+<i class="no-highlight">13</i>&nbsp; * StandardStrategy is the default strategy used in the calc of the influence on a given island
+<i class="no-highlight">14</i>&nbsp; */
+<b class="fc"><i class="no-highlight">15</i>&nbsp;public class StandardStrategy implements InfluenceStrategy {</b>
+<i class="no-highlight">16</i>&nbsp;    @Override
+<i class="no-highlight">17</i>&nbsp;    public Map&lt;Player, Integer&gt; getScores(Island island, List&lt;Player&gt; players) {
+<b class="fc"><i class="no-highlight">18</i>&nbsp;        Map&lt;Player, Integer&gt; scores = new HashMap&lt;&gt;();</b>
+<b class="fc"><i class="no-highlight">19</i>&nbsp;        for (Player player : players) {</b>
+<b class="fc"><i class="no-highlight">20</i>&nbsp;            int value = 0;</b>
+<b class="fc"><i class="no-highlight">21</i>&nbsp;            for (PawnColor pawnColor : PawnColor.values()) {</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;                if (player.getSchool().getProfessorTable().getFromColor(pawnColor) == 1) {</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;                    value = value + island.getStudents().getFromColor(pawnColor);</b>
+<i class="no-highlight">24</i>&nbsp;                }
+<i class="no-highlight">25</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">26</i>&nbsp;            if (island.getTower() != null &amp;&amp; island.getTower().equals(player.getColor())) {</b>
+<b class="fc"><i class="no-highlight">27</i>&nbsp;                value = value + island.getDimension();</b>
+<i class="no-highlight">28</i>&nbsp;            }
+<b class="fc"><i class="no-highlight">29</i>&nbsp;            scores.put(player, value);</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;        return scores;</b>
+<i class="no-highlight">32</i>&nbsp;    }
+<i class="no-highlight">33</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-12 11:39</div>
+</div>
+</body>
+</html>
