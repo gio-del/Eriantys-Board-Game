@@ -100,6 +100,11 @@ public class CharacterSceneController extends ClientObservable implements BasicS
     }
 
     private void selectCharacter(int characterID) {
+        if(characterID == selectedCharacter) {
+            selectedCharacter = -1;
+            characterComponents.get(characterID).characterImg().setEffect(null);
+            return;
+        }
         for (CharacterGui characterGui : characterComponents) {
             characterGui.characterImg().setEffect(null);
         }

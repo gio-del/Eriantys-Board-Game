@@ -1,6 +1,7 @@
 package it.polimi.ingsw.model.character.action;
 
 import it.polimi.ingsw.model.Game;
+import it.polimi.ingsw.model.Sack;
 import it.polimi.ingsw.model.pawns.PawnColor;
 import it.polimi.ingsw.model.pawns.Pawns;
 import it.polimi.ingsw.model.player.Player;
@@ -17,11 +18,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ThiefActionTest {
     Player p1;
     Player p2;
-    private List<Player> players;
+    List<Player> players;
+    Sack sack;
 
     @BeforeEach
     void setUp() {
         Game game = new Game();
+        sack = game.getSack();
 
         game.addPlayer("Luca", Wizard.KING, TowerColor.BLACK);
         game.addPlayer("Mario", Wizard.SORCERER, TowerColor.WHITE);
@@ -47,8 +50,13 @@ class ThiefActionTest {
      */
     @Test
     void thiefTest() {
-        Action action = new ThiefAction(PawnColor.GREEN, players, 3);
+        Action action = new ThiefAction(PawnColor.GREEN, players, 3,sack);
+
+        int oldSackSize = sack.getNumberOfPawns();
+
         action.apply();
+
+        assertEquals(oldSackSize + 4, sack.getNumberOfPawns());
 
         Pawns pawnsExpectedP1 = new Pawns(5, 6, 5, 3, 2);
         assertEquals(pawnsExpectedP1, p1.getSchool().getHall());
