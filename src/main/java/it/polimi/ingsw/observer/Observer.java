@@ -8,6 +8,7 @@ import it.polimi.ingsw.network.communication.notification.Notification;
 public interface Observer {
     /**
      * Receive an update from the observable class.
+     *
      * @param msg the notification received
      */
     void update(Notification msg);

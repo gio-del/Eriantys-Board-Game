@@ -50,7 +50,7 @@ class ThiefActionTest {
      */
     @Test
     void thiefTest() {
-        Action action = new ThiefAction(PawnColor.GREEN, players, 3,sack);
+        Action action = new ThiefAction(PawnColor.GREEN, players, 3, sack);
 
         int oldSackSize = sack.getNumberOfPawns();
 

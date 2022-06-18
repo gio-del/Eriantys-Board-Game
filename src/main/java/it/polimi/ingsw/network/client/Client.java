@@ -38,8 +38,9 @@ public class Client extends Thread {
 
     /**
      * Try to establish a connection with the server
+     *
      * @param address the ip of the server
-     * @param port the port of the server
+     * @param port    the port of the server
      * @return {@code true} if the connection was correctly established, {@code false} otherwise
      */
     public boolean connect(String address, int port) {
@@ -73,6 +74,7 @@ public class Client extends Thread {
 
     /**
      * Send a {@link Notification} to the server
+     *
      * @param msg the notification to send
      */
     public void sendMessage(Notification msg) {

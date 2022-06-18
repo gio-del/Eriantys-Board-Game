@@ -9,6 +9,7 @@ public interface Connection extends Runnable {
 
     /**
      * Send a notification to the client
+     *
      * @param msg the notification to sent
      */
     void sendMessage(Notification msg);

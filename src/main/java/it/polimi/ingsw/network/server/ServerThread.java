@@ -40,7 +40,8 @@ public class ServerThread implements Runnable {
 
     /**
      * When a client provide the nickname it is added to the server list of player
-     * @param nickname the nickname of the new client
+     *
+     * @param nickname         the nickname of the new client
      * @param socketConnection the connection with the client
      */
     public void addClient(String nickname, SocketConnection socketConnection) {
@@ -49,6 +50,7 @@ public class ServerThread implements Runnable {
 
     /**
      * Receive a message from a client. It is passed to the {@link Server}
+     *
      * @param msg the notification to receive.
      */
     public void receiveMessage(Notification msg) {
@@ -57,6 +59,7 @@ public class ServerThread implements Runnable {
 
     /**
      * Handle a disconnection from a client.
+     *
      * @param client the disconnected client socket.
      */
     public void handleDisconnection(Socket client) {

@@ -34,7 +34,7 @@ public class ThiefAction implements Action {
                             toRemove);
         }
         Pawns toReturn = new Pawns();
-        toReturn.addColor(colorToSteal,numOfRemovedStudents);
+        toReturn.addColor(colorToSteal, numOfRemovedStudents);
         sack.returnTo(toReturn);
         return true;
     }

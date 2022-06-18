@@ -39,6 +39,7 @@ public class ClientController implements ClientObserver {
 
     /**
      * IP validation function
+     *
      * @param ip the ip provided by the user
      * @return {@code true} if the IP is valid, {@code false} otherwise.
      */
@@ -49,6 +50,7 @@ public class ClientController implements ClientObserver {
 
     /**
      * Port number validation function
+     *
      * @param port the port inserted by the user
      * @return {@code true} if the port number is valid, {@code false} otherwise.
      */

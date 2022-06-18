@@ -27,6 +27,7 @@ class SetInfluenceStrategyActionTest {
 
     /**
      * Test the cards that change the strategy of influence calc.
+     *
      * @param arg the name of the card used.
      */
     @ParameterizedTest

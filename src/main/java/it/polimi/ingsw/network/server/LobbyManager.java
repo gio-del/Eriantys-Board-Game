@@ -33,7 +33,8 @@ public class LobbyManager {
      * Add a client to the queue in the lobby, and broadcast to the other that this client has been added.
      * If the new client in lobby is the first in line, it's asked about the desired game mode and number of player.
      * When a client is added it is checked if the desires of the first client in line are satisfied.
-     * @param nickname the nickname of the new client in line.
+     *
+     * @param nickname         the nickname of the new client in line.
      * @param socketConnection the entity that represents the connection.
      */
     public synchronized void addClient(String nickname, SocketConnection socketConnection) {
@@ -69,6 +70,7 @@ public class LobbyManager {
 
     /**
      * Receive an update with the chosen game mode and number of player, now the game can start if the desires are satisfied.
+     *
      * @param chooseGameModeMsg the notification with the chosen game mode and number of player
      */
     public void onUpdateGameMode(ChooseGameModeNotification chooseGameModeMsg) {
@@ -81,6 +83,7 @@ public class LobbyManager {
     /**
      * Handle the case of a disconnection when a player is in the lobby. The disconnected player is removed from the lobby. If it is
      * the first in line, and it was asked about the game mode, a new player (the new first in line) is asked to provide them.
+     *
      * @param nickname the nickname of the disconnected client
      */
     public synchronized void handleDisconnection(String nickname) {
@@ -114,6 +117,7 @@ public class LobbyManager {
 
     /**
      * Broadcast a message to all clients in lobby
+     *
      * @param message the notification to broadcast
      */
     private void broadcast(String message) {
@@ -122,7 +126,8 @@ public class LobbyManager {
 
     /**
      * Broadcast a message to all clients in lobby except the exclusion provided.
-     * @param message the notification to broadcast
+     *
+     * @param message   the notification to broadcast
      * @param exclusion the nick of the client to not sent the notification to
      */
     private void broadcast(String message, String exclusion) {

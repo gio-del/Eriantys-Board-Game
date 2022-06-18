@@ -126,6 +126,7 @@ public class ShortModel implements Serializable {
 
     /**
      * Update the short model with the given info
+     *
      * @param model the delta shorted model
      */
     public void update(ShortModel model) {

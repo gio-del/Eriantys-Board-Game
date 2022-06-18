@@ -41,7 +41,7 @@ public record ActionVisitor(TurnManager turn, Game game, CharacterCard chosen) {
     }
 
     public void visit(ThiefData data) {
-        Action action = new ThiefAction(chosen.getChosenColor(), game.getPlayers(), data.getRemovedStudents(),game.getSack());
+        Action action = new ThiefAction(chosen.getChosenColor(), game.getPlayers(), data.getRemovedStudents(), game.getSack());
         validateAction(action);
     }
 

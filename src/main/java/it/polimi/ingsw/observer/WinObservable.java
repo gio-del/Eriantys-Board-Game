@@ -12,6 +12,7 @@ public class WinObservable {
 
     /**
      * Subscribe a {@link WinObserver} to the observers list.
+     *
      * @param observer the observer to subscribe
      */
     public void addObserver(WinObserver observer) {

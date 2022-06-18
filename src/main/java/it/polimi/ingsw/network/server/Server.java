@@ -54,7 +54,8 @@ public class Server {
 
     /**
      * When a client join it is added to the {@link LobbyManager}
-     * @param nickname the nickname of the new client
+     *
+     * @param nickname         the nickname of the new client
      * @param socketConnection to be added
      */
     public synchronized void addClient(String nickname, SocketConnection socketConnection) {
@@ -72,7 +73,8 @@ public class Server {
 
     /**
      * When a match start it is added to the map so that when a message from a client arrives the server knows who had to handle that packet.
-     * @param names the list of player in the game
+     *
+     * @param names      the list of player in the game
      * @param controller the controller of that game
      */
     public synchronized void addMatch(List<String> names, GameController controller) {
@@ -82,6 +84,7 @@ public class Server {
 
     /**
      * Receive a notification from a client. If the sender is in the lobby it is sent to the lobby, otherwise the controller has to handle it
+     *
      * @param msg the notification to receive
      */
     public void receiveMessage(Notification msg) {
@@ -95,6 +98,7 @@ public class Server {
      * When a disconnection occurs the server distinguish if the client is in the lobby or in a match. The disconnection is handled in different way.
      * In fact, if the client is in a game, all the players in game are notified and the game ends. Otherwise, if the client is in the lobby the disconnection is handled
      * in a different way.
+     *
      * @param client the socket that close the connection
      */
     public synchronized void handleDisconnection(Socket client) {
@@ -115,6 +119,7 @@ public class Server {
 
     /**
      * This method is used to clear a match when a client is disconnected.
+     *
      * @param name the name of the disconnected client.
      */
     private void removeMatch(String name) {

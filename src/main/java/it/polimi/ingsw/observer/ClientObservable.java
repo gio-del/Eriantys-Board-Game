@@ -12,6 +12,7 @@ public class ClientObservable {
 
     /**
      * Subscribe a {@link ClientObserver} to the list of the observers
+     *
      * @param observer the observer to subscribe
      */
     public void addObserver(ClientObserver observer) {
@@ -21,6 +22,7 @@ public class ClientObservable {
 
     /**
      * This method is used to call a function of the observer
+     *
      * @param function the function to call
      */
     public void notifyObserver(Consumer<ClientObserver> function) {

@@ -14,6 +14,7 @@ public abstract class Observable {
 
     /**
      * Subscribe an {@link Observer} to the list of the observers.
+     *
      * @param observer the observer to subscribe
      */
     public void addObserver(Observer observer) {
@@ -24,6 +25,7 @@ public abstract class Observable {
 
     /**
      * Notify the observers.
+     *
      * @param msg the notification
      */
     public void notifyObserver(Notification msg) {

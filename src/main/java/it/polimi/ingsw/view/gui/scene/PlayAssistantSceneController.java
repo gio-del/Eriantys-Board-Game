@@ -102,7 +102,7 @@ public class PlayAssistantSceneController extends ClientObservable implements Ba
             selectedAssistant = null;
             return;
         }
-        for(Assistant assist: Assistant.values()) {
+        for (Assistant assist : Assistant.values()) {
             if (playableAssistant.contains(assist))
                 assistantMapImage.get(assist).setEffect(null);
         }

@@ -79,6 +79,7 @@ public class Sack extends WinObservable {
     public void returnTo(Pawns pawns) {
         sackPawns.addPawns(pawns);
     }
+
     public boolean isEmpty() {
         return sackPawns.totalElements() == 0;
     }
