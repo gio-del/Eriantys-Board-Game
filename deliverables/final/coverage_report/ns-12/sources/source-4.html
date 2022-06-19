@@ -115,29 +115,32 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">40</i>&nbsp;
 <i class="no-highlight">41</i>&nbsp;    /**
 <i class="no-highlight">42</i>&nbsp;     * When a client provide the nickname it is added to the server list of player
-<i class="no-highlight">43</i>&nbsp;     * @param nickname the nickname of the new client
-<i class="no-highlight">44</i>&nbsp;     * @param socketConnection the connection with the client
-<i class="no-highlight">45</i>&nbsp;     */
-<i class="no-highlight">46</i>&nbsp;    public void addClient(String nickname, SocketConnection socketConnection) {
-<b class="nc"><i class="no-highlight">47</i>&nbsp;        server.addClient(nickname, socketConnection);</b>
-<i class="no-highlight">48</i>&nbsp;    }
-<i class="no-highlight">49</i>&nbsp;
-<i class="no-highlight">50</i>&nbsp;    /**
-<i class="no-highlight">51</i>&nbsp;     * Receive a message from a client. It is passed to the {@link Server}
-<i class="no-highlight">52</i>&nbsp;     * @param msg the notification to receive.
-<i class="no-highlight">53</i>&nbsp;     */
-<i class="no-highlight">54</i>&nbsp;    public void receiveMessage(Notification msg) {
-<b class="nc"><i class="no-highlight">55</i>&nbsp;        server.receiveMessage(msg);</b>
-<i class="no-highlight">56</i>&nbsp;    }
-<i class="no-highlight">57</i>&nbsp;
-<i class="no-highlight">58</i>&nbsp;    /**
-<i class="no-highlight">59</i>&nbsp;     * Handle a disconnection from a client.
-<i class="no-highlight">60</i>&nbsp;     * @param client the disconnected client socket.
-<i class="no-highlight">61</i>&nbsp;     */
-<i class="no-highlight">62</i>&nbsp;    public void handleDisconnection(Socket client) {
-<b class="nc"><i class="no-highlight">63</i>&nbsp;        server.handleDisconnection(client);</b>
-<i class="no-highlight">64</i>&nbsp;    }
-<i class="no-highlight">65</i>&nbsp;}
+<i class="no-highlight">43</i>&nbsp;     *
+<i class="no-highlight">44</i>&nbsp;     * @param nickname         the nickname of the new client
+<i class="no-highlight">45</i>&nbsp;     * @param socketConnection the connection with the client
+<i class="no-highlight">46</i>&nbsp;     */
+<i class="no-highlight">47</i>&nbsp;    public void addClient(String nickname, SocketConnection socketConnection) {
+<b class="nc"><i class="no-highlight">48</i>&nbsp;        server.addClient(nickname, socketConnection);</b>
+<i class="no-highlight">49</i>&nbsp;    }
+<i class="no-highlight">50</i>&nbsp;
+<i class="no-highlight">51</i>&nbsp;    /**
+<i class="no-highlight">52</i>&nbsp;     * Receive a message from a client. It is passed to the {@link Server}
+<i class="no-highlight">53</i>&nbsp;     *
+<i class="no-highlight">54</i>&nbsp;     * @param msg the notification to receive.
+<i class="no-highlight">55</i>&nbsp;     */
+<i class="no-highlight">56</i>&nbsp;    public void receiveMessage(Notification msg) {
+<b class="nc"><i class="no-highlight">57</i>&nbsp;        server.receiveMessage(msg);</b>
+<i class="no-highlight">58</i>&nbsp;    }
+<i class="no-highlight">59</i>&nbsp;
+<i class="no-highlight">60</i>&nbsp;    /**
+<i class="no-highlight">61</i>&nbsp;     * Handle a disconnection from a client.
+<i class="no-highlight">62</i>&nbsp;     *
+<i class="no-highlight">63</i>&nbsp;     * @param client the disconnected client socket.
+<i class="no-highlight">64</i>&nbsp;     */
+<i class="no-highlight">65</i>&nbsp;    public void handleDisconnection(Socket client) {
+<b class="nc"><i class="no-highlight">66</i>&nbsp;        server.handleDisconnection(client);</b>
+<i class="no-highlight">67</i>&nbsp;    }
+<i class="no-highlight">68</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -164,7 +167,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

@@ -20,6 +20,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -27,8 +28,13 @@ import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Transform;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -428,11 +434,63 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         consumeEventMoveStudent();
 
         this.canPlayCharacter = true;
-        infoLabel.setText("Choose a student to move from your entrance!");
-        schoolGuiMap.get(nickname).getEntranceViews().forEach(((pawnColor, imageViews) -> imageViews.forEach(img -> {
-            img.setOnMouseClicked(evt -> chooseMoveColor(pawnColor, img));
-            img.setCursor(Cursor.HAND);
-        })));
+        infoLabel.setText("Drag a student to move from your entrance to your hall or island!");
+
+        Map<PawnColor, List<ImageView>> colorMapImageViews = schoolGuiMap.get(nickname).getEntranceViews();
+        colorMapImageViews.forEach((pawnColor, imageViews) -> imageViews.forEach(iv -> {
+            iv.setOnDragDetected(evt -> {
+                Dragboard db = iv.startDragAndDrop(TransferMode.ANY);
+                ClipboardContent content = new ClipboardContent();
+                SnapshotParameters snapshotParameters = new SnapshotParameters();
+                snapshotParameters.setTransform(Transform.scale(3, 3));
+                snapshotParameters.setFill(Color.TRANSPARENT);
+                WritableImage image = iv.snapshot(snapshotParameters, null);
+                content.putImage(image);
+                db.setContent(content);
+                chooseMoveColor(pawnColor, iv);
+                iv.setVisible(false);
+                evt.consume();
+            });
+            iv.setOnDragDone(evt -> {
+                iv.setVisible(true);
+                evt.consume();
+            });
+            iv.setCursor(Cursor.HAND);
+        }));
+
+
+        for (int i = 0; i < islandGuiList.size(); i++) {
+            int finalI = i;
+            islandGuiList.get(i).getContentOnIsland().forEach(
+                    iv -> iv.setOnDragDropped(evt -> {
+                        evt.acceptTransferModes(TransferMode.ANY);
+                        moveToIsland(finalI);
+                        evt.consume();
+                    })
+            );
+            islandGuiList.get(i).getContentOnIsland().forEach(
+                    iv -> iv.setOnDragOver(event -> {
+                        event.acceptTransferModes(TransferMode.ANY);
+                        event.consume();
+                    }));
+        }
+
+        for (PawnColor pawnColor : PawnColor.values()) {
+            hallMap.get(pawnColor).setOnDragDropped(evt -> {
+                evt.acceptTransferModes(TransferMode.ANY);
+                moveToHall();
+                evt.consume();
+            });
+            hallMap.get(pawnColor).setOnDragOver(event -> {
+                event.acceptTransferModes(TransferMode.ANY);
+                event.consume();
+            });
+        }
+
+//        schoolGuiMap.get(nickname).getEntranceViews().forEach(((pawnColor, imageViews) -> imageViews.forEach(img -> {
+//            img.setOnMouseClicked(evt -> chooseMoveColor(pawnColor, img));
+//            img.setCursor(Cursor.HAND);
+//        })));
     }
 
     /**
@@ -483,17 +541,19 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private void consumeEventMoveStudent() {
         schoolGuiMap.get(nickname).getEntranceViews().forEach((color, imageViews) -> imageViews.forEach(img -> {
             img.setEffect(null);
-            img.setOnMouseClicked(null);
+            img.setOnDragDetected(null);
             img.setCursor(Cursor.DEFAULT);
         }));
         for (PawnColor pawnColor : PawnColor.values()) {
-            hallMap.get(pawnColor).setOnMouseClicked(null);
+            hallMap.get(pawnColor).setOnDragDropped(null);
+            hallMap.get(pawnColor).setOnDragOver(null);
             hallMap.get(pawnColor).setCursor(Cursor.DEFAULT);
             hallMap.get(pawnColor).setBorder(null);
         }
 
         for (IslandGui islandGui : islandGuiList) {
-            islandGui.getContentOnIsland().forEach(content -> content.setOnMouseClicked(null));
+            islandGui.getContentOnIsland().forEach(content -> content.setOnDragDropped(null));
+            islandGui.getContentOnIsland().forEach(content -> content.setOnDragOver(null));
             islandGui.getContentOnIsland().forEach(content -> content.setCursor(Cursor.DEFAULT));
             islandGui.getIsland().setEffect(null);
         }

@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/28)
+    (0/31)
   </span>
 </td>
 </tr>
@@ -175,21 +175,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">100</i>&nbsp;    }
 <i class="no-highlight">101</i>&nbsp;
 <i class="no-highlight">102</i>&nbsp;    private void selectCharacter(int characterID) {
-<b class="nc"><i class="no-highlight">103</i>&nbsp;        for (CharacterGui characterGui : characterComponents) {</b>
-<b class="nc"><i class="no-highlight">104</i>&nbsp;            characterGui.characterImg().setEffect(null);</b>
-<b class="nc"><i class="no-highlight">105</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">106</i>&nbsp;        characterComponents.get(characterID).characterImg().setEffect(new DropShadow(50, Color.GREEN));</b>
-<b class="nc"><i class="no-highlight">107</i>&nbsp;        selectedCharacter = characterID;</b>
-<i class="no-highlight">108</i>&nbsp;    }
-<i class="no-highlight">109</i>&nbsp;
-<i class="no-highlight">110</i>&nbsp;    /**
-<i class="no-highlight">111</i>&nbsp;     * Complete the character choose
-<i class="no-highlight">112</i>&nbsp;     */
-<i class="no-highlight">113</i>&nbsp;    private void chooseCharacter() {
-<b class="nc"><i class="no-highlight">114</i>&nbsp;        new Thread(() -&gt; notifyObserver(obs -&gt; obs.updateUseCharacter(selectedCharacter))).start();</b>
-<b class="nc"><i class="no-highlight">115</i>&nbsp;        ((Stage) okButton.getScene().getWindow()).close();</b>
-<i class="no-highlight">116</i>&nbsp;    }
-<i class="no-highlight">117</i>&nbsp;}
+<b class="nc"><i class="no-highlight">103</i>&nbsp;        if (characterID == selectedCharacter) {</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;            selectedCharacter = -1;</b>
+<b class="nc"><i class="no-highlight">105</i>&nbsp;            characterComponents.get(characterID).characterImg().setEffect(null);</b>
+<i class="no-highlight">106</i>&nbsp;            return;
+<i class="no-highlight">107</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        for (CharacterGui characterGui : characterComponents) {</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;            characterGui.characterImg().setEffect(null);</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;        characterComponents.get(characterID).characterImg().setEffect(new DropShadow(50, Color.GREEN));</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;        selectedCharacter = characterID;</b>
+<i class="no-highlight">113</i>&nbsp;    }
+<i class="no-highlight">114</i>&nbsp;
+<i class="no-highlight">115</i>&nbsp;    /**
+<i class="no-highlight">116</i>&nbsp;     * Complete the character choose
+<i class="no-highlight">117</i>&nbsp;     */
+<i class="no-highlight">118</i>&nbsp;    private void chooseCharacter() {
+<b class="nc"><i class="no-highlight">119</i>&nbsp;        new Thread(() -&gt; notifyObserver(obs -&gt; obs.updateUseCharacter(selectedCharacter))).start();</b>
+<b class="nc"><i class="no-highlight">120</i>&nbsp;        ((Stage) okButton.getScene().getWindow()).close();</b>
+<i class="no-highlight">121</i>&nbsp;    }
+<i class="no-highlight">122</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -216,7 +221,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

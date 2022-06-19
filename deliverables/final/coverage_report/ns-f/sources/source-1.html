@@ -113,78 +113,80 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">38</i>&nbsp;
 <i class="no-highlight">39</i>&nbsp;    /**
 <i class="no-highlight">40</i>&nbsp;     * Try to establish a connection with the server
-<i class="no-highlight">41</i>&nbsp;     * @param address the ip of the server
-<i class="no-highlight">42</i>&nbsp;     * @param port the port of the server
-<i class="no-highlight">43</i>&nbsp;     * @return {@code true} if the connection was correctly established, {@code false} otherwise
-<i class="no-highlight">44</i>&nbsp;     */
-<i class="no-highlight">45</i>&nbsp;    public boolean connect(String address, int port) {
-<i class="no-highlight">46</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">47</i>&nbsp;            socket = new Socket(address, port);</b>
-<b class="nc"><i class="no-highlight">48</i>&nbsp;            socket.setSoTimeout(6000);</b>
-<b class="nc"><i class="no-highlight">49</i>&nbsp;            out = new ObjectOutputStream(socket.getOutputStream());</b>
-<b class="nc"><i class="no-highlight">50</i>&nbsp;            in = new ObjectInputStream(socket.getInputStream());</b>
-<b class="nc"><i class="no-highlight">51</i>&nbsp;            runPing();</b>
-<b class="nc"><i class="no-highlight">52</i>&nbsp;            return true;</b>
-<b class="nc"><i class="no-highlight">53</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">54</i>&nbsp;            return false;</b>
-<i class="no-highlight">55</i>&nbsp;        }
-<i class="no-highlight">56</i>&nbsp;    }
-<i class="no-highlight">57</i>&nbsp;
-<i class="no-highlight">58</i>&nbsp;    /**
-<i class="no-highlight">59</i>&nbsp;     * During all the lifecycle of the {@link Client} entity, it is listening to {@link Notification} from the server.
-<i class="no-highlight">60</i>&nbsp;     */
-<i class="no-highlight">61</i>&nbsp;    @Override
-<i class="no-highlight">62</i>&nbsp;    public void run() {
-<i class="no-highlight">63</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">64</i>&nbsp;            while (running) {</b>
-<b class="nc"><i class="no-highlight">65</i>&nbsp;                Notification msg = (Notification) in.readObject();</b>
-<b class="nc"><i class="no-highlight">66</i>&nbsp;                clientController.receiveMessage(msg);</b>
-<b class="nc"><i class="no-highlight">67</i>&nbsp;            }</b>
-<b class="nc"><i class="no-highlight">68</i>&nbsp;        } catch (IOException | ClassNotFoundException e) {</b>
-<b class="nc"><i class="no-highlight">69</i>&nbsp;            disconnect();</b>
-<b class="nc"><i class="no-highlight">70</i>&nbsp;            clientController.onDisconnection();</b>
-<b class="nc"><i class="no-highlight">71</i>&nbsp;        }</b>
-<i class="no-highlight">72</i>&nbsp;    }
-<i class="no-highlight">73</i>&nbsp;
-<i class="no-highlight">74</i>&nbsp;    /**
-<i class="no-highlight">75</i>&nbsp;     * Send a {@link Notification} to the server
-<i class="no-highlight">76</i>&nbsp;     * @param msg the notification to send
-<i class="no-highlight">77</i>&nbsp;     */
-<i class="no-highlight">78</i>&nbsp;    public void sendMessage(Notification msg) {
-<b class="nc"><i class="no-highlight">79</i>&nbsp;        synchronized (outLock) {</b>
-<i class="no-highlight">80</i>&nbsp;            try {
-<b class="nc"><i class="no-highlight">81</i>&nbsp;                out.writeObject(msg);</b>
-<b class="nc"><i class="no-highlight">82</i>&nbsp;                out.flush();</b>
-<b class="nc"><i class="no-highlight">83</i>&nbsp;            } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">84</i>&nbsp;                logger.severe(&quot;Server not reachable!&quot;);</b>
-<b class="nc"><i class="no-highlight">85</i>&nbsp;                disconnect();</b>
-<b class="nc"><i class="no-highlight">86</i>&nbsp;                clientController.receiveMessage(new ErrorMessageNotification(&quot;Your connection is off, closing the game..&quot;));</b>
-<b class="nc"><i class="no-highlight">87</i>&nbsp;            }</b>
-<b class="nc"><i class="no-highlight">88</i>&nbsp;        }</b>
-<i class="no-highlight">89</i>&nbsp;    }
-<i class="no-highlight">90</i>&nbsp;
-<i class="no-highlight">91</i>&nbsp;    /**
-<i class="no-highlight">92</i>&nbsp;     * Close the connection with the server in case of error
-<i class="no-highlight">93</i>&nbsp;     */
-<i class="no-highlight">94</i>&nbsp;    public void disconnect() {
-<i class="no-highlight">95</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">96</i>&nbsp;            if (!socket.isClosed()) {</b>
-<b class="nc"><i class="no-highlight">97</i>&nbsp;                running = false;</b>
-<b class="nc"><i class="no-highlight">98</i>&nbsp;                ping.shutdown();</b>
-<b class="nc"><i class="no-highlight">99</i>&nbsp;                socket.close();</b>
-<i class="no-highlight">100</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">101</i>&nbsp;        } catch (IOException e) {</b>
-<b class="nc"><i class="no-highlight">102</i>&nbsp;            logger.severe(&quot;Cannot disconnect!&quot;);</b>
-<b class="nc"><i class="no-highlight">103</i>&nbsp;        }</b>
-<i class="no-highlight">104</i>&nbsp;    }
-<i class="no-highlight">105</i>&nbsp;
-<i class="no-highlight">106</i>&nbsp;    /**
-<i class="no-highlight">107</i>&nbsp;     * Send a ping notification to the server each second so that the server knows it&#39;s still alive
-<i class="no-highlight">108</i>&nbsp;     */
-<i class="no-highlight">109</i>&nbsp;    public void runPing() {
-<b class="nc"><i class="no-highlight">110</i>&nbsp;        ping.scheduleAtFixedRate(() -&gt; sendMessage(new PingNotification()), 0, 1, TimeUnit.SECONDS);</b>
-<i class="no-highlight">111</i>&nbsp;    }
-<i class="no-highlight">112</i>&nbsp;}
+<i class="no-highlight">41</i>&nbsp;     *
+<i class="no-highlight">42</i>&nbsp;     * @param address the ip of the server
+<i class="no-highlight">43</i>&nbsp;     * @param port    the port of the server
+<i class="no-highlight">44</i>&nbsp;     * @return {@code true} if the connection was correctly established, {@code false} otherwise
+<i class="no-highlight">45</i>&nbsp;     */
+<i class="no-highlight">46</i>&nbsp;    public boolean connect(String address, int port) {
+<i class="no-highlight">47</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">48</i>&nbsp;            socket = new Socket(address, port);</b>
+<b class="nc"><i class="no-highlight">49</i>&nbsp;            socket.setSoTimeout(6000);</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;            out = new ObjectOutputStream(socket.getOutputStream());</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;            in = new ObjectInputStream(socket.getInputStream());</b>
+<b class="nc"><i class="no-highlight">52</i>&nbsp;            runPing();</b>
+<b class="nc"><i class="no-highlight">53</i>&nbsp;            return true;</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">55</i>&nbsp;            return false;</b>
+<i class="no-highlight">56</i>&nbsp;        }
+<i class="no-highlight">57</i>&nbsp;    }
+<i class="no-highlight">58</i>&nbsp;
+<i class="no-highlight">59</i>&nbsp;    /**
+<i class="no-highlight">60</i>&nbsp;     * During all the lifecycle of the {@link Client} entity, it is listening to {@link Notification} from the server.
+<i class="no-highlight">61</i>&nbsp;     */
+<i class="no-highlight">62</i>&nbsp;    @Override
+<i class="no-highlight">63</i>&nbsp;    public void run() {
+<i class="no-highlight">64</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">65</i>&nbsp;            while (running) {</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;                Notification msg = (Notification) in.readObject();</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;                clientController.receiveMessage(msg);</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        } catch (IOException | ClassNotFoundException e) {</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;            disconnect();</b>
+<b class="nc"><i class="no-highlight">71</i>&nbsp;            clientController.onDisconnection();</b>
+<b class="nc"><i class="no-highlight">72</i>&nbsp;        }</b>
+<i class="no-highlight">73</i>&nbsp;    }
+<i class="no-highlight">74</i>&nbsp;
+<i class="no-highlight">75</i>&nbsp;    /**
+<i class="no-highlight">76</i>&nbsp;     * Send a {@link Notification} to the server
+<i class="no-highlight">77</i>&nbsp;     *
+<i class="no-highlight">78</i>&nbsp;     * @param msg the notification to send
+<i class="no-highlight">79</i>&nbsp;     */
+<i class="no-highlight">80</i>&nbsp;    public void sendMessage(Notification msg) {
+<b class="nc"><i class="no-highlight">81</i>&nbsp;        synchronized (outLock) {</b>
+<i class="no-highlight">82</i>&nbsp;            try {
+<b class="nc"><i class="no-highlight">83</i>&nbsp;                out.writeObject(msg);</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;                out.flush();</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;            } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">86</i>&nbsp;                logger.severe(&quot;Server not reachable!&quot;);</b>
+<b class="nc"><i class="no-highlight">87</i>&nbsp;                disconnect();</b>
+<b class="nc"><i class="no-highlight">88</i>&nbsp;                clientController.receiveMessage(new ErrorMessageNotification(&quot;Your connection is off, closing the game..&quot;));</b>
+<b class="nc"><i class="no-highlight">89</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">90</i>&nbsp;        }</b>
+<i class="no-highlight">91</i>&nbsp;    }
+<i class="no-highlight">92</i>&nbsp;
+<i class="no-highlight">93</i>&nbsp;    /**
+<i class="no-highlight">94</i>&nbsp;     * Close the connection with the server in case of error
+<i class="no-highlight">95</i>&nbsp;     */
+<i class="no-highlight">96</i>&nbsp;    public void disconnect() {
+<i class="no-highlight">97</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">98</i>&nbsp;            if (!socket.isClosed()) {</b>
+<b class="nc"><i class="no-highlight">99</i>&nbsp;                running = false;</b>
+<b class="nc"><i class="no-highlight">100</i>&nbsp;                ping.shutdown();</b>
+<b class="nc"><i class="no-highlight">101</i>&nbsp;                socket.close();</b>
+<i class="no-highlight">102</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">103</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">104</i>&nbsp;            logger.severe(&quot;Cannot disconnect!&quot;);</b>
+<b class="nc"><i class="no-highlight">105</i>&nbsp;        }</b>
+<i class="no-highlight">106</i>&nbsp;    }
+<i class="no-highlight">107</i>&nbsp;
+<i class="no-highlight">108</i>&nbsp;    /**
+<i class="no-highlight">109</i>&nbsp;     * Send a ping notification to the server each second so that the server knows it&#39;s still alive
+<i class="no-highlight">110</i>&nbsp;     */
+<i class="no-highlight">111</i>&nbsp;    public void runPing() {
+<b class="nc"><i class="no-highlight">112</i>&nbsp;        ping.scheduleAtFixedRate(() -&gt; sendMessage(new PingNotification()), 0, 1, TimeUnit.SECONDS);</b>
+<i class="no-highlight">113</i>&nbsp;    }
+<i class="no-highlight">114</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -211,7 +213,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

@@ -53,7 +53,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (3/3)
+    (2/2)
   </span>
 </td>
 <td class="coverageStat">
@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     100%
   </span>
   <span class="absValue">
-    (10/10)
+    (16/16)
   </span>
 </td>
 </tr>
@@ -75,37 +75,46 @@ Current scope:     <a href="../../index.html">all classes</a>
 <pre>
 <div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.model.character.action;
 <i class="no-highlight">2</i>&nbsp;
-<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
-<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.player.Player;
-<i class="no-highlight">5</i>&nbsp;
-<i class="no-highlight">6</i>&nbsp;import java.util.List;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.Sack;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.pawns.PawnColor;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.pawns.Pawns;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.player.Player;
 <i class="no-highlight">7</i>&nbsp;
-<i class="no-highlight">8</i>&nbsp;/**
-<i class="no-highlight">9</i>&nbsp; * This action is used to steal students from the hall of the player following characters logic.
-<i class="no-highlight">10</i>&nbsp; */
-<i class="no-highlight">11</i>&nbsp;public class ThiefAction implements Action {
-<i class="no-highlight">12</i>&nbsp;    private final PawnColor colorToSteal;
-<i class="no-highlight">13</i>&nbsp;    private final List&lt;Player&gt; players;
-<i class="no-highlight">14</i>&nbsp;    private final int numberOfRemovedStudents;
-<i class="no-highlight">15</i>&nbsp;
-<b class="fc"><i class="no-highlight">16</i>&nbsp;    public ThiefAction(PawnColor colorToSteal, List&lt;Player&gt; players, int numberOfRemovedStudents) {</b>
-<b class="fc"><i class="no-highlight">17</i>&nbsp;        this.colorToSteal = colorToSteal;</b>
-<b class="fc"><i class="no-highlight">18</i>&nbsp;        this.players = players;</b>
-<b class="fc"><i class="no-highlight">19</i>&nbsp;        this.numberOfRemovedStudents = numberOfRemovedStudents;</b>
-<i class="no-highlight">20</i>&nbsp;    }
-<i class="no-highlight">21</i>&nbsp;
-<i class="no-highlight">22</i>&nbsp;    @Override
-<i class="no-highlight">23</i>&nbsp;    public boolean apply() {
-<i class="no-highlight">24</i>&nbsp;        //TODO: color must return in the sack
-<b class="fc"><i class="no-highlight">25</i>&nbsp;        players.forEach(player -&gt;</b>
-<b class="fc"><i class="no-highlight">26</i>&nbsp;                player.getSchool().getHall().</b>
-<b class="fc"><i class="no-highlight">27</i>&nbsp;                        removeColor(colorToSteal,</b>
-<b class="fc"><i class="no-highlight">28</i>&nbsp;                                Math.min(numberOfRemovedStudents,</b>
-<b class="fc"><i class="no-highlight">29</i>&nbsp;                                        player.getSchool().getHall().getFromColor(colorToSteal))));</b>
-<b class="fc"><i class="no-highlight">30</i>&nbsp;        return true;</b>
-<i class="no-highlight">31</i>&nbsp;    }
-<i class="no-highlight">32</i>&nbsp;
-<i class="no-highlight">33</i>&nbsp;}
+<i class="no-highlight">8</i>&nbsp;import java.util.List;
+<i class="no-highlight">9</i>&nbsp;
+<i class="no-highlight">10</i>&nbsp;/**
+<i class="no-highlight">11</i>&nbsp; * This action is used to steal students from the hall of the player following characters&#39; logic.
+<i class="no-highlight">12</i>&nbsp; */
+<i class="no-highlight">13</i>&nbsp;public class ThiefAction implements Action {
+<i class="no-highlight">14</i>&nbsp;    private final PawnColor colorToSteal;
+<i class="no-highlight">15</i>&nbsp;    private final List&lt;Player&gt; players;
+<i class="no-highlight">16</i>&nbsp;    private final int numOfStudentsToRemove;
+<i class="no-highlight">17</i>&nbsp;    private final Sack sack;
+<i class="no-highlight">18</i>&nbsp;
+<b class="fc"><i class="no-highlight">19</i>&nbsp;    public ThiefAction(PawnColor colorToSteal, List&lt;Player&gt; players, int numOfStudentsToRemove, Sack sack) {</b>
+<b class="fc"><i class="no-highlight">20</i>&nbsp;        this.colorToSteal = colorToSteal;</b>
+<b class="fc"><i class="no-highlight">21</i>&nbsp;        this.players = players;</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;        this.numOfStudentsToRemove = numOfStudentsToRemove;</b>
+<b class="fc"><i class="no-highlight">23</i>&nbsp;        this.sack = sack;</b>
+<i class="no-highlight">24</i>&nbsp;    }
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    @Override
+<i class="no-highlight">27</i>&nbsp;    public boolean apply() {
+<b class="fc"><i class="no-highlight">28</i>&nbsp;        int numOfRemovedStudents = 0;</b>
+<b class="fc"><i class="no-highlight">29</i>&nbsp;        for (Player player : players) {</b>
+<b class="fc"><i class="no-highlight">30</i>&nbsp;            int toRemove = Math.min(numOfStudentsToRemove, player.getSchool().getHall().getFromColor(colorToSteal));</b>
+<b class="fc"><i class="no-highlight">31</i>&nbsp;            numOfRemovedStudents += toRemove;</b>
+<b class="fc"><i class="no-highlight">32</i>&nbsp;            player.getSchool().getHall().</b>
+<b class="fc"><i class="no-highlight">33</i>&nbsp;                    removeColor(colorToSteal,</b>
+<i class="no-highlight">34</i>&nbsp;                            toRemove);
+<b class="fc"><i class="no-highlight">35</i>&nbsp;        }</b>
+<b class="fc"><i class="no-highlight">36</i>&nbsp;        Pawns toReturn = new Pawns();</b>
+<b class="fc"><i class="no-highlight">37</i>&nbsp;        toReturn.addColor(colorToSteal, numOfRemovedStudents);</b>
+<b class="fc"><i class="no-highlight">38</i>&nbsp;        sack.returnTo(toReturn);</b>
+<b class="fc"><i class="no-highlight">39</i>&nbsp;        return true;</b>
+<i class="no-highlight">40</i>&nbsp;    }
+<i class="no-highlight">41</i>&nbsp;
+<i class="no-highlight">42</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -132,7 +141,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

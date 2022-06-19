@@ -114,195 +114,197 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">39</i>&nbsp;
 <i class="no-highlight">40</i>&nbsp;    /**
 <i class="no-highlight">41</i>&nbsp;     * IP validation function
-<i class="no-highlight">42</i>&nbsp;     * @param ip the ip provided by the user
-<i class="no-highlight">43</i>&nbsp;     * @return {@code true} if the IP is valid, {@code false} otherwise.
-<i class="no-highlight">44</i>&nbsp;     */
-<i class="no-highlight">45</i>&nbsp;    public static boolean isValidIp(String ip) {
-<b class="fc"><i class="no-highlight">46</i>&nbsp;        String regex = &quot;^(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(\\.(?!$)|$)){4}$)|^localhost$&quot;;</b>
-<b class="fc"><i class="no-highlight">47</i>&nbsp;        return ip.matches(regex);</b>
-<i class="no-highlight">48</i>&nbsp;    }
-<i class="no-highlight">49</i>&nbsp;
-<i class="no-highlight">50</i>&nbsp;    /**
-<i class="no-highlight">51</i>&nbsp;     * Port number validation function
-<i class="no-highlight">52</i>&nbsp;     * @param port the port inserted by the user
-<i class="no-highlight">53</i>&nbsp;     * @return {@code true} if the port number is valid, {@code false} otherwise.
-<i class="no-highlight">54</i>&nbsp;     */
-<i class="no-highlight">55</i>&nbsp;    public static boolean isValidPort(int port) {
-<b class="fc"><i class="no-highlight">56</i>&nbsp;        return port &gt;= 1 &amp;&amp; port &lt;= 65535;</b>
-<i class="no-highlight">57</i>&nbsp;    }
-<i class="no-highlight">58</i>&nbsp;
-<i class="no-highlight">59</i>&nbsp;    /**
-<i class="no-highlight">60</i>&nbsp;     * Receive messages from server and dispatch them using a {@link NotificationVisitor}
-<i class="no-highlight">61</i>&nbsp;     *
-<i class="no-highlight">62</i>&nbsp;     * @param msg to be dispatched
-<i class="no-highlight">63</i>&nbsp;     */
-<i class="no-highlight">64</i>&nbsp;    public void receiveMessage(Notification msg) {
-<b class="nc"><i class="no-highlight">65</i>&nbsp;        msg.accept(visitor);</b>
-<i class="no-highlight">66</i>&nbsp;    }
-<i class="no-highlight">67</i>&nbsp;
-<i class="no-highlight">68</i>&nbsp;    /**
-<i class="no-highlight">69</i>&nbsp;     * Receive update from the view regarding connection info
-<i class="no-highlight">70</i>&nbsp;     *
-<i class="no-highlight">71</i>&nbsp;     * @param ip   ip provided by the user
-<i class="no-highlight">72</i>&nbsp;     * @param port port number provided by the user
-<i class="no-highlight">73</i>&nbsp;     */
-<i class="no-highlight">74</i>&nbsp;    @Override
-<i class="no-highlight">75</i>&nbsp;    public void updateConnection(String ip, int port) {
-<b class="nc"><i class="no-highlight">76</i>&nbsp;        if (client.connect(ip, port)) {</b>
-<b class="nc"><i class="no-highlight">77</i>&nbsp;            client.start();</b>
-<b class="nc"><i class="no-highlight">78</i>&nbsp;            view.setNickname();</b>
-<i class="no-highlight">79</i>&nbsp;        } else {
-<b class="nc"><i class="no-highlight">80</i>&nbsp;            view.showMessage(&quot;Server not found!&quot;);</b>
-<b class="nc"><i class="no-highlight">81</i>&nbsp;            view.askConnectionInfo();</b>
-<i class="no-highlight">82</i>&nbsp;        }
-<i class="no-highlight">83</i>&nbsp;    }
-<i class="no-highlight">84</i>&nbsp;
-<i class="no-highlight">85</i>&nbsp;    /**
-<i class="no-highlight">86</i>&nbsp;     * Receive update from the view regarding the chosen nickname
-<i class="no-highlight">87</i>&nbsp;     *
-<i class="no-highlight">88</i>&nbsp;     * @param nickname the chosen nickname
-<i class="no-highlight">89</i>&nbsp;     */
-<i class="no-highlight">90</i>&nbsp;    @Override
-<i class="no-highlight">91</i>&nbsp;    public void updateNickname(String nickname) {
-<b class="nc"><i class="no-highlight">92</i>&nbsp;        this.nickname = nickname;</b>
-<b class="nc"><i class="no-highlight">93</i>&nbsp;        Notification login = new LoginNotification(nickname);</b>
-<b class="nc"><i class="no-highlight">94</i>&nbsp;        login.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">95</i>&nbsp;        client.sendMessage(login);</b>
-<i class="no-highlight">96</i>&nbsp;    }
-<i class="no-highlight">97</i>&nbsp;
-<i class="no-highlight">98</i>&nbsp;    /**
-<i class="no-highlight">99</i>&nbsp;     * Receive update from the view regarding the chosen game mode and number of player
-<i class="no-highlight">100</i>&nbsp;     *
-<i class="no-highlight">101</i>&nbsp;     * @param mode        the chosen game mode (&quot;Simple&quot;/&quot;Expert&quot;)
-<i class="no-highlight">102</i>&nbsp;     * @param numOfPlayer the chosen number of player (2 or 3)
-<i class="no-highlight">103</i>&nbsp;     */
-<i class="no-highlight">104</i>&nbsp;    @Override
-<i class="no-highlight">105</i>&nbsp;    public void updateGameModeNumPlayer(String mode, int numOfPlayer) {
-<b class="nc"><i class="no-highlight">106</i>&nbsp;        boolean isExpert = mode.equalsIgnoreCase(&quot;Expert&quot;);</b>
-<b class="nc"><i class="no-highlight">107</i>&nbsp;        Notification chooseGameMode = new ChooseGameModeNotification(numOfPlayer, isExpert);</b>
-<b class="nc"><i class="no-highlight">108</i>&nbsp;        chooseGameMode.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">109</i>&nbsp;        client.sendMessage(chooseGameMode);</b>
-<i class="no-highlight">110</i>&nbsp;    }
-<i class="no-highlight">111</i>&nbsp;
-<i class="no-highlight">112</i>&nbsp;    /**
-<i class="no-highlight">113</i>&nbsp;     * Receive update from the view regarding the chosen wizard and tower color
-<i class="no-highlight">114</i>&nbsp;     *
-<i class="no-highlight">115</i>&nbsp;     * @param wizard     the chosen {@link Wizard}
-<i class="no-highlight">116</i>&nbsp;     * @param towerColor the chosen {@link TowerColor}
-<i class="no-highlight">117</i>&nbsp;     */
-<i class="no-highlight">118</i>&nbsp;    @Override
-<i class="no-highlight">119</i>&nbsp;    public void updateWizardAndColor(Wizard wizard, TowerColor towerColor) {
-<b class="nc"><i class="no-highlight">120</i>&nbsp;        Notification chooseWizAndTower = new ChooseWizAndTowerColorNotification(wizard, towerColor);</b>
-<b class="nc"><i class="no-highlight">121</i>&nbsp;        chooseWizAndTower.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">122</i>&nbsp;        client.sendMessage(chooseWizAndTower);</b>
-<i class="no-highlight">123</i>&nbsp;    }
-<i class="no-highlight">124</i>&nbsp;
-<i class="no-highlight">125</i>&nbsp;    /**
-<i class="no-highlight">126</i>&nbsp;     * Receive update from the view regarding the chosen assistant
-<i class="no-highlight">127</i>&nbsp;     *
-<i class="no-highlight">128</i>&nbsp;     * @param assistant the chose {@link Assistant}
-<i class="no-highlight">129</i>&nbsp;     */
-<i class="no-highlight">130</i>&nbsp;    @Override
-<i class="no-highlight">131</i>&nbsp;    public void updateAssistant(Assistant assistant) {
-<b class="nc"><i class="no-highlight">132</i>&nbsp;        Notification chooseAssistantNotification = new ChooseAssistantNotification(assistant);</b>
-<b class="nc"><i class="no-highlight">133</i>&nbsp;        chooseAssistantNotification.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">134</i>&nbsp;        client.sendMessage(chooseAssistantNotification);</b>
-<i class="no-highlight">135</i>&nbsp;    }
-<i class="no-highlight">136</i>&nbsp;
-<i class="no-highlight">137</i>&nbsp;    /**
-<i class="no-highlight">138</i>&nbsp;     * Receive update from the view regarding the chosen cloud.
-<i class="no-highlight">139</i>&nbsp;     *
-<i class="no-highlight">140</i>&nbsp;     * @param cloud the chosen cloud id
-<i class="no-highlight">141</i>&nbsp;     */
-<i class="no-highlight">142</i>&nbsp;    @Override
-<i class="no-highlight">143</i>&nbsp;    public void updateCloud(int cloud) {
-<b class="nc"><i class="no-highlight">144</i>&nbsp;        Notification chooseCloudNotification = new ChooseCloudNotification(cloud);</b>
-<b class="nc"><i class="no-highlight">145</i>&nbsp;        chooseCloudNotification.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">146</i>&nbsp;        client.sendMessage(chooseCloudNotification);</b>
-<i class="no-highlight">147</i>&nbsp;    }
-<i class="no-highlight">148</i>&nbsp;
-<i class="no-highlight">149</i>&nbsp;    /**
-<i class="no-highlight">150</i>&nbsp;     * Receive update from the view regarding the number of steps that mother nature must perform
-<i class="no-highlight">151</i>&nbsp;     *
-<i class="no-highlight">152</i>&nbsp;     * @param steps the chosen number of steps
-<i class="no-highlight">153</i>&nbsp;     */
-<i class="no-highlight">154</i>&nbsp;    @Override
-<i class="no-highlight">155</i>&nbsp;    public void updateStepsMN(int steps) {
-<b class="nc"><i class="no-highlight">156</i>&nbsp;        Notification moveMNNotification = new MoveMNNotification(steps);</b>
-<b class="nc"><i class="no-highlight">157</i>&nbsp;        moveMNNotification.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">158</i>&nbsp;        client.sendMessage(moveMNNotification);</b>
-<i class="no-highlight">159</i>&nbsp;    }
-<i class="no-highlight">160</i>&nbsp;
-<i class="no-highlight">161</i>&nbsp;    /**
-<i class="no-highlight">162</i>&nbsp;     * Receive update from the view regarding the move of a student
-<i class="no-highlight">163</i>&nbsp;     *
-<i class="no-highlight">164</i>&nbsp;     * @param color  the color of the moved student
-<i class="no-highlight">165</i>&nbsp;     * @param target the {@link Target}
-<i class="no-highlight">166</i>&nbsp;     * @param island the chosen island id. If {@link Target} is Hall this parameter is ignored.
-<i class="no-highlight">167</i>&nbsp;     */
-<i class="no-highlight">168</i>&nbsp;    @Override
-<i class="no-highlight">169</i>&nbsp;    public void updateMoveStudent(PawnColor color, Target target, int island) {
-<b class="nc"><i class="no-highlight">170</i>&nbsp;        Notification moveStudentNotification = new MoveStudentNotification(color, target, island);</b>
-<b class="nc"><i class="no-highlight">171</i>&nbsp;        moveStudentNotification.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">172</i>&nbsp;        client.sendMessage(moveStudentNotification);</b>
-<i class="no-highlight">173</i>&nbsp;    }
-<i class="no-highlight">174</i>&nbsp;
-<i class="no-highlight">175</i>&nbsp;    /**
-<i class="no-highlight">176</i>&nbsp;     * Receive update from the view regarding the use of a {@link CharacterCard}
-<i class="no-highlight">177</i>&nbsp;     *
-<i class="no-highlight">178</i>&nbsp;     * @param id the chosen character id
-<i class="no-highlight">179</i>&nbsp;     */
-<i class="no-highlight">180</i>&nbsp;    @Override
-<i class="no-highlight">181</i>&nbsp;    public void updateUseCharacter(int id) {
-<b class="nc"><i class="no-highlight">182</i>&nbsp;        Notification useCharacterNotification = new CharacterNotification(id);</b>
-<b class="nc"><i class="no-highlight">183</i>&nbsp;        useCharacterNotification.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">184</i>&nbsp;        client.sendMessage(useCharacterNotification);</b>
-<i class="no-highlight">185</i>&nbsp;    }
-<i class="no-highlight">186</i>&nbsp;
-<i class="no-highlight">187</i>&nbsp;    /**
-<i class="no-highlight">188</i>&nbsp;     * Receive update from the view regarding a chosen color. It is used when a {@link CharacterCard} needs a color as input.
-<i class="no-highlight">189</i>&nbsp;     *
-<i class="no-highlight">190</i>&nbsp;     * @param chosen the chosen color
-<i class="no-highlight">191</i>&nbsp;     */
-<i class="no-highlight">192</i>&nbsp;    @Override
-<i class="no-highlight">193</i>&nbsp;    public void updateColorAction(PawnColor chosen) {
-<b class="nc"><i class="no-highlight">194</i>&nbsp;        Notification colorNotification = new ColorNotification(chosen);</b>
-<b class="nc"><i class="no-highlight">195</i>&nbsp;        colorNotification.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">196</i>&nbsp;        client.sendMessage(colorNotification);</b>
-<i class="no-highlight">197</i>&nbsp;    }
-<i class="no-highlight">198</i>&nbsp;
-<i class="no-highlight">199</i>&nbsp;    /**
-<i class="no-highlight">200</i>&nbsp;     * Receive update from the view regarding a chosen island. It is used when a {@link CharacterCard} needs an island as input.
-<i class="no-highlight">201</i>&nbsp;     *
-<i class="no-highlight">202</i>&nbsp;     * @param island the chosen island id
-<i class="no-highlight">203</i>&nbsp;     */
-<i class="no-highlight">204</i>&nbsp;    @Override
-<i class="no-highlight">205</i>&nbsp;    public void updateIslandAction(int island) {
-<b class="nc"><i class="no-highlight">206</i>&nbsp;        Notification islandNotification = new IslandNotification(island);</b>
-<b class="nc"><i class="no-highlight">207</i>&nbsp;        islandNotification.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">208</i>&nbsp;        client.sendMessage(islandNotification);</b>
-<i class="no-highlight">209</i>&nbsp;    }
-<i class="no-highlight">210</i>&nbsp;
-<i class="no-highlight">211</i>&nbsp;    /**
-<i class="no-highlight">212</i>&nbsp;     * Receive update from the view regarding a chosen color swap. It is used when a {@link  CharacterCard} needs a color swap as input.
-<i class="no-highlight">213</i>&nbsp;     *
-<i class="no-highlight">214</i>&nbsp;     * @param swapColor the chosen pair of color to swap
-<i class="no-highlight">215</i>&nbsp;     */
-<i class="no-highlight">216</i>&nbsp;    @Override
-<i class="no-highlight">217</i>&nbsp;    public void updateSwapAction(List&lt;PawnColor&gt; swapColor) {
-<b class="nc"><i class="no-highlight">218</i>&nbsp;        Notification swapNotification = new SwapNotification(swapColor);</b>
-<b class="nc"><i class="no-highlight">219</i>&nbsp;        swapNotification.setClientId(nickname);</b>
-<b class="nc"><i class="no-highlight">220</i>&nbsp;        client.sendMessage(swapNotification);</b>
-<i class="no-highlight">221</i>&nbsp;    }
-<i class="no-highlight">222</i>&nbsp;
-<i class="no-highlight">223</i>&nbsp;    /**
-<i class="no-highlight">224</i>&nbsp;     * This method is called when the connection with the server is closed due to error in networking.
-<i class="no-highlight">225</i>&nbsp;     */
-<i class="no-highlight">226</i>&nbsp;    public void onDisconnection() {
-<b class="nc"><i class="no-highlight">227</i>&nbsp;        String s = &quot;Connection closed with the server. Exiting...&quot;;</b>
-<b class="nc"><i class="no-highlight">228</i>&nbsp;        view.showError(s);</b>
-<i class="no-highlight">229</i>&nbsp;    }
-<i class="no-highlight">230</i>&nbsp;}
+<i class="no-highlight">42</i>&nbsp;     *
+<i class="no-highlight">43</i>&nbsp;     * @param ip the ip provided by the user
+<i class="no-highlight">44</i>&nbsp;     * @return {@code true} if the IP is valid, {@code false} otherwise.
+<i class="no-highlight">45</i>&nbsp;     */
+<i class="no-highlight">46</i>&nbsp;    public static boolean isValidIp(String ip) {
+<b class="fc"><i class="no-highlight">47</i>&nbsp;        String regex = &quot;^(((\\d|[1-9]\\d|1\\d\\d|2[0-4]\\d|25[0-5])(\\.(?!$)|$)){4}$)|^localhost$&quot;;</b>
+<b class="fc"><i class="no-highlight">48</i>&nbsp;        return ip.matches(regex);</b>
+<i class="no-highlight">49</i>&nbsp;    }
+<i class="no-highlight">50</i>&nbsp;
+<i class="no-highlight">51</i>&nbsp;    /**
+<i class="no-highlight">52</i>&nbsp;     * Port number validation function
+<i class="no-highlight">53</i>&nbsp;     *
+<i class="no-highlight">54</i>&nbsp;     * @param port the port inserted by the user
+<i class="no-highlight">55</i>&nbsp;     * @return {@code true} if the port number is valid, {@code false} otherwise.
+<i class="no-highlight">56</i>&nbsp;     */
+<i class="no-highlight">57</i>&nbsp;    public static boolean isValidPort(int port) {
+<b class="fc"><i class="no-highlight">58</i>&nbsp;        return port &gt;= 1 &amp;&amp; port &lt;= 65535;</b>
+<i class="no-highlight">59</i>&nbsp;    }
+<i class="no-highlight">60</i>&nbsp;
+<i class="no-highlight">61</i>&nbsp;    /**
+<i class="no-highlight">62</i>&nbsp;     * Receive messages from server and dispatch them using a {@link NotificationVisitor}
+<i class="no-highlight">63</i>&nbsp;     *
+<i class="no-highlight">64</i>&nbsp;     * @param msg to be dispatched
+<i class="no-highlight">65</i>&nbsp;     */
+<i class="no-highlight">66</i>&nbsp;    public void receiveMessage(Notification msg) {
+<b class="nc"><i class="no-highlight">67</i>&nbsp;        msg.accept(visitor);</b>
+<i class="no-highlight">68</i>&nbsp;    }
+<i class="no-highlight">69</i>&nbsp;
+<i class="no-highlight">70</i>&nbsp;    /**
+<i class="no-highlight">71</i>&nbsp;     * Receive update from the view regarding connection info
+<i class="no-highlight">72</i>&nbsp;     *
+<i class="no-highlight">73</i>&nbsp;     * @param ip   ip provided by the user
+<i class="no-highlight">74</i>&nbsp;     * @param port port number provided by the user
+<i class="no-highlight">75</i>&nbsp;     */
+<i class="no-highlight">76</i>&nbsp;    @Override
+<i class="no-highlight">77</i>&nbsp;    public void updateConnection(String ip, int port) {
+<b class="nc"><i class="no-highlight">78</i>&nbsp;        if (client.connect(ip, port)) {</b>
+<b class="nc"><i class="no-highlight">79</i>&nbsp;            client.start();</b>
+<b class="nc"><i class="no-highlight">80</i>&nbsp;            view.setNickname();</b>
+<i class="no-highlight">81</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">82</i>&nbsp;            view.showMessage(&quot;Server not found!&quot;);</b>
+<b class="nc"><i class="no-highlight">83</i>&nbsp;            view.askConnectionInfo();</b>
+<i class="no-highlight">84</i>&nbsp;        }
+<i class="no-highlight">85</i>&nbsp;    }
+<i class="no-highlight">86</i>&nbsp;
+<i class="no-highlight">87</i>&nbsp;    /**
+<i class="no-highlight">88</i>&nbsp;     * Receive update from the view regarding the chosen nickname
+<i class="no-highlight">89</i>&nbsp;     *
+<i class="no-highlight">90</i>&nbsp;     * @param nickname the chosen nickname
+<i class="no-highlight">91</i>&nbsp;     */
+<i class="no-highlight">92</i>&nbsp;    @Override
+<i class="no-highlight">93</i>&nbsp;    public void updateNickname(String nickname) {
+<b class="nc"><i class="no-highlight">94</i>&nbsp;        this.nickname = nickname;</b>
+<b class="nc"><i class="no-highlight">95</i>&nbsp;        Notification login = new LoginNotification(nickname);</b>
+<b class="nc"><i class="no-highlight">96</i>&nbsp;        login.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">97</i>&nbsp;        client.sendMessage(login);</b>
+<i class="no-highlight">98</i>&nbsp;    }
+<i class="no-highlight">99</i>&nbsp;
+<i class="no-highlight">100</i>&nbsp;    /**
+<i class="no-highlight">101</i>&nbsp;     * Receive update from the view regarding the chosen game mode and number of player
+<i class="no-highlight">102</i>&nbsp;     *
+<i class="no-highlight">103</i>&nbsp;     * @param mode        the chosen game mode (&quot;Simple&quot;/&quot;Expert&quot;)
+<i class="no-highlight">104</i>&nbsp;     * @param numOfPlayer the chosen number of player (2 or 3)
+<i class="no-highlight">105</i>&nbsp;     */
+<i class="no-highlight">106</i>&nbsp;    @Override
+<i class="no-highlight">107</i>&nbsp;    public void updateGameModeNumPlayer(String mode, int numOfPlayer) {
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        boolean isExpert = mode.equalsIgnoreCase(&quot;Expert&quot;);</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;        Notification chooseGameMode = new ChooseGameModeNotification(numOfPlayer, isExpert);</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;        chooseGameMode.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;        client.sendMessage(chooseGameMode);</b>
+<i class="no-highlight">112</i>&nbsp;    }
+<i class="no-highlight">113</i>&nbsp;
+<i class="no-highlight">114</i>&nbsp;    /**
+<i class="no-highlight">115</i>&nbsp;     * Receive update from the view regarding the chosen wizard and tower color
+<i class="no-highlight">116</i>&nbsp;     *
+<i class="no-highlight">117</i>&nbsp;     * @param wizard     the chosen {@link Wizard}
+<i class="no-highlight">118</i>&nbsp;     * @param towerColor the chosen {@link TowerColor}
+<i class="no-highlight">119</i>&nbsp;     */
+<i class="no-highlight">120</i>&nbsp;    @Override
+<i class="no-highlight">121</i>&nbsp;    public void updateWizardAndColor(Wizard wizard, TowerColor towerColor) {
+<b class="nc"><i class="no-highlight">122</i>&nbsp;        Notification chooseWizAndTower = new ChooseWizAndTowerColorNotification(wizard, towerColor);</b>
+<b class="nc"><i class="no-highlight">123</i>&nbsp;        chooseWizAndTower.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">124</i>&nbsp;        client.sendMessage(chooseWizAndTower);</b>
+<i class="no-highlight">125</i>&nbsp;    }
+<i class="no-highlight">126</i>&nbsp;
+<i class="no-highlight">127</i>&nbsp;    /**
+<i class="no-highlight">128</i>&nbsp;     * Receive update from the view regarding the chosen assistant
+<i class="no-highlight">129</i>&nbsp;     *
+<i class="no-highlight">130</i>&nbsp;     * @param assistant the chose {@link Assistant}
+<i class="no-highlight">131</i>&nbsp;     */
+<i class="no-highlight">132</i>&nbsp;    @Override
+<i class="no-highlight">133</i>&nbsp;    public void updateAssistant(Assistant assistant) {
+<b class="nc"><i class="no-highlight">134</i>&nbsp;        Notification chooseAssistantNotification = new ChooseAssistantNotification(assistant);</b>
+<b class="nc"><i class="no-highlight">135</i>&nbsp;        chooseAssistantNotification.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;        client.sendMessage(chooseAssistantNotification);</b>
+<i class="no-highlight">137</i>&nbsp;    }
+<i class="no-highlight">138</i>&nbsp;
+<i class="no-highlight">139</i>&nbsp;    /**
+<i class="no-highlight">140</i>&nbsp;     * Receive update from the view regarding the chosen cloud.
+<i class="no-highlight">141</i>&nbsp;     *
+<i class="no-highlight">142</i>&nbsp;     * @param cloud the chosen cloud id
+<i class="no-highlight">143</i>&nbsp;     */
+<i class="no-highlight">144</i>&nbsp;    @Override
+<i class="no-highlight">145</i>&nbsp;    public void updateCloud(int cloud) {
+<b class="nc"><i class="no-highlight">146</i>&nbsp;        Notification chooseCloudNotification = new ChooseCloudNotification(cloud);</b>
+<b class="nc"><i class="no-highlight">147</i>&nbsp;        chooseCloudNotification.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">148</i>&nbsp;        client.sendMessage(chooseCloudNotification);</b>
+<i class="no-highlight">149</i>&nbsp;    }
+<i class="no-highlight">150</i>&nbsp;
+<i class="no-highlight">151</i>&nbsp;    /**
+<i class="no-highlight">152</i>&nbsp;     * Receive update from the view regarding the number of steps that mother nature must perform
+<i class="no-highlight">153</i>&nbsp;     *
+<i class="no-highlight">154</i>&nbsp;     * @param steps the chosen number of steps
+<i class="no-highlight">155</i>&nbsp;     */
+<i class="no-highlight">156</i>&nbsp;    @Override
+<i class="no-highlight">157</i>&nbsp;    public void updateStepsMN(int steps) {
+<b class="nc"><i class="no-highlight">158</i>&nbsp;        Notification moveMNNotification = new MoveMNNotification(steps);</b>
+<b class="nc"><i class="no-highlight">159</i>&nbsp;        moveMNNotification.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">160</i>&nbsp;        client.sendMessage(moveMNNotification);</b>
+<i class="no-highlight">161</i>&nbsp;    }
+<i class="no-highlight">162</i>&nbsp;
+<i class="no-highlight">163</i>&nbsp;    /**
+<i class="no-highlight">164</i>&nbsp;     * Receive update from the view regarding the move of a student
+<i class="no-highlight">165</i>&nbsp;     *
+<i class="no-highlight">166</i>&nbsp;     * @param color  the color of the moved student
+<i class="no-highlight">167</i>&nbsp;     * @param target the {@link Target}
+<i class="no-highlight">168</i>&nbsp;     * @param island the chosen island id. If {@link Target} is Hall this parameter is ignored.
+<i class="no-highlight">169</i>&nbsp;     */
+<i class="no-highlight">170</i>&nbsp;    @Override
+<i class="no-highlight">171</i>&nbsp;    public void updateMoveStudent(PawnColor color, Target target, int island) {
+<b class="nc"><i class="no-highlight">172</i>&nbsp;        Notification moveStudentNotification = new MoveStudentNotification(color, target, island);</b>
+<b class="nc"><i class="no-highlight">173</i>&nbsp;        moveStudentNotification.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">174</i>&nbsp;        client.sendMessage(moveStudentNotification);</b>
+<i class="no-highlight">175</i>&nbsp;    }
+<i class="no-highlight">176</i>&nbsp;
+<i class="no-highlight">177</i>&nbsp;    /**
+<i class="no-highlight">178</i>&nbsp;     * Receive update from the view regarding the use of a {@link CharacterCard}
+<i class="no-highlight">179</i>&nbsp;     *
+<i class="no-highlight">180</i>&nbsp;     * @param id the chosen character id
+<i class="no-highlight">181</i>&nbsp;     */
+<i class="no-highlight">182</i>&nbsp;    @Override
+<i class="no-highlight">183</i>&nbsp;    public void updateUseCharacter(int id) {
+<b class="nc"><i class="no-highlight">184</i>&nbsp;        Notification useCharacterNotification = new CharacterNotification(id);</b>
+<b class="nc"><i class="no-highlight">185</i>&nbsp;        useCharacterNotification.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">186</i>&nbsp;        client.sendMessage(useCharacterNotification);</b>
+<i class="no-highlight">187</i>&nbsp;    }
+<i class="no-highlight">188</i>&nbsp;
+<i class="no-highlight">189</i>&nbsp;    /**
+<i class="no-highlight">190</i>&nbsp;     * Receive update from the view regarding a chosen color. It is used when a {@link CharacterCard} needs a color as input.
+<i class="no-highlight">191</i>&nbsp;     *
+<i class="no-highlight">192</i>&nbsp;     * @param chosen the chosen color
+<i class="no-highlight">193</i>&nbsp;     */
+<i class="no-highlight">194</i>&nbsp;    @Override
+<i class="no-highlight">195</i>&nbsp;    public void updateColorAction(PawnColor chosen) {
+<b class="nc"><i class="no-highlight">196</i>&nbsp;        Notification colorNotification = new ColorNotification(chosen);</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;        colorNotification.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;        client.sendMessage(colorNotification);</b>
+<i class="no-highlight">199</i>&nbsp;    }
+<i class="no-highlight">200</i>&nbsp;
+<i class="no-highlight">201</i>&nbsp;    /**
+<i class="no-highlight">202</i>&nbsp;     * Receive update from the view regarding a chosen island. It is used when a {@link CharacterCard} needs an island as input.
+<i class="no-highlight">203</i>&nbsp;     *
+<i class="no-highlight">204</i>&nbsp;     * @param island the chosen island id
+<i class="no-highlight">205</i>&nbsp;     */
+<i class="no-highlight">206</i>&nbsp;    @Override
+<i class="no-highlight">207</i>&nbsp;    public void updateIslandAction(int island) {
+<b class="nc"><i class="no-highlight">208</i>&nbsp;        Notification islandNotification = new IslandNotification(island);</b>
+<b class="nc"><i class="no-highlight">209</i>&nbsp;        islandNotification.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">210</i>&nbsp;        client.sendMessage(islandNotification);</b>
+<i class="no-highlight">211</i>&nbsp;    }
+<i class="no-highlight">212</i>&nbsp;
+<i class="no-highlight">213</i>&nbsp;    /**
+<i class="no-highlight">214</i>&nbsp;     * Receive update from the view regarding a chosen color swap. It is used when a {@link  CharacterCard} needs a color swap as input.
+<i class="no-highlight">215</i>&nbsp;     *
+<i class="no-highlight">216</i>&nbsp;     * @param swapColor the chosen pair of color to swap
+<i class="no-highlight">217</i>&nbsp;     */
+<i class="no-highlight">218</i>&nbsp;    @Override
+<i class="no-highlight">219</i>&nbsp;    public void updateSwapAction(List&lt;PawnColor&gt; swapColor) {
+<b class="nc"><i class="no-highlight">220</i>&nbsp;        Notification swapNotification = new SwapNotification(swapColor);</b>
+<b class="nc"><i class="no-highlight">221</i>&nbsp;        swapNotification.setClientId(nickname);</b>
+<b class="nc"><i class="no-highlight">222</i>&nbsp;        client.sendMessage(swapNotification);</b>
+<i class="no-highlight">223</i>&nbsp;    }
+<i class="no-highlight">224</i>&nbsp;
+<i class="no-highlight">225</i>&nbsp;    /**
+<i class="no-highlight">226</i>&nbsp;     * This method is called when the connection with the server is closed due to error in networking.
+<i class="no-highlight">227</i>&nbsp;     */
+<i class="no-highlight">228</i>&nbsp;    public void onDisconnection() {
+<b class="nc"><i class="no-highlight">229</i>&nbsp;        String s = &quot;Connection closed with the server. Exiting...&quot;;</b>
+<b class="nc"><i class="no-highlight">230</i>&nbsp;        view.showError(s);</b>
+<i class="no-highlight">231</i>&nbsp;    }
+<i class="no-highlight">232</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -329,7 +331,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

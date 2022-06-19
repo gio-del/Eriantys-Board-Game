@@ -129,83 +129,88 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">54</i>&nbsp;
 <i class="no-highlight">55</i>&nbsp;    /**
 <i class="no-highlight">56</i>&nbsp;     * When a client join it is added to the {@link LobbyManager}
-<i class="no-highlight">57</i>&nbsp;     * @param nickname the nickname of the new client
-<i class="no-highlight">58</i>&nbsp;     * @param socketConnection to be added
-<i class="no-highlight">59</i>&nbsp;     */
-<i class="no-highlight">60</i>&nbsp;    public synchronized void addClient(String nickname, SocketConnection socketConnection) {
-<b class="nc"><i class="no-highlight">61</i>&nbsp;        if (alreadyChosenNicknames.contains(nickname)) {</b>
-<b class="nc"><i class="no-highlight">62</i>&nbsp;            Notification msg = new NicknameErrorNotification();</b>
-<b class="nc"><i class="no-highlight">63</i>&nbsp;            msg.setClientId(Server.NAME);</b>
-<b class="nc"><i class="no-highlight">64</i>&nbsp;            socketConnection.sendMessage(msg);</b>
-<i class="no-highlight">65</i>&nbsp;            return;
-<i class="no-highlight">66</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">67</i>&nbsp;        LOGGER.info(() -&gt; nickname + &quot; joined the lobby&quot;);</b>
-<b class="nc"><i class="no-highlight">68</i>&nbsp;        alreadyChosenNicknames.add(nickname);</b>
-<b class="nc"><i class="no-highlight">69</i>&nbsp;        socketStringMap.put(socketConnection.getClient(), nickname);</b>
-<b class="nc"><i class="no-highlight">70</i>&nbsp;        lobbyManager.addClient(nickname, socketConnection);</b>
-<i class="no-highlight">71</i>&nbsp;    }
-<i class="no-highlight">72</i>&nbsp;
-<i class="no-highlight">73</i>&nbsp;    /**
-<i class="no-highlight">74</i>&nbsp;     * When a match start it is added to the map so that when a message from a client arrives the server knows who had to handle that packet.
-<i class="no-highlight">75</i>&nbsp;     * @param names the list of player in the game
-<i class="no-highlight">76</i>&nbsp;     * @param controller the controller of that game
-<i class="no-highlight">77</i>&nbsp;     */
-<i class="no-highlight">78</i>&nbsp;    public synchronized void addMatch(List&lt;String&gt; names, GameController controller) {
-<b class="nc"><i class="no-highlight">79</i>&nbsp;        LOGGER.info(() -&gt; &quot;A match is started.&quot;);</b>
-<b class="nc"><i class="no-highlight">80</i>&nbsp;        names.forEach(name -&gt; matchesMap.put(name, controller));</b>
-<i class="no-highlight">81</i>&nbsp;    }
-<i class="no-highlight">82</i>&nbsp;
-<i class="no-highlight">83</i>&nbsp;    /**
-<i class="no-highlight">84</i>&nbsp;     * Receive a notification from a client. If the sender is in the lobby it is sent to the lobby, otherwise the controller has to handle it
-<i class="no-highlight">85</i>&nbsp;     * @param msg the notification to receive
-<i class="no-highlight">86</i>&nbsp;     */
-<i class="no-highlight">87</i>&nbsp;    public void receiveMessage(Notification msg) {
-<b class="nc"><i class="no-highlight">88</i>&nbsp;        if (msg instanceof ChooseGameModeNotification chooseGameModeMsg) {</b>
-<b class="nc"><i class="no-highlight">89</i>&nbsp;            lobbyManager.onUpdateGameMode(chooseGameModeMsg);</b>
-<i class="no-highlight">90</i>&nbsp;        } else
-<b class="nc"><i class="no-highlight">91</i>&nbsp;            matchesMap.get(msg.getSenderID()).handleMessage(msg);</b>
-<i class="no-highlight">92</i>&nbsp;    }
-<i class="no-highlight">93</i>&nbsp;
-<i class="no-highlight">94</i>&nbsp;    /**
-<i class="no-highlight">95</i>&nbsp;     * When a disconnection occurs the server distinguish if the client is in the lobby or in a match. The disconnection is handled in different way.
-<i class="no-highlight">96</i>&nbsp;     * In fact, if the client is in a game, all the players in game are notified and the game ends. Otherwise, if the client is in the lobby the disconnection is handled
-<i class="no-highlight">97</i>&nbsp;     * in a different way.
-<i class="no-highlight">98</i>&nbsp;     * @param client the socket that close the connection
-<i class="no-highlight">99</i>&nbsp;     */
-<i class="no-highlight">100</i>&nbsp;    public synchronized void handleDisconnection(Socket client) {
-<b class="nc"><i class="no-highlight">101</i>&nbsp;        String nickname = socketStringMap.get(client);</b>
-<b class="nc"><i class="no-highlight">102</i>&nbsp;        if (nickname == null) return; //if the client hasn&#39;t chosen nickname he is nor in the lobby nor in a match.</b>
-<b class="nc"><i class="no-highlight">103</i>&nbsp;        alreadyChosenNicknames.remove(nickname);</b>
-<b class="nc"><i class="no-highlight">104</i>&nbsp;        socketStringMap.remove(client);</b>
-<b class="nc"><i class="no-highlight">105</i>&nbsp;        for (Map.Entry&lt;String, GameController&gt; entry : matchesMap.entrySet()) {</b>
-<b class="nc"><i class="no-highlight">106</i>&nbsp;            String name = entry.getKey();</b>
-<b class="nc"><i class="no-highlight">107</i>&nbsp;            if (name.equals(nickname)) {</b>
-<b class="nc"><i class="no-highlight">108</i>&nbsp;                matchesMap.get(name).handleDisconnection(nickname);</b>
-<b class="nc"><i class="no-highlight">109</i>&nbsp;                removeMatch(name);</b>
-<i class="no-highlight">110</i>&nbsp;                return;
-<i class="no-highlight">111</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">112</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">113</i>&nbsp;        lobbyManager.handleDisconnection(nickname);</b>
-<i class="no-highlight">114</i>&nbsp;    }
-<i class="no-highlight">115</i>&nbsp;
-<i class="no-highlight">116</i>&nbsp;    /**
-<i class="no-highlight">117</i>&nbsp;     * This method is used to clear a match when a client is disconnected.
-<i class="no-highlight">118</i>&nbsp;     * @param name the name of the disconnected client.
-<i class="no-highlight">119</i>&nbsp;     */
-<i class="no-highlight">120</i>&nbsp;    private void removeMatch(String name) {
-<b class="nc"><i class="no-highlight">121</i>&nbsp;        Map&lt;String, GameController&gt; clone = new HashMap&lt;&gt;(matchesMap);</b>
-<b class="nc"><i class="no-highlight">122</i>&nbsp;        GameController controller = clone.get(name);</b>
-<b class="nc"><i class="no-highlight">123</i>&nbsp;        clone.entrySet().stream().filter(entry -&gt; entry.getValue().equals(controller)).map(Map.Entry::getKey).forEach(matchesMap::remove);</b>
-<i class="no-highlight">124</i>&nbsp;    }
-<i class="no-highlight">125</i>&nbsp;
-<i class="no-highlight">126</i>&nbsp;    /**
-<i class="no-highlight">127</i>&nbsp;     * Check if the deck of character and the config file of the matches is read correctly.
-<i class="no-highlight">128</i>&nbsp;     */
-<i class="no-highlight">129</i>&nbsp;    private void checkStart() {
-<b class="nc"><i class="no-highlight">130</i>&nbsp;        CharactersDeck.start();</b>
-<b class="nc"><i class="no-highlight">131</i>&nbsp;        GameLimit.start();</b>
-<i class="no-highlight">132</i>&nbsp;    }
-<i class="no-highlight">133</i>&nbsp;}
+<i class="no-highlight">57</i>&nbsp;     *
+<i class="no-highlight">58</i>&nbsp;     * @param nickname         the nickname of the new client
+<i class="no-highlight">59</i>&nbsp;     * @param socketConnection to be added
+<i class="no-highlight">60</i>&nbsp;     */
+<i class="no-highlight">61</i>&nbsp;    public synchronized void addClient(String nickname, SocketConnection socketConnection) {
+<b class="nc"><i class="no-highlight">62</i>&nbsp;        if (alreadyChosenNicknames.contains(nickname)) {</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;            Notification msg = new NicknameErrorNotification();</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;            msg.setClientId(Server.NAME);</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;            socketConnection.sendMessage(msg);</b>
+<i class="no-highlight">66</i>&nbsp;            return;
+<i class="no-highlight">67</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">68</i>&nbsp;        LOGGER.info(() -&gt; nickname + &quot; joined the lobby&quot;);</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        alreadyChosenNicknames.add(nickname);</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;        socketStringMap.put(socketConnection.getClient(), nickname);</b>
+<b class="nc"><i class="no-highlight">71</i>&nbsp;        lobbyManager.addClient(nickname, socketConnection);</b>
+<i class="no-highlight">72</i>&nbsp;    }
+<i class="no-highlight">73</i>&nbsp;
+<i class="no-highlight">74</i>&nbsp;    /**
+<i class="no-highlight">75</i>&nbsp;     * When a match start it is added to the map so that when a message from a client arrives the server knows who had to handle that packet.
+<i class="no-highlight">76</i>&nbsp;     *
+<i class="no-highlight">77</i>&nbsp;     * @param names      the list of player in the game
+<i class="no-highlight">78</i>&nbsp;     * @param controller the controller of that game
+<i class="no-highlight">79</i>&nbsp;     */
+<i class="no-highlight">80</i>&nbsp;    public synchronized void addMatch(List&lt;String&gt; names, GameController controller) {
+<b class="nc"><i class="no-highlight">81</i>&nbsp;        LOGGER.info(() -&gt; &quot;A match is started.&quot;);</b>
+<b class="nc"><i class="no-highlight">82</i>&nbsp;        names.forEach(name -&gt; matchesMap.put(name, controller));</b>
+<i class="no-highlight">83</i>&nbsp;    }
+<i class="no-highlight">84</i>&nbsp;
+<i class="no-highlight">85</i>&nbsp;    /**
+<i class="no-highlight">86</i>&nbsp;     * Receive a notification from a client. If the sender is in the lobby it is sent to the lobby, otherwise the controller has to handle it
+<i class="no-highlight">87</i>&nbsp;     *
+<i class="no-highlight">88</i>&nbsp;     * @param msg the notification to receive
+<i class="no-highlight">89</i>&nbsp;     */
+<i class="no-highlight">90</i>&nbsp;    public void receiveMessage(Notification msg) {
+<b class="nc"><i class="no-highlight">91</i>&nbsp;        if (msg instanceof ChooseGameModeNotification chooseGameModeMsg) {</b>
+<b class="nc"><i class="no-highlight">92</i>&nbsp;            lobbyManager.onUpdateGameMode(chooseGameModeMsg);</b>
+<i class="no-highlight">93</i>&nbsp;        } else
+<b class="nc"><i class="no-highlight">94</i>&nbsp;            matchesMap.get(msg.getSenderID()).handleMessage(msg);</b>
+<i class="no-highlight">95</i>&nbsp;    }
+<i class="no-highlight">96</i>&nbsp;
+<i class="no-highlight">97</i>&nbsp;    /**
+<i class="no-highlight">98</i>&nbsp;     * When a disconnection occurs the server distinguish if the client is in the lobby or in a match. The disconnection is handled in different way.
+<i class="no-highlight">99</i>&nbsp;     * In fact, if the client is in a game, all the players in game are notified and the game ends. Otherwise, if the client is in the lobby the disconnection is handled
+<i class="no-highlight">100</i>&nbsp;     * in a different way.
+<i class="no-highlight">101</i>&nbsp;     *
+<i class="no-highlight">102</i>&nbsp;     * @param client the socket that close the connection
+<i class="no-highlight">103</i>&nbsp;     */
+<i class="no-highlight">104</i>&nbsp;    public synchronized void handleDisconnection(Socket client) {
+<b class="nc"><i class="no-highlight">105</i>&nbsp;        String nickname = socketStringMap.get(client);</b>
+<b class="nc"><i class="no-highlight">106</i>&nbsp;        if (nickname == null) return; //if the client hasn&#39;t chosen nickname he is nor in the lobby nor in a match.</b>
+<b class="nc"><i class="no-highlight">107</i>&nbsp;        alreadyChosenNicknames.remove(nickname);</b>
+<b class="nc"><i class="no-highlight">108</i>&nbsp;        socketStringMap.remove(client);</b>
+<b class="nc"><i class="no-highlight">109</i>&nbsp;        for (Map.Entry&lt;String, GameController&gt; entry : matchesMap.entrySet()) {</b>
+<b class="nc"><i class="no-highlight">110</i>&nbsp;            String name = entry.getKey();</b>
+<b class="nc"><i class="no-highlight">111</i>&nbsp;            if (name.equals(nickname)) {</b>
+<b class="nc"><i class="no-highlight">112</i>&nbsp;                matchesMap.get(name).handleDisconnection(nickname);</b>
+<b class="nc"><i class="no-highlight">113</i>&nbsp;                removeMatch(name);</b>
+<i class="no-highlight">114</i>&nbsp;                return;
+<i class="no-highlight">115</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">116</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">117</i>&nbsp;        lobbyManager.handleDisconnection(nickname);</b>
+<i class="no-highlight">118</i>&nbsp;    }
+<i class="no-highlight">119</i>&nbsp;
+<i class="no-highlight">120</i>&nbsp;    /**
+<i class="no-highlight">121</i>&nbsp;     * This method is used to clear a match when a client is disconnected.
+<i class="no-highlight">122</i>&nbsp;     *
+<i class="no-highlight">123</i>&nbsp;     * @param name the name of the disconnected client.
+<i class="no-highlight">124</i>&nbsp;     */
+<i class="no-highlight">125</i>&nbsp;    private void removeMatch(String name) {
+<b class="nc"><i class="no-highlight">126</i>&nbsp;        Map&lt;String, GameController&gt; clone = new HashMap&lt;&gt;(matchesMap);</b>
+<b class="nc"><i class="no-highlight">127</i>&nbsp;        GameController controller = clone.get(name);</b>
+<b class="nc"><i class="no-highlight">128</i>&nbsp;        clone.entrySet().stream().filter(entry -&gt; entry.getValue().equals(controller)).map(Map.Entry::getKey).forEach(matchesMap::remove);</b>
+<i class="no-highlight">129</i>&nbsp;    }
+<i class="no-highlight">130</i>&nbsp;
+<i class="no-highlight">131</i>&nbsp;    /**
+<i class="no-highlight">132</i>&nbsp;     * Check if the deck of character and the config file of the matches is read correctly.
+<i class="no-highlight">133</i>&nbsp;     */
+<i class="no-highlight">134</i>&nbsp;    private void checkStart() {
+<b class="nc"><i class="no-highlight">135</i>&nbsp;        CharactersDeck.start();</b>
+<b class="nc"><i class="no-highlight">136</i>&nbsp;        GameLimit.start();</b>
+<i class="no-highlight">137</i>&nbsp;    }
+<i class="no-highlight">138</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -232,7 +237,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

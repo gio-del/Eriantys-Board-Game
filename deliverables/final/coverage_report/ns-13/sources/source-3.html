@@ -87,17 +87,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">12</i>&nbsp;
 <i class="no-highlight">13</i>&nbsp;    /**
 <i class="no-highlight">14</i>&nbsp;     * Subscribe a {@link WinObserver} to the observers list.
-<i class="no-highlight">15</i>&nbsp;     * @param observer the observer to subscribe
-<i class="no-highlight">16</i>&nbsp;     */
-<i class="no-highlight">17</i>&nbsp;    public void addObserver(WinObserver observer) {
-<b class="fc"><i class="no-highlight">18</i>&nbsp;        if (observer != null &amp;&amp; !observers.contains(observer))</b>
-<b class="fc"><i class="no-highlight">19</i>&nbsp;            observers.add(observer);</b>
-<i class="no-highlight">20</i>&nbsp;    }
-<i class="no-highlight">21</i>&nbsp;
-<i class="no-highlight">22</i>&nbsp;    public void notifyObserver(Consumer&lt;WinObserver&gt; function) {
-<b class="fc"><i class="no-highlight">23</i>&nbsp;        observers.forEach(function);</b>
-<i class="no-highlight">24</i>&nbsp;    }
-<i class="no-highlight">25</i>&nbsp;}
+<i class="no-highlight">15</i>&nbsp;     *
+<i class="no-highlight">16</i>&nbsp;     * @param observer the observer to subscribe
+<i class="no-highlight">17</i>&nbsp;     */
+<i class="no-highlight">18</i>&nbsp;    public void addObserver(WinObserver observer) {
+<b class="fc"><i class="no-highlight">19</i>&nbsp;        if (observer != null &amp;&amp; !observers.contains(observer))</b>
+<b class="fc"><i class="no-highlight">20</i>&nbsp;            observers.add(observer);</b>
+<i class="no-highlight">21</i>&nbsp;    }
+<i class="no-highlight">22</i>&nbsp;
+<i class="no-highlight">23</i>&nbsp;    public void notifyObserver(Consumer&lt;WinObserver&gt; function) {
+<b class="fc"><i class="no-highlight">24</i>&nbsp;        observers.forEach(function);</b>
+<i class="no-highlight">25</i>&nbsp;    }
+<i class="no-highlight">26</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -124,7 +125,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

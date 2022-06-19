@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > TestingGUI</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/highlight-idea.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">it.polimi.ingsw.view.gui</a>
+</div>
+
+<h1>Coverage Summary for Class: TestingGUI (it.polimi.ingsw.view.gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TestingGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<div class="sourceCode" id="sourceCode"><i class="no-highlight">1</i>&nbsp;package it.polimi.ingsw.view.gui;
+<i class="no-highlight">2</i>&nbsp;
+<i class="no-highlight">3</i>&nbsp;import it.polimi.ingsw.model.Game;
+<i class="no-highlight">4</i>&nbsp;import it.polimi.ingsw.model.ShortModel;
+<i class="no-highlight">5</i>&nbsp;import it.polimi.ingsw.model.pawns.Pawns;
+<i class="no-highlight">6</i>&nbsp;import it.polimi.ingsw.model.player.TowerColor;
+<i class="no-highlight">7</i>&nbsp;import it.polimi.ingsw.model.player.Wizard;
+<i class="no-highlight">8</i>&nbsp;import it.polimi.ingsw.view.gui.scene.BoardSceneController;
+<i class="no-highlight">9</i>&nbsp;import javafx.application.Application;
+<i class="no-highlight">10</i>&nbsp;import javafx.application.Platform;
+<i class="no-highlight">11</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i class="no-highlight">12</i>&nbsp;import javafx.scene.Parent;
+<i class="no-highlight">13</i>&nbsp;import javafx.scene.Scene;
+<i class="no-highlight">14</i>&nbsp;import javafx.scene.image.Image;
+<i class="no-highlight">15</i>&nbsp;import javafx.stage.Stage;
+<i class="no-highlight">16</i>&nbsp;
+<i class="no-highlight">17</i>&nbsp;import java.io.IOException;
+<i class="no-highlight">18</i>&nbsp;import java.util.Objects;
+<i class="no-highlight">19</i>&nbsp;
+<i class="no-highlight">20</i>&nbsp;/**
+<i class="no-highlight">21</i>&nbsp; * This class is a test of the GUI
+<i class="no-highlight">22</i>&nbsp; */
+<b class="nc"><i class="no-highlight">23</i>&nbsp;public class TestingGUI extends Application {</b>
+<i class="no-highlight">24</i>&nbsp;    Game game;
+<i class="no-highlight">25</i>&nbsp;    ShortModel resource;
+<i class="no-highlight">26</i>&nbsp;    BoardSceneController boardSceneController;
+<i class="no-highlight">27</i>&nbsp;    Parent root;
+<i class="no-highlight">28</i>&nbsp;    Scene scene;
+<i class="no-highlight">29</i>&nbsp;    Stage stage;
+<i class="no-highlight">30</i>&nbsp;
+<i class="no-highlight">31</i>&nbsp;    @Override
+<i class="no-highlight">32</i>&nbsp;    public void start(Stage stage) {
+<i class="no-highlight">33</i>&nbsp;
+<b class="nc"><i class="no-highlight">34</i>&nbsp;        game = new Game();</b>
+<b class="nc"><i class="no-highlight">35</i>&nbsp;        game.addPlayer(&quot;Marco&quot;, Wizard.KING, TowerColor.BLACK);</b>
+<b class="nc"><i class="no-highlight">36</i>&nbsp;        game.addPlayer(&quot;Giovanni&quot;, Wizard.SORCERER, TowerColor.GREY);</b>
+<b class="nc"><i class="no-highlight">37</i>&nbsp;        game.startGame(true);</b>
+<b class="nc"><i class="no-highlight">38</i>&nbsp;        game.fillClouds();</b>
+<b class="nc"><i class="no-highlight">39</i>&nbsp;        game.getPlayerByName(&quot;Giovanni&quot;).getSchool().getHall().addPawns(new Pawns(1, 2, 9, 1, 5));</b>
+<b class="nc"><i class="no-highlight">40</i>&nbsp;        game.getPlayerByName(&quot;Marco&quot;).getSchool().getHall().addPawns(new Pawns(2, 1, 4, 9, 10));</b>
+<b class="nc"><i class="no-highlight">41</i>&nbsp;        game.getPlayerByName(&quot;Marco&quot;).getSchool().getProfessorTable().addPawns(new Pawns(1, 1, 0, 0, 0));</b>
+<b class="nc"><i class="no-highlight">42</i>&nbsp;        game.getPlayerByName(&quot;Giovanni&quot;).getSchool().getProfessorTable().addPawns(new Pawns(0, 0, 1, 1, 1));</b>
+<b class="nc"><i class="no-highlight">43</i>&nbsp;        game.getBoard().getIslands().get(0).add(new Pawns(1, 0, 0, 1, 0));</b>
+<b class="nc"><i class="no-highlight">44</i>&nbsp;        game.getBoard().getIslands().get(1).addTower(TowerColor.WHITE);</b>
+<b class="nc"><i class="no-highlight">45</i>&nbsp;        game.getBoard().getIslands().get(4).addTower(TowerColor.WHITE);</b>
+<i class="no-highlight">46</i>&nbsp;
+<b class="nc"><i class="no-highlight">47</i>&nbsp;        game.getBoard().getIslands().get(1).add(new Pawns(0, 1, 1, 0, 1));</b>
+<b class="nc"><i class="no-highlight">48</i>&nbsp;        game.getBoard().getIslands().get(1).upgradeBanTiles(1);</b>
+<b class="nc"><i class="no-highlight">49</i>&nbsp;        game.getBoard().moveMotherNature(1);</b>
+<b class="nc"><i class="no-highlight">50</i>&nbsp;        game.getBoard().getIslands().get(2).add(new Pawns(1, 1, 1, 1, 1));</b>
+<b class="nc"><i class="no-highlight">51</i>&nbsp;        resource = new ShortModel(game, true);</b>
+<i class="no-highlight">52</i>&nbsp;
+<b class="nc"><i class="no-highlight">53</i>&nbsp;        boardSceneController = new BoardSceneController(resource, &quot;Giovanni&quot;);</b>
+<b class="nc"><i class="no-highlight">54</i>&nbsp;        root = null;</b>
+<i class="no-highlight">55</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">56</i>&nbsp;            FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource(&quot;/fxml/board.fxml&quot;));</b>
+<b class="nc"><i class="no-highlight">57</i>&nbsp;            fxmlLoader.setController(boardSceneController);</b>
+<b class="nc"><i class="no-highlight">58</i>&nbsp;            root = fxmlLoader.load();</b>
+<b class="nc"><i class="no-highlight">59</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i class="no-highlight">60</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i class="no-highlight">61</i>&nbsp;            System.out.println(e.getMessage());</b>
+<b class="nc"><i class="no-highlight">62</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">63</i>&nbsp;        this.stage = stage;</b>
+<b class="nc"><i class="no-highlight">64</i>&nbsp;        scene = new Scene(Objects.requireNonNull(root));</b>
+<b class="nc"><i class="no-highlight">65</i>&nbsp;        stage.setScene(scene);</b>
+<b class="nc"><i class="no-highlight">66</i>&nbsp;        stage.setResizable(true);</b>
+<b class="nc"><i class="no-highlight">67</i>&nbsp;        stage.setMaximized(true);</b>
+<b class="nc"><i class="no-highlight">68</i>&nbsp;        stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream(&quot;/images/home.jpg&quot;))));</b>
+<b class="nc"><i class="no-highlight">69</i>&nbsp;        stage.setTitle(&quot;Testing GUI&quot;);</b>
+<b class="nc"><i class="no-highlight">70</i>&nbsp;        stage.show();</b>
+<b class="nc"><i class="no-highlight">71</i>&nbsp;        boardSceneController.setMovableStudents();</b>
+<i class="no-highlight">72</i>&nbsp;//        ScheduledExecutorService scheduler = new ScheduledThreadPoolExecutor(1);
+<i class="no-highlight">73</i>&nbsp;//        scheduler.scheduleAtFixedRate(() -&gt; {
+<i class="no-highlight">74</i>&nbsp;//            try {
+<i class="no-highlight">75</i>&nbsp;//                method();
+<i class="no-highlight">76</i>&nbsp;//            } catch (Exception e) {
+<i class="no-highlight">77</i>&nbsp;//                e.printStackTrace();
+<i class="no-highlight">78</i>&nbsp;//            }
+<i class="no-highlight">79</i>&nbsp;//        }, 0, 20, TimeUnit.MILLISECONDS);
+<i class="no-highlight">80</i>&nbsp;    }
+<i class="no-highlight">81</i>&nbsp;
+<i class="no-highlight">82</i>&nbsp;    private void method() {
+<b class="nc"><i class="no-highlight">83</i>&nbsp;        game.getBoard().moveMotherNature(1);</b>
+<b class="nc"><i class="no-highlight">84</i>&nbsp;        resource.update(new ShortModel(game, true));</b>
+<b class="nc"><i class="no-highlight">85</i>&nbsp;        Platform.runLater(() -&gt; boardSceneController.refresh());</b>
+<i class="no-highlight">86</i>&nbsp;    }
+<i class="no-highlight">87</i>&nbsp;
+<i class="no-highlight">88</i>&nbsp;    @Override
+<i class="no-highlight">89</i>&nbsp;    public void stop() {
+<b class="nc"><i class="no-highlight">90</i>&nbsp;        System.exit(0);</b>
+<i class="no-highlight">91</i>&nbsp;    }
+<i class="no-highlight">92</i>&nbsp;}
+</div>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+        var codeBlock = document.getElementById('sourceCode');
+
+        if (codeBlock) {
+            hljs.highlightBlock(codeBlock);
+        }
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-06-19 15:52</div>
+</div>
+</body>
+</html>

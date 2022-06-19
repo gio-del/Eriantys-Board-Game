@@ -61,7 +61,7 @@ Current scope:     <a href="../../index.html">all classes</a>
     0%
   </span>
   <span class="absValue">
-    (0/253)
+    (0/254)
   </span>
 </td>
 </tr>
@@ -253,537 +253,538 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="nc"><i class="no-highlight">178</i>&nbsp;            scanListener.setRequest(Request.GAME_MODE);</b>
 <i class="no-highlight">179</i>&nbsp;            return;
 <i class="no-highlight">180</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">181</i>&nbsp;        notifyObserver(observer -&gt; observer.updateGameModeNumPlayer(mode, finalNumOfPlayer));</b>
-<i class="no-highlight">182</i>&nbsp;    }
-<i class="no-highlight">183</i>&nbsp;
-<i class="no-highlight">184</i>&nbsp;    /**
-<i class="no-highlight">185</i>&nbsp;     * Shows the different available wizards and tower colors
-<i class="no-highlight">186</i>&nbsp;     *
-<i class="no-highlight">187</i>&nbsp;     * @param wizardsAvailable not already chosen by other players
-<i class="no-highlight">188</i>&nbsp;     * @param colorsAvailable  not already chosen by other players
-<i class="no-highlight">189</i>&nbsp;     */
-<i class="no-highlight">190</i>&nbsp;    @Override
-<i class="no-highlight">191</i>&nbsp;    public void chooseWizardAndTowerColor(Set&lt;Wizard&gt; wizardsAvailable, Set&lt;TowerColor&gt; colorsAvailable) {
-<b class="nc"><i class="no-highlight">192</i>&nbsp;        resource.setWizardsAvailable(wizardsAvailable);</b>
-<b class="nc"><i class="no-highlight">193</i>&nbsp;        resource.setColorsAvailable(colorsAvailable);</b>
-<b class="nc"><i class="no-highlight">194</i>&nbsp;        System.out.print(&quot;Choose an available wizard [&quot;);</b>
-<b class="nc"><i class="no-highlight">195</i>&nbsp;        wizardsAvailable.forEach(o -&gt; System.out.print(o + &quot; &quot;));</b>
-<b class="nc"><i class="no-highlight">196</i>&nbsp;        System.out.print(&quot;] Choose an available TowerColor [&quot;);</b>
-<b class="nc"><i class="no-highlight">197</i>&nbsp;        colorsAvailable.forEach(o -&gt; System.out.print(o + &quot; &quot;));</b>
-<b class="nc"><i class="no-highlight">198</i>&nbsp;        System.out.print(&quot;]&quot;);</b>
-<b class="nc"><i class="no-highlight">199</i>&nbsp;        System.out.println();</b>
-<b class="nc"><i class="no-highlight">200</i>&nbsp;        scanListener.setRequest(Request.WIZARD_COLOR);</b>
-<i class="no-highlight">201</i>&nbsp;    }
-<i class="no-highlight">202</i>&nbsp;
-<i class="no-highlight">203</i>&nbsp;    /**
-<i class="no-highlight">204</i>&nbsp;     * Checks if the string of the wizard and tower color is valid,
-<i class="no-highlight">205</i>&nbsp;     * if not, set the listener to wait for a new string
-<i class="no-highlight">206</i>&nbsp;     *
-<i class="no-highlight">207</i>&nbsp;     * @param wizardAndTower in input
-<i class="no-highlight">208</i>&nbsp;     */
-<i class="no-highlight">209</i>&nbsp;    public void checkWizardColor(String wizardAndTower) {
-<b class="nc"><i class="no-highlight">210</i>&nbsp;        int pos = getSpacePos(wizardAndTower);</b>
-<b class="nc"><i class="no-highlight">211</i>&nbsp;        if (pos &gt;= wizardAndTower.length()) {</b>
-<b class="nc"><i class="no-highlight">212</i>&nbsp;            System.out.println(&quot;ERROR - Wizard or TowerColor are missing, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">213</i>&nbsp;            scanListener.setRequest(Request.WIZARD_COLOR);</b>
-<i class="no-highlight">214</i>&nbsp;            return;
-<i class="no-highlight">215</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">216</i>&nbsp;        String wizard = wizardAndTower.substring(0, pos);</b>
-<b class="nc"><i class="no-highlight">217</i>&nbsp;        Wizard wizardChosen = resource.getWizardsAvailable().stream().filter(o -&gt; wizard.equalsIgnoreCase(o.name())).findFirst().orElse(null);</b>
-<b class="nc"><i class="no-highlight">218</i>&nbsp;        if (wizardChosen == null) {</b>
-<b class="nc"><i class="no-highlight">219</i>&nbsp;            System.out.println(&quot;ERROR - Wizard not available or incorrect, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">220</i>&nbsp;            scanListener.setRequest(Request.WIZARD_COLOR);</b>
-<i class="no-highlight">221</i>&nbsp;            return;
-<i class="no-highlight">222</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">223</i>&nbsp;        String color = wizardAndTower.substring(pos + 1);</b>
-<b class="nc"><i class="no-highlight">224</i>&nbsp;        TowerColor towerColor = resource.getColorsAvailable().stream().filter(o -&gt; color.equalsIgnoreCase(o.name())).findFirst().orElse(null);</b>
-<b class="nc"><i class="no-highlight">225</i>&nbsp;        if (towerColor == null) {</b>
-<b class="nc"><i class="no-highlight">226</i>&nbsp;            System.out.println(&quot;ERROR - Color not available or incorrect, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">227</i>&nbsp;            scanListener.setRequest(Request.WIZARD_COLOR);</b>
-<i class="no-highlight">228</i>&nbsp;            return;
-<i class="no-highlight">229</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">230</i>&nbsp;        notifyObserver(observer -&gt; observer.updateWizardAndColor(wizardChosen, towerColor));</b>
-<i class="no-highlight">231</i>&nbsp;    }
-<i class="no-highlight">232</i>&nbsp;
-<i class="no-highlight">233</i>&nbsp;    /**
-<i class="no-highlight">234</i>&nbsp;     * Shows the different available assistants
-<i class="no-highlight">235</i>&nbsp;     *
-<i class="no-highlight">236</i>&nbsp;     * @param playableAssistant assistant in the hand the player not
-<i class="no-highlight">237</i>&nbsp;     *                          already played by other in the same turn
-<i class="no-highlight">238</i>&nbsp;     */
-<i class="no-highlight">239</i>&nbsp;    @Override
-<i class="no-highlight">240</i>&nbsp;    public void chooseAssistant(Set&lt;Assistant&gt; playableAssistant) {
-<b class="nc"><i class="no-highlight">241</i>&nbsp;        System.out.println(&quot;Choose an assistant from the available: &quot;);</b>
-<b class="nc"><i class="no-highlight">242</i>&nbsp;        resource.getPlayableAssistant().forEach(o -&gt; System.out.println(o.name().toUpperCase() + &quot;: Value (&quot; + o.value() + &quot;) - Movement (&quot; + o.movement() + &quot;)&quot;));</b>
-<b class="nc"><i class="no-highlight">243</i>&nbsp;        scanListener.setRequest(Request.ASSISTANT);</b>
-<i class="no-highlight">244</i>&nbsp;    }
-<i class="no-highlight">245</i>&nbsp;
-<i class="no-highlight">246</i>&nbsp;    /**
-<i class="no-highlight">247</i>&nbsp;     * Checks if the string of the assistant is valid,
-<i class="no-highlight">248</i>&nbsp;     * if not, set the listener to wait for a new string
-<i class="no-highlight">249</i>&nbsp;     *
-<i class="no-highlight">250</i>&nbsp;     * @param assistantName in input
-<i class="no-highlight">251</i>&nbsp;     */
-<i class="no-highlight">252</i>&nbsp;    public void checkAssistant(String assistantName) {
-<b class="nc"><i class="no-highlight">253</i>&nbsp;        Assistant assistant = resource.getPlayableAssistant().stream().filter(o -&gt; assistantName.equalsIgnoreCase(o.name())).findFirst().orElse(null);</b>
-<b class="nc"><i class="no-highlight">254</i>&nbsp;        if (assistant == null) {</b>
-<b class="nc"><i class="no-highlight">255</i>&nbsp;            System.out.println(&quot;ERROR - Assistant not valid, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">256</i>&nbsp;            scanListener.setRequest(Request.ASSISTANT);</b>
-<i class="no-highlight">257</i>&nbsp;            return;
-<i class="no-highlight">258</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">259</i>&nbsp;        notifyObserver(observer -&gt; observer.updateAssistant(assistant));</b>
-<i class="no-highlight">260</i>&nbsp;    }
-<i class="no-highlight">261</i>&nbsp;
-<i class="no-highlight">262</i>&nbsp;    /**
-<i class="no-highlight">263</i>&nbsp;     * Shows the clouds with the pawns
-<i class="no-highlight">264</i>&nbsp;     *
-<i class="no-highlight">265</i>&nbsp;     * @param clouds available to selected
-<i class="no-highlight">266</i>&nbsp;     */
-<i class="no-highlight">267</i>&nbsp;    @Override
-<i class="no-highlight">268</i>&nbsp;    public void chooseCloud(List&lt;ShortCloud&gt; clouds) {
-<b class="nc"><i class="no-highlight">269</i>&nbsp;        System.out.println(&quot;Select the number of the cloud you want to pick from: &quot;);</b>
-<b class="nc"><i class="no-highlight">270</i>&nbsp;        scanListener.setRequest(Request.CLOUD);</b>
-<i class="no-highlight">271</i>&nbsp;    }
-<i class="no-highlight">272</i>&nbsp;
-<i class="no-highlight">273</i>&nbsp;    /**
-<i class="no-highlight">274</i>&nbsp;     * Checks if the number of the cloud is valid,
-<i class="no-highlight">275</i>&nbsp;     * if not, set the listener to wait for a new string.
-<i class="no-highlight">276</i>&nbsp;     * Valid situation: number of an existing cloud that is not empty
-<i class="no-highlight">277</i>&nbsp;     *
-<i class="no-highlight">278</i>&nbsp;     * @param cloudNum in input
-<i class="no-highlight">279</i>&nbsp;     */
-<i class="no-highlight">280</i>&nbsp;    public void checkCloud(int cloudNum) {
-<b class="nc"><i class="no-highlight">281</i>&nbsp;        if (cloudNum == -1) {</b>
-<b class="nc"><i class="no-highlight">282</i>&nbsp;            System.out.println(&quot;ERROR - Cloud not a number, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">283</i>&nbsp;            scanListener.setRequest(Request.CLOUD);</b>
-<i class="no-highlight">284</i>&nbsp;            return;
-<i class="no-highlight">285</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">286</i>&nbsp;        if (cloudNum &lt; 0 || cloudNum &gt;= resource.getClouds().size()) {</b>
-<b class="nc"><i class="no-highlight">287</i>&nbsp;            System.out.println(&quot;ERROR - Cloud does not exist, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">288</i>&nbsp;            scanListener.setRequest(Request.CLOUD);</b>
-<i class="no-highlight">289</i>&nbsp;            return;
-<i class="no-highlight">290</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">291</i>&nbsp;        if (resource.getClouds().get(cloudNum).isEmpty()) {</b>
-<b class="nc"><i class="no-highlight">292</i>&nbsp;            System.out.println(&quot;ERROR - Chosen cloud is empty, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">293</i>&nbsp;            scanListener.setRequest(Request.CLOUD);</b>
-<i class="no-highlight">294</i>&nbsp;            return;
-<i class="no-highlight">295</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">296</i>&nbsp;        notifyObserver(observer -&gt; observer.updateCloud(cloudNum));</b>
-<i class="no-highlight">297</i>&nbsp;    }
-<i class="no-highlight">298</i>&nbsp;
-<i class="no-highlight">299</i>&nbsp;    /**
-<i class="no-highlight">300</i>&nbsp;     * Shows the instruction to move mother nature and the number of maximum steps
-<i class="no-highlight">301</i>&nbsp;     *
-<i class="no-highlight">302</i>&nbsp;     * @param maximumSteps available for this turn for this player based on the assistant played
-<i class="no-highlight">303</i>&nbsp;     */
-<i class="no-highlight">304</i>&nbsp;    @Override
-<i class="no-highlight">305</i>&nbsp;    public void moveMNature(int maximumSteps) {
-<b class="nc"><i class="no-highlight">306</i>&nbsp;        this.maxSteps = maximumSteps;</b>
-<b class="nc"><i class="no-highlight">307</i>&nbsp;        System.out.println(&quot;Insert how many steps Mother Nature will do (max: &quot; + maximumSteps + &quot;)&quot;);</b>
-<b class="nc"><i class="no-highlight">308</i>&nbsp;        scanListener.setRequest(Request.MOTHER);</b>
-<i class="no-highlight">309</i>&nbsp;    }
-<i class="no-highlight">310</i>&nbsp;
-<i class="no-highlight">311</i>&nbsp;    /**
-<i class="no-highlight">312</i>&nbsp;     * Checks if the number of steps is valid,
-<i class="no-highlight">313</i>&nbsp;     * if not, set the listener to wait for a new string.
-<i class="no-highlight">314</i>&nbsp;     *
-<i class="no-highlight">315</i>&nbsp;     * @param steps in input
-<i class="no-highlight">316</i>&nbsp;     */
-<i class="no-highlight">317</i>&nbsp;    public void checkStepsMN(int steps) {
-<b class="nc"><i class="no-highlight">318</i>&nbsp;        if (steps == -1) {</b>
-<b class="nc"><i class="no-highlight">319</i>&nbsp;            System.out.println(&quot;ERROR - Steps not a number, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">320</i>&nbsp;            scanListener.setRequest(Request.MOTHER);</b>
-<i class="no-highlight">321</i>&nbsp;            return;
-<i class="no-highlight">322</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">323</i>&nbsp;        if (steps &lt;= 0) {</b>
-<b class="nc"><i class="no-highlight">324</i>&nbsp;            System.out.println(&quot;ERROR - Steps should be a positive number, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">325</i>&nbsp;            scanListener.setRequest(Request.MOTHER);</b>
-<i class="no-highlight">326</i>&nbsp;            return;
-<i class="no-highlight">327</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">328</i>&nbsp;        if (steps &gt; maxSteps) {</b>
-<b class="nc"><i class="no-highlight">329</i>&nbsp;            System.out.println(&quot;ERROR - Too many steps, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">330</i>&nbsp;            scanListener.setRequest(Request.MOTHER);</b>
-<i class="no-highlight">331</i>&nbsp;            return;
-<i class="no-highlight">332</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">333</i>&nbsp;        notifyObserver(observer -&gt; observer.updateStepsMN(steps));</b>
-<i class="no-highlight">334</i>&nbsp;    }
-<i class="no-highlight">335</i>&nbsp;
-<i class="no-highlight">336</i>&nbsp;    /**
-<i class="no-highlight">337</i>&nbsp;     * Shows the instruction to move a student: first select the color
-<i class="no-highlight">338</i>&nbsp;     *
-<i class="no-highlight">339</i>&nbsp;     * @param movableColor list of color that can be moved
-<i class="no-highlight">340</i>&nbsp;     */
-<i class="no-highlight">341</i>&nbsp;    @Override
-<i class="no-highlight">342</i>&nbsp;    public void moveStudent(List&lt;PawnColor&gt; movableColor) {
-<b class="nc"><i class="no-highlight">343</i>&nbsp;        resource.setPawnsAvailable(movableColor);</b>
-<b class="nc"><i class="no-highlight">344</i>&nbsp;        System.out.println(&quot;What color do you want to move?&quot;);</b>
-<b class="nc"><i class="no-highlight">345</i>&nbsp;        scanListener.setRequest(Request.STUDENT);</b>
-<i class="no-highlight">346</i>&nbsp;    }
-<i class="no-highlight">347</i>&nbsp;
-<i class="no-highlight">348</i>&nbsp;    /**
-<i class="no-highlight">349</i>&nbsp;     * Checks if color is valid, shows how to move to island or hall
-<i class="no-highlight">350</i>&nbsp;     *
-<i class="no-highlight">351</i>&nbsp;     * @param color in input
-<i class="no-highlight">352</i>&nbsp;     */
-<i class="no-highlight">353</i>&nbsp;    public void checkColor(String color) {
-<b class="nc"><i class="no-highlight">354</i>&nbsp;        chosenColor = resource.getPawnsAvailable().stream().filter(o -&gt; color.equalsIgnoreCase(o.name())).findFirst().orElse(null);</b>
-<b class="nc"><i class="no-highlight">355</i>&nbsp;        if (chosenColor == null) {</b>
-<b class="nc"><i class="no-highlight">356</i>&nbsp;            System.out.println(&quot;ERROR - color not available, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">357</i>&nbsp;            scanListener.setRequest(Request.STUDENT);</b>
-<i class="no-highlight">358</i>&nbsp;            return;
-<i class="no-highlight">359</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">360</i>&nbsp;        System.out.println(&quot;Insert destination [1 island_id] for an island and [2] for your hall: &quot;);</b>
-<b class="nc"><i class="no-highlight">361</i>&nbsp;        scanListener.setRequest(Request.MOVE);</b>
-<i class="no-highlight">362</i>&nbsp;    }
-<i class="no-highlight">363</i>&nbsp;
-<i class="no-highlight">364</i>&nbsp;    /**
-<i class="no-highlight">365</i>&nbsp;     * Checks id the target is valid,
-<i class="no-highlight">366</i>&nbsp;     * if not, set the listener to wait for a new string.
-<i class="no-highlight">367</i>&nbsp;     *
-<i class="no-highlight">368</i>&nbsp;     * @param destination in input
-<i class="no-highlight">369</i>&nbsp;     */
-<i class="no-highlight">370</i>&nbsp;    public void moveToTarget(String destination) {
-<b class="nc"><i class="no-highlight">371</i>&nbsp;        int pos = getSpacePos(destination);</b>
-<b class="nc"><i class="no-highlight">372</i>&nbsp;        int target = scanListener.converterToInt(destination.substring(0, pos));</b>
-<b class="nc"><i class="no-highlight">373</i>&nbsp;        if (target == -1) {</b>
-<b class="nc"><i class="no-highlight">374</i>&nbsp;            System.out.println(&quot;ERROR - not a number inserted, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">375</i>&nbsp;            scanListener.setRequest(Request.MOVE);</b>
-<i class="no-highlight">376</i>&nbsp;        } else {
-<b class="nc"><i class="no-highlight">377</i>&nbsp;            if (target == 1) { //ISLAND CHOICE</b>
-<b class="nc"><i class="no-highlight">378</i>&nbsp;                if (pos == destination.length()) {</b>
-<b class="nc"><i class="no-highlight">379</i>&nbsp;                    System.out.println(&quot;ERROR - island_id not inserted, retry.&quot;);</b>
-<b class="nc"><i class="no-highlight">380</i>&nbsp;                    scanListener.setRequest(Request.MOVE);</b>
-<i class="no-highlight">381</i>&nbsp;                    return;
-<i class="no-highlight">382</i>&nbsp;                }
-<b class="nc"><i class="no-highlight">383</i>&nbsp;                int island = scanListener.converterToInt(destination.substring(pos + 1));</b>
-<b class="nc"><i class="no-highlight">384</i>&nbsp;                if (island == -1) {</b>
-<b class="nc"><i class="no-highlight">385</i>&nbsp;                    System.out.println(&quot;ERROR - island_id not valid, retry.&quot;);</b>
-<b class="nc"><i class="no-highlight">386</i>&nbsp;                    scanListener.setRequest(Request.MOVE);</b>
-<i class="no-highlight">387</i>&nbsp;                } else {
-<b class="nc"><i class="no-highlight">388</i>&nbsp;                    notifyObserver(observer -&gt; observer.updateMoveStudent(chosenColor, Target.ISLAND, island));</b>
-<i class="no-highlight">389</i>&nbsp;                }
-<b class="nc"><i class="no-highlight">390</i>&nbsp;            } else if (target == 2) { //HALL CHOICE</b>
-<b class="nc"><i class="no-highlight">391</i>&nbsp;                notifyObserver(observer -&gt; observer.updateMoveStudent(chosenColor, Target.HALL, 0));</b>
-<i class="no-highlight">392</i>&nbsp;            } else {
-<b class="nc"><i class="no-highlight">393</i>&nbsp;                System.out.println(&quot;ERROR - target inserted is not valid, retry.&quot;);</b>
-<b class="nc"><i class="no-highlight">394</i>&nbsp;                scanListener.setRequest(Request.MOVE);</b>
-<i class="no-highlight">395</i>&nbsp;            }
-<i class="no-highlight">396</i>&nbsp;        }
-<i class="no-highlight">397</i>&nbsp;    }
-<i class="no-highlight">398</i>&nbsp;
-<i class="no-highlight">399</i>&nbsp;    /**
-<i class="no-highlight">400</i>&nbsp;     * notify observer of character to use
-<i class="no-highlight">401</i>&nbsp;     *
-<i class="no-highlight">402</i>&nbsp;     * @param id character
-<i class="no-highlight">403</i>&nbsp;     */
-<i class="no-highlight">404</i>&nbsp;    public void useCharacter(int id) {
-<b class="nc"><i class="no-highlight">405</i>&nbsp;        notifyObserver(observer -&gt; observer.updateUseCharacter(id));</b>
-<i class="no-highlight">406</i>&nbsp;    }
-<i class="no-highlight">407</i>&nbsp;
-<i class="no-highlight">408</i>&nbsp;    /**
-<i class="no-highlight">409</i>&nbsp;     * Shows how to select a color from the character selected
-<i class="no-highlight">410</i>&nbsp;     */
-<i class="no-highlight">411</i>&nbsp;    @Override
-<i class="no-highlight">412</i>&nbsp;    public void askColor() {
-<b class="nc"><i class="no-highlight">413</i>&nbsp;        System.out.println(&quot;Type a color to execute the action of the character you chose:&quot;);</b>
-<b class="nc"><i class="no-highlight">414</i>&nbsp;        scanListener.setRequest(Request.COLOR_ACTION);</b>
-<i class="no-highlight">415</i>&nbsp;    }
-<i class="no-highlight">416</i>&nbsp;
-<i class="no-highlight">417</i>&nbsp;    /**
-<i class="no-highlight">418</i>&nbsp;     * Check if the color is available for the character used,
-<i class="no-highlight">419</i>&nbsp;     * if not, set the listener to wait for a new string.
-<i class="no-highlight">420</i>&nbsp;     *
-<i class="no-highlight">421</i>&nbsp;     * @param color in input
-<i class="no-highlight">422</i>&nbsp;     */
-<i class="no-highlight">423</i>&nbsp;    public void checkColorAction(String color) {
-<i class="no-highlight">424</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">425</i>&nbsp;            PawnColor chosen = PawnColor.valueOf(color.toUpperCase());</b>
-<b class="nc"><i class="no-highlight">426</i>&nbsp;            notifyObserver(observer -&gt; observer.updateColorAction(chosen));</b>
-<b class="nc"><i class="no-highlight">427</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
-<b class="nc"><i class="no-highlight">428</i>&nbsp;            System.out.println(&quot;Not a color, retry.&quot;);</b>
-<b class="nc"><i class="no-highlight">429</i>&nbsp;            scanListener.setRequest(Request.COLOR_ACTION);</b>
-<b class="nc"><i class="no-highlight">430</i>&nbsp;        }</b>
-<i class="no-highlight">431</i>&nbsp;    }
-<i class="no-highlight">432</i>&nbsp;
-<i class="no-highlight">433</i>&nbsp;    /**
-<i class="no-highlight">434</i>&nbsp;     * Shows how to select an island from the character selected
-<i class="no-highlight">435</i>&nbsp;     */
-<i class="no-highlight">436</i>&nbsp;    @Override
-<i class="no-highlight">437</i>&nbsp;    public void askIsland() {
-<b class="nc"><i class="no-highlight">438</i>&nbsp;        System.out.println(&quot;Type a number of island to execute the action of the character you chose: &quot;);</b>
-<b class="nc"><i class="no-highlight">439</i>&nbsp;        scanListener.setRequest(Request.ISLAND_ACTION);</b>
-<i class="no-highlight">440</i>&nbsp;    }
-<i class="no-highlight">441</i>&nbsp;
-<i class="no-highlight">442</i>&nbsp;    /**
-<i class="no-highlight">443</i>&nbsp;     * Check if the island is available for the character used,
-<i class="no-highlight">444</i>&nbsp;     * if not, set the listener to wait for a new string.
-<i class="no-highlight">445</i>&nbsp;     *
-<i class="no-highlight">446</i>&nbsp;     * @param island selected
-<i class="no-highlight">447</i>&nbsp;     */
-<i class="no-highlight">448</i>&nbsp;    public void checkIslandAction(int island) {
-<b class="nc"><i class="no-highlight">449</i>&nbsp;        if (island == -1) {</b>
-<b class="nc"><i class="no-highlight">450</i>&nbsp;            System.out.println(&quot;Not an island, retry&quot;);</b>
-<b class="nc"><i class="no-highlight">451</i>&nbsp;            scanListener.setRequest(Request.ISLAND_ACTION);</b>
-<i class="no-highlight">452</i>&nbsp;            return;
-<i class="no-highlight">453</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">454</i>&nbsp;        notifyObserver(observer -&gt; observer.updateIslandAction(island));</b>
-<i class="no-highlight">455</i>&nbsp;    }
-<i class="no-highlight">456</i>&nbsp;
-<i class="no-highlight">457</i>&nbsp;    /**
-<i class="no-highlight">458</i>&nbsp;     * Shows how to start a swap between two colors
-<i class="no-highlight">459</i>&nbsp;     *
-<i class="no-highlight">460</i>&nbsp;     * @param swap number of swaps
-<i class="no-highlight">461</i>&nbsp;     */
-<i class="no-highlight">462</i>&nbsp;    @Override
-<i class="no-highlight">463</i>&nbsp;    public void askSwapList(int swap) {
-<i class="no-highlight">464</i>&nbsp;        //TODO: save swap and check that it&#39;s maximum that swaps!
-<b class="nc"><i class="no-highlight">465</i>&nbsp;        System.out.println(&quot;Insert a pair of color to swap! You have &quot; + swap + &quot; swap. Syntax [FROM TO]&quot;);</b>
-<b class="nc"><i class="no-highlight">466</i>&nbsp;        scanListener.setRequest(Request.COLOR_SWAP);</b>
-<i class="no-highlight">467</i>&nbsp;    }
-<i class="no-highlight">468</i>&nbsp;
-<i class="no-highlight">469</i>&nbsp;    /**
-<i class="no-highlight">470</i>&nbsp;     * Checks if the swap is correctly requested,
-<i class="no-highlight">471</i>&nbsp;     * if not, set the listener to wait for a new string.
-<i class="no-highlight">472</i>&nbsp;     *
-<i class="no-highlight">473</i>&nbsp;     * @param input string of the swap
-<i class="no-highlight">474</i>&nbsp;     */
-<i class="no-highlight">475</i>&nbsp;    public void checkSwapAction(String input) {
-<b class="nc"><i class="no-highlight">476</i>&nbsp;        int pos = getSpacePos(input);</b>
-<b class="nc"><i class="no-highlight">477</i>&nbsp;        if (pos == input.length()) {</b>
-<b class="nc"><i class="no-highlight">478</i>&nbsp;            System.out.println(&quot;Input not correct. Syntax [FROM TO]&quot;);</b>
-<b class="nc"><i class="no-highlight">479</i>&nbsp;            scanListener.setRequest(Request.COLOR_SWAP);</b>
-<i class="no-highlight">480</i>&nbsp;        } else {
-<i class="no-highlight">481</i>&nbsp;            try {
-<b class="nc"><i class="no-highlight">482</i>&nbsp;                PawnColor from = PawnColor.valueOf(input.substring(0, pos).toUpperCase());</b>
-<b class="nc"><i class="no-highlight">483</i>&nbsp;                PawnColor to = PawnColor.valueOf(input.substring(pos + 1).toUpperCase());</b>
-<b class="nc"><i class="no-highlight">484</i>&nbsp;                swapColor.add(from);</b>
-<b class="nc"><i class="no-highlight">485</i>&nbsp;                swapColor.add(to);</b>
-<b class="nc"><i class="no-highlight">486</i>&nbsp;                System.out.println(&quot;Do you want to continue swapping pawns? [y/n]&quot;);</b>
-<b class="nc"><i class="no-highlight">487</i>&nbsp;                scanListener.setRequest(Request.CONTINUE_SWAPPING);</b>
-<b class="nc"><i class="no-highlight">488</i>&nbsp;            } catch (IllegalArgumentException e) {</b>
-<b class="nc"><i class="no-highlight">489</i>&nbsp;                System.out.println(&quot;Input not correct. Syntax [FROM TO]&quot;);</b>
-<b class="nc"><i class="no-highlight">490</i>&nbsp;                scanListener.setRequest(Request.COLOR_SWAP);</b>
-<b class="nc"><i class="no-highlight">491</i>&nbsp;            }</b>
-<i class="no-highlight">492</i>&nbsp;
-<i class="no-highlight">493</i>&nbsp;        }
-<i class="no-highlight">494</i>&nbsp;    }
-<i class="no-highlight">495</i>&nbsp;
-<i class="no-highlight">496</i>&nbsp;    /**
-<i class="no-highlight">497</i>&nbsp;     * Checks if the player wants to swap again
-<i class="no-highlight">498</i>&nbsp;     *
-<i class="no-highlight">499</i>&nbsp;     * @param input response from the user
-<i class="no-highlight">500</i>&nbsp;     */
-<i class="no-highlight">501</i>&nbsp;    public void checkContinueSwapping(String input) {
-<b class="nc"><i class="no-highlight">502</i>&nbsp;        if (input.equals(&quot;yes&quot;) || input.equals(&quot;y&quot;)) {</b>
-<b class="nc"><i class="no-highlight">503</i>&nbsp;            System.out.println(&quot;Insert a pair of color to swap!&quot;);</b>
-<b class="nc"><i class="no-highlight">504</i>&nbsp;            scanListener.setRequest(Request.COLOR_SWAP);</b>
-<b class="nc"><i class="no-highlight">505</i>&nbsp;        } else if (input.equals(&quot;no&quot;) || input.equals(&quot;n&quot;)) {</b>
-<b class="nc"><i class="no-highlight">506</i>&nbsp;            notifyObserver(observer -&gt; observer.updateSwapAction(swapColor));</b>
-<i class="no-highlight">507</i>&nbsp;        } else {
-<b class="nc"><i class="no-highlight">508</i>&nbsp;            System.out.println(&quot;Not correct answer, retry.&quot;);</b>
-<b class="nc"><i class="no-highlight">509</i>&nbsp;            scanListener.setRequest(Request.CONTINUE_SWAPPING);</b>
-<i class="no-highlight">510</i>&nbsp;        }
-<i class="no-highlight">511</i>&nbsp;    }
-<i class="no-highlight">512</i>&nbsp;
-<i class="no-highlight">513</i>&nbsp;    /**
-<i class="no-highlight">514</i>&nbsp;     * Shows error message
-<i class="no-highlight">515</i>&nbsp;     *
-<i class="no-highlight">516</i>&nbsp;     * @param msg content
-<i class="no-highlight">517</i>&nbsp;     */
-<i class="no-highlight">518</i>&nbsp;    @Override
-<i class="no-highlight">519</i>&nbsp;    public void showError(String msg) {
-<b class="nc"><i class="no-highlight">520</i>&nbsp;        System.out.println(msg);</b>
-<b class="nc"><i class="no-highlight">521</i>&nbsp;        System.exit(0);</b>
-<i class="no-highlight">522</i>&nbsp;    }
-<i class="no-highlight">523</i>&nbsp;
-<i class="no-highlight">524</i>&nbsp;    /**
-<i class="no-highlight">525</i>&nbsp;     * Shows the board with the islands
-<i class="no-highlight">526</i>&nbsp;     *
-<i class="no-highlight">527</i>&nbsp;     * @param board the board to show
-<i class="no-highlight">528</i>&nbsp;     */
-<i class="no-highlight">529</i>&nbsp;    private void showBoard(ShortBoard board) {
-<b class="nc"><i class="no-highlight">530</i>&nbsp;        BoardCli boardCli = new BoardCli(board);</b>
-<b class="nc"><i class="no-highlight">531</i>&nbsp;        boardCli.printBoard();</b>
-<b class="nc"><i class="no-highlight">532</i>&nbsp;        System.out.println();</b>
-<i class="no-highlight">533</i>&nbsp;    }
-<i class="no-highlight">534</i>&nbsp;
-<i class="no-highlight">535</i>&nbsp;    /**
-<i class="no-highlight">536</i>&nbsp;     * Shows the clouds above the board
-<i class="no-highlight">537</i>&nbsp;     *
-<i class="no-highlight">538</i>&nbsp;     * @param clouds during the game
-<i class="no-highlight">539</i>&nbsp;     */
-<i class="no-highlight">540</i>&nbsp;    public void showClouds(List&lt;ShortCloud&gt; clouds) {
-<b class="nc"><i class="no-highlight">541</i>&nbsp;        List&lt;StringBuilder&gt; lines = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i class="no-highlight">542</i>&nbsp;        List&lt;CloudCli&gt; cloudsCli = new ArrayList&lt;&gt;();</b>
-<b class="nc"><i class="no-highlight">543</i>&nbsp;        for (ShortCloud shortCloud : clouds) {</b>
-<b class="nc"><i class="no-highlight">544</i>&nbsp;            CloudCli cloudCli = new CloudCli(shortCloud, clouds.indexOf(shortCloud));</b>
-<b class="nc"><i class="no-highlight">545</i>&nbsp;            cloudsCli.add(cloudCli);</b>
-<b class="nc"><i class="no-highlight">546</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">547</i>&nbsp;        for (int i = 0; i &lt; Constants.ISLAND_HIGH; i++) {</b>
-<b class="nc"><i class="no-highlight">548</i>&nbsp;            StringBuilder stringBuilder = new StringBuilder();</b>
-<b class="nc"><i class="no-highlight">549</i>&nbsp;            for (CloudCli cloudCli : cloudsCli) {</b>
-<b class="nc"><i class="no-highlight">550</i>&nbsp;                stringBuilder.append(cloudCli.getLines().get(i)).append(&quot;   &quot;);</b>
-<b class="nc"><i class="no-highlight">551</i>&nbsp;            }</b>
-<b class="nc"><i class="no-highlight">552</i>&nbsp;            lines.add(stringBuilder);</b>
-<i class="no-highlight">553</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">554</i>&nbsp;        System.out.println(&quot;CLOUDS:&quot;);</b>
-<b class="nc"><i class="no-highlight">555</i>&nbsp;        lines.forEach(System.out::println);</b>
-<i class="no-highlight">556</i>&nbsp;    }
-<i class="no-highlight">557</i>&nbsp;
-<i class="no-highlight">558</i>&nbsp;    /**
-<i class="no-highlight">559</i>&nbsp;     * Used to refresh the information on the display
-<i class="no-highlight">560</i>&nbsp;     */
-<i class="no-highlight">561</i>&nbsp;    @Override
-<i class="no-highlight">562</i>&nbsp;    public void updateScreen() {
-<b class="nc"><i class="no-highlight">563</i>&nbsp;        Map&lt;ShortPlayer, ShortSchool&gt; otherSchools = new HashMap&lt;&gt;();</b>
-<b class="nc"><i class="no-highlight">564</i>&nbsp;        Map&lt;ShortPlayer, ShortSchool&gt; ownerSchool = new HashMap&lt;&gt;();</b>
-<b class="nc"><i class="no-highlight">565</i>&nbsp;        clearScreen();</b>
-<b class="nc"><i class="no-highlight">566</i>&nbsp;        for (Map.Entry&lt;ShortPlayer, ShortSchool&gt; entry : resource.getSchoolMap().entrySet()) {</b>
-<b class="nc"><i class="no-highlight">567</i>&nbsp;            if (entry.getKey().name().equals(nickname)) {</b>
-<b class="nc"><i class="no-highlight">568</i>&nbsp;                ownerSchool.put(entry.getKey(), entry.getValue());</b>
-<i class="no-highlight">569</i>&nbsp;            } else {
-<b class="nc"><i class="no-highlight">570</i>&nbsp;                otherSchools.put(entry.getKey(), entry.getValue());</b>
-<i class="no-highlight">571</i>&nbsp;            }
-<b class="nc"><i class="no-highlight">572</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">573</i>&nbsp;        if (!ownerSchool.isEmpty()) {</b>
-<b class="nc"><i class="no-highlight">574</i>&nbsp;            SchoolsCli schoolsCli = new SchoolsCli(otherSchools, ownerSchool, resource.getMoneyMap(), resource.getAssistantMap());</b>
-<b class="nc"><i class="no-highlight">575</i>&nbsp;            schoolsCli.printSchools();</b>
-<b class="nc"><i class="no-highlight">576</i>&nbsp;            System.out.println(&quot; &quot;);</b>
-<i class="no-highlight">577</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">578</i>&nbsp;        if (resource.getBoard() != null) {</b>
-<b class="nc"><i class="no-highlight">579</i>&nbsp;            System.out.println(&quot;BOARD:&quot;);</b>
-<b class="nc"><i class="no-highlight">580</i>&nbsp;            showBoard(resource.getBoard());</b>
-<i class="no-highlight">581</i>&nbsp;        }
-<i class="no-highlight">582</i>&nbsp;
-<b class="nc"><i class="no-highlight">583</i>&nbsp;        System.out.println(&quot;Remaining students in the sack: &quot; + resource.getStudentsInSack());</b>
-<i class="no-highlight">584</i>&nbsp;
-<b class="nc"><i class="no-highlight">585</i>&nbsp;        if (resource.getClouds() != null) {</b>
-<b class="nc"><i class="no-highlight">586</i>&nbsp;            showClouds(resource.getClouds());</b>
-<i class="no-highlight">587</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">588</i>&nbsp;        if (resource.getCharacters() != null) {</b>
-<b class="nc"><i class="no-highlight">589</i>&nbsp;            showCharacter(resource.getCharacters());</b>
-<i class="no-highlight">590</i>&nbsp;        }
-<i class="no-highlight">591</i>&nbsp;
-<i class="no-highlight">592</i>&nbsp;    }
-<i class="no-highlight">593</i>&nbsp;
-<i class="no-highlight">594</i>&nbsp;    /**
-<i class="no-highlight">595</i>&nbsp;     * Shows the list of the character available to be used,
-<i class="no-highlight">596</i>&nbsp;     * the description of the action associated and the cost
-<i class="no-highlight">597</i>&nbsp;     *
-<i class="no-highlight">598</i>&nbsp;     * @param characters available
-<i class="no-highlight">599</i>&nbsp;     */
-<i class="no-highlight">600</i>&nbsp;    private void showCharacter(List&lt;ShortCharacter&gt; characters) {
-<b class="nc"><i class="no-highlight">601</i>&nbsp;        System.out.println(&quot;Characters in use list. To use one of them just type \&quot;use [id]\&quot; during your action turn (e.g. \&quot;use 0\&quot; to use the first character)&quot;);</b>
-<b class="nc"><i class="no-highlight">602</i>&nbsp;        for (int i = 0; i &lt; characters.size(); i++) {</b>
-<b class="nc"><i class="no-highlight">603</i>&nbsp;            ShortCharacter character = characters.get(i);</b>
-<b class="nc"><i class="no-highlight">604</i>&nbsp;            System.out.print(CLIColor.RED + &quot;Name[ID]: &quot; + CLIColor.RESET + character.getName() + &quot;[&quot; + i + &quot;] &quot; + CLIColor.RESET);</b>
-<b class="nc"><i class="no-highlight">605</i>&nbsp;            printPawns(character.getStudentsOn());</b>
-<b class="nc"><i class="no-highlight">606</i>&nbsp;            printBanTile(character.getBanTiles());</b>
-<b class="nc"><i class="no-highlight">607</i>&nbsp;            System.out.println(CLIColor.RED + &quot;Cost: &quot; + CLIColor.RESET + character.getCost() + (character.hasCoinOn() ? (CLIColor.BLUE + &quot;(+1)&quot; + CLIColor.RESET) : &quot;&quot;));</b>
-<b class="nc"><i class="no-highlight">608</i>&nbsp;            System.out.println(CLIColor.RED + &quot;Effect: &quot; + CLIColor.RESET + character.getDescription());</b>
-<b class="nc"><i class="no-highlight">609</i>&nbsp;            System.out.print(CLIColor.RESET);</b>
-<i class="no-highlight">610</i>&nbsp;        }
-<i class="no-highlight">611</i>&nbsp;    }
-<i class="no-highlight">612</i>&nbsp;
-<i class="no-highlight">613</i>&nbsp;    /**
-<i class="no-highlight">614</i>&nbsp;     * Prints the pawns available in the card of the character
-<i class="no-highlight">615</i>&nbsp;     *
-<i class="no-highlight">616</i>&nbsp;     * @param pawns associated with the character
-<i class="no-highlight">617</i>&nbsp;     */
-<i class="no-highlight">618</i>&nbsp;    private void printPawns(ShortPawns pawns) {
-<b class="nc"><i class="no-highlight">619</i>&nbsp;        StringBuilder builder = new StringBuilder();</b>
-<b class="nc"><i class="no-highlight">620</i>&nbsp;        if (pawns != null) {</b>
-<b class="nc"><i class="no-highlight">621</i>&nbsp;            for (PawnColor pawnColor : PawnColor.values()) {</b>
-<b class="nc"><i class="no-highlight">622</i>&nbsp;                int num = pawns.getFromColor(pawnColor);</b>
-<b class="nc"><i class="no-highlight">623</i>&nbsp;                if (num != 0) {</b>
-<b class="nc"><i class="no-highlight">624</i>&nbsp;                    builder.append(num).append(&quot; x &quot;).append(CLIColor.valueOf(pawnColor.name())).append(CLISymbol.FULL_CIRCLE).append(CLIColor.RESET).append(&quot; &quot;);</b>
-<i class="no-highlight">625</i>&nbsp;                }
-<i class="no-highlight">626</i>&nbsp;            }
-<i class="no-highlight">627</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">628</i>&nbsp;        System.out.print(builder);</b>
-<i class="no-highlight">629</i>&nbsp;    }
-<i class="no-highlight">630</i>&nbsp;
-<i class="no-highlight">631</i>&nbsp;    /**
-<i class="no-highlight">632</i>&nbsp;     * Prints the number of bans available for grandma
-<i class="no-highlight">633</i>&nbsp;     *
-<i class="no-highlight">634</i>&nbsp;     * @param banTiles the number of bain tiles on the card
-<i class="no-highlight">635</i>&nbsp;     */
-<i class="no-highlight">636</i>&nbsp;    private void printBanTile(int banTiles) {
-<b class="nc"><i class="no-highlight">637</i>&nbsp;        if (banTiles &gt; 0) {</b>
-<b class="nc"><i class="no-highlight">638</i>&nbsp;            System.out.print(&quot;Remaining ban tiles: &quot; + banTiles);</b>
-<i class="no-highlight">639</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">640</i>&nbsp;        System.out.println();</b>
-<i class="no-highlight">641</i>&nbsp;    }
-<i class="no-highlight">642</i>&nbsp;
-<i class="no-highlight">643</i>&nbsp;    /**
-<i class="no-highlight">644</i>&nbsp;     * clears the screen
-<i class="no-highlight">645</i>&nbsp;     */
-<i class="no-highlight">646</i>&nbsp;    private void clearScreen() {
-<i class="no-highlight">647</i>&nbsp;        try {
-<b class="nc"><i class="no-highlight">648</i>&nbsp;            if (System.getProperty(&quot;os.name&quot;).contains(&quot;Windows&quot;)) {</b>
-<b class="nc"><i class="no-highlight">649</i>&nbsp;                new ProcessBuilder(&quot;cmd&quot;, &quot;/c&quot;, &quot;cls&quot;).inheritIO().start().waitFor();</b>
-<i class="no-highlight">650</i>&nbsp;            } else
-<b class="nc"><i class="no-highlight">651</i>&nbsp;                Runtime.getRuntime().exec(&quot;clear&quot;);</b>
-<b class="nc"><i class="no-highlight">652</i>&nbsp;        } catch (IOException | InterruptedException ignore) {</b>
-<b class="nc"><i class="no-highlight">653</i>&nbsp;            Thread.currentThread().interrupt();</b>
-<b class="nc"><i class="no-highlight">654</i>&nbsp;        }</b>
-<b class="nc"><i class="no-highlight">655</i>&nbsp;        System.out.println(CLIColor.CLEAR);</b>
-<b class="nc"><i class="no-highlight">656</i>&nbsp;        System.out.flush();</b>
-<i class="no-highlight">657</i>&nbsp;    }
-<i class="no-highlight">658</i>&nbsp;
-<i class="no-highlight">659</i>&nbsp;    /**
-<i class="no-highlight">660</i>&nbsp;     * shows win screen
-<i class="no-highlight">661</i>&nbsp;     *
-<i class="no-highlight">662</i>&nbsp;     * @param winner of the game
-<i class="no-highlight">663</i>&nbsp;     * @param win    if is the player that wins
-<i class="no-highlight">664</i>&nbsp;     */
-<i class="no-highlight">665</i>&nbsp;    @Override
-<i class="no-highlight">666</i>&nbsp;    public void win(String winner, boolean win) {
-<b class="nc"><i class="no-highlight">667</i>&nbsp;        if (win) {</b>
-<b class="nc"><i class="no-highlight">668</i>&nbsp;            System.out.println(CLIColor.GREEN + &quot;YOU WON!&quot;);</b>
-<i class="no-highlight">669</i>&nbsp;        } else {
-<b class="nc"><i class="no-highlight">670</i>&nbsp;            System.out.println(CLIColor.RED + &quot;YOU LOST! &quot; + winner + &quot; won&quot;);</b>
-<i class="no-highlight">671</i>&nbsp;        }
-<b class="nc"><i class="no-highlight">672</i>&nbsp;        System.out.println(CLIColor.RESET);</b>
-<b class="nc"><i class="no-highlight">673</i>&nbsp;        scanListener.stopListening();</b>
-<b class="nc"><i class="no-highlight">674</i>&nbsp;        System.exit(0);</b>
-<i class="no-highlight">675</i>&nbsp;    }
-<i class="no-highlight">676</i>&nbsp;
-<i class="no-highlight">677</i>&nbsp;    /**
-<i class="no-highlight">678</i>&nbsp;     * Shows general message
-<i class="no-highlight">679</i>&nbsp;     *
-<i class="no-highlight">680</i>&nbsp;     * @param msg to be displayed
-<i class="no-highlight">681</i>&nbsp;     */
-<i class="no-highlight">682</i>&nbsp;    @Override
-<i class="no-highlight">683</i>&nbsp;    public void showMessage(String msg) {
-<b class="nc"><i class="no-highlight">684</i>&nbsp;        System.out.print(CLIColor.YELLOW_BG + &quot;&gt;Server:&quot; + CLIColor.RESET + &quot; &quot;);</b>
-<b class="nc"><i class="no-highlight">685</i>&nbsp;        System.out.println(msg);</b>
-<i class="no-highlight">686</i>&nbsp;    }
-<i class="no-highlight">687</i>&nbsp;
-<i class="no-highlight">688</i>&nbsp;    @Override
-<i class="no-highlight">689</i>&nbsp;    public void injectResource(ShortModel resource) {
-<b class="nc"><i class="no-highlight">690</i>&nbsp;        this.resource = resource;</b>
-<i class="no-highlight">691</i>&nbsp;    }
-<i class="no-highlight">692</i>&nbsp;
-<i class="no-highlight">693</i>&nbsp;    /**
-<i class="no-highlight">694</i>&nbsp;     * Prints the welcome logo
-<i class="no-highlight">695</i>&nbsp;     */
-<i class="no-highlight">696</i>&nbsp;    public void printWelcome() {
-<b class="nc"><i class="no-highlight">697</i>&nbsp;        System.out.println(CLIColor.GREEN);</b>
-<b class="nc"><i class="no-highlight">698</i>&nbsp;        System.out.println(&quot;&quot;&quot;</b>
-<i class="no-highlight">699</i>&nbsp;                 ______      _             _            \s
-<i class="no-highlight">700</i>&nbsp;                |  ____|    (_)           | |           \s
-<i class="no-highlight">701</i>&nbsp;                | |__   _ __ _  __ _ _ __ | |_ _   _ ___\s
-<i class="no-highlight">702</i>&nbsp;                |  __| | &#39;__| |/ _` | &#39;_ \\| __| | | / __|
-<i class="no-highlight">703</i>&nbsp;                | |____| |  | | (_| | | | | |_| |_| \\__ \\
-<i class="no-highlight">704</i>&nbsp;                |______|_|  |_|\\__,_|_| |_|\\__|\\__, |___/
-<i class="no-highlight">705</i>&nbsp;                                                __/ |   \s
-<i class="no-highlight">706</i>&nbsp;                                               |___/    \s
-<i class="no-highlight">707</i>&nbsp;
-<i class="no-highlight">708</i>&nbsp;                by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell&#39;Era&quot;&quot;&quot;);
-<b class="nc"><i class="no-highlight">709</i>&nbsp;        System.out.println(CLIColor.RESET);</b>
-<i class="no-highlight">710</i>&nbsp;    }
-<i class="no-highlight">711</i>&nbsp;}
+<b class="nc"><i class="no-highlight">181</i>&nbsp;        System.out.println();</b>
+<b class="nc"><i class="no-highlight">182</i>&nbsp;        notifyObserver(observer -&gt; observer.updateGameModeNumPlayer(mode, finalNumOfPlayer));</b>
+<i class="no-highlight">183</i>&nbsp;    }
+<i class="no-highlight">184</i>&nbsp;
+<i class="no-highlight">185</i>&nbsp;    /**
+<i class="no-highlight">186</i>&nbsp;     * Shows the different available wizards and tower colors
+<i class="no-highlight">187</i>&nbsp;     *
+<i class="no-highlight">188</i>&nbsp;     * @param wizardsAvailable not already chosen by other players
+<i class="no-highlight">189</i>&nbsp;     * @param colorsAvailable  not already chosen by other players
+<i class="no-highlight">190</i>&nbsp;     */
+<i class="no-highlight">191</i>&nbsp;    @Override
+<i class="no-highlight">192</i>&nbsp;    public void chooseWizardAndTowerColor(Set&lt;Wizard&gt; wizardsAvailable, Set&lt;TowerColor&gt; colorsAvailable) {
+<b class="nc"><i class="no-highlight">193</i>&nbsp;        resource.setWizardsAvailable(wizardsAvailable);</b>
+<b class="nc"><i class="no-highlight">194</i>&nbsp;        resource.setColorsAvailable(colorsAvailable);</b>
+<b class="nc"><i class="no-highlight">195</i>&nbsp;        System.out.print(&quot;Choose an available wizard [&quot;);</b>
+<b class="nc"><i class="no-highlight">196</i>&nbsp;        wizardsAvailable.forEach(o -&gt; System.out.print(o + &quot; &quot;));</b>
+<b class="nc"><i class="no-highlight">197</i>&nbsp;        System.out.print(&quot;] Choose an available TowerColor [&quot;);</b>
+<b class="nc"><i class="no-highlight">198</i>&nbsp;        colorsAvailable.forEach(o -&gt; System.out.print(o + &quot; &quot;));</b>
+<b class="nc"><i class="no-highlight">199</i>&nbsp;        System.out.print(&quot;]&quot;);</b>
+<b class="nc"><i class="no-highlight">200</i>&nbsp;        System.out.println();</b>
+<b class="nc"><i class="no-highlight">201</i>&nbsp;        scanListener.setRequest(Request.WIZARD_COLOR);</b>
+<i class="no-highlight">202</i>&nbsp;    }
+<i class="no-highlight">203</i>&nbsp;
+<i class="no-highlight">204</i>&nbsp;    /**
+<i class="no-highlight">205</i>&nbsp;     * Checks if the string of the wizard and tower color is valid,
+<i class="no-highlight">206</i>&nbsp;     * if not, set the listener to wait for a new string
+<i class="no-highlight">207</i>&nbsp;     *
+<i class="no-highlight">208</i>&nbsp;     * @param wizardAndTower in input
+<i class="no-highlight">209</i>&nbsp;     */
+<i class="no-highlight">210</i>&nbsp;    public void checkWizardColor(String wizardAndTower) {
+<b class="nc"><i class="no-highlight">211</i>&nbsp;        int pos = getSpacePos(wizardAndTower);</b>
+<b class="nc"><i class="no-highlight">212</i>&nbsp;        if (pos &gt;= wizardAndTower.length()) {</b>
+<b class="nc"><i class="no-highlight">213</i>&nbsp;            System.out.println(&quot;ERROR - Wizard or TowerColor are missing, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">214</i>&nbsp;            scanListener.setRequest(Request.WIZARD_COLOR);</b>
+<i class="no-highlight">215</i>&nbsp;            return;
+<i class="no-highlight">216</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">217</i>&nbsp;        String wizard = wizardAndTower.substring(0, pos);</b>
+<b class="nc"><i class="no-highlight">218</i>&nbsp;        Wizard wizardChosen = resource.getWizardsAvailable().stream().filter(o -&gt; wizard.equalsIgnoreCase(o.name())).findFirst().orElse(null);</b>
+<b class="nc"><i class="no-highlight">219</i>&nbsp;        if (wizardChosen == null) {</b>
+<b class="nc"><i class="no-highlight">220</i>&nbsp;            System.out.println(&quot;ERROR - Wizard not available or incorrect, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">221</i>&nbsp;            scanListener.setRequest(Request.WIZARD_COLOR);</b>
+<i class="no-highlight">222</i>&nbsp;            return;
+<i class="no-highlight">223</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">224</i>&nbsp;        String color = wizardAndTower.substring(pos + 1);</b>
+<b class="nc"><i class="no-highlight">225</i>&nbsp;        TowerColor towerColor = resource.getColorsAvailable().stream().filter(o -&gt; color.equalsIgnoreCase(o.name())).findFirst().orElse(null);</b>
+<b class="nc"><i class="no-highlight">226</i>&nbsp;        if (towerColor == null) {</b>
+<b class="nc"><i class="no-highlight">227</i>&nbsp;            System.out.println(&quot;ERROR - Color not available or incorrect, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">228</i>&nbsp;            scanListener.setRequest(Request.WIZARD_COLOR);</b>
+<i class="no-highlight">229</i>&nbsp;            return;
+<i class="no-highlight">230</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">231</i>&nbsp;        notifyObserver(observer -&gt; observer.updateWizardAndColor(wizardChosen, towerColor));</b>
+<i class="no-highlight">232</i>&nbsp;    }
+<i class="no-highlight">233</i>&nbsp;
+<i class="no-highlight">234</i>&nbsp;    /**
+<i class="no-highlight">235</i>&nbsp;     * Shows the different available assistants
+<i class="no-highlight">236</i>&nbsp;     *
+<i class="no-highlight">237</i>&nbsp;     * @param playableAssistant assistant in the hand the player not
+<i class="no-highlight">238</i>&nbsp;     *                          already played by other in the same turn
+<i class="no-highlight">239</i>&nbsp;     */
+<i class="no-highlight">240</i>&nbsp;    @Override
+<i class="no-highlight">241</i>&nbsp;    public void chooseAssistant(Set&lt;Assistant&gt; playableAssistant) {
+<b class="nc"><i class="no-highlight">242</i>&nbsp;        System.out.println(&quot;Choose an assistant from the available: &quot;);</b>
+<b class="nc"><i class="no-highlight">243</i>&nbsp;        resource.getPlayableAssistant().forEach(o -&gt; System.out.println(o.name().toUpperCase() + &quot;: Value (&quot; + o.value() + &quot;) - Movement (&quot; + o.movement() + &quot;)&quot;));</b>
+<b class="nc"><i class="no-highlight">244</i>&nbsp;        scanListener.setRequest(Request.ASSISTANT);</b>
+<i class="no-highlight">245</i>&nbsp;    }
+<i class="no-highlight">246</i>&nbsp;
+<i class="no-highlight">247</i>&nbsp;    /**
+<i class="no-highlight">248</i>&nbsp;     * Checks if the string of the assistant is valid,
+<i class="no-highlight">249</i>&nbsp;     * if not, set the listener to wait for a new string
+<i class="no-highlight">250</i>&nbsp;     *
+<i class="no-highlight">251</i>&nbsp;     * @param assistantName in input
+<i class="no-highlight">252</i>&nbsp;     */
+<i class="no-highlight">253</i>&nbsp;    public void checkAssistant(String assistantName) {
+<b class="nc"><i class="no-highlight">254</i>&nbsp;        Assistant assistant = resource.getPlayableAssistant().stream().filter(o -&gt; assistantName.equalsIgnoreCase(o.name())).findFirst().orElse(null);</b>
+<b class="nc"><i class="no-highlight">255</i>&nbsp;        if (assistant == null) {</b>
+<b class="nc"><i class="no-highlight">256</i>&nbsp;            System.out.println(&quot;ERROR - Assistant not valid, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">257</i>&nbsp;            scanListener.setRequest(Request.ASSISTANT);</b>
+<i class="no-highlight">258</i>&nbsp;            return;
+<i class="no-highlight">259</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">260</i>&nbsp;        notifyObserver(observer -&gt; observer.updateAssistant(assistant));</b>
+<i class="no-highlight">261</i>&nbsp;    }
+<i class="no-highlight">262</i>&nbsp;
+<i class="no-highlight">263</i>&nbsp;    /**
+<i class="no-highlight">264</i>&nbsp;     * Shows the clouds with the pawns
+<i class="no-highlight">265</i>&nbsp;     *
+<i class="no-highlight">266</i>&nbsp;     * @param clouds available to selected
+<i class="no-highlight">267</i>&nbsp;     */
+<i class="no-highlight">268</i>&nbsp;    @Override
+<i class="no-highlight">269</i>&nbsp;    public void chooseCloud(List&lt;ShortCloud&gt; clouds) {
+<b class="nc"><i class="no-highlight">270</i>&nbsp;        System.out.println(&quot;Select the number of the cloud you want to pick from: &quot;);</b>
+<b class="nc"><i class="no-highlight">271</i>&nbsp;        scanListener.setRequest(Request.CLOUD);</b>
+<i class="no-highlight">272</i>&nbsp;    }
+<i class="no-highlight">273</i>&nbsp;
+<i class="no-highlight">274</i>&nbsp;    /**
+<i class="no-highlight">275</i>&nbsp;     * Checks if the number of the cloud is valid,
+<i class="no-highlight">276</i>&nbsp;     * if not, set the listener to wait for a new string.
+<i class="no-highlight">277</i>&nbsp;     * Valid situation: number of an existing cloud that is not empty
+<i class="no-highlight">278</i>&nbsp;     *
+<i class="no-highlight">279</i>&nbsp;     * @param cloudNum in input
+<i class="no-highlight">280</i>&nbsp;     */
+<i class="no-highlight">281</i>&nbsp;    public void checkCloud(int cloudNum) {
+<b class="nc"><i class="no-highlight">282</i>&nbsp;        if (cloudNum == -1) {</b>
+<b class="nc"><i class="no-highlight">283</i>&nbsp;            System.out.println(&quot;ERROR - Cloud not a number, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">284</i>&nbsp;            scanListener.setRequest(Request.CLOUD);</b>
+<i class="no-highlight">285</i>&nbsp;            return;
+<i class="no-highlight">286</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">287</i>&nbsp;        if (cloudNum &lt; 0 || cloudNum &gt;= resource.getClouds().size()) {</b>
+<b class="nc"><i class="no-highlight">288</i>&nbsp;            System.out.println(&quot;ERROR - Cloud does not exist, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">289</i>&nbsp;            scanListener.setRequest(Request.CLOUD);</b>
+<i class="no-highlight">290</i>&nbsp;            return;
+<i class="no-highlight">291</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">292</i>&nbsp;        if (resource.getClouds().get(cloudNum).isEmpty()) {</b>
+<b class="nc"><i class="no-highlight">293</i>&nbsp;            System.out.println(&quot;ERROR - Chosen cloud is empty, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">294</i>&nbsp;            scanListener.setRequest(Request.CLOUD);</b>
+<i class="no-highlight">295</i>&nbsp;            return;
+<i class="no-highlight">296</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">297</i>&nbsp;        notifyObserver(observer -&gt; observer.updateCloud(cloudNum));</b>
+<i class="no-highlight">298</i>&nbsp;    }
+<i class="no-highlight">299</i>&nbsp;
+<i class="no-highlight">300</i>&nbsp;    /**
+<i class="no-highlight">301</i>&nbsp;     * Shows the instruction to move mother nature and the number of maximum steps
+<i class="no-highlight">302</i>&nbsp;     *
+<i class="no-highlight">303</i>&nbsp;     * @param maximumSteps available for this turn for this player based on the assistant played
+<i class="no-highlight">304</i>&nbsp;     */
+<i class="no-highlight">305</i>&nbsp;    @Override
+<i class="no-highlight">306</i>&nbsp;    public void moveMNature(int maximumSteps) {
+<b class="nc"><i class="no-highlight">307</i>&nbsp;        this.maxSteps = maximumSteps;</b>
+<b class="nc"><i class="no-highlight">308</i>&nbsp;        System.out.println(&quot;Insert how many steps Mother Nature will do (max: &quot; + maximumSteps + &quot;)&quot;);</b>
+<b class="nc"><i class="no-highlight">309</i>&nbsp;        scanListener.setRequest(Request.MOTHER);</b>
+<i class="no-highlight">310</i>&nbsp;    }
+<i class="no-highlight">311</i>&nbsp;
+<i class="no-highlight">312</i>&nbsp;    /**
+<i class="no-highlight">313</i>&nbsp;     * Checks if the number of steps is valid,
+<i class="no-highlight">314</i>&nbsp;     * if not, set the listener to wait for a new string.
+<i class="no-highlight">315</i>&nbsp;     *
+<i class="no-highlight">316</i>&nbsp;     * @param steps in input
+<i class="no-highlight">317</i>&nbsp;     */
+<i class="no-highlight">318</i>&nbsp;    public void checkStepsMN(int steps) {
+<b class="nc"><i class="no-highlight">319</i>&nbsp;        if (steps == -1) {</b>
+<b class="nc"><i class="no-highlight">320</i>&nbsp;            System.out.println(&quot;ERROR - Steps not a number, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">321</i>&nbsp;            scanListener.setRequest(Request.MOTHER);</b>
+<i class="no-highlight">322</i>&nbsp;            return;
+<i class="no-highlight">323</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">324</i>&nbsp;        if (steps &lt;= 0) {</b>
+<b class="nc"><i class="no-highlight">325</i>&nbsp;            System.out.println(&quot;ERROR - Steps should be a positive number, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">326</i>&nbsp;            scanListener.setRequest(Request.MOTHER);</b>
+<i class="no-highlight">327</i>&nbsp;            return;
+<i class="no-highlight">328</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">329</i>&nbsp;        if (steps &gt; maxSteps) {</b>
+<b class="nc"><i class="no-highlight">330</i>&nbsp;            System.out.println(&quot;ERROR - Too many steps, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">331</i>&nbsp;            scanListener.setRequest(Request.MOTHER);</b>
+<i class="no-highlight">332</i>&nbsp;            return;
+<i class="no-highlight">333</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">334</i>&nbsp;        notifyObserver(observer -&gt; observer.updateStepsMN(steps));</b>
+<i class="no-highlight">335</i>&nbsp;    }
+<i class="no-highlight">336</i>&nbsp;
+<i class="no-highlight">337</i>&nbsp;    /**
+<i class="no-highlight">338</i>&nbsp;     * Shows the instruction to move a student: first select the color
+<i class="no-highlight">339</i>&nbsp;     *
+<i class="no-highlight">340</i>&nbsp;     * @param movableColor list of color that can be moved
+<i class="no-highlight">341</i>&nbsp;     */
+<i class="no-highlight">342</i>&nbsp;    @Override
+<i class="no-highlight">343</i>&nbsp;    public void moveStudent(List&lt;PawnColor&gt; movableColor) {
+<b class="nc"><i class="no-highlight">344</i>&nbsp;        resource.setPawnsAvailable(movableColor);</b>
+<b class="nc"><i class="no-highlight">345</i>&nbsp;        System.out.println(&quot;What color do you want to move?&quot;);</b>
+<b class="nc"><i class="no-highlight">346</i>&nbsp;        scanListener.setRequest(Request.STUDENT);</b>
+<i class="no-highlight">347</i>&nbsp;    }
+<i class="no-highlight">348</i>&nbsp;
+<i class="no-highlight">349</i>&nbsp;    /**
+<i class="no-highlight">350</i>&nbsp;     * Checks if color is valid, shows how to move to island or hall
+<i class="no-highlight">351</i>&nbsp;     *
+<i class="no-highlight">352</i>&nbsp;     * @param color in input
+<i class="no-highlight">353</i>&nbsp;     */
+<i class="no-highlight">354</i>&nbsp;    public void checkColor(String color) {
+<b class="nc"><i class="no-highlight">355</i>&nbsp;        chosenColor = resource.getPawnsAvailable().stream().filter(o -&gt; color.equalsIgnoreCase(o.name())).findFirst().orElse(null);</b>
+<b class="nc"><i class="no-highlight">356</i>&nbsp;        if (chosenColor == null) {</b>
+<b class="nc"><i class="no-highlight">357</i>&nbsp;            System.out.println(&quot;ERROR - color not available, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">358</i>&nbsp;            scanListener.setRequest(Request.STUDENT);</b>
+<i class="no-highlight">359</i>&nbsp;            return;
+<i class="no-highlight">360</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">361</i>&nbsp;        System.out.println(&quot;Insert destination [1 island_id] for an island and [2] for your hall: &quot;);</b>
+<b class="nc"><i class="no-highlight">362</i>&nbsp;        scanListener.setRequest(Request.MOVE);</b>
+<i class="no-highlight">363</i>&nbsp;    }
+<i class="no-highlight">364</i>&nbsp;
+<i class="no-highlight">365</i>&nbsp;    /**
+<i class="no-highlight">366</i>&nbsp;     * Checks id the target is valid,
+<i class="no-highlight">367</i>&nbsp;     * if not, set the listener to wait for a new string.
+<i class="no-highlight">368</i>&nbsp;     *
+<i class="no-highlight">369</i>&nbsp;     * @param destination in input
+<i class="no-highlight">370</i>&nbsp;     */
+<i class="no-highlight">371</i>&nbsp;    public void moveToTarget(String destination) {
+<b class="nc"><i class="no-highlight">372</i>&nbsp;        int pos = getSpacePos(destination);</b>
+<b class="nc"><i class="no-highlight">373</i>&nbsp;        int target = scanListener.converterToInt(destination.substring(0, pos));</b>
+<b class="nc"><i class="no-highlight">374</i>&nbsp;        if (target == -1) {</b>
+<b class="nc"><i class="no-highlight">375</i>&nbsp;            System.out.println(&quot;ERROR - not a number inserted, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">376</i>&nbsp;            scanListener.setRequest(Request.MOVE);</b>
+<i class="no-highlight">377</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">378</i>&nbsp;            if (target == 1) { //ISLAND CHOICE</b>
+<b class="nc"><i class="no-highlight">379</i>&nbsp;                if (pos == destination.length()) {</b>
+<b class="nc"><i class="no-highlight">380</i>&nbsp;                    System.out.println(&quot;ERROR - island_id not inserted, retry.&quot;);</b>
+<b class="nc"><i class="no-highlight">381</i>&nbsp;                    scanListener.setRequest(Request.MOVE);</b>
+<i class="no-highlight">382</i>&nbsp;                    return;
+<i class="no-highlight">383</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">384</i>&nbsp;                int island = scanListener.converterToInt(destination.substring(pos + 1));</b>
+<b class="nc"><i class="no-highlight">385</i>&nbsp;                if (island == -1) {</b>
+<b class="nc"><i class="no-highlight">386</i>&nbsp;                    System.out.println(&quot;ERROR - island_id not valid, retry.&quot;);</b>
+<b class="nc"><i class="no-highlight">387</i>&nbsp;                    scanListener.setRequest(Request.MOVE);</b>
+<i class="no-highlight">388</i>&nbsp;                } else {
+<b class="nc"><i class="no-highlight">389</i>&nbsp;                    notifyObserver(observer -&gt; observer.updateMoveStudent(chosenColor, Target.ISLAND, island));</b>
+<i class="no-highlight">390</i>&nbsp;                }
+<b class="nc"><i class="no-highlight">391</i>&nbsp;            } else if (target == 2) { //HALL CHOICE</b>
+<b class="nc"><i class="no-highlight">392</i>&nbsp;                notifyObserver(observer -&gt; observer.updateMoveStudent(chosenColor, Target.HALL, 0));</b>
+<i class="no-highlight">393</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">394</i>&nbsp;                System.out.println(&quot;ERROR - target inserted is not valid, retry.&quot;);</b>
+<b class="nc"><i class="no-highlight">395</i>&nbsp;                scanListener.setRequest(Request.MOVE);</b>
+<i class="no-highlight">396</i>&nbsp;            }
+<i class="no-highlight">397</i>&nbsp;        }
+<i class="no-highlight">398</i>&nbsp;    }
+<i class="no-highlight">399</i>&nbsp;
+<i class="no-highlight">400</i>&nbsp;    /**
+<i class="no-highlight">401</i>&nbsp;     * notify observer of character to use
+<i class="no-highlight">402</i>&nbsp;     *
+<i class="no-highlight">403</i>&nbsp;     * @param id character
+<i class="no-highlight">404</i>&nbsp;     */
+<i class="no-highlight">405</i>&nbsp;    public void useCharacter(int id) {
+<b class="nc"><i class="no-highlight">406</i>&nbsp;        notifyObserver(observer -&gt; observer.updateUseCharacter(id));</b>
+<i class="no-highlight">407</i>&nbsp;    }
+<i class="no-highlight">408</i>&nbsp;
+<i class="no-highlight">409</i>&nbsp;    /**
+<i class="no-highlight">410</i>&nbsp;     * Shows how to select a color from the character selected
+<i class="no-highlight">411</i>&nbsp;     */
+<i class="no-highlight">412</i>&nbsp;    @Override
+<i class="no-highlight">413</i>&nbsp;    public void askColor() {
+<b class="nc"><i class="no-highlight">414</i>&nbsp;        System.out.println(&quot;Type a color to execute the action of the character you chose:&quot;);</b>
+<b class="nc"><i class="no-highlight">415</i>&nbsp;        scanListener.setRequest(Request.COLOR_ACTION);</b>
+<i class="no-highlight">416</i>&nbsp;    }
+<i class="no-highlight">417</i>&nbsp;
+<i class="no-highlight">418</i>&nbsp;    /**
+<i class="no-highlight">419</i>&nbsp;     * Check if the color is available for the character used,
+<i class="no-highlight">420</i>&nbsp;     * if not, set the listener to wait for a new string.
+<i class="no-highlight">421</i>&nbsp;     *
+<i class="no-highlight">422</i>&nbsp;     * @param color in input
+<i class="no-highlight">423</i>&nbsp;     */
+<i class="no-highlight">424</i>&nbsp;    public void checkColorAction(String color) {
+<i class="no-highlight">425</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">426</i>&nbsp;            PawnColor chosen = PawnColor.valueOf(color.toUpperCase());</b>
+<b class="nc"><i class="no-highlight">427</i>&nbsp;            notifyObserver(observer -&gt; observer.updateColorAction(chosen));</b>
+<b class="nc"><i class="no-highlight">428</i>&nbsp;        } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i class="no-highlight">429</i>&nbsp;            System.out.println(&quot;Not a color, retry.&quot;);</b>
+<b class="nc"><i class="no-highlight">430</i>&nbsp;            scanListener.setRequest(Request.COLOR_ACTION);</b>
+<b class="nc"><i class="no-highlight">431</i>&nbsp;        }</b>
+<i class="no-highlight">432</i>&nbsp;    }
+<i class="no-highlight">433</i>&nbsp;
+<i class="no-highlight">434</i>&nbsp;    /**
+<i class="no-highlight">435</i>&nbsp;     * Shows how to select an island from the character selected
+<i class="no-highlight">436</i>&nbsp;     */
+<i class="no-highlight">437</i>&nbsp;    @Override
+<i class="no-highlight">438</i>&nbsp;    public void askIsland() {
+<b class="nc"><i class="no-highlight">439</i>&nbsp;        System.out.println(&quot;Type a number of island to execute the action of the character you chose: &quot;);</b>
+<b class="nc"><i class="no-highlight">440</i>&nbsp;        scanListener.setRequest(Request.ISLAND_ACTION);</b>
+<i class="no-highlight">441</i>&nbsp;    }
+<i class="no-highlight">442</i>&nbsp;
+<i class="no-highlight">443</i>&nbsp;    /**
+<i class="no-highlight">444</i>&nbsp;     * Check if the island is available for the character used,
+<i class="no-highlight">445</i>&nbsp;     * if not, set the listener to wait for a new string.
+<i class="no-highlight">446</i>&nbsp;     *
+<i class="no-highlight">447</i>&nbsp;     * @param island selected
+<i class="no-highlight">448</i>&nbsp;     */
+<i class="no-highlight">449</i>&nbsp;    public void checkIslandAction(int island) {
+<b class="nc"><i class="no-highlight">450</i>&nbsp;        if (island == -1) {</b>
+<b class="nc"><i class="no-highlight">451</i>&nbsp;            System.out.println(&quot;Not an island, retry&quot;);</b>
+<b class="nc"><i class="no-highlight">452</i>&nbsp;            scanListener.setRequest(Request.ISLAND_ACTION);</b>
+<i class="no-highlight">453</i>&nbsp;            return;
+<i class="no-highlight">454</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">455</i>&nbsp;        notifyObserver(observer -&gt; observer.updateIslandAction(island));</b>
+<i class="no-highlight">456</i>&nbsp;    }
+<i class="no-highlight">457</i>&nbsp;
+<i class="no-highlight">458</i>&nbsp;    /**
+<i class="no-highlight">459</i>&nbsp;     * Shows how to start a swap between two colors
+<i class="no-highlight">460</i>&nbsp;     *
+<i class="no-highlight">461</i>&nbsp;     * @param swap number of swaps
+<i class="no-highlight">462</i>&nbsp;     */
+<i class="no-highlight">463</i>&nbsp;    @Override
+<i class="no-highlight">464</i>&nbsp;    public void askSwapList(int swap) {
+<i class="no-highlight">465</i>&nbsp;        //TODO: save swap and check that it&#39;s maximum that swaps!
+<b class="nc"><i class="no-highlight">466</i>&nbsp;        System.out.println(&quot;Insert a pair of color to swap! You have &quot; + swap + &quot; swap. Syntax [FROM TO]&quot;);</b>
+<b class="nc"><i class="no-highlight">467</i>&nbsp;        scanListener.setRequest(Request.COLOR_SWAP);</b>
+<i class="no-highlight">468</i>&nbsp;    }
+<i class="no-highlight">469</i>&nbsp;
+<i class="no-highlight">470</i>&nbsp;    /**
+<i class="no-highlight">471</i>&nbsp;     * Checks if the swap is correctly requested,
+<i class="no-highlight">472</i>&nbsp;     * if not, set the listener to wait for a new string.
+<i class="no-highlight">473</i>&nbsp;     *
+<i class="no-highlight">474</i>&nbsp;     * @param input string of the swap
+<i class="no-highlight">475</i>&nbsp;     */
+<i class="no-highlight">476</i>&nbsp;    public void checkSwapAction(String input) {
+<b class="nc"><i class="no-highlight">477</i>&nbsp;        int pos = getSpacePos(input);</b>
+<b class="nc"><i class="no-highlight">478</i>&nbsp;        if (pos == input.length()) {</b>
+<b class="nc"><i class="no-highlight">479</i>&nbsp;            System.out.println(&quot;Input not correct. Syntax [FROM TO]&quot;);</b>
+<b class="nc"><i class="no-highlight">480</i>&nbsp;            scanListener.setRequest(Request.COLOR_SWAP);</b>
+<i class="no-highlight">481</i>&nbsp;        } else {
+<i class="no-highlight">482</i>&nbsp;            try {
+<b class="nc"><i class="no-highlight">483</i>&nbsp;                PawnColor from = PawnColor.valueOf(input.substring(0, pos).toUpperCase());</b>
+<b class="nc"><i class="no-highlight">484</i>&nbsp;                PawnColor to = PawnColor.valueOf(input.substring(pos + 1).toUpperCase());</b>
+<b class="nc"><i class="no-highlight">485</i>&nbsp;                swapColor.add(from);</b>
+<b class="nc"><i class="no-highlight">486</i>&nbsp;                swapColor.add(to);</b>
+<b class="nc"><i class="no-highlight">487</i>&nbsp;                System.out.println(&quot;Do you want to continue swapping pawns? [y/n]&quot;);</b>
+<b class="nc"><i class="no-highlight">488</i>&nbsp;                scanListener.setRequest(Request.CONTINUE_SWAPPING);</b>
+<b class="nc"><i class="no-highlight">489</i>&nbsp;            } catch (IllegalArgumentException e) {</b>
+<b class="nc"><i class="no-highlight">490</i>&nbsp;                System.out.println(&quot;Input not correct. Syntax [FROM TO]&quot;);</b>
+<b class="nc"><i class="no-highlight">491</i>&nbsp;                scanListener.setRequest(Request.COLOR_SWAP);</b>
+<b class="nc"><i class="no-highlight">492</i>&nbsp;            }</b>
+<i class="no-highlight">493</i>&nbsp;
+<i class="no-highlight">494</i>&nbsp;        }
+<i class="no-highlight">495</i>&nbsp;    }
+<i class="no-highlight">496</i>&nbsp;
+<i class="no-highlight">497</i>&nbsp;    /**
+<i class="no-highlight">498</i>&nbsp;     * Checks if the player wants to swap again
+<i class="no-highlight">499</i>&nbsp;     *
+<i class="no-highlight">500</i>&nbsp;     * @param input response from the user
+<i class="no-highlight">501</i>&nbsp;     */
+<i class="no-highlight">502</i>&nbsp;    public void checkContinueSwapping(String input) {
+<b class="nc"><i class="no-highlight">503</i>&nbsp;        if (input.equals(&quot;yes&quot;) || input.equals(&quot;y&quot;)) {</b>
+<b class="nc"><i class="no-highlight">504</i>&nbsp;            System.out.println(&quot;Insert a pair of color to swap!&quot;);</b>
+<b class="nc"><i class="no-highlight">505</i>&nbsp;            scanListener.setRequest(Request.COLOR_SWAP);</b>
+<b class="nc"><i class="no-highlight">506</i>&nbsp;        } else if (input.equals(&quot;no&quot;) || input.equals(&quot;n&quot;)) {</b>
+<b class="nc"><i class="no-highlight">507</i>&nbsp;            notifyObserver(observer -&gt; observer.updateSwapAction(swapColor));</b>
+<i class="no-highlight">508</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">509</i>&nbsp;            System.out.println(&quot;Not correct answer, retry.&quot;);</b>
+<b class="nc"><i class="no-highlight">510</i>&nbsp;            scanListener.setRequest(Request.CONTINUE_SWAPPING);</b>
+<i class="no-highlight">511</i>&nbsp;        }
+<i class="no-highlight">512</i>&nbsp;    }
+<i class="no-highlight">513</i>&nbsp;
+<i class="no-highlight">514</i>&nbsp;    /**
+<i class="no-highlight">515</i>&nbsp;     * Shows error message
+<i class="no-highlight">516</i>&nbsp;     *
+<i class="no-highlight">517</i>&nbsp;     * @param msg content
+<i class="no-highlight">518</i>&nbsp;     */
+<i class="no-highlight">519</i>&nbsp;    @Override
+<i class="no-highlight">520</i>&nbsp;    public void showError(String msg) {
+<b class="nc"><i class="no-highlight">521</i>&nbsp;        System.out.println(msg);</b>
+<b class="nc"><i class="no-highlight">522</i>&nbsp;        System.exit(0);</b>
+<i class="no-highlight">523</i>&nbsp;    }
+<i class="no-highlight">524</i>&nbsp;
+<i class="no-highlight">525</i>&nbsp;    /**
+<i class="no-highlight">526</i>&nbsp;     * Shows the board with the islands
+<i class="no-highlight">527</i>&nbsp;     *
+<i class="no-highlight">528</i>&nbsp;     * @param board the board to show
+<i class="no-highlight">529</i>&nbsp;     */
+<i class="no-highlight">530</i>&nbsp;    private void showBoard(ShortBoard board) {
+<b class="nc"><i class="no-highlight">531</i>&nbsp;        BoardCli boardCli = new BoardCli(board);</b>
+<b class="nc"><i class="no-highlight">532</i>&nbsp;        boardCli.printBoard();</b>
+<b class="nc"><i class="no-highlight">533</i>&nbsp;        System.out.println();</b>
+<i class="no-highlight">534</i>&nbsp;    }
+<i class="no-highlight">535</i>&nbsp;
+<i class="no-highlight">536</i>&nbsp;    /**
+<i class="no-highlight">537</i>&nbsp;     * Shows the clouds above the board
+<i class="no-highlight">538</i>&nbsp;     *
+<i class="no-highlight">539</i>&nbsp;     * @param clouds during the game
+<i class="no-highlight">540</i>&nbsp;     */
+<i class="no-highlight">541</i>&nbsp;    public void showClouds(List&lt;ShortCloud&gt; clouds) {
+<b class="nc"><i class="no-highlight">542</i>&nbsp;        List&lt;StringBuilder&gt; lines = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">543</i>&nbsp;        List&lt;CloudCli&gt; cloudsCli = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">544</i>&nbsp;        for (ShortCloud shortCloud : clouds) {</b>
+<b class="nc"><i class="no-highlight">545</i>&nbsp;            CloudCli cloudCli = new CloudCli(shortCloud, clouds.indexOf(shortCloud));</b>
+<b class="nc"><i class="no-highlight">546</i>&nbsp;            cloudsCli.add(cloudCli);</b>
+<b class="nc"><i class="no-highlight">547</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">548</i>&nbsp;        for (int i = 0; i &lt; Constants.ISLAND_HIGH; i++) {</b>
+<b class="nc"><i class="no-highlight">549</i>&nbsp;            StringBuilder stringBuilder = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">550</i>&nbsp;            for (CloudCli cloudCli : cloudsCli) {</b>
+<b class="nc"><i class="no-highlight">551</i>&nbsp;                stringBuilder.append(cloudCli.getLines().get(i)).append(&quot;   &quot;);</b>
+<b class="nc"><i class="no-highlight">552</i>&nbsp;            }</b>
+<b class="nc"><i class="no-highlight">553</i>&nbsp;            lines.add(stringBuilder);</b>
+<i class="no-highlight">554</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">555</i>&nbsp;        System.out.println(&quot;CLOUDS:&quot;);</b>
+<b class="nc"><i class="no-highlight">556</i>&nbsp;        lines.forEach(System.out::println);</b>
+<i class="no-highlight">557</i>&nbsp;    }
+<i class="no-highlight">558</i>&nbsp;
+<i class="no-highlight">559</i>&nbsp;    /**
+<i class="no-highlight">560</i>&nbsp;     * Used to refresh the information on the display
+<i class="no-highlight">561</i>&nbsp;     */
+<i class="no-highlight">562</i>&nbsp;    @Override
+<i class="no-highlight">563</i>&nbsp;    public void updateScreen() {
+<b class="nc"><i class="no-highlight">564</i>&nbsp;        Map&lt;ShortPlayer, ShortSchool&gt; otherSchools = new HashMap&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">565</i>&nbsp;        Map&lt;ShortPlayer, ShortSchool&gt; ownerSchool = new HashMap&lt;&gt;();</b>
+<b class="nc"><i class="no-highlight">566</i>&nbsp;        clearScreen();</b>
+<b class="nc"><i class="no-highlight">567</i>&nbsp;        for (Map.Entry&lt;ShortPlayer, ShortSchool&gt; entry : resource.getSchoolMap().entrySet()) {</b>
+<b class="nc"><i class="no-highlight">568</i>&nbsp;            if (entry.getKey().name().equals(nickname)) {</b>
+<b class="nc"><i class="no-highlight">569</i>&nbsp;                ownerSchool.put(entry.getKey(), entry.getValue());</b>
+<i class="no-highlight">570</i>&nbsp;            } else {
+<b class="nc"><i class="no-highlight">571</i>&nbsp;                otherSchools.put(entry.getKey(), entry.getValue());</b>
+<i class="no-highlight">572</i>&nbsp;            }
+<b class="nc"><i class="no-highlight">573</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">574</i>&nbsp;        if (!ownerSchool.isEmpty()) {</b>
+<b class="nc"><i class="no-highlight">575</i>&nbsp;            SchoolsCli schoolsCli = new SchoolsCli(otherSchools, ownerSchool, resource.getMoneyMap(), resource.getAssistantMap());</b>
+<b class="nc"><i class="no-highlight">576</i>&nbsp;            schoolsCli.printSchools();</b>
+<b class="nc"><i class="no-highlight">577</i>&nbsp;            System.out.println(&quot; &quot;);</b>
+<i class="no-highlight">578</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">579</i>&nbsp;        if (resource.getBoard() != null) {</b>
+<b class="nc"><i class="no-highlight">580</i>&nbsp;            System.out.println(&quot;BOARD:&quot;);</b>
+<b class="nc"><i class="no-highlight">581</i>&nbsp;            showBoard(resource.getBoard());</b>
+<i class="no-highlight">582</i>&nbsp;        }
+<i class="no-highlight">583</i>&nbsp;
+<b class="nc"><i class="no-highlight">584</i>&nbsp;        System.out.println(&quot;Remaining students in the sack: &quot; + resource.getStudentsInSack());</b>
+<i class="no-highlight">585</i>&nbsp;
+<b class="nc"><i class="no-highlight">586</i>&nbsp;        if (resource.getClouds() != null) {</b>
+<b class="nc"><i class="no-highlight">587</i>&nbsp;            showClouds(resource.getClouds());</b>
+<i class="no-highlight">588</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">589</i>&nbsp;        if (resource.getCharacters() != null) {</b>
+<b class="nc"><i class="no-highlight">590</i>&nbsp;            showCharacter(resource.getCharacters());</b>
+<i class="no-highlight">591</i>&nbsp;        }
+<i class="no-highlight">592</i>&nbsp;
+<i class="no-highlight">593</i>&nbsp;    }
+<i class="no-highlight">594</i>&nbsp;
+<i class="no-highlight">595</i>&nbsp;    /**
+<i class="no-highlight">596</i>&nbsp;     * Shows the list of the character available to be used,
+<i class="no-highlight">597</i>&nbsp;     * the description of the action associated and the cost
+<i class="no-highlight">598</i>&nbsp;     *
+<i class="no-highlight">599</i>&nbsp;     * @param characters available
+<i class="no-highlight">600</i>&nbsp;     */
+<i class="no-highlight">601</i>&nbsp;    private void showCharacter(List&lt;ShortCharacter&gt; characters) {
+<b class="nc"><i class="no-highlight">602</i>&nbsp;        System.out.println(&quot;Characters in use list. To use one of them just type \&quot;use [id]\&quot; during your action turn (e.g. \&quot;use 0\&quot; to use the first character)&quot;);</b>
+<b class="nc"><i class="no-highlight">603</i>&nbsp;        for (int i = 0; i &lt; characters.size(); i++) {</b>
+<b class="nc"><i class="no-highlight">604</i>&nbsp;            ShortCharacter character = characters.get(i);</b>
+<b class="nc"><i class="no-highlight">605</i>&nbsp;            System.out.print(CLIColor.RED + &quot;Name[ID]: &quot; + CLIColor.RESET + character.getName() + &quot;[&quot; + i + &quot;] &quot; + CLIColor.RESET);</b>
+<b class="nc"><i class="no-highlight">606</i>&nbsp;            printPawns(character.getStudentsOn());</b>
+<b class="nc"><i class="no-highlight">607</i>&nbsp;            printBanTile(character.getBanTiles());</b>
+<b class="nc"><i class="no-highlight">608</i>&nbsp;            System.out.println(CLIColor.RED + &quot;Cost: &quot; + CLIColor.RESET + character.getCost() + (character.hasCoinOn() ? (CLIColor.BLUE + &quot;(+1)&quot; + CLIColor.RESET) : &quot;&quot;));</b>
+<b class="nc"><i class="no-highlight">609</i>&nbsp;            System.out.println(CLIColor.RED + &quot;Effect: &quot; + CLIColor.RESET + character.getDescription());</b>
+<b class="nc"><i class="no-highlight">610</i>&nbsp;            System.out.print(CLIColor.RESET);</b>
+<i class="no-highlight">611</i>&nbsp;        }
+<i class="no-highlight">612</i>&nbsp;    }
+<i class="no-highlight">613</i>&nbsp;
+<i class="no-highlight">614</i>&nbsp;    /**
+<i class="no-highlight">615</i>&nbsp;     * Prints the pawns available in the card of the character
+<i class="no-highlight">616</i>&nbsp;     *
+<i class="no-highlight">617</i>&nbsp;     * @param pawns associated with the character
+<i class="no-highlight">618</i>&nbsp;     */
+<i class="no-highlight">619</i>&nbsp;    private void printPawns(ShortPawns pawns) {
+<b class="nc"><i class="no-highlight">620</i>&nbsp;        StringBuilder builder = new StringBuilder();</b>
+<b class="nc"><i class="no-highlight">621</i>&nbsp;        if (pawns != null) {</b>
+<b class="nc"><i class="no-highlight">622</i>&nbsp;            for (PawnColor pawnColor : PawnColor.values()) {</b>
+<b class="nc"><i class="no-highlight">623</i>&nbsp;                int num = pawns.getFromColor(pawnColor);</b>
+<b class="nc"><i class="no-highlight">624</i>&nbsp;                if (num != 0) {</b>
+<b class="nc"><i class="no-highlight">625</i>&nbsp;                    builder.append(num).append(&quot; x &quot;).append(CLIColor.valueOf(pawnColor.name())).append(CLISymbol.FULL_CIRCLE).append(CLIColor.RESET).append(&quot; &quot;);</b>
+<i class="no-highlight">626</i>&nbsp;                }
+<i class="no-highlight">627</i>&nbsp;            }
+<i class="no-highlight">628</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">629</i>&nbsp;        System.out.print(builder);</b>
+<i class="no-highlight">630</i>&nbsp;    }
+<i class="no-highlight">631</i>&nbsp;
+<i class="no-highlight">632</i>&nbsp;    /**
+<i class="no-highlight">633</i>&nbsp;     * Prints the number of bans available for grandma
+<i class="no-highlight">634</i>&nbsp;     *
+<i class="no-highlight">635</i>&nbsp;     * @param banTiles the number of bain tiles on the card
+<i class="no-highlight">636</i>&nbsp;     */
+<i class="no-highlight">637</i>&nbsp;    private void printBanTile(int banTiles) {
+<b class="nc"><i class="no-highlight">638</i>&nbsp;        if (banTiles &gt; 0) {</b>
+<b class="nc"><i class="no-highlight">639</i>&nbsp;            System.out.print(&quot;Remaining ban tiles: &quot; + banTiles);</b>
+<i class="no-highlight">640</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">641</i>&nbsp;        System.out.println();</b>
+<i class="no-highlight">642</i>&nbsp;    }
+<i class="no-highlight">643</i>&nbsp;
+<i class="no-highlight">644</i>&nbsp;    /**
+<i class="no-highlight">645</i>&nbsp;     * clears the screen
+<i class="no-highlight">646</i>&nbsp;     */
+<i class="no-highlight">647</i>&nbsp;    private void clearScreen() {
+<i class="no-highlight">648</i>&nbsp;        try {
+<b class="nc"><i class="no-highlight">649</i>&nbsp;            if (System.getProperty(&quot;os.name&quot;).contains(&quot;Windows&quot;)) {</b>
+<b class="nc"><i class="no-highlight">650</i>&nbsp;                new ProcessBuilder(&quot;cmd&quot;, &quot;/c&quot;, &quot;cls&quot;).inheritIO().start().waitFor();</b>
+<i class="no-highlight">651</i>&nbsp;            } else
+<b class="nc"><i class="no-highlight">652</i>&nbsp;                Runtime.getRuntime().exec(&quot;clear&quot;);</b>
+<b class="nc"><i class="no-highlight">653</i>&nbsp;        } catch (IOException | InterruptedException ignore) {</b>
+<b class="nc"><i class="no-highlight">654</i>&nbsp;            Thread.currentThread().interrupt();</b>
+<b class="nc"><i class="no-highlight">655</i>&nbsp;        }</b>
+<b class="nc"><i class="no-highlight">656</i>&nbsp;        System.out.println(CLIColor.CLEAR);</b>
+<b class="nc"><i class="no-highlight">657</i>&nbsp;        System.out.flush();</b>
+<i class="no-highlight">658</i>&nbsp;    }
+<i class="no-highlight">659</i>&nbsp;
+<i class="no-highlight">660</i>&nbsp;    /**
+<i class="no-highlight">661</i>&nbsp;     * shows win screen
+<i class="no-highlight">662</i>&nbsp;     *
+<i class="no-highlight">663</i>&nbsp;     * @param winner of the game
+<i class="no-highlight">664</i>&nbsp;     * @param win    if is the player that wins
+<i class="no-highlight">665</i>&nbsp;     */
+<i class="no-highlight">666</i>&nbsp;    @Override
+<i class="no-highlight">667</i>&nbsp;    public void win(String winner, boolean win) {
+<b class="nc"><i class="no-highlight">668</i>&nbsp;        if (win) {</b>
+<b class="nc"><i class="no-highlight">669</i>&nbsp;            System.out.println(CLIColor.GREEN + &quot;YOU WON!&quot;);</b>
+<i class="no-highlight">670</i>&nbsp;        } else {
+<b class="nc"><i class="no-highlight">671</i>&nbsp;            System.out.println(CLIColor.RED + &quot;YOU LOST! &quot; + winner + &quot; won&quot;);</b>
+<i class="no-highlight">672</i>&nbsp;        }
+<b class="nc"><i class="no-highlight">673</i>&nbsp;        System.out.println(CLIColor.RESET);</b>
+<b class="nc"><i class="no-highlight">674</i>&nbsp;        scanListener.stopListening();</b>
+<b class="nc"><i class="no-highlight">675</i>&nbsp;        System.exit(0);</b>
+<i class="no-highlight">676</i>&nbsp;    }
+<i class="no-highlight">677</i>&nbsp;
+<i class="no-highlight">678</i>&nbsp;    /**
+<i class="no-highlight">679</i>&nbsp;     * Shows general message
+<i class="no-highlight">680</i>&nbsp;     *
+<i class="no-highlight">681</i>&nbsp;     * @param msg to be displayed
+<i class="no-highlight">682</i>&nbsp;     */
+<i class="no-highlight">683</i>&nbsp;    @Override
+<i class="no-highlight">684</i>&nbsp;    public void showMessage(String msg) {
+<b class="nc"><i class="no-highlight">685</i>&nbsp;        System.out.print(CLIColor.YELLOW_BG + &quot;&gt;Server:&quot; + CLIColor.RESET + &quot; &quot;);</b>
+<b class="nc"><i class="no-highlight">686</i>&nbsp;        System.out.println(msg);</b>
+<i class="no-highlight">687</i>&nbsp;    }
+<i class="no-highlight">688</i>&nbsp;
+<i class="no-highlight">689</i>&nbsp;    @Override
+<i class="no-highlight">690</i>&nbsp;    public void injectResource(ShortModel resource) {
+<b class="nc"><i class="no-highlight">691</i>&nbsp;        this.resource = resource;</b>
+<i class="no-highlight">692</i>&nbsp;    }
+<i class="no-highlight">693</i>&nbsp;
+<i class="no-highlight">694</i>&nbsp;    /**
+<i class="no-highlight">695</i>&nbsp;     * Prints the welcome logo
+<i class="no-highlight">696</i>&nbsp;     */
+<i class="no-highlight">697</i>&nbsp;    public void printWelcome() {
+<b class="nc"><i class="no-highlight">698</i>&nbsp;        System.out.println(CLIColor.GREEN);</b>
+<b class="nc"><i class="no-highlight">699</i>&nbsp;        System.out.println(&quot;&quot;&quot;</b>
+<i class="no-highlight">700</i>&nbsp;                 ______      _             _            \s
+<i class="no-highlight">701</i>&nbsp;                |  ____|    (_)           | |           \s
+<i class="no-highlight">702</i>&nbsp;                | |__   _ __ _  __ _ _ __ | |_ _   _ ___\s
+<i class="no-highlight">703</i>&nbsp;                |  __| | &#39;__| |/ _` | &#39;_ \\| __| | | / __|
+<i class="no-highlight">704</i>&nbsp;                | |____| |  | | (_| | | | | |_| |_| \\__ \\
+<i class="no-highlight">705</i>&nbsp;                |______|_|  |_|\\__,_|_| |_|\\__|\\__, |___/
+<i class="no-highlight">706</i>&nbsp;                                                __/ |   \s
+<i class="no-highlight">707</i>&nbsp;                                               |___/    \s
+<i class="no-highlight">708</i>&nbsp;
+<i class="no-highlight">709</i>&nbsp;                by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell&#39;Era&quot;&quot;&quot;);
+<b class="nc"><i class="no-highlight">710</i>&nbsp;        System.out.println(CLIColor.RESET);</b>
+<i class="no-highlight">711</i>&nbsp;    }
+<i class="no-highlight">712</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -810,7 +811,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

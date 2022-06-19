@@ -50,18 +50,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    87,5%
+    88,9%
   </span>
   <span class="absValue">
-    (7/8)
+    (8/9)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    94,1%
+    94,4%
   </span>
   <span class="absValue">
-    (16/17)
+    (17/18)
   </span>
 </td>
 </tr>
@@ -151,15 +151,19 @@ Current scope:     <a href="../../index.html">all classes</a>
 <b class="fc"><i class="no-highlight">76</i>&nbsp;        return sackPawns.totalElements();</b>
 <i class="no-highlight">77</i>&nbsp;    }
 <i class="no-highlight">78</i>&nbsp;
-<i class="no-highlight">79</i>&nbsp;    public boolean isEmpty() {
-<b class="fc"><i class="no-highlight">80</i>&nbsp;        return sackPawns.totalElements() == 0;</b>
+<i class="no-highlight">79</i>&nbsp;    public void returnTo(Pawns pawns) {
+<b class="fc"><i class="no-highlight">80</i>&nbsp;        sackPawns.addPawns(pawns);</b>
 <i class="no-highlight">81</i>&nbsp;    }
 <i class="no-highlight">82</i>&nbsp;
-<i class="no-highlight">83</i>&nbsp;    @Override
-<i class="no-highlight">84</i>&nbsp;    public String toString() {
-<b class="nc"><i class="no-highlight">85</i>&nbsp;        return sackPawns.toString();</b>
-<i class="no-highlight">86</i>&nbsp;    }
-<i class="no-highlight">87</i>&nbsp;}
+<i class="no-highlight">83</i>&nbsp;    public boolean isEmpty() {
+<b class="fc"><i class="no-highlight">84</i>&nbsp;        return sackPawns.totalElements() == 0;</b>
+<i class="no-highlight">85</i>&nbsp;    }
+<i class="no-highlight">86</i>&nbsp;
+<i class="no-highlight">87</i>&nbsp;    @Override
+<i class="no-highlight">88</i>&nbsp;    public String toString() {
+<b class="nc"><i class="no-highlight">89</i>&nbsp;        return sackPawns.toString();</b>
+<i class="no-highlight">90</i>&nbsp;    }
+<i class="no-highlight">91</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -186,7 +190,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>

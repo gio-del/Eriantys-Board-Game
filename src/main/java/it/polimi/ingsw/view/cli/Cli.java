@@ -178,6 +178,7 @@ public class Cli extends ClientObservable implements View {
             scanListener.setRequest(Request.GAME_MODE);
             return;
         }
+        System.out.println("Wait for players...");
         notifyObserver(observer -> observer.updateGameModeNumPlayer(mode, finalNumOfPlayer));
     }
 

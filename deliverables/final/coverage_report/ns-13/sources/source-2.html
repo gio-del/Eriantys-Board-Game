@@ -89,22 +89,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 <i class="no-highlight">14</i>&nbsp;
 <i class="no-highlight">15</i>&nbsp;    /**
 <i class="no-highlight">16</i>&nbsp;     * Subscribe an {@link Observer} to the list of the observers.
-<i class="no-highlight">17</i>&nbsp;     * @param observer the observer to subscribe
-<i class="no-highlight">18</i>&nbsp;     */
-<i class="no-highlight">19</i>&nbsp;    public void addObserver(Observer observer) {
-<b class="fc"><i class="no-highlight">20</i>&nbsp;        if (observer != null &amp;&amp; !observers.contains(observer)) {</b>
-<b class="fc"><i class="no-highlight">21</i>&nbsp;            observers.add(observer);</b>
-<i class="no-highlight">22</i>&nbsp;        }
-<i class="no-highlight">23</i>&nbsp;    }
-<i class="no-highlight">24</i>&nbsp;
-<i class="no-highlight">25</i>&nbsp;    /**
-<i class="no-highlight">26</i>&nbsp;     * Notify the observers.
-<i class="no-highlight">27</i>&nbsp;     * @param msg the notification
-<i class="no-highlight">28</i>&nbsp;     */
-<i class="no-highlight">29</i>&nbsp;    public void notifyObserver(Notification msg) {
-<b class="fc"><i class="no-highlight">30</i>&nbsp;        observers.forEach(observer -&gt; observer.update(msg));</b>
-<i class="no-highlight">31</i>&nbsp;    }
-<i class="no-highlight">32</i>&nbsp;}
+<i class="no-highlight">17</i>&nbsp;     *
+<i class="no-highlight">18</i>&nbsp;     * @param observer the observer to subscribe
+<i class="no-highlight">19</i>&nbsp;     */
+<i class="no-highlight">20</i>&nbsp;    public void addObserver(Observer observer) {
+<b class="fc"><i class="no-highlight">21</i>&nbsp;        if (observer != null &amp;&amp; !observers.contains(observer)) {</b>
+<b class="fc"><i class="no-highlight">22</i>&nbsp;            observers.add(observer);</b>
+<i class="no-highlight">23</i>&nbsp;        }
+<i class="no-highlight">24</i>&nbsp;    }
+<i class="no-highlight">25</i>&nbsp;
+<i class="no-highlight">26</i>&nbsp;    /**
+<i class="no-highlight">27</i>&nbsp;     * Notify the observers.
+<i class="no-highlight">28</i>&nbsp;     *
+<i class="no-highlight">29</i>&nbsp;     * @param msg the notification
+<i class="no-highlight">30</i>&nbsp;     */
+<i class="no-highlight">31</i>&nbsp;    public void notifyObserver(Notification msg) {
+<b class="fc"><i class="no-highlight">32</i>&nbsp;        observers.forEach(observer -&gt; observer.update(msg));</b>
+<i class="no-highlight">33</i>&nbsp;    }
+<i class="no-highlight">34</i>&nbsp;}
 </div>
 </pre>
 </div>
@@ -131,7 +133,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2022-06-12 11:39</div>
+    <div style="float:right;">generated on 2022-06-19 15:57</div>
 </div>
 </body>
 </html>
