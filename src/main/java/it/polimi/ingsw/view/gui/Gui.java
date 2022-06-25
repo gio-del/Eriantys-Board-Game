@@ -67,11 +67,7 @@ public class Gui extends ClientObservable implements View {
      */
     @Override
     public void chooseAssistant(Set<Assistant> playableAssistant) {
-        Platform.runLater(() -> {
-            getBoardController().setPlayableAssistant(playableAssistant);
-            ((Stage) SceneManager.getActualScene().getWindow()).setMaximized(true);
-            ((Stage) SceneManager.getActualScene().getWindow()).setResizable(true);
-        });
+        Platform.runLater(() -> getBoardController().setPlayableAssistant(playableAssistant));
     }
 
     /**
@@ -201,6 +197,9 @@ public class Gui extends ClientObservable implements View {
             BoardSceneController finalController = controller;
             observers.forEach(finalController::addObserver);
             SceneManager.changeScene(controller, "board.fxml");
+            ((Stage) SceneManager.getActualScene().getWindow()).setMaximized(true);
+            SceneManager.getActualScene().getWindow().sizeToScene();
+            ((Stage) SceneManager.getActualScene().getWindow()).setResizable(true);
         }
         return controller;
     }

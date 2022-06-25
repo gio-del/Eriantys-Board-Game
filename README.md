@@ -40,6 +40,7 @@ The default port number (if incorrect syntax is used or no port number is provid
 To start the CLI type `java -jar AM23Eriantys_client.jar [--cli | -c]` in your terminal.
 #### GUI
 To start the GUI type `java -jar AM23Eriantys_client.jar` in your terminal or just double-click the executable file.
+For a better user experience we recommend setting the screen scale parameter to 125/150%
 
 ## Coverage
 Detailed coverage report can be found [here](deliverables/final/coverage_report).
