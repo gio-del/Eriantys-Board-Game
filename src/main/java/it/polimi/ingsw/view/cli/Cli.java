@@ -33,6 +33,7 @@ public class Cli extends ClientObservable implements View {
     private PawnColor chosenColor;
     private ShortModel resource;
     private String nickname;
+    private int maxSwap;
 
 
     /**
@@ -462,7 +463,7 @@ public class Cli extends ClientObservable implements View {
      */
     @Override
     public void askSwapList(int swap) {
-        //TODO: save swap and check that it's maximum that swaps!
+        this.maxSwap = swap;
         System.out.println("Insert a pair of color to swap! You have " + swap + " swap. Syntax [FROM TO]");
         scanListener.setRequest(Request.COLOR_SWAP);
     }
@@ -484,7 +485,12 @@ public class Cli extends ClientObservable implements View {
                 PawnColor to = PawnColor.valueOf(input.substring(pos + 1).toUpperCase());
                 swapColor.add(from);
                 swapColor.add(to);
-                System.out.println("Do you want to continue swapping pawns? [y/n]");
+                maxSwap--;
+                if (maxSwap == 0) {
+                    notifyObserver(observer -> observer.updateSwapAction(swapColor));
+                    return;
+                }
+                System.out.println("Do you want to continue swapping pawns? [y/n] Remaining swaps: " + maxSwap);
                 scanListener.setRequest(Request.CONTINUE_SWAPPING);
             } catch (IllegalArgumentException e) {
                 System.out.println("Input not correct. Syntax [FROM TO]");

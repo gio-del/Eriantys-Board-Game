@@ -75,7 +75,7 @@
   {
     "name": "Jester",
     "cost": 1,
-    "description": "You can exchange up to 3 Students present FROM your this card TO your Entrance",
+    "description": "You can exchange up to 3 Students present FROM this card TO your Entrance",
     "requires": [
       "swap",
       "3"
