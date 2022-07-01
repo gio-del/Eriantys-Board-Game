@@ -27,7 +27,7 @@ Prof. Alessandro Margara
 ## Jars
 Jars can be found [here](deliverables/final/jars). If you want to generate them, type `mvn clean package` in the root of the project.
 The Jars will be generated in a new `/target` folder.
-Java 18 or higher version is needed to play this game.
+Java 17 or higher version is needed to play this game.
 
 ## Execution
 
