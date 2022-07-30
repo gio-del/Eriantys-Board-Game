@@ -74,7 +74,7 @@ public interface ClientObserver {
     void updateMoveStudent(PawnColor color, Target target, int island);
 
     /**
-     * Receive an update by a client regarding what character he want to use.
+     * Receive an update by a client regarding what character he wants to use.
      *
      * @param id the id of the chosen character.
      */

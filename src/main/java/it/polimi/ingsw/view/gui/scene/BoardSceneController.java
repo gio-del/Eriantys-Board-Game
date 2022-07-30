@@ -24,7 +24,6 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,6 +32,7 @@ import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Transform;
 import javafx.stage.Modality;
@@ -49,6 +49,7 @@ import static java.lang.System.exit;
  * This class implements the controller of the board scene, the main of the game
  */
 public class BoardSceneController extends ClientObservable implements BasicSceneController {
+    private static final DropShadow SHADOW = new DropShadow(8, Color.BLACK);
     private final ShortModel resource;
     private final String nickname;
     private final Map<String, SchoolGui> schoolGuiMap;
@@ -95,10 +96,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     private Button prevSchoolBtn;
     @FXML
     private Label infoLabel;
+    @FXML
+    private ImageView muteBtn;
     private Set<Assistant> playableAssistant;
     private SchoolGui actualSchool;
     private PawnColor selectedColor;
     private boolean canPlayCharacter;
+    private MediaPlayer player;
 
 
     public BoardSceneController(ShortModel resource, String nickname) {
@@ -115,8 +119,11 @@ public class BoardSceneController extends ClientObservable implements BasicScene
      */
     @FXML
     private void initialize() {
-        ShortPlayer myself = resource.getSchoolMap().keySet().stream().filter(player -> player.name().equals(nickname)).findFirst().orElse(null);
+        ShortPlayer myself = resource.getSchoolMap().keySet().stream().filter(p -> p.name().equals(nickname)).findFirst().orElse(null);
         assert myself != null;
+
+        //MUTE AND BACK TO MENU
+        muteBtn.setOnMouseClicked(evt -> switchMute());
 
         //CHARACTERS
         if (resource.getCharacters() != null) {
@@ -124,11 +131,13 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             characterDeck.setImage(GuiResources.characterBack);
             characterDeck.setOnMouseClicked(evt -> useCharacter());
             characterDeck.setCursor(Cursor.HAND);
+            characterDeck.setEffect(SHADOW);
         }
 
         //COIN
         if (resource.getMoneyMap() != null) {
             coinImg.setVisible(true);
+            coinImg.setEffect(SHADOW);
         }
 
         //CLOUDS
@@ -148,6 +157,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             islandGuiList.add(new IslandGui(resource.getBoard().getIslands().get(i), resource.getBoard().getMotherNaturePos() == i));
         }
 
+        //LAST PLAYED ASSISTANT
+        lastPlayedAssistant.setEffect(SHADOW);
+
         //nextSchoolBtn and prevSchoolBtn
         nextSchoolBtn.setOnAction(event -> this.nextSchool());
         nextSchoolBtn.setCursor(Cursor.HAND);
@@ -156,19 +168,29 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         refresh();
     }
 
+    private void switchMute() {
+        if (player.isMute()) {
+            muteBtn.setImage(GuiResources.soundOn);
+            player.setMute(false);
+        } else {
+            muteBtn.setImage(GuiResources.soundOff);
+            player.setMute(true);
+        }
+    }
+
     /**
      * Set the list of playable assistants
      */
     public void setPlayableAssistant(Set<Assistant> playableAssistant) {
         consumeEventChooseCloud();
         consumeEventMoveMotherNature();
-        consumeEventMoveStudent();
+        consumeEventMoveStudent(true);
         this.canPlayCharacter = false;
         infoLabel.setText("Select your assistant deck to choose one!");
         this.playableAssistant = playableAssistant;
         ImageView myWizard = schoolGuiMap.get(nickname).getWizard();
         myWizard.setOnMouseClicked(evt -> useAssistant());
-        myWizard.setEffect(new DropShadow(50, Color.YELLOW));
+        myWizard.setEffect(new DropShadow(25, Color.YELLOW));
         myWizard.setCursor(Cursor.HAND);
     }
 
@@ -201,9 +223,8 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         stage.showAndWait();
         ImageView myWizard = schoolGuiMap.get(nickname).getWizard();
         myWizard.setOnMouseClicked(null);
-        myWizard.setEffect(null);
+        myWizard.setEffect(SHADOW);
         myWizard.setCursor(Cursor.DEFAULT);
-        infoLabel.setText("Wait for all players to choose their assistant!");
     }
 
     /**
@@ -245,7 +266,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
         //OWNER
         String owner = actualSchool.getOwner();
-        if (owner.equals(nickname)) owner = owner + " [YOU]";
+        if (owner.equals(nickname)) owner = owner + " [you]";
         schoolOwner.setText(owner);
 
         //LAST PLAYED ASSISTANT
@@ -260,6 +281,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
 
         //ASSISTANT DECK
         assistantDeck.setCenter(actualSchool.getWizard());
+        actualSchool.getWizard().setEffect(SHADOW);
 
         //HALL
         for (PawnColor pawnColor : PawnColor.values()) {
@@ -303,13 +325,20 @@ public class BoardSceneController extends ClientObservable implements BasicScene
             profTable.add(profImageMap.get(pawnColor), 0, pawnColor.ordinal());
         }
 
+        actualSchool.getContent().forEach(content -> content.setEffect(new DropShadow(4, Color.BLACK)));
+
     }
 
     /**
      * To update the clouds
      */
     private void printClouds() {
-        IntStream.range(0, resource.getClouds().size()).forEach(i -> ((CloudGui) cloudBox.getChildren().get(i)).setAs(resource.getClouds().get(i)));
+        IntStream.range(0, resource.getClouds().size()).forEach(i -> {
+                    CloudGui cloudGui = (CloudGui) cloudBox.getChildren().get(i);
+                    cloudGui.setAs(resource.getClouds().get(i));
+                    cloudGui.getContentView().forEach(cloud -> cloud.setEffect(new DropShadow(2, Color.BLACK)));
+                }
+        );
     }
 
     private VBox buildIsland(ShortBoard board, int index) {
@@ -329,6 +358,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         int index = 0;
         ShortBoard board = resource.getBoard();
         int boardSize = board.getIslands().size();
+        islandGuiList.forEach(islandGui -> islandGui.getContentOnIsland().forEach(content -> content.setEffect(SHADOW)));
         int i;
 
         i = 0;
@@ -431,7 +461,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     public void setMovableStudents() {
         consumeEventChooseCloud();
         consumeEventMoveMotherNature();
-        consumeEventMoveStudent();
+        consumeEventMoveStudent(true);
 
         this.canPlayCharacter = true;
         infoLabel.setText("Drag a student to move from your entrance to your hall or island!");
@@ -447,11 +477,12 @@ public class BoardSceneController extends ClientObservable implements BasicScene
                 WritableImage image = iv.snapshot(snapshotParameters, null);
                 content.putImage(image);
                 db.setContent(content);
-                chooseMoveColor(pawnColor, iv);
+                chooseMoveColor(pawnColor);
                 iv.setVisible(false);
                 evt.consume();
             });
             iv.setOnDragDone(evt -> {
+                consumeEventMoveStudent(false);
                 iv.setVisible(true);
                 evt.consume();
             });
@@ -486,19 +517,12 @@ public class BoardSceneController extends ClientObservable implements BasicScene
                 event.consume();
             });
         }
-
-//        schoolGuiMap.get(nickname).getEntranceViews().forEach(((pawnColor, imageViews) -> imageViews.forEach(img -> {
-//            img.setOnMouseClicked(evt -> chooseMoveColor(pawnColor, img));
-//            img.setCursor(Cursor.HAND);
-//        })));
     }
 
     /**
      * Choose a color to move
      */
-    private void chooseMoveColor(PawnColor pawnColor, ImageView pawn) {
-        schoolGuiMap.get(nickname).getEntranceViews().forEach((color, imageViews) -> imageViews.forEach(img -> img.setEffect(null)));
-        pawn.setEffect(new Bloom());
+    private void chooseMoveColor(PawnColor pawnColor) {
         this.selectedColor = pawnColor;
         setSelectableMoveTarget();
     }
@@ -507,24 +531,15 @@ public class BoardSceneController extends ClientObservable implements BasicScene
      * Set the selectable target
      */
     private void setSelectableMoveTarget() {
-        for (PawnColor pawnColor : PawnColor.values()) {
-            hallMap.get(pawnColor).setCursor(Cursor.HAND);
-            hallMap.get(pawnColor).setOnMouseClicked(evt -> moveToHall());
-            hallMap.get(pawnColor).setBorder(Border.stroke(Color.YELLOW));
-        }
-        for (int i = 0; i < islandGuiList.size(); i++) {
-            int finalI = i;
-            islandGuiList.get(i).getContentOnIsland().forEach(content -> content.setOnMouseClicked(evt -> moveToIsland(finalI)));
-            islandGuiList.get(i).getContentOnIsland().forEach(content -> content.setCursor(Cursor.HAND));
-            islandGuiList.get(i).getIsland().setEffect(new DropShadow(50, Color.YELLOW));
-        }
+        Arrays.stream(PawnColor.values()).filter(pawnColor -> selectedColor.equals(pawnColor)).forEach(pawnColor -> hallMap.get(pawnColor).setBorder(Border.stroke(Color.YELLOW)));
+        islandGuiList.forEach(islandGui -> islandGui.getIsland().setEffect(new DropShadow(25, Color.YELLOW)));
     }
 
     /**
      * To move a student to the hall
      */
     private void moveToHall() {
-        consumeEventMoveStudent();
+        consumeEventMoveStudent(true);
         infoLabel.setText("");
         new Thread(() -> notifyObserver(obs -> obs.updateMoveStudent(selectedColor, Target.HALL, 0))).start();
     }
@@ -533,29 +548,32 @@ public class BoardSceneController extends ClientObservable implements BasicScene
      * To move a student to an island
      */
     private void moveToIsland(int id) {
-        consumeEventMoveStudent();
+        consumeEventMoveStudent(true);
         infoLabel.setText("");
         new Thread(() -> notifyObserver(obs -> obs.updateMoveStudent(selectedColor, Target.ISLAND, id))).start();
     }
 
-    private void consumeEventMoveStudent() {
-        schoolGuiMap.get(nickname).getEntranceViews().forEach((color, imageViews) -> imageViews.forEach(img -> {
-            img.setEffect(null);
-            img.setOnDragDetected(null);
-            img.setCursor(Cursor.DEFAULT);
-        }));
+    private void consumeEventMoveStudent(boolean toRemoveActionListener) {
+        if (toRemoveActionListener)
+            schoolGuiMap.get(nickname).getEntranceViews().forEach((color, imageViews) -> imageViews.forEach(img -> {
+                img.setOnDragDetected(null);
+                img.setCursor(Cursor.DEFAULT);
+            }));
+
         for (PawnColor pawnColor : PawnColor.values()) {
-            hallMap.get(pawnColor).setOnDragDropped(null);
-            hallMap.get(pawnColor).setOnDragOver(null);
-            hallMap.get(pawnColor).setCursor(Cursor.DEFAULT);
             hallMap.get(pawnColor).setBorder(null);
+            if (toRemoveActionListener) {
+                hallMap.get(pawnColor).setOnDragDropped(null);
+                hallMap.get(pawnColor).setOnDragOver(null);
+            }
         }
 
         for (IslandGui islandGui : islandGuiList) {
-            islandGui.getContentOnIsland().forEach(content -> content.setOnDragDropped(null));
-            islandGui.getContentOnIsland().forEach(content -> content.setOnDragOver(null));
-            islandGui.getContentOnIsland().forEach(content -> content.setCursor(Cursor.DEFAULT));
-            islandGui.getIsland().setEffect(null);
+            islandGui.getContentOnIsland().forEach(content -> content.setEffect(SHADOW));
+            if (toRemoveActionListener) {
+                islandGui.getContentOnIsland().forEach(content -> content.setOnDragDropped(null));
+                islandGui.getContentOnIsland().forEach(content -> content.setOnDragOver(null));
+            }
         }
     }
 
@@ -567,7 +585,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     public void setMotherNatureMaximumSteps(int maximumSteps) {
         consumeEventChooseCloud();
         consumeEventMoveMotherNature();
-        consumeEventMoveStudent();
+        consumeEventMoveStudent(true);
 
         infoLabel.setText("Choose an island to move mother nature to. [Max steps: " + maximumSteps + "]");
         ShortBoard board = resource.getBoard();
@@ -579,7 +597,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
                 index++;
             }
             islandGuiList.get(index).getContentOnIsland().forEach(content -> content.setCursor(Cursor.HAND));
-            islandGuiList.get(index).getIsland().setEffect(new DropShadow(50, Color.YELLOW));
+            islandGuiList.get(index).getIsland().setEffect(new DropShadow(25, Color.YELLOW));
             int finalI = i;
             islandGuiList.get(index).getContentOnIsland().forEach(content -> content.setOnMouseClicked(evt -> motherNatureSteps(finalI + 1)));
         }
@@ -595,7 +613,7 @@ public class BoardSceneController extends ClientObservable implements BasicScene
         for (IslandGui islandGui : islandGuiList) {
             islandGui.getContentOnIsland().forEach(content -> content.setOnMouseClicked(null));
             islandGui.getContentOnIsland().forEach(content -> content.setCursor(Cursor.DEFAULT));
-            islandGui.getIsland().setEffect(null);
+            islandGui.getIsland().setEffect(SHADOW);
         }
     }
 
@@ -605,14 +623,14 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     public void setSelectableClouds() {
         consumeEventChooseCloud();
         consumeEventMoveMotherNature();
-        consumeEventMoveStudent();
+        consumeEventMoveStudent(true);
 
         infoLabel.setText("Choose a cloud to pick students from!");
         for (int i = 0; i < cloudBox.getChildren().size(); i++) {
             CloudGui node = (CloudGui) cloudBox.getChildren().get(i);
             int finalI = i;
             if (!node.getCloud().isEmpty()) {
-                node.getCloudView().setEffect(new DropShadow(50, Color.YELLOW));
+                node.getCloudView().setEffect(new DropShadow(25, Color.YELLOW));
                 node.getContentView().forEach(content -> content.setOnMouseClicked(evt -> chooseCloud(finalI)));
                 node.getContentView().forEach(content -> content.setCursor(Cursor.HAND));
             }
@@ -630,11 +648,11 @@ public class BoardSceneController extends ClientObservable implements BasicScene
     }
 
     private void consumeEventChooseCloud() {
-        cloudBox.getChildren().stream().map(CloudGui.class::cast).forEach(cloud -> {
-            cloud.getCloudView().setEffect(null);
-            cloud.getContentView().forEach(content -> content.setOnMouseClicked(null));
-            cloud.getContentView().forEach(content -> content.setCursor(Cursor.DEFAULT));
-        });
+        cloudBox.getChildren().stream().map(CloudGui.class::cast).forEach(cloud -> cloud.getContentView().forEach(content -> {
+            content.setOnMouseClicked(null);
+            content.setCursor(Cursor.DEFAULT);
+        }));
+        cloudBox.getChildren().stream().map(CloudGui.class::cast).forEach(cloud -> cloud.getContentView().forEach(content -> content.setEffect(new DropShadow(2, Color.BLACK))));
     }
 
     /**
@@ -720,5 +738,9 @@ public class BoardSceneController extends ClientObservable implements BasicScene
      */
     public void setInfoLabel(String msg) {
         infoLabel.setText(msg);
+    }
+
+    public void setMediaPlayer(MediaPlayer player) {
+        this.player = player;
     }
 }

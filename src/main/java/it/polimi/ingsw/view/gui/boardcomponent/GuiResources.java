@@ -17,7 +17,8 @@ public class GuiResources {
     public static final Image motherNature = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/pawns/mother_nature.png")));
     public static final Image ban = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/various/ban.png")));
     public static final Image characterBack = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/characters/CharacterBack.png")));
-
+    public static final Image soundOn = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/various/sound_on.png")));
+    public static final Image soundOff = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/various/sound_off.png")));
     //ASSISTANTS
     private static final Image turtle = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/assistants/turtle.png")));
     private static final Image elephant = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/assistants/elephant.png")));
@@ -30,7 +31,6 @@ public class GuiResources {
     private static final Image ostrich = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/assistants/ostrich.png")));
     private static final Image lion = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/assistants/lion.png")));
     private static final Map<Assistant, Image> assistantToImage = Map.of(Assistant.TURTLE, turtle, Assistant.ELEPHANT, elephant, Assistant.DOG, dog, Assistant.OCTOPUS, octopus, Assistant.CROCODILE, crocodile, Assistant.FOX, fox, Assistant.EAGLE, eagle, Assistant.CAT, cat, Assistant.OSTRICH, ostrich, Assistant.LION, lion);
-
     //STUDENTS
     private static final Image redStudent = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/pawns/students/red_student.png")));
     private static final Image yellowStudent = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/pawns/students/yellow_student.png")));
@@ -61,6 +61,10 @@ public class GuiResources {
     private static final Image pinkProf = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/pawns/professors/pink_professor.png")));
     private static final Image greenProf = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/pawns/professors/green_professor.png")));
     private static final Map<PawnColor, Image> colorToProfImage = Map.of(PawnColor.RED, redProf, PawnColor.YELLOW, yellowProf, PawnColor.BLUE, blueProf, PawnColor.PINK, pinkProf, PawnColor.GREEN, greenProf);
+    private static final Image firstIsland = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/islands/island1.png")));
+    private static final Image secondIsland = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/islands/island2.png")));
+    private static final Image thirdIsland = new Image(Objects.requireNonNull(GuiResources.class.getResourceAsStream("/images/islands/island3.png")));
+    private static final Map<Integer, Image> numToIslandImage = Map.of(1, firstIsland, 2, secondIsland, 3, thirdIsland);
 
     private GuiResources() {
     }
@@ -123,5 +127,9 @@ public class GuiResources {
      */
     public static Image getAssistant(Assistant assistant) {
         return assistantToImage.get(assistant);
+    }
+
+    public static Image getIsland(int island) {
+        return numToIslandImage.get(island);
     }
 }

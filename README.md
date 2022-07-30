@@ -39,12 +39,33 @@ The default port number (if incorrect syntax is used or no port number is provid
 #### CLI
 To start the CLI type `java -jar AM23Eriantys_client.jar [--cli | -c]` in your terminal.
 #### GUI
+
 To start the GUI type `java -jar AM23Eriantys_client.jar` in your terminal or just double-click the executable file.
 For a better user experience we recommend setting the screen scale parameter to 125/150%
 
 ## Coverage
+
 Detailed coverage report can be found [here](deliverables/final/coverage_report).
 ![](.github/images/coverage.png)
 
 ## UML
+
 UML files can be found [here](deliverables/final/uml_final).
+
+## Game Preview
+
+### Choosing an assistant
+
+![](.github/gifs/assistant.gif)
+
+### Choosing a character
+
+![](.github/gifs/character.gif)
+
+### Moving mother nature and choosing a cloud
+
+![](.github/gifs/island_cloud.gif)
+
+### Moving students
+
+![](.github/gifs/move_students.gif)

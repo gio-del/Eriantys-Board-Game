@@ -16,10 +16,12 @@ public class SchoolGui {
     private final Map<PawnColor, List<ImageView>> entranceViews;
     private final Map<PawnColor, ImageView> professorsViews;
     private final ImageView wizard;
+    private final List<ImageView> contentOn;
     private ShortSchool school;
     private ShortPlayer owner;
 
     public SchoolGui(ShortPlayer owner, ShortSchool school) {
+        this.contentOn = new ArrayList<>();
         this.school = school;
         this.owner = owner;
         this.towerViews = new ArrayList<>();
@@ -40,6 +42,7 @@ public class SchoolGui {
             towerView.setFitHeight(35);
             towerViews.add(towerView);
         }
+        contentOn.addAll(towerViews);
     }
 
     private void initializeHall() {
@@ -53,6 +56,7 @@ public class SchoolGui {
             colorView.setPreserveRatio(true);
             colorView.setFitHeight(20);
             hallViewsMap.get(pawnColor).add(colorView);
+            contentOn.add(colorView);
         }
     }
 
@@ -67,6 +71,7 @@ public class SchoolGui {
             colorView.setPreserveRatio(true);
             colorView.setFitHeight(20);
             entranceViews.get(pawnColor).add(colorView);
+            contentOn.add(colorView);
         }
     }
 
@@ -81,10 +86,12 @@ public class SchoolGui {
             colorView.setPreserveRatio(true);
             colorView.setFitHeight(25);
             professorsViews.put(pawnColor, colorView);
+            contentOn.add(colorView);
         }
     }
 
     public void refresh(ShortPlayer owner, ShortSchool school) {
+        contentOn.clear();
         this.school = school;
         this.owner = owner;
         initializeTowerColor();
@@ -115,5 +122,9 @@ public class SchoolGui {
 
     public ImageView getWizard() {
         return wizard;
+    }
+
+    public List<ImageView> getContent() {
+        return contentOn;
     }
 }

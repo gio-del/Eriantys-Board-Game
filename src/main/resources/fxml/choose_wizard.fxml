@@ -4,7 +4,7 @@
 <?import javafx.scene.Group?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="400.0" prefWidth="600.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" fx:id="anchorPane" prefHeight="400.0" prefWidth="600.0"
             xmlns="http://javafx.com/javafx/18">
     <ImageView fitHeight="400.0" fitWidth="600.0">
         <Image url="@../images/wizards/layout_wizard.png"/>
@@ -46,8 +46,7 @@
             </ImageView>
         </center>
     </BorderPane>
-    <Button fx:id="okButton" defaultButton="true" layoutX="271.0" layoutY="361.0" mnemonicParsing="false"
-            text="Confirm"/>
+    <Button fx:id="okButton" layoutX="271.0" layoutY="361.0" mnemonicParsing="false" text="Confirm"/>
     <ImageView fx:id="background" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true"
                visible="false">
         <Image url="@../images/menu.jpeg"/>

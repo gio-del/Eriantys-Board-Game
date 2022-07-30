@@ -6,7 +6,6 @@ import it.polimi.ingsw.model.place.ShortIsland;
 import it.polimi.ingsw.utility.Pair;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -28,10 +27,11 @@ public class IslandGui extends Pane {
     private final Map<PawnColor, VBox> colorToContainer;
 
     public IslandGui(ShortIsland shortIsland, boolean motherNatureOn) {
+        Random random = new Random();
         this.contentOnIsland = new ArrayList<>();
 
         //Island picture
-        this.island = new ImageView(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/islands/island1.png"))));
+        this.island = new ImageView(GuiResources.getIsland(random.nextInt(1, 4)));
         island.setFitWidth(150);
         island.setFitHeight(150);
         getChildren().add(island);
@@ -128,6 +128,7 @@ public class IslandGui extends Pane {
         ShortPawns shortPawns = shortIsland.getStudents();
         for (PawnColor pawnColor : PawnColor.values()) {
             drawStudents(pawnColor, shortPawns.getFromColor(pawnColor));
+            contentOnIsland.add(colorMapStudents.get(pawnColor).first());
         }
     }
 

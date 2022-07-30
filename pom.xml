@@ -55,6 +55,24 @@
             <version>18.0.1</version>
             <classifier>mac</classifier>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>18.0.1</version>
+            <classifier>win</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>18.0.1</version>
+            <classifier>linux</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>18.0.1</version>
+            <classifier>mac</classifier>
+        </dependency>
 
         <!-- junit 5 -->
         <dependency>
@@ -187,6 +205,7 @@
                                     <artifact>*:*</artifact>
                                     <excludes>
                                         <exclude>images/**</exclude>
+                                        <exclude>media/**</exclude>
                                         <exclude>fxml/**</exclude>
                                         <exclude>css/**</exclude>
                                         <exclude>module-info.class</exclude>

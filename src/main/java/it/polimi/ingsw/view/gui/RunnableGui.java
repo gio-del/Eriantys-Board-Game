@@ -42,7 +42,7 @@ public class RunnableGui extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/images/home.jpg"))));
-        stage.setTitle("Eriantys - by Giovanni De Lucia, Lorenzo Battiston, Lorenzo Dell'Era");
+        stage.setTitle("Eriantys");
         stage.show();
         stage.sizeToScene();
     }

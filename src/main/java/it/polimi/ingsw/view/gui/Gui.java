@@ -14,9 +14,13 @@ import it.polimi.ingsw.view.gui.scene.ChooseWizardAndTCController;
 import it.polimi.ingsw.view.gui.scene.LoginSceneController;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -194,12 +198,21 @@ public class Gui extends ClientObservable implements View {
             controller = (BoardSceneController) SceneManager.getActualController();
         } catch (ClassCastException e) {
             controller = new BoardSceneController(resource, nickname);
-            BoardSceneController finalController = controller;
-            observers.forEach(finalController::addObserver);
+            observers.forEach(controller::addObserver);
             SceneManager.changeScene(controller, "board.fxml");
             ((Stage) SceneManager.getActualScene().getWindow()).setMaximized(true);
             SceneManager.getActualScene().getWindow().sizeToScene();
             ((Stage) SceneManager.getActualScene().getWindow()).setResizable(true);
+            Media media = new Media(Objects.requireNonNull(getClass().getResource("/media/eriantys_sound.mp3")).toExternalForm());
+            MediaPlayer player = new MediaPlayer(media);
+            controller.setMediaPlayer(player);
+            player.setAutoPlay(true);
+            player.setCycleCount(MediaPlayer.INDEFINITE);
+            player.setVolume(20);
+            player.setOnEndOfMedia(() -> {
+                player.seek(Duration.ZERO);
+                player.play();
+            });
         }
         return controller;
     }

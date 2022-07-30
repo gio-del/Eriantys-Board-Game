@@ -13,7 +13,7 @@ public class School {
     private final SchoolPlace hall;
     private final SchoolPlace profTable;
     private final TowerColor towerColor;
-    private int towerNum; //TODO: if 4 players only 1 TeamMate have towers -> add TEAM ENUM?
+    private int towerNum;
 
     public School(TowerColor towerColor, GameLimitData gameLimitData, HallManager obs) {
         this.entrance = new Entrance(gameLimitData.getMaxEntrance());

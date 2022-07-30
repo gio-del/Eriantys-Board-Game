@@ -12,6 +12,8 @@ import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -33,6 +35,8 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
     private final Map<Wizard, ImageView> wizardMapImage = new EnumMap<>(Wizard.class);
     private Wizard selectedWizard;
     private TowerColor selectedColor;
+    @FXML
+    private AnchorPane anchorPane;
     @FXML
     private ImageView king;
     @FXML
@@ -95,6 +99,11 @@ public class ChooseWizardAndTCController extends ClientObservable implements Bas
 
         okButton.setCursor(Cursor.HAND);
         okButton.addEventHandler(MouseEvent.MOUSE_CLICKED, evt -> confirm());
+
+        anchorPane.addEventHandler(KeyEvent.KEY_PRESSED, keyEvent -> {
+            if (keyEvent.getCode().equals(KeyCode.ENTER))
+                confirm();
+        });
     }
 
     private void disable(TowerColor color) {
